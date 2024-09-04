@@ -1,11 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
     PlayerInput _action;
-    PlayerController _player;
 
     Vector2 _movement;
     public Vector2 Movement
@@ -19,15 +16,24 @@ public class InputManager : MonoBehaviour
             _movement = value;
         }
     }
-    void Awake()
+
+    Vector2 _direction;
+    public Vector2 Direction
     {
-        _player = GetComponent<PlayerController>();
-        _action = new PlayerInput();
+        get
+        {
+            return _direction;
+        }
+        private set
+        {
+            _direction = value;
+        }
     }
 
-    private void Update()
-    {
 
+    void Awake()
+    {
+        _action = new PlayerInput();
     }
 
     private void OnEnable()
@@ -43,15 +49,16 @@ public class InputManager : MonoBehaviour
     public void EnableInput()
     {
         _action.Player.Move.performed += (val) => Movement = val.ReadValue<Vector2>();
-        //_action.Player.PointerMove.performed += (val) => _player.HandlePointerDirection(val.ReadValue<Vector2>());
+        _action.Player.PointerMove.performed += (val) => Direction = val.ReadValue<Vector2>();
 
         _action.Enable();
 
     }
+
     public void DisableInput()
     {
         _action.Player.Move.performed -= (val) => Movement = val.ReadValue<Vector2>();
-        //_action.Player.PointerMove.performed -= (val) => _player.HandlePointerDirection(val.ReadValue<Vector2>());
+        _action.Player.PointerMove.performed -= (val) => Direction = val.ReadValue<Vector2>();
 
         _action.Disable();
 
