@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class InputManager : MonoBehaviour
 {
@@ -43,7 +44,7 @@ public class InputManager : MonoBehaviour
     public void EnableInput()
     {
         _action.Player.Move.performed += (val) => Movement = val.ReadValue<Vector2>();
-        //_action.Player.PointerMove.performed += (val) => _player.HandlePointerDirection(val.ReadValue<Vector2>());
+        _action.Player.PointerMove.performed += OnPointerMove;
 
         _action.Enable();
 
@@ -51,10 +52,25 @@ public class InputManager : MonoBehaviour
     public void DisableInput()
     {
         _action.Player.Move.performed -= (val) => Movement = val.ReadValue<Vector2>();
-        //_action.Player.PointerMove.performed -= (val) => _player.HandlePointerDirection(val.ReadValue<Vector2>());
+        _action.Player.PointerMove.performed -= OnPointerMove;
 
         _action.Disable();
 
+    }
+
+    private void OnPointerMove(InputAction.CallbackContext context)
+    {
+        Vector2 input = context.ReadValue<Vector2>();
+        InputDevice device = context.control.device;
+
+        if (device is Pointer) // This includes Mouse, Pen, Touch, etc.
+        {
+            _player.HandleMouseInput(input);
+        }
+        else if (device is Gamepad) // This includes any kind of game controller
+        {
+            _player.HandleGamepadInput(input);
+        }
     }
 
 }
