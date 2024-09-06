@@ -9,6 +9,8 @@ public class PlayerController : MonoBehaviour
     public Quaternion PlayerRotation { get; private set; }
     private LayerMask groundLayer;
 
+    public CharacterController characterController { get; set; }
+
     [HideInInspector]
     public PlayerBaseState currentState;
 
@@ -20,6 +22,7 @@ public class PlayerController : MonoBehaviour
     {
         groundLayer = LayerMask.GetMask("Ground");
         inputManager = GetComponent<InputManager>();
+        characterController = GetComponent<CharacterController>();
         ChangeState(new PlayerMoveState());
     }
 

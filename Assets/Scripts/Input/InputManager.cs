@@ -24,11 +24,6 @@ public class InputManager : MonoBehaviour
         _action = new PlayerInput();
     }
 
-    private void Update()
-    {
-
-    }
-
     private void OnEnable()
     {
         EnableInput();

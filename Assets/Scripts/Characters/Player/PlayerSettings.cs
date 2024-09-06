@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "User Containers/PlayerPrefs"), Serializable]
 public class PlayerSettings : ScriptableObject
 {
-    [Range(0.0001f, 1f)]
+    [Range(0.001f, 0.2f)]
     public float RotationSpeed;
     [Range(0.1f, 50f)]
     public float MovementSpeed;

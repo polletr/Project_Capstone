@@ -15,13 +15,13 @@ public class PlayerMoveState : PlayerBaseState
 
     public override void StateFixedUpdate()
     {
-
     }
 
     public override void StateUpdate()
     {
         base.StateUpdate();
-        player.transform.Translate(_direction.normalized * player.Settings.MovementSpeed * Time.deltaTime, Space.World);
+        player.characterController.SimpleMove(_direction.normalized * player.Settings.MovementSpeed);
+
     }
 
     public override void HandleMovement(Vector2 dir)
