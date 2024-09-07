@@ -80,7 +80,7 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region ChangeState
-    public virtual void ChangeState(PlayerBaseState newState)
+    public void ChangeState(PlayerBaseState newState)
     {
         StartCoroutine(WaitFixedFrame(newState));
     }
