@@ -21,6 +21,10 @@ public class PlayerMoveState : PlayerBaseState
     {
         base.StateUpdate();
         player.characterController.SimpleMove(_direction.normalized * player.Settings.MovementSpeed);
+        if (_direction.sqrMagnitude > 0f )
+        {
+            player.Event.OnSoundEmitted.Invoke(player.transform.position, player.Settings.WalkSoundRange);
+        }
 
     }
 

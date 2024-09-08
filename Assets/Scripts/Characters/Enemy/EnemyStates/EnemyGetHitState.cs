@@ -15,4 +15,10 @@ public class EnemyGetHitState : EnemyBaseState
     {
         
     }
+
+    protected override void VisionDetection()
+    {
+
+    }
+
 }

@@ -9,11 +9,20 @@ public class EnemyPatrolState : EnemyBaseState
 
     public override void EnterState()
     {
+        Debug.Log("Patrol");
+        enemy.Event.OnSoundEmitted += OnSoundDetected;
+
+        enemy.agent.speed = enemy.PatrolSpeed;
         patrolRoutine = enemy.StartCoroutine(Patrol());
+        enemy.playerCharacter = null;
+
     }
 
     public override void ExitState()
     {
+
+        enemy.Event.OnSoundEmitted -= OnSoundDetected;
+
         if (patrolRoutine != null)
         {
             enemy.StopCoroutine(patrolRoutine);
@@ -27,9 +36,13 @@ public class EnemyPatrolState : EnemyBaseState
 
     public override void StateUpdate()
     {
+        VisionDetection();
         if (enemy.agent.remainingDistance <= enemy.agent.stoppingDistance && enemy.agent.hasPath)
         {
-            enemy.ChangeState(new EnemyIdleState());
+            if (enemy.agent.velocity.sqrMagnitude == 0f)
+            {
+                enemy.ChangeState(new EnemyIdleState());
+            }
         }
     }
 
@@ -38,7 +51,7 @@ public class EnemyPatrolState : EnemyBaseState
         Vector3 point;
         while (!enemy.agent.hasPath)
         {
-            if (RandomPoint(enemy.StartPos, out point))
+            if (RandomPoint(enemy.PatrolCenterPos, out point))
             {
                 Debug.DrawRay(point, Vector3.up, Color.blue, 1.0f);
                 enemy.agent.SetDestination(point);

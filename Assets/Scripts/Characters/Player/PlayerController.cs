@@ -2,12 +2,15 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Windows;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, IDamageable
 {
-    private InputManager inputManager;
+
+    public PlayerSettings Settings { get { return settings; } }
+
+    public GameEvent Event;
+
     public Vector3 AimPosition { get; private set; }
     public Quaternion PlayerRotation { get; private set; }
-    private LayerMask groundLayer;
 
     public CharacterController characterController { get; set; }
 
@@ -16,13 +19,18 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField]
     private PlayerSettings settings;
-    public PlayerSettings Settings { get { return settings; } }
+
+    private InputManager inputManager;
+    private LayerMask groundLayer;
+
+    private float health;
 
     void Awake()
     {
         groundLayer = LayerMask.GetMask("Ground");
         inputManager = GetComponent<InputManager>();
         characterController = GetComponent<CharacterController>();
+        health = Settings.PlayerHealth;
         ChangeState(new PlayerMoveState());
     }
 
@@ -32,6 +40,12 @@ public class PlayerController : MonoBehaviour
         currentState?.StateUpdate();
     }
     private void FixedUpdate() => currentState?.StateFixedUpdate();
+
+    public void GetDamaged(float attackDamage)
+    {
+        health -= attackDamage;
+        Debug.Log(health);
+    }
 
     #region Character Actions
     public void HandleMove(Vector2 dir)
@@ -53,6 +67,11 @@ public class PlayerController : MonoBehaviour
     {
 
     }
+
+    public void HandleGetHit()
+    {
+
+    }    
     public void HandleMouseInput(Vector2 input)
     {
         Ray ray = Camera.main.ScreenPointToRay(input);
