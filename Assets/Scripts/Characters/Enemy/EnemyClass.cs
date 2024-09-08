@@ -9,7 +9,6 @@ public class EnemyClass : MonoBehaviour, IDamageable
     public Animator animator { get; set; }
     public GameObject playerCharacter { get; set; }
 
-
     public float PatrolRange { get { return patrolRange; } }
     public float MaxIdleTime { get { return maxIdleTime; } }
     public float MinIdleTime { get { return minIdleTime; } }
@@ -20,7 +19,6 @@ public class EnemyClass : MonoBehaviour, IDamageable
     public float SightAngle { get { return sightAngle; } }
     public float AttackRange { get { return attackRange; } }
     public float AttackDamage { get { return attackDamage; } }
-
 
 
     [HideInInspector]
