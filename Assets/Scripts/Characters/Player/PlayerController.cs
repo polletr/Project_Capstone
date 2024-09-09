@@ -11,8 +11,10 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     public Vector3 AimPosition { get; private set; }
     public Quaternion PlayerRotation { get; private set; }
+    public float Health { get; private set; }
 
     public CharacterController characterController { get; set; }
+    public Animator animator { get; set; }
 
     [HideInInspector]
     public PlayerBaseState currentState;
@@ -23,14 +25,14 @@ public class PlayerController : MonoBehaviour, IDamageable
     private InputManager inputManager;
     private LayerMask groundLayer;
 
-    private float health;
 
     void Awake()
     {
         groundLayer = LayerMask.GetMask("Ground");
         inputManager = GetComponent<InputManager>();
         characterController = GetComponent<CharacterController>();
-        health = Settings.PlayerHealth;
+        animator = GetComponent<Animator>();
+        Health = Settings.PlayerHealth;
         ChangeState(new PlayerMoveState());
     }
 
@@ -43,8 +45,16 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     public void GetDamaged(float attackDamage)
     {
-        health -= attackDamage;
-        Debug.Log(health);
+        Health -= attackDamage;
+        if (Health > 0f)
+        {
+            currentState?.HandleGetHit();
+        }
+        else
+        {
+            currentState?.HandleDeath();
+        }
+        
     }
 
     #region Character Actions
@@ -68,10 +78,6 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     }
 
-    public void HandleGetHit()
-    {
-
-    }    
     public void HandleMouseInput(Vector2 input)
     {
         Ray ray = Camera.main.ScreenPointToRay(input);
@@ -101,19 +107,19 @@ public class PlayerController : MonoBehaviour, IDamageable
     #region ChangeState
     public void ChangeState(PlayerBaseState newState)
     {
-        StartCoroutine(WaitFixedFrame(newState));
-    }
-
-    private IEnumerator WaitFixedFrame(PlayerBaseState newState)
-    {
-
-        yield return new WaitForFixedUpdate();
         currentState?.ExitState();
         currentState = newState;
         currentState.player = this;
         currentState.EnterState();
+    }
+
+/*    private IEnumerator WaitFixedFrame(PlayerBaseState newState)
+    {
+
+        yield return new WaitForFixedUpdate();
 
     }
+*/    
     #endregion
 
 

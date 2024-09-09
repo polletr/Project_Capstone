@@ -7,14 +7,13 @@ public class EnemyIdleState : EnemyBaseState
 
     public override void EnterState()
     {
-        Debug.Log("Enter Idle");
         enemy.agent.ResetPath();
         enemy.animator.CrossFade(IdleHash, crossFadeDuration);
 
         enemy.Event.OnSoundEmitted += OnSoundDetected;
         // Randomize the idle time between a range of seconds
-        idleTime = Random.Range(enemy.MinIdleTime, enemy.MaxIdleTime);
-        idleTimer = 0f; // Reset the timer
+        time = Random.Range(enemy.MinIdleTime, enemy.MaxIdleTime);
+        timer = 0f; // Reset the timer
         enemy.playerCharacter = null;
 
     }
@@ -32,9 +31,9 @@ public class EnemyIdleState : EnemyBaseState
     {
         VisionDetection();
 
-        idleTimer += Time.deltaTime;
+        timer += Time.deltaTime;
 
-        if (idleTimer >= idleTime)
+        if (timer >= time)
         {
             enemy.ChangeState(new EnemyPatrolState());
         }

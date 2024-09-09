@@ -6,7 +6,8 @@ public class EnemyChaseState : EnemyBaseState
 {
     public override void EnterState()
     {
-        Debug.Log("Chase");
+        enemy.animator.CrossFade(ChaseHash, crossFadeDuration);
+
         enemy.Event.OnSoundEmitted += OnSoundDetected;
 
         enemy.agent.speed = enemy.ChaseSpeed;
@@ -39,7 +40,7 @@ public class EnemyChaseState : EnemyBaseState
 
         if (enemy.playerCharacter != null)
         {
-            if (Vector3.Distance(enemy.transform.position, enemy.playerCharacter.transform.position) <= enemy.SightRange)
+            if (Vector3.Distance(enemy.transform.position, enemy.playerCharacter.transform.position) <= enemy.SightRange && enemy.playerCharacter.GetComponent<PlayerController>().Health > 0)
             {
                 chasePos = enemy.playerCharacter.transform.position;
                 if (Vector3.Distance(enemy.transform.position, enemy.playerCharacter.transform.position) <= enemy.AttackRange)

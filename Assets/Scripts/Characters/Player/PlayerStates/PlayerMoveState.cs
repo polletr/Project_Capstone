@@ -6,6 +6,7 @@ public class PlayerMoveState : PlayerBaseState
 {
     public override void EnterState()
     {
+        player.animator.Play(IdleHash);
 
     }
     public override void ExitState()
@@ -19,11 +20,15 @@ public class PlayerMoveState : PlayerBaseState
 
     public override void StateUpdate()
     {
-        base.StateUpdate();
+        Rotate();
         player.characterController.SimpleMove(_direction.normalized * player.Settings.MovementSpeed);
-        if (_direction.sqrMagnitude > 0f )
+        
+        if (_direction != null && player.Settings != null)
         {
-            player.Event.OnSoundEmitted.Invoke(player.transform.position, player.Settings.WalkSoundRange);
+            if (_direction.sqrMagnitude > 0f)
+            {
+                player.Event.OnSoundEmitted.Invoke(player.transform.position, player.Settings.WalkSoundRange);
+            }
         }
 
     }
@@ -31,6 +36,11 @@ public class PlayerMoveState : PlayerBaseState
     public override void HandleMovement(Vector2 dir)
     {
         _direction = new Vector3(dir.x, 0, dir.y);
+    }
+
+    private void Rotate()
+    {
+        player.gameObject.transform.rotation = Quaternion.Slerp(player.gameObject.transform.rotation, player.PlayerRotation, player.Settings.RotationSpeed);
     }
 
 

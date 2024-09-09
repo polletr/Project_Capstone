@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class PlayerBaseState : MonoBehaviour
 {
+
+    protected static readonly int IdleHash = Animator.StringToHash("Idle");
+    protected static readonly int RunHash = Animator.StringToHash("Run");
+    protected static readonly int WalkHash = Animator.StringToHash("Walk");
+    protected static readonly int AttackHash = Animator.StringToHash("Attack");
+    protected static readonly int GetHitHash = Animator.StringToHash("GetHit");
+    protected static readonly int DieHash = Animator.StringToHash("Die");
+
     protected Vector3 _direction;
 
     public PlayerController player { get; set; }
@@ -17,10 +25,7 @@ public class PlayerBaseState : MonoBehaviour
     {
 
     }
-    public virtual void StateUpdate() 
-    {
-        Rotate();
-    }
+    public virtual void StateUpdate() { }
     public virtual void HandleMovement(Vector2 dir) { }
     public virtual void HandleAttack()
     {
@@ -32,13 +37,17 @@ public class PlayerBaseState : MonoBehaviour
 
     }
 
-    public virtual void StopInteract() { }
-
-    public virtual void HandleDeath() { }
-
-    private void Rotate()
+    public virtual void HandleGetHit()
     {
-        player.gameObject.transform.rotation = Quaternion.Slerp(player.gameObject.transform.rotation, player.PlayerRotation, player.Settings.RotationSpeed);
+        player.ChangeState(new PlayerGetHitState());
+
     }
 
+
+    public virtual void StopInteract() { }
+
+    public virtual void HandleDeath() 
+    {
+        player.ChangeState(new PlayerDeathState());
+    }
 }

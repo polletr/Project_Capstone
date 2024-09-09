@@ -19,6 +19,8 @@ public class EnemyClass : MonoBehaviour, IDamageable
     public float SightAngle { get { return sightAngle; } }
     public float AttackRange { get { return attackRange; } }
     public float AttackDamage { get { return attackDamage; } }
+    public float AttackTimeInterval { get { return attackTimeInterval; } }
+
 
 
     [HideInInspector]
@@ -37,6 +39,8 @@ public class EnemyClass : MonoBehaviour, IDamageable
     [SerializeField, Range(20f, 90f)] private float sightAngle = 45f;
     [SerializeField, Range(0.5f, 3f)] private float attackRange = 1f;
     [SerializeField] private float attackDamage = 1;
+    [SerializeField] private float attackTimeInterval = 1;
+
     [SerializeField] private float health = 3;
 
 

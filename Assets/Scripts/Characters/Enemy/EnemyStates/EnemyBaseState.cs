@@ -7,11 +7,11 @@ public class EnemyBaseState : MonoBehaviour
 {
     protected Vector3 chasePos;
 
-    protected float idleTime; // How long the enemy will stay in the idle state
-    protected float idleTimer; // Tracks the time spent in the idle state
+    protected float time; // How long the enemy will stay in the idle state
+    protected float timer; // Tracks the time spent in the idle state
 
     protected static readonly int IdleHash = Animator.StringToHash("Idle");
-    protected static readonly int RunHash = Animator.StringToHash("Chase");
+    protected static readonly int ChaseHash = Animator.StringToHash("Chase");
     protected static readonly int WalkHash = Animator.StringToHash("Walk");
     protected static readonly int AttackHash = Animator.StringToHash("Attack");
     protected static readonly int GetHitHash = Animator.StringToHash("GetHit");
