@@ -12,7 +12,7 @@ public class EnemyAttackState : EnemyBaseState
 
         attacked = false;
 
-        time = enemy.AttackTimeInterval;
+        time = enemy.AttackAntecipationTime;
         timer = 0f; // Reset the timer
 
     }
@@ -33,9 +33,8 @@ public class EnemyAttackState : EnemyBaseState
         if (timer >= time && !attacked)
         {
             attacked = true;
-            if (Vector3.Distance(enemy.agent.transform.position, enemy.playerCharacter.transform.position) <= enemy.AttackRange)
-                enemy.playerCharacter.GetComponent<PlayerController>().GetDamaged(enemy.AttackDamage);
         }
+
 
         AnimatorStateInfo stateInfo = enemy.animator.GetCurrentAnimatorStateInfo(0);
         if (stateInfo.shortNameHash == AttackHash) // Ensure this matches the animation state name

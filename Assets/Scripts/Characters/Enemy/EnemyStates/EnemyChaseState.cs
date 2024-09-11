@@ -46,7 +46,7 @@ public class EnemyChaseState : EnemyBaseState
                 if (Vector3.Distance(enemy.transform.position, enemy.playerCharacter.transform.position) <= enemy.AttackRange)
                 {
                     enemy.agent.ResetPath();
-                    enemy.ChangeState(new EnemyAttackState());
+                    //enemy.ChangeState(new EnemyAttackState());
                 }
             }
             else

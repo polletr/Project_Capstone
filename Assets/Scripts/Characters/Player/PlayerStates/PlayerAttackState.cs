@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerGetHitState : PlayerBaseState
+public class PlayerAttackState : PlayerBaseState
 {
     public override void EnterState()
     {
-        Debug.Log("Player Health:" + player.Health);
-        player.animator.Play(GetHitHash);
+        player.animator.Play(AttackHash);
+
     }
     public override void ExitState()
     {
@@ -18,19 +18,9 @@ public class PlayerGetHitState : PlayerBaseState
     {
 
     }
-
+    
     public override void StateUpdate()
     {
-        AnimatorStateInfo stateInfo = player.animator.GetCurrentAnimatorStateInfo(0);
-        if (stateInfo.shortNameHash == GetHitHash) // Ensure this matches the animation state name
-        {
-            if (stateInfo.normalizedTime >= 1f)
-            {
-                player.ChangeState(new PlayerMoveState());
-
-            }
-        }
-
         Rotate();
         player.characterController.SimpleMove(_direction.normalized * player.Settings.MovementSpeed);
 
@@ -42,12 +32,20 @@ public class PlayerGetHitState : PlayerBaseState
             }
         }
 
+        AnimatorStateInfo stateInfo = player.animator.GetCurrentAnimatorStateInfo(0);
+        if (stateInfo.shortNameHash == AttackHash) // Ensure this matches the animation state name
+        {
+            if (stateInfo.normalizedTime >= 1f)
+            {
+                player.ChangeState(new PlayerMoveState());
+            }
+        }
     }
-
 
     public override void HandleMovement(Vector2 dir)
     {
         _direction = new Vector3(dir.x, 0, dir.y);
     }
+
 
 }

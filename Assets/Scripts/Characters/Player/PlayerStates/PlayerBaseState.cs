@@ -29,6 +29,7 @@ public class PlayerBaseState : MonoBehaviour
     public virtual void HandleMovement(Vector2 dir) { }
     public virtual void HandleAttack()
     {
+        player.ChangeState(new PlayerAttackState());
     }
 
     public virtual void HandleInteract()
@@ -50,4 +51,12 @@ public class PlayerBaseState : MonoBehaviour
     {
         player.ChangeState(new PlayerDeathState());
     }
+
+    protected void Rotate()
+    {
+        player.gameObject.transform.rotation = Quaternion.Slerp(player.gameObject.transform.rotation, player.PlayerRotation, player.Settings.RotationSpeed);
+    }
+
+
 }
+

@@ -37,6 +37,13 @@ public class EnemyBaseState : MonoBehaviour
         }
     }
 
+    public virtual void HandleGetHit()
+    {
+        if (enemy.CanGetHit)
+            enemy.ChangeState(new EnemyGetHitState());
+    }
+
+
     protected virtual void VisionDetection()
     {
         float detectionRadius = enemy.SightRange;

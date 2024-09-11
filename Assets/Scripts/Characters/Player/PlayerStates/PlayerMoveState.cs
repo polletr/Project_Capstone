@@ -38,10 +38,5 @@ public class PlayerMoveState : PlayerBaseState
         _direction = new Vector3(dir.x, 0, dir.y);
     }
 
-    private void Rotate()
-    {
-        player.gameObject.transform.rotation = Quaternion.Slerp(player.gameObject.transform.rotation, player.PlayerRotation, player.Settings.RotationSpeed);
-    }
-
 
 }

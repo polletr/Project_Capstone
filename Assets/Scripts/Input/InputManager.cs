@@ -38,6 +38,7 @@ public class InputManager : MonoBehaviour
     {
         _action.Player.Move.performed += (val) => Movement = val.ReadValue<Vector2>();
         _action.Player.PointerMove.performed += OnPointerMove;
+        _action.Player.Attack.performed += (val) => _player.HandleAttack();
 
         _action.Enable();
 
@@ -46,6 +47,8 @@ public class InputManager : MonoBehaviour
     {
         _action.Player.Move.performed -= (val) => Movement = val.ReadValue<Vector2>();
         _action.Player.PointerMove.performed -= OnPointerMove;
+        _action.Player.Attack.performed -= (val) => _player.HandleAttack();
+
 
         _action.Disable();
 

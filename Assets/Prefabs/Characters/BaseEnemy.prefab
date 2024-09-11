@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 7552002107278839122}
   m_Layer: 0
   m_Name: BaseEnemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -157,7 +157,8 @@ MonoBehaviour:
   sightAngle: 45
   attackRange: 2
   attackDamage: 1
-  attackTimeInterval: 1
+  attackAntecipationTime: 1
+  attackRecoveryTime: 1
   health: 3
   Event: {fileID: 11400000, guid: 821642c9ec9c5474b88bc1b575e70ddf, type: 2}
 --- !u!95 &7552002107278839122
