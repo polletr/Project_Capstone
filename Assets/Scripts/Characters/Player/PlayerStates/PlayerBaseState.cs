@@ -25,8 +25,45 @@ public class PlayerBaseState : MonoBehaviour
     {
 
     }
-    public virtual void StateUpdate() { }
-    public virtual void HandleMovement(Vector2 dir) { }
+    public virtual void StateUpdate() 
+    {
+        Rotate();
+        player.characterController.SimpleMove(_direction.normalized * player.Settings.MovementSpeed);
+
+        if (player.Event.OnSoundEmitted != null)
+        {
+            if (_direction.sqrMagnitude > 0f)
+            {
+                player.Event.OnSoundEmitted.Invoke(player.transform.position, player.Settings.WalkSoundRange);
+            }
+        }
+
+        // Calculate the local movement direction relative to the player's forward direction
+        Vector3 localDirection = player.transform.InverseTransformDirection(_direction);
+
+        // Set the animator parameters based on the local direction
+        player.animator.SetFloat("Horizontal", localDirection.x * 0.5f);
+        player.animator.SetFloat("Vertical", localDirection.z * 0.5f);
+
+    }
+
+    public virtual void HandleMovement(Vector2 dir) 
+    {
+        // Get the camera's forward direction (in the XZ plane)
+        Vector3 cameraForward = player.IsoFollowCamera.transform.forward;
+        cameraForward.y = 0f; // Ignore the Y component for horizontal movement
+        cameraForward.Normalize();
+
+        // Get the camera's right direction
+        Vector3 cameraRight = player.IsoFollowCamera.transform.right;
+        cameraRight.y = 0f; // Ignore the Y component for horizontal movement
+        cameraRight.Normalize();
+
+        // Convert the input direction to world space relative to the camera
+        _direction = (cameraForward * dir.y + cameraRight * dir.x).normalized;
+
+    }
+
     public virtual void HandleAttack()
     {
         player.ChangeState(new PlayerAttackState());

@@ -23,6 +23,12 @@ public class PlayerDeathState : PlayerBaseState
 
     }
 
+    public override void HandleMovement(Vector2 dir)
+    {
+
+    }
+
+
     public override void HandleGetHit()
     {
 

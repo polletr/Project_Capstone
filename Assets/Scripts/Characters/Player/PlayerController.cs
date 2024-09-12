@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviour, IDamageable
     public GameEvent Event;
 
     public Vector3 AimPosition { get; private set; }
+    public Camera IsoFollowCamera { get { return isoFollowCamera; } }
+
     public Quaternion PlayerRotation { get; private set; }
     public float Health { get; private set; }
 
@@ -21,6 +23,8 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     [SerializeField]
     private PlayerSettings settings;
+    [SerializeField]
+    private Camera isoFollowCamera;
 
     private InputManager inputManager;
     private LayerMask groundLayer;
@@ -31,7 +35,7 @@ public class PlayerController : MonoBehaviour, IDamageable
         groundLayer = LayerMask.GetMask("Ground");
         inputManager = GetComponent<InputManager>();
         characterController = GetComponent<CharacterController>();
-        animator = GetComponent<Animator>();
+        animator = GetComponentInChildren<Animator>();
         Health = Settings.PlayerHealth;
         ChangeState(new PlayerMoveState());
     }

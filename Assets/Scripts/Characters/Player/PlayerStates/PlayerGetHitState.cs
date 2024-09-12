@@ -21,6 +21,7 @@ public class PlayerGetHitState : PlayerBaseState
 
     public override void StateUpdate()
     {
+        base.StateUpdate();
         AnimatorStateInfo stateInfo = player.animator.GetCurrentAnimatorStateInfo(0);
         if (stateInfo.shortNameHash == GetHitHash) // Ensure this matches the animation state name
         {
@@ -28,17 +29,6 @@ public class PlayerGetHitState : PlayerBaseState
             {
                 player.ChangeState(new PlayerMoveState());
 
-            }
-        }
-
-        Rotate();
-        player.characterController.SimpleMove(_direction.normalized * player.Settings.MovementSpeed);
-
-        if (_direction != null && player.Settings != null)
-        {
-            if (_direction.sqrMagnitude > 0f)
-            {
-                player.Event.OnSoundEmitted.Invoke(player.transform.position, player.Settings.WalkSoundRange);
             }
         }
 

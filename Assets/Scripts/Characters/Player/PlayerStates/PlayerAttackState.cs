@@ -21,17 +21,7 @@ public class PlayerAttackState : PlayerBaseState
     
     public override void StateUpdate()
     {
-        Rotate();
-        player.characterController.SimpleMove(_direction.normalized * player.Settings.MovementSpeed);
-
-        if (_direction != null && player.Settings != null)
-        {
-            if (_direction.sqrMagnitude > 0f)
-            {
-                player.Event.OnSoundEmitted.Invoke(player.transform.position, player.Settings.WalkSoundRange);
-            }
-        }
-
+        base.StateUpdate();
         AnimatorStateInfo stateInfo = player.animator.GetCurrentAnimatorStateInfo(0);
         if (stateInfo.shortNameHash == AttackHash) // Ensure this matches the animation state name
         {

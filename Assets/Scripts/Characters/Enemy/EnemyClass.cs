@@ -50,7 +50,7 @@ public class EnemyClass : MonoBehaviour, IDamageable
     void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
-        animator = GetComponent<Animator>();
+        animator = GetComponentInChildren<Animator>();
         PatrolCenterPos = transform.position;
         ChangeState(new EnemyIdleState());
     }
@@ -61,7 +61,15 @@ public class EnemyClass : MonoBehaviour, IDamageable
     public void GetDamaged(float attackDamage)
     {
         health -= attackDamage;
-        currentState?.HandleGetHit();
+        if (health > 0f)
+        {
+            currentState?.HandleGetHit();
+        }
+        else
+        {
+            currentState?.HandleDeath();
+        }
+
     }
 
     public void CanGetIntoGetHitState(int check)
