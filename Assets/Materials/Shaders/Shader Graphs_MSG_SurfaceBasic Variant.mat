@@ -14,6 +14,9 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _COORDINATE_SPACE_UV_SPACE
+  - _SPECULAR_SETUP
+  - _USE_BASE_COLOR_TEXTURE
+  - _USE_NORMAL_MAP
   - _WORLD_SPACE_DIRECTION_UP
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -27,16 +30,32 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _AO_Texture:
+        m_Texture: {fileID: 2800000, guid: e1f2de8a20671b642912ea3aaa23bf94, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Base_Color_Texture:
-        m_Texture: {fileID: 2800000, guid: feff50610b3876546bbd84ba693ab8b5, type: 3}
+        m_Texture: {fileID: 2800000, guid: 038bb5b2b5cbab64db5158eae9e77a1d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Height_Map:
-        m_Texture: {fileID: 2800000, guid: b6fb990f73a41394fa23c7775a134a3e, type: 3}
+        m_Texture: {fileID: 2800000, guid: 1a8584e1cfd25d242be876674725f4ab, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Normal_Map_Texture:
+        m_Texture: {fileID: 2800000, guid: ab4aaf5d36f585c49ac625b7c0a69b3b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Normal_Texture:
         m_Texture: {fileID: 2800000, guid: e610bce8b52729d43accb4a60663389c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Roughness_Texture:
+        m_Texture: {fileID: 2800000, guid: 706dec2dfec5ce544983b30ea51b0213, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Rust_Map:
+        m_Texture: {fileID: 2800000, guid: 82e44c83f3e79384fb660b92c53ae954, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_9f3453232b8c4dc8b3d657b0a1dfaeb5_Texture_1_Texture2D:
@@ -65,19 +84,24 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Base_Metallic: 1
+    - _Base_Metallic: 0
     - _Base_Roughness: 0
-    - _Brightness: 1.73
-    - _Height_Map_Scale: 0.85
+    - _Brightness: 1
+    - _Height_Map_Scale: 0
     - _Mask_Offset: 0
     - _Mask_Sharpness: 10
     - _Normal_Strength: 0
-    - _Tint_Intensity: 0
+    - _Rust_Map_Offset: 0
+    - _Rust_Map_Sharpness: 0
+    - _Tint_Intensity: -0.07
+    - _USE_BASE_COLOR_TEXTURE: 1
     - _USE_HEIGHT_MAP: 0
-    - _WorkflowMode: 1
+    - _USE_NORMAL_MAP: 1
+    - _USE_ROUGHNESS_TEXTURE: 0
+    - _WorkflowMode: 0
     m_Colors:
-    - _Specular_Color: {r: 0.509434, g: 0.509434, b: 0.509434, a: 0}
-    - _Tint: {r: 0, g: 0.08291069, b: 0.95686275, a: 0}
+    - _Specular_Color: {r: 1, g: 1, b: 1, a: 0}
+    - _Tint: {r: 0.462, g: 0, b: 0.074704856, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &1719530429552263494
 MonoBehaviour:
