@@ -15,10 +15,7 @@ public class PlayerSettings : ScriptableObject
     public float RunSoundRange = 5f;
     [Range(1, 5)]
     public int PlayerHealth = 3;
-    [Range(1, 5)]
-    public float meleeAttackRange = 2; //Change it to weapon later
-    [Range(1, 5)]
-    public float meleeAttackDamage = 2; //Change it to weapon later
+    public float DropItemTime = 3f;
 
 
 

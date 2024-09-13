@@ -75,6 +75,8 @@ public class PlayerBaseState : MonoBehaviour
 
     }
 
+    public virtual void HandleEquipItem(Inventory inv, IInventoryItem item) { }
+
     public virtual void HandleGetHit()
     {
         player.ChangeState(new PlayerGetHitState());
@@ -83,6 +85,12 @@ public class PlayerBaseState : MonoBehaviour
 
 
     public virtual void StopInteract() { }
+
+    public virtual void HandleDropItem() { }
+
+    public virtual void CancelDropItem() { }
+
+
 
     public virtual void HandleDeath() 
     {

@@ -22,7 +22,7 @@ public class PlayerAttackState : PlayerBaseState
     public override void StateUpdate()
     {
         base.StateUpdate();
-        AnimatorStateInfo stateInfo = player.animator.GetCurrentAnimatorStateInfo(0);
+        AnimatorStateInfo stateInfo = player.animator.GetCurrentAnimatorStateInfo(1);
         if (stateInfo.shortNameHash == AttackHash) // Ensure this matches the animation state name
         {
             if (stateInfo.normalizedTime >= 1f)
@@ -31,11 +31,5 @@ public class PlayerAttackState : PlayerBaseState
             }
         }
     }
-
-    public override void HandleMovement(Vector2 dir)
-    {
-        _direction = new Vector3(dir.x, 0, dir.y);
-    }
-
 
 }
