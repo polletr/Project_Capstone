@@ -7,9 +7,9 @@ public class GameEvent : ScriptableObject
 {
     public UnityAction<Vector3, float> OnSoundEmitted;
 
-    public UnityAction<IInventoryItem,Dictionary<IInventoryItem,int>> OnItemAdded;
-    public UnityAction<IInventoryItem,Dictionary<IInventoryItem,int>> OnItemRemoved;
-    public UnityAction<IInventoryItem,Dictionary<IInventoryItem,int>> OnItemEquipped;
+    public UnityAction<IInventoryItem,Dictionary<InventoryItemData,int>> OnItemAdded;
+    public UnityAction<IInventoryItem,Dictionary<InventoryItemData,int>> OnItemRemoved;
+    public UnityAction<IInventoryItem,Dictionary<InventoryItemData,int>> OnItemEquipped;
 }
 
 

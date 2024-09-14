@@ -112,7 +112,7 @@ public class PlayerController : MonoBehaviour, IDamageable
         currentState?.HandleInteract();
     }
 
-    public void HandleEquipItem(IInventoryItem item,Dictionary<IInventoryItem,int> itemDictionary)
+    public void HandleEquipItem(IInventoryItem item,Dictionary<InventoryItemData,int> itemDictionary)
     {
         currentState?.HandleEquipItem(item);
     }
@@ -175,7 +175,6 @@ public class PlayerController : MonoBehaviour, IDamageable
         {
             // Store the interactable item reference
             interactableItem = item;
-            Debug.Log(interactableItem);
             // Visual feedback, like highlighting the item
             // e.g., item.Highlight(true);
         }

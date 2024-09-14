@@ -148,36 +148,6 @@ PrefabInstance:
       propertyPath: m_IsTrigger
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5709610479761893172, guid: 327193422a2d88a43bea51c47f03334f,
-        type: 3}
-      propertyPath: m_Size.x
-      value: 0.10421181
-      objectReference: {fileID: 0}
-    - target: {fileID: 5709610479761893172, guid: 327193422a2d88a43bea51c47f03334f,
-        type: 3}
-      propertyPath: m_Size.y
-      value: 1.113441
-      objectReference: {fileID: 0}
-    - target: {fileID: 5709610479761893172, guid: 327193422a2d88a43bea51c47f03334f,
-        type: 3}
-      propertyPath: m_Size.z
-      value: 0.12145424
-      objectReference: {fileID: 0}
-    - target: {fileID: 5709610479761893172, guid: 327193422a2d88a43bea51c47f03334f,
-        type: 3}
-      propertyPath: m_Center.x
-      value: 0.002626896
-      objectReference: {fileID: 0}
-    - target: {fileID: 5709610479761893172, guid: 327193422a2d88a43bea51c47f03334f,
-        type: 3}
-      propertyPath: m_Center.y
-      value: 0.30917588
-      objectReference: {fileID: 0}
-    - target: {fileID: 5709610479761893172, guid: 327193422a2d88a43bea51c47f03334f,
-        type: 3}
-      propertyPath: m_Center.z
-      value: -0.0076937675
-      objectReference: {fileID: 0}
     - target: {fileID: 7073798642416927731, guid: 327193422a2d88a43bea51c47f03334f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -731,6 +701,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slots: 3
+  qaSlots: 4
+  loot: 1
   Event: {fileID: 11400000, guid: 821642c9ec9c5474b88bc1b575e70ddf, type: 2}
 --- !u!4 &949471571
 Transform:
@@ -1282,8 +1254,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 0
   attackRange: 2
-  _Image: {fileID: 0}
   _Name: 
+  _Description: 
+  _SlotSize: 0
+  _StackSize: 0
+  _QuickAccess: 0
+  _Image: {fileID: 0}
   speed: 1
 --- !u!4 &1588764465
 Transform:

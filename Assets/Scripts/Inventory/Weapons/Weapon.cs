@@ -14,29 +14,8 @@ public class Weapon : MonoBehaviour , IInventoryItem
     public float AttackRange { get { return attackRange; } }
 
     [SerializeField]
-    private string _Name;
-    public string Name { get { return _Name; } }
-
-    [SerializeField]
-    private string _Description;
-    public string Description { get { return _Description; } }
-
-    [SerializeField]
-    private int _SlotSize;
-    public int SlotSize { get { return _SlotSize; } }
-
-    [SerializeField]
-    private int _StackSize;
-    public int StackSize { get { return _StackSize; } }
-
-    [SerializeField]
-    private bool _QuickAccess;
-    public bool QuickAccess { get { return _QuickAccess; } }
-
-    [SerializeField]
-    private Sprite _Image;
-    public Sprite Image { get { return _Image; } }
-
+    private InventoryItemData _ItemSO;
+    public InventoryItemData ItemSO { get { return _ItemSO; } }
    
     public void OnPickup()
     {
