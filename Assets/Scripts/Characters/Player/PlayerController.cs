@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Windows;
 using static UnityEditor.IMGUI.Controls.PrimitiveBoundsHandle;
@@ -111,7 +112,7 @@ public class PlayerController : MonoBehaviour, IDamageable
         currentState?.HandleInteract();
     }
 
-    public void HandleEquipItem(IInventoryItem item)
+    public void HandleEquipItem(InventoryItemSO item,Dictionary<InventoryItemSO,int> itemDictionary)
     {
         currentState?.HandleEquipItem(item);
     }
@@ -183,7 +184,7 @@ public class PlayerController : MonoBehaviour, IDamageable
     private void OnTriggerExit(Collider other)
     {
         // When the player leaves the item's area, clear the reference
-        IInventoryItem item = other.GetComponent<IInventoryItem>();
+        InventoryItemSO item = other.GetComponent<InventoryItemSO>();
         if (item != null && item == interactableItem)
         {
             // Reset interaction reference and visual feedback

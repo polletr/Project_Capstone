@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Weapon : MonoBehaviour, IInventoryItem
+public class Weapon : IInventoryItem
 {
+
     [SerializeField]
     private float damage;
     public float Damage { get { return damage; } }
@@ -12,18 +13,10 @@ public class Weapon : MonoBehaviour, IInventoryItem
     private float attackRange = 2f;
     public float AttackRange { get { return attackRange; } }
 
-
-    [SerializeField]
-    private Sprite _Image;
-    public Sprite Image { get { return _Image; } }
-    [SerializeField]
-    private string _Name;
-    public string Name { get { return _Name; } }
-
-    [SerializeField]
-    private bool quickAccess = true;
-    public bool QuickAccess { get { return quickAccess; } }
-
+    private void Awake()
+    {
+        
+    }
 
     public void OnPickup()
     {

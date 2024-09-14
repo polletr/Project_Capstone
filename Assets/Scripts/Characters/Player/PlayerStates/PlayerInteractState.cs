@@ -55,7 +55,7 @@ public class PlayerInteractState : PlayerBaseState
         goItem.transform.localPosition = Vector3.zero;
         goItem.transform.localEulerAngles = Vector3.zero;
 
-        player.currentItemEquipped = item;
+        player.currentItemEquipped = item.ItemSO;
 
     }
 
