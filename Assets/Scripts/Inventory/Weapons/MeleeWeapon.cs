@@ -9,8 +9,4 @@ public class MeleeWeapon : Weapon
 
     public float Speed { get { return speed; } }
 
-
-
-
-
 }

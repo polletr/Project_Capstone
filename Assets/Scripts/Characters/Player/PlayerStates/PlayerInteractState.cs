@@ -44,7 +44,7 @@ public class PlayerInteractState : PlayerBaseState
 
     }
 
-    public override void HandleEquipItem(Inventory inv, IInventoryItem item)
+    public override void HandleEquipItem(IInventoryItem item)
     {
 
         GameObject goItem = (item as MonoBehaviour).gameObject;

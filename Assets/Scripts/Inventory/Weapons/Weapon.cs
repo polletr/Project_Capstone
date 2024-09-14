@@ -20,6 +20,11 @@ public class Weapon : MonoBehaviour, IInventoryItem
     private string _Name;
     public string Name { get { return _Name; } }
 
+    [SerializeField]
+    private bool quickAccess = true;
+    public bool QuickAccess { get { return quickAccess; } }
+
+
     public void OnPickup()
     {
         gameObject.SetActive(false);

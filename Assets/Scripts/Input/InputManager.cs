@@ -42,7 +42,7 @@ public class InputManager : MonoBehaviour
         _action.Player.Interact.performed += (val) => _player.HandleInteract();
         _action.Player.DropItem.performed += (val) => _player.HandleDropItem();
         _action.Player.DropItem.canceled += (val) => _player.CancelDropItem();
-
+        _action.Player.ChangeItem.performed += (val) => HandleScrollWeapon(val.ReadValue<Vector2>());
 
 
         _action.Enable();
@@ -56,9 +56,22 @@ public class InputManager : MonoBehaviour
         _action.Player.Interact.performed -= (val) => _player.HandleInteract();
         _action.Player.DropItem.performed -= (val) => _player.HandleDropItem();
         _action.Player.DropItem.canceled -= (val) => _player.CancelDropItem();
+        _action.Player.ChangeItem.canceled += (val) => HandleScrollWeapon(val.ReadValue<Vector2>());
 
         _action.Disable();
 
+    }
+
+    private void HandleScrollWeapon(Vector2 scrollValue)
+    {
+        if (scrollValue.y > 0 || scrollValue.x > 0)
+        {
+            _player.HandleChangeItem(1);
+        }
+        else if (scrollValue.y < 0 || scrollValue.x < 0)
+        {
+            _player.HandleChangeItem(-1);
+        }
     }
 
     private void OnPointerMove(InputAction.CallbackContext context)

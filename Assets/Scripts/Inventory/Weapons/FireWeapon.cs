@@ -12,13 +12,11 @@ public class FireWeapon : Weapon
 
     protected float currentCooldown;
 
+    private float ammoCount;
+
     void Start()
     {
         currentCooldown = cooldown;
     }
 
-    void Update()
-    {
-        
-    }
 }

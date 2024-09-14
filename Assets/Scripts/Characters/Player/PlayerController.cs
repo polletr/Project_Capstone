@@ -111,11 +111,15 @@ public class PlayerController : MonoBehaviour, IDamageable
         currentState?.HandleInteract();
     }
 
-    public void HandleEquipItem(Inventory inv, IInventoryItem item)
+    public void HandleEquipItem(IInventoryItem item)
     {
-        currentState?.HandleEquipItem(inv, item);
+        currentState?.HandleEquipItem(item);
     }
 
+    public void HandleChangeItem(int direction)
+    {
+        currentState?.HandleChangeItem(direction);
+    }
 
     public void CancelInteract()
     {

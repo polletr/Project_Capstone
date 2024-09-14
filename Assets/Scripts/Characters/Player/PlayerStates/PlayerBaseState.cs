@@ -75,7 +75,7 @@ public class PlayerBaseState : MonoBehaviour
 
     }
 
-    public virtual void HandleEquipItem(Inventory inv, IInventoryItem item) { }
+    public virtual void HandleEquipItem(IInventoryItem item) { }
 
     public virtual void HandleGetHit()
     {
@@ -83,6 +83,10 @@ public class PlayerBaseState : MonoBehaviour
 
     }
 
+    public virtual void HandleChangeItem(int scrollDirection)
+    {
+
+    }
 
     public virtual void StopInteract() { }
 

@@ -33,7 +33,7 @@ public class PlayerMoveState : PlayerBaseState
         }
     }
 
-    public override void HandleEquipItem(Inventory inv, IInventoryItem item)
+    public override void HandleEquipItem(IInventoryItem item)
     {
 
         GameObject goItem = (item as MonoBehaviour).gameObject;
@@ -44,9 +44,13 @@ public class PlayerMoveState : PlayerBaseState
         goItem.transform.localPosition = Vector3.zero;
         goItem.transform.localEulerAngles = Vector3.zero;
 
-
         player.currentItemEquipped = item;
 
+    }
+
+    public override void HandleChangeItem(int scrollDirection)
+    {
+        player.inventory.ChangeSelectedItem(player.currentItemEquipped, scrollDirection);
     }
 
     private void DropItem()
