@@ -129,7 +129,8 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     public void HandleDropItem()
     {
-        currentState?.HandleDropItem();
+        if (currentItemEquipped != null)
+            currentState?.HandleDropItem();
     }
     public void CancelDropItem()
     {

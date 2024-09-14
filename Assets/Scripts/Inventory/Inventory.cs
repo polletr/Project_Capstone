@@ -79,8 +79,7 @@ public class Inventory : MonoBehaviour
             {
                 collider.enabled = false;
 
-                if (qaItems.Count < qaSlots && itemData.QuickAccess)
-                    qaItems.Add(item);
+                QuickAccessItem(item);
 
                 itemStackCount.Add(itemData, lootAmount);
 
@@ -142,24 +141,32 @@ public class Inventory : MonoBehaviour
 
     public void ChangeSelectedItem(IInventoryItem item, int direction)
     {
-        int currentIndex = qaItems.IndexOf(item);
-        (item as MonoBehaviour).gameObject.SetActive(false);
-        // Update index based on scroll direction
-        currentIndex += direction;
+        int currentIndex = 0;
 
-        // Loop through the inventory (circular switching)
-        if (currentIndex >= qaItems.Count)
+        if (item != null)
         {
-            currentIndex = 0;
-        }
-        else if (currentIndex < 0)
-        {
-            currentIndex = qaItems.Count - 1;
+            currentIndex = qaItems.IndexOf(item);
+            (item as MonoBehaviour).gameObject.SetActive(false);
+            // Update index based on scroll direction
+            currentIndex += direction;
+
+            // Loop through the inventory (circular switching)
+            if (currentIndex >= qaItems.Count)
+            {
+                currentIndex = 0;
+            }
+            else if (currentIndex < 0)
+            {
+                currentIndex = qaItems.Count - 1;
+            }
         }
 
-        // Equip the new item
-        IInventoryItem newItem = qaItems[currentIndex];
-        EquipItem(newItem);
+        if (qaItems.Count > 0)
+        {
+            // Equip the new item
+            IInventoryItem newItem = qaItems[currentIndex];
+            EquipItem(newItem);
+        }
     }
 
 

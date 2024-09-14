@@ -10,6 +10,9 @@ public class InventoryUIHandler : MonoBehaviour
     [SerializeField]
     private List<InventoryButton> inventoryButtons = new();
 
+    [SerializeField]
+    private List<InventoryQuickAccess> quickAccessInventorySlot;
+
     public GameEvent Event;
 
     private void OnEnable()
@@ -34,6 +37,14 @@ public class InventoryUIHandler : MonoBehaviour
             button.icon.sprite = null;
             button.amountText.text = "";
         }
+
+        foreach (InventoryQuickAccess qaImage in quickAccessInventorySlot)
+        {
+            qaImage.item = null;
+            qaImage.icon.sprite = null;
+            qaImage.amountText.text = "";
+        }
+
 
 
         int i = 0;
@@ -68,39 +79,7 @@ public class InventoryUIHandler : MonoBehaviour
             }
         }
 
-/*        int i = 0;
-        foreach (KeyValuePair<InventoryItemData, int> obj in itemDictionary)
-        {
-            if (obj.Key.StackSize >= obj.Value)
-            {
-                inventoryButtons[i].item = obj.Key;
-
-                if (obj.Value > 1)
-                    inventoryButtons[i].amountText.text = obj.Value.ToString();
-                else
-                    inventoryButtons[i].amountText.text = "";
-
-                inventoryButtons[i].icon.sprite = obj.Key.Image;
-
-            }
-            else
-            {
-                for (int j = i; j < (Mathf.CeilToInt(obj.Value / obj.Key.StackSize)); j++)
-                {
-                    inventoryButtons[j].item = obj.Key;
-                    if (obj.Value > 1)
-                        inventoryButtons[j].amountText.text = obj.Value.ToString();
-                    else
-                        inventoryButtons[j].amountText.text = "";
-                    inventoryButtons[j].icon.sprite = obj.Key.Image;
-                    i = j;
-
-                }
-            }
-            i++;
-
-        }
-*/    }
+    }
 
     // add description to the inventory popup 
 }

@@ -10,7 +10,7 @@ public class PlayerMoveState : PlayerBaseState
     float timer;
     public override void EnterState()
     {
-
+        
     }
     public override void ExitState()
     {
@@ -55,8 +55,10 @@ public class PlayerMoveState : PlayerBaseState
 
     private void DropItem()
     {
+        
         player.inventory.RemoveItem(player.currentItemEquipped);
         player.currentItemEquipped = null;
+        CancelDropItem();
     }
 
     public override void HandleDropItem()
@@ -67,5 +69,6 @@ public class PlayerMoveState : PlayerBaseState
     public override void CancelDropItem()
     {
         holdingDrop = false;
+        timer = 0f;
     }
 }

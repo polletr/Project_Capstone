@@ -10,6 +10,8 @@ public class GameEvent : ScriptableObject
     public UnityAction<IInventoryItem,Dictionary<InventoryItemData,int>> OnItemAdded;
     public UnityAction<IInventoryItem,Dictionary<InventoryItemData,int>> OnItemRemoved;
     public UnityAction<IInventoryItem,Dictionary<InventoryItemData,int>> OnItemEquipped;
+
+
 }
 
 
