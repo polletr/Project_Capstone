@@ -11,21 +11,21 @@ public class Inventory : MonoBehaviour
 
     [SerializeField] int loot = 1; // remember to change this into the loot amount we find 
 
-    private List<InventoryItemSO> qaItems = new List<InventoryItemSO>();
+    private List<IInventoryItem> qaItems = new List<IInventoryItem>();
 
-    private Dictionary<InventoryItemSO, int> itemStackCount = new();
+    private Dictionary<IInventoryItem, int> itemStackCount = new();
 
     public GameEvent Event;
 
     public void AddItem(IInventoryItem item)
     {
-        int lootAmount = item.ItemSO.StackSize > 1 ? loot : 1; // remember to change this into the loot amount we find
+        int lootAmount = item.StackSize > 1 ? loot : 1; // remember to change this into the loot amount we find
 
-        if (itemStackCount.ContainsKey(item.ItemSO))
+        if (itemStackCount.ContainsKey(item))
         {
-            int oldCount = StacksOfItem(item.ItemSO);
-            itemStackCount[item.ItemSO] += lootAmount;
-            int newCount = StacksOfItem(item.ItemSO);
+            int oldCount = StacksOfItem(item);
+            itemStackCount[item] += lootAmount;
+            int newCount = StacksOfItem(item);
 
             Debug.Log("Old count: " + oldCount + " New count: " + newCount);
             if (newCount > oldCount)
@@ -37,17 +37,17 @@ public class Inventory : MonoBehaviour
                     {
                         collider.enabled = false;
 
-                        item.ItemSO.OnPickup();
+                        item.OnPickup();
 
                         if (Event.OnItemAdded != null)
                         {
-                            Event.OnItemAdded.Invoke(item.ItemSO, itemStackCount);
+                            Event.OnItemAdded.Invoke(item, itemStackCount);
                         }
                     }
                 }
                 else
                 {
-                    itemStackCount[item.ItemSO] -= lootAmount;
+                    itemStackCount[item] -= lootAmount;
                     Debug.Log("Inventory stack full but you have it");
                 }
             }
@@ -56,21 +56,21 @@ public class Inventory : MonoBehaviour
         else if (slots - SlotsTaken() >= 0)
         {
             Debug.Log("New Item picked up");
-            Collider collider = item.gameObject.GetComponent<Collider>();
+            Collider collider = (item as MonoBehaviour).GetComponent<Collider>();
             if (collider.enabled)
             {
                 collider.enabled = false;
 
-                if (qaItems.Count < qaSlots && item.ItemSO.QuickAccess)
-                    qaItems.Add(item.ItemSO);
+                if (qaItems.Count < qaSlots && item.QuickAccess)
+                    qaItems.Add(item);
 
-                itemStackCount.Add(item.ItemSO, lootAmount);
+                itemStackCount.Add(item, lootAmount);
 
-                item.ItemSO.OnPickup();
+                item.OnPickup();
 
                 if (Event.OnItemAdded != null)
                 {
-                    Event.OnItemAdded.Invoke(item.ItemSO, itemStackCount);
+                    Event.OnItemAdded.Invoke(item, itemStackCount);
                 }
             }
         }
@@ -82,7 +82,7 @@ public class Inventory : MonoBehaviour
 
     }
 
-    private int StacksOfItem(InventoryItemSO item) // this is the amount of stacks of the item in the inventory
+    private int StacksOfItem(IInventoryItem item) // this is the amount of stacks of the item in the inventory
     {
         return Mathf.CeilToInt(itemStackCount[item] / item.StackSize);
     }
@@ -90,7 +90,7 @@ public class Inventory : MonoBehaviour
     private int SlotsTaken() // this is the amount of slots taken by the items in the inventory
     {
         int numberofSlotsinDisctionary = 0;
-        foreach (KeyValuePair<InventoryItemSO, int> item in itemStackCount)
+        foreach (KeyValuePair<IInventoryItem, int> item in itemStackCount)
         {
             numberofSlotsinDisctionary += StacksOfItem(item.Key);
         }
@@ -100,16 +100,16 @@ public class Inventory : MonoBehaviour
 
     public void EquipItem(IInventoryItem item)
     {
-        if (qaItems.Contains(item.ItemSO))
+        if (qaItems.Contains(item))
         {
             if (Event.OnItemEquipped != null)
             {
-                Event.OnItemEquipped.Invoke(item.ItemSO, itemStackCount);
+                Event.OnItemEquipped.Invoke(item, itemStackCount);
             }
         }
     }
 
-    public void QuickAccessItem(InventoryItemSO item)
+    public void QuickAccessItem(IInventoryItem item)
     {
         if (item.QuickAccess && qaItems.Count < qaSlots)
         {
@@ -124,7 +124,7 @@ public class Inventory : MonoBehaviour
 
     public void ChangeSelectedItem(IInventoryItem item, int direction)
     {
-        int currentIndex = qaItems.IndexOf(item.ItemSO);
+        int currentIndex = qaItems.IndexOf(item);
         (item as MonoBehaviour).gameObject.SetActive(false);
         // Update index based on scroll direction
         currentIndex += direction;
@@ -147,14 +147,14 @@ public class Inventory : MonoBehaviour
 
     public void RemoveItem(IInventoryItem item)
     {
-        if (itemStackCount.ContainsKey(item.ItemSO))
+        if (itemStackCount.ContainsKey(item))
         {
-            itemStackCount.Remove(item.ItemSO);
+            itemStackCount.Remove(item);
 
-            if (qaItems.Contains(item.ItemSO))
-                qaItems.Remove(item.ItemSO);
+            if (qaItems.Contains(item))
+                qaItems.Remove(item);
 
-            item.ItemSO.OnDrop();
+            item.OnDrop();
 
             Collider collider = (item as MonoBehaviour).GetComponent<Collider>();
             if (collider != null)
@@ -164,7 +164,7 @@ public class Inventory : MonoBehaviour
 
             if (Event.OnItemRemoved != null)
             {
-                Event.OnItemRemoved.Invoke(item.ItemSO, itemStackCount);
+                Event.OnItemRemoved.Invoke(item, itemStackCount);
             }
         }
     }

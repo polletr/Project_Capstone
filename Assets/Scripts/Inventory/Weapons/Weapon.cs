@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Weapon : IInventoryItem
+public class Weapon : MonoBehaviour , IInventoryItem
 {
 
     [SerializeField]
@@ -13,11 +13,31 @@ public class Weapon : IInventoryItem
     private float attackRange = 2f;
     public float AttackRange { get { return attackRange; } }
 
-    private void Awake()
-    {
-        
-    }
+    [SerializeField]
+    private string _Name;
+    public string Name { get { return _Name; } }
 
+    [SerializeField]
+    private string _Description;
+    public string Description { get { return _Description; } }
+
+    [SerializeField]
+    private int _SlotSize;
+    public int SlotSize { get { return _SlotSize; } }
+
+    [SerializeField]
+    private int _StackSize;
+    public int StackSize { get { return _StackSize; } }
+
+    [SerializeField]
+    private bool _QuickAccess;
+    public bool QuickAccess { get { return _QuickAccess; } }
+
+    [SerializeField]
+    private Sprite _Image;
+    public Sprite Image { get { return _Image; } }
+
+   
     public void OnPickup()
     {
         gameObject.SetActive(false);

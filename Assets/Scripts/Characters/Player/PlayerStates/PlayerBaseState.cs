@@ -75,7 +75,7 @@ public class PlayerBaseState : MonoBehaviour
 
     }
 
-    public virtual void HandleEquipItem(InventoryItemSO item) { }
+    public virtual void HandleEquipItem(IInventoryItem item) { }
 
     public virtual void HandleGetHit()
     {

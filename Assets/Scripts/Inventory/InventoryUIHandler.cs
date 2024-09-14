@@ -25,7 +25,7 @@ public class InventoryUIHandler : MonoBehaviour
 
     }
 
-    public void PopulateUI(InventoryItemSO item, Dictionary<InventoryItemSO, int> itemDictionary)
+    public void PopulateUI(IInventoryItem item, Dictionary<IInventoryItem, int> itemDictionary)
     {
 
         foreach (InventoryButton button in inverntorybuttons)
@@ -36,7 +36,7 @@ public class InventoryUIHandler : MonoBehaviour
         }
 
        int i = 0;
-        foreach (KeyValuePair<InventoryItemSO, int> obj in itemDictionary)
+        foreach (KeyValuePair<IInventoryItem, int> obj in itemDictionary)
         {
             inverntorybuttons[i].item = obj.Key;
 
