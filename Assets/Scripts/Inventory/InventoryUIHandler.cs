@@ -77,19 +77,12 @@ public class InventoryUIHandler : MonoBehaviour
     {
         int i = 0;
 
-
-
-        quickAccessInventorySlot.ForEach(slot =>
-        {
-            slot.Item = null;
-            slot.Icon.sprite = null;
-            slot.AmountText.text = "";
-        });
-
         foreach (IInventoryItem item in items)
         {
-
-            //item.ItemSO.
+            quickAccessInventorySlot[i].Item = item.ItemSO;
+            quickAccessInventorySlot[i].Icon.sprite = item.ItemSO.Image;
+            quickAccessInventorySlot[i].AmountText.text = item.ItemSO.Description;
+            i++;
         }
 
     }

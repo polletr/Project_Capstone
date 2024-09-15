@@ -12,6 +12,7 @@ public class GameEvent : ScriptableObject
     public UnityAction<IInventoryItem,Dictionary<InventoryItemData,int>> OnItemEquipped;
 
 
+
 }
 
 
