@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class InventoryButton : MonoBehaviour
 {
-    [field: SerializeField] public Button button;
-    [field: SerializeField] public Image icon;
-    [field: SerializeField] public TextMeshProUGUI amountText;
-    [field: SerializeField] public InventoryItemData item;
+    public Button Button;
+    public Image Icon;
+    public TextMeshProUGUI AmountText;
+    public InventoryItemData Item;
 }

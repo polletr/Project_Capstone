@@ -4,7 +4,7 @@ using TMPro;
 
 public class InventoryQuickAccess : MonoBehaviour
 {
-    [field: SerializeField] public Image icon;
-    [field: SerializeField] public TextMeshProUGUI amountText;
-    [field: SerializeField] public InventoryItemData item;
+    public Image Icon;
+    public TextMeshProUGUI AmountText;
+    public InventoryItemData Item;
 }

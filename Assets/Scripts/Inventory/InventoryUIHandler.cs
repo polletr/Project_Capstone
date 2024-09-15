@@ -33,19 +33,10 @@ public class InventoryUIHandler : MonoBehaviour
 
         foreach (InventoryButton button in inventoryButtons)
         {
-            button.item = null;
-            button.icon.sprite = null;
-            button.amountText.text = "";
+            button.Item = null;
+            button.Icon.sprite = null;
+            button.AmountText.text = "";
         }
-
-        foreach (InventoryQuickAccess qaImage in quickAccessInventorySlot)
-        {
-            qaImage.item = null;
-            qaImage.icon.sprite = null;
-            qaImage.amountText.text = "";
-        }
-
-
 
         int i = 0;
         foreach (KeyValuePair<InventoryItemData, int> obj in itemDictionary)
@@ -60,16 +51,17 @@ public class InventoryUIHandler : MonoBehaviour
                 int amountToPut = Mathf.Min(totalAmount, stackSize);
 
                 // Assign the item to the current inventory button
-                inventoryButtons[i].item = obj.Key;
+                inventoryButtons[i].Item = obj.Key;
 
                 // Set the amount text to the amount in this slot
                 if (amountToPut > 1)
-                    inventoryButtons[i].amountText.text = amountToPut.ToString();
+                    inventoryButtons[i].AmountText.text = amountToPut.ToString();
                 else
-                    inventoryButtons[i].amountText.text = "";
+                    inventoryButtons[i].AmountText.text = "";
 
                 // Set the icon for this item
-                inventoryButtons[i].icon.sprite = obj.Key.Image;
+                inventoryButtons[i].Icon.sprite = obj.Key.Image;
+
 
                 // Reduce the total amount by the amount we just put in the slot
                 totalAmount -= amountToPut;
@@ -80,6 +72,28 @@ public class InventoryUIHandler : MonoBehaviour
         }
 
     }
+
+    private void PopulateQuickAccess(List<IInventoryItem> items)
+    {
+        int i = 0;
+
+
+
+        quickAccessInventorySlot.ForEach(slot =>
+        {
+            slot.Item = null;
+            slot.Icon.sprite = null;
+            slot.AmountText.text = "";
+        });
+
+        foreach (IInventoryItem item in items)
+        {
+
+            //item.ItemSO.
+        }
+
+    }
+
 
     // add description to the inventory popup 
 }
