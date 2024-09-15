@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Windows;
 using static UnityEditor.IMGUI.Controls.PrimitiveBoundsHandle;
@@ -111,7 +112,7 @@ public class PlayerController : MonoBehaviour, IDamageable
         currentState?.HandleInteract();
     }
 
-    public void HandleEquipItem(IInventoryItem item)
+    public void HandleEquipItem(IInventoryItem item,Dictionary<InventoryItemData,int> itemDictionary)
     {
         currentState?.HandleEquipItem(item);
     }
@@ -128,7 +129,8 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     public void HandleDropItem()
     {
-        currentState?.HandleDropItem();
+        if (currentItemEquipped != null)
+            currentState?.HandleDropItem();
     }
     public void CancelDropItem()
     {
@@ -174,7 +176,6 @@ public class PlayerController : MonoBehaviour, IDamageable
         {
             // Store the interactable item reference
             interactableItem = item;
-            Debug.Log(interactableItem);
             // Visual feedback, like highlighting the item
             // e.g., item.Highlight(true);
         }

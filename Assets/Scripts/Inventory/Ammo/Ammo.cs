@@ -2,21 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Weapon : MonoBehaviour , IInventoryItem
+public class Ammo : MonoBehaviour, IInventoryItem
 {
-
-    [SerializeField]
-    private float damage;
-    public float Damage { get { return damage; } }
-
-    [SerializeField, Range(0.2f, 5f)]
-    private float attackRange = 2f;
-    public float AttackRange { get { return attackRange; } }
-
     [SerializeField]
     private InventoryItemData _ItemSO;
     public InventoryItemData ItemSO { get { return _ItemSO; } }
-   
+
     public void OnPickup()
     {
         gameObject.SetActive(false);
@@ -36,6 +27,5 @@ public class Weapon : MonoBehaviour , IInventoryItem
         }
 
     }
-
 
 }
