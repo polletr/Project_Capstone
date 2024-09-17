@@ -8,11 +8,13 @@ public class InventoryItemData : ScriptableObject
 
     public string Description;
 
-    public int SlotSize;
+    //public int SlotSize; pain
 
     public int StackSize;
 
     public bool QuickAccess;
+
+
 
     public Sprite Image;
 }
