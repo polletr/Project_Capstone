@@ -132,16 +132,6 @@ public class PlayerController : MonoBehaviour, IDamageable
         if (currentItemEquipped != null)
             currentState?.HandleDropItem();
     }
-    public void CancelDropItem()
-    {
-        currentState?.CancelDropItem();
-    }
-
-
-    public void HandleAttack()
-    {
-        currentState?.HandleAttack();
-    }
 
     public void HandleMouseInput(Vector2 input)
     {

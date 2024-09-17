@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerBaseState : MonoBehaviour
@@ -13,6 +14,9 @@ public class PlayerBaseState : MonoBehaviour
     protected static readonly int DieHash = Animator.StringToHash("Die");
 
     protected Vector3 _direction;
+
+    protected bool isRunning;
+    protected bool isCrouching;
 
     public PlayerController player { get; set; }
     public InputManager inputManager { get; set; }
@@ -28,13 +32,13 @@ public class PlayerBaseState : MonoBehaviour
     public virtual void StateUpdate() 
     {
         Rotate();
-        player.characterController.SimpleMove(_direction.normalized * player.Settings.MovementSpeed);
+        player.characterController.SimpleMove(_direction.normalized * GetSpeed());
 
         if (player.Event.OnSoundEmitted != null)
         {
             if (_direction.sqrMagnitude > 0f)
             {
-                player.Event.OnSoundEmitted.Invoke(player.transform.position, player.Settings.WalkSoundRange);
+                player.Event.OnSoundEmitted.Invoke(player.transform.position, GetSoundEmitted());
             }
         }
 
@@ -42,8 +46,8 @@ public class PlayerBaseState : MonoBehaviour
         Vector3 localDirection = player.transform.InverseTransformDirection(_direction);
 
         // Set the animator parameters based on the local direction
-        player.animator.SetFloat("Horizontal", localDirection.x * 0.5f);
-        player.animator.SetFloat("Vertical", localDirection.z * 0.5f);
+        player.animator.SetFloat("Horizontal", localDirection.x * GetMovementAnimValue());
+        player.animator.SetFloat("Vertical", localDirection.z * GetMovementAnimValue());
 
     }
 
@@ -88,6 +92,22 @@ public class PlayerBaseState : MonoBehaviour
 
     }
 
+    public virtual void HandleRun(bool check)
+    {
+        if (!isCrouching)
+            isRunning = check;
+    }
+
+    public virtual void HandleCrouch(bool check)
+    {
+        isCrouching = check;
+        player.animator.SetBool("isCrouching", check);
+
+        if (isCrouching)
+            isRunning = false;
+    }
+
+
     public virtual void StopInteract() { }
 
     public virtual void HandleDropItem() { }
@@ -106,6 +126,49 @@ public class PlayerBaseState : MonoBehaviour
         player.gameObject.transform.rotation = Quaternion.Slerp(player.gameObject.transform.rotation, player.PlayerRotation, player.Settings.RotationSpeed);
     }
 
+    private float GetSpeed()
+    {
+        if (isRunning)
+        {
+            return player.Settings.RunningSpeed;
+        }
+        else if (isCrouching)
+        {
+            return player.Settings.CrouchingSpeed;
+        }
+        else
+        {
+            return player.Settings.WalkingSpeed;
+        }
+    }
+
+    private float GetSoundEmitted()
+    {
+        if (isRunning)
+        {
+            return player.Settings.RunSoundRange;
+        }
+        else if (isCrouching)
+        {
+            return player.Settings.CrouchSoundRange;
+        }
+        else
+        {
+            return player.Settings.WalkSoundRange;
+        }
+    }
+
+    private float GetMovementAnimValue()
+    {
+        if (isRunning || isCrouching)
+        {
+            return 1f;
+        }
+        else
+        {
+            return 0.5f;
+        }
+    }
 
 }
 

@@ -7,7 +7,6 @@ public class PlayerAttackState : PlayerBaseState
     public override void EnterState()
     {
         player.animator.Play(AttackHash);
-
     }
     public override void ExitState()
     {
