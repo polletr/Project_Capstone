@@ -9,6 +9,11 @@ public class PlayerBaseState : MonoBehaviour
     protected static readonly int IdleHash = Animator.StringToHash("Idle");
     protected static readonly int RunHash = Animator.StringToHash("Run");
     protected static readonly int WalkHash = Animator.StringToHash("Walk");
+
+    protected static readonly int ShootHash = Animator.StringToHash("Shoot");
+    protected static readonly int OneHandAimHash = Animator.StringToHash("OneHandAim");
+    protected static readonly int TwoHandAimHash = Animator.StringToHash("TwoHandAim");
+
     protected static readonly int AttackHash = Animator.StringToHash("Attack");
     protected static readonly int GetHitHash = Animator.StringToHash("GetHit");
     protected static readonly int DieHash = Animator.StringToHash("Die");
@@ -70,7 +75,8 @@ public class PlayerBaseState : MonoBehaviour
 
     public virtual void HandleAttack()
     {
-        player.ChangeState(new PlayerAttackState());
+        if (player.currentItemEquipped != null && player.currentItemEquipped is MeleeWeapon)
+            player.ChangeState(new PlayerAttackState());
     }
 
     public virtual void HandleInteract()
@@ -88,6 +94,11 @@ public class PlayerBaseState : MonoBehaviour
     }
 
     public virtual void HandleChangeItem(int scrollDirection)
+    {
+
+    }
+
+    public virtual void HandleAim(bool check)
     {
 
     }
@@ -126,7 +137,7 @@ public class PlayerBaseState : MonoBehaviour
         player.gameObject.transform.rotation = Quaternion.Slerp(player.gameObject.transform.rotation, player.PlayerRotation, player.Settings.RotationSpeed);
     }
 
-    private float GetSpeed()
+    protected virtual float GetSpeed()
     {
         if (isRunning)
         {
@@ -142,7 +153,7 @@ public class PlayerBaseState : MonoBehaviour
         }
     }
 
-    private float GetSoundEmitted()
+    protected virtual float GetSoundEmitted()
     {
         if (isRunning)
         {
@@ -158,7 +169,7 @@ public class PlayerBaseState : MonoBehaviour
         }
     }
 
-    private float GetMovementAnimValue()
+    protected virtual float GetMovementAnimValue()
     {
         if (isRunning || isCrouching)
         {

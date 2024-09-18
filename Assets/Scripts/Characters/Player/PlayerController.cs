@@ -127,12 +127,6 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     }
 
-    public void HandleDropItem()
-    {
-        if (currentItemEquipped != null)
-            currentState?.HandleDropItem();
-    }
-
     public void HandleMouseInput(Vector2 input)
     {
         Ray ray = Camera.main.ScreenPointToRay(input);

@@ -13,6 +13,8 @@ public class PlayerSettings : ScriptableObject
     public float RunningSpeed;
     [Range(0.1f, 50f)]
     public float CrouchingSpeed;
+    [Range(0.1f, 50f)]
+    public float AimingSpeed;
     [Range(0.5f, 5f)]
     public float WalkSoundRange = 2f;
     [Range(0.5f, 5f)]

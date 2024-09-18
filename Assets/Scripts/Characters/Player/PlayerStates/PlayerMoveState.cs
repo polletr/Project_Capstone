@@ -10,7 +10,7 @@ public class PlayerMoveState : PlayerBaseState
     float timer;
     public override void EnterState()
     {
-        
+        player.animator.Play(IdleHash);
     }
     public override void ExitState()
     {
@@ -63,7 +63,14 @@ public class PlayerMoveState : PlayerBaseState
 
     public override void HandleDropItem()
     {
-        holdingDrop = true;
+        if (player.currentItemEquipped != null)
+            holdingDrop = true;
+    }
+
+    public override void HandleAim(bool check)
+    {
+        if (check)
+            player.ChangeState(new PlayerAimingState());
     }
 
     public override void CancelDropItem()
