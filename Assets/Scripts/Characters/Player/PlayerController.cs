@@ -129,10 +129,6 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     }
 
-
-
-
-
     #endregion
 
     private void OnControllerColliderHit(ControllerColliderHit hit)

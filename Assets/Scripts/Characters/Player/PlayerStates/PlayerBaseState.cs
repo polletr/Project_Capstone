@@ -40,7 +40,6 @@ public class PlayerBaseState : MonoBehaviour
     }
     public virtual void StateUpdate() 
     {
-        //Rotate();
         player.characterController.SimpleMove(_direction.normalized * GetSpeed());
 
         if (player.Event.OnSoundEmitted != null)
@@ -160,11 +159,6 @@ public class PlayerBaseState : MonoBehaviour
     {
 
     }
-    protected void Rotate()
-    {
-        player.gameObject.transform.rotation = Quaternion.Slerp(player.gameObject.transform.rotation, player.PlayerRotation, player.Settings.RotationSpeed);
-    }
-
     protected virtual float GetSpeed()
     {
         if (isRunning)
