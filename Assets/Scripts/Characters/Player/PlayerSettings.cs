@@ -25,6 +25,9 @@ public class PlayerSettings : ScriptableObject
     public int PlayerHealth = 3;
     public float DropItemTime = 3f;
 
+    public float cameraSensitivityMouse = 1.0f;
+    public float cameraSensitivityGamepad = 1.0f;
+    public float cameraAcceleration = 5.0f;
 
 
 }

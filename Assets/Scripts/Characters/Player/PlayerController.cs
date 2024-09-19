@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Windows;
 using static UnityEditor.IMGUI.Controls.PrimitiveBoundsHandle;
 
@@ -12,10 +13,11 @@ public class PlayerController : MonoBehaviour, IDamageable
     public GameEvent Event;
     public Inventory inventory;
 
+    public Transform Camera { get { return _camera; } }
+    public Transform CameraHolder { get { return _cameraHolder; } }
+    public Transform Hand { get { return _hand; } }
 
     public Vector3 AimPosition { get; private set; }
-    public Camera IsoFollowCamera { get { return isoFollowCamera; } }
-
     public Quaternion PlayerRotation { get; private set; }
     public float Health { get; private set; }
 
@@ -27,8 +29,6 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     [SerializeField]
     private PlayerSettings settings;
-    [SerializeField]
-    private Camera isoFollowCamera;
 
     private InputManager inputManager;
     private LayerMask groundLayer;
@@ -41,9 +41,14 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     public GameObject MeleeSocketHand { get { return meleeSocketHand; } }
 
+    [SerializeField] Transform _camera;
+    [SerializeField] Transform _cameraHolder;
+    [SerializeField] Transform _hand;
+
 
     void Awake()
     {
+        Cursor.lockState = CursorLockMode.Locked;//Move this from here later
         groundLayer = LayerMask.GetMask("Ground");
         inputManager = GetComponent<InputManager>();
         characterController = GetComponent<CharacterController>();
@@ -56,7 +61,8 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     private void Update()
     {
-        HandleMove(inputManager.Movement);
+        currentState?.HandleMovement(inputManager.Movement);
+        currentState?.HandleLookAround(inputManager.LookAround, inputManager.Device);
         currentState?.StateUpdate();
     }
     private void FixedUpdate() => currentState?.StateFixedUpdate();
@@ -102,10 +108,6 @@ public class PlayerController : MonoBehaviour, IDamageable
     }
 
     #region Character Actions
-    public void HandleMove(Vector2 dir)
-    {
-        currentState?.HandleMovement(dir);
-    }
 
     public void HandleInteract()
     {
@@ -127,28 +129,8 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     }
 
-    public void HandleMouseInput(Vector2 input)
-    {
-        Ray ray = Camera.main.ScreenPointToRay(input);
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity, groundLayer))
-        {
-            Vector3 target = hit.point;
-            Vector3 direction = target - transform.position;
-            direction.y = 0; // Keep the character level on the Y-axis
-            PlayerRotation = Quaternion.LookRotation(direction);
-        }
-    }
-    public void HandleGamepadInput(Vector2 input)
-    {
-        // Logic to handle gamepad input
-        Vector3 inputDirection = new Vector3(input.x, 0, input.y);
 
-        if (inputDirection.sqrMagnitude > 0.01f)
-        {
-            PlayerRotation = Quaternion.LookRotation(inputDirection, Vector3.up);
-        }
-    }
+
 
 
     #endregion

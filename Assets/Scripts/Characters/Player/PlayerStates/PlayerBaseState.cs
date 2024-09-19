@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerBaseState : MonoBehaviour
 {
@@ -23,6 +24,9 @@ public class PlayerBaseState : MonoBehaviour
     protected bool isRunning;
     protected bool isCrouching;
 
+    private float xRotation;
+    private float yRotation;
+
     public PlayerController player { get; set; }
     public InputManager inputManager { get; set; }
     public virtual void EnterState()
@@ -36,7 +40,7 @@ public class PlayerBaseState : MonoBehaviour
     }
     public virtual void StateUpdate() 
     {
-        Rotate();
+        //Rotate();
         player.characterController.SimpleMove(_direction.normalized * GetSpeed());
 
         if (player.Event.OnSoundEmitted != null)
@@ -58,19 +62,21 @@ public class PlayerBaseState : MonoBehaviour
 
     public virtual void HandleMovement(Vector2 dir) 
     {
-        // Get the camera's forward direction (in the XZ plane)
-        Vector3 cameraForward = player.IsoFollowCamera.transform.forward;
-        cameraForward.y = 0f; // Ignore the Y component for horizontal movement
-        cameraForward.Normalize();
 
-        // Get the camera's right direction
-        Vector3 cameraRight = player.IsoFollowCamera.transform.right;
-        cameraRight.y = 0f; // Ignore the Y component for horizontal movement
+        // Get the camera's forward and right directions
+        Vector3 cameraForward = player.Camera.forward;
+        Vector3 cameraRight = player.Camera.right;
+
+        // Since we're working in a 3D space, we don't want any vertical movement on the Y axis
+        cameraForward.y = 0;
+        cameraRight.y = 0;
+
+        // Normalize the vectors so we get consistent movement regardless of camera angle
+        cameraForward.Normalize();
         cameraRight.Normalize();
 
-        // Convert the input direction to world space relative to the camera
-        _direction = (cameraForward * dir.y + cameraRight * dir.x).normalized;
-
+        // Calculate the movement direction based on the input (dir) and camera orientation
+        _direction = (cameraForward * dir.y + cameraRight * dir.x);
     }
 
     public virtual void HandleAttack()
@@ -125,13 +131,35 @@ public class PlayerBaseState : MonoBehaviour
 
     public virtual void CancelDropItem() { }
 
+    public virtual void HandleLookAround(Vector2 dir, InputDevice device)
+    {
+        float sensitivityMult = player.Settings.cameraSensitivityMouse;
 
+        if (device is Gamepad)
+        {
+            sensitivityMult = player.Settings.cameraSensitivityGamepad;
+        }
+
+        xRotation += dir.y * sensitivityMult * Time.deltaTime;
+        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+        yRotation += dir.x * sensitivityMult * Time.deltaTime;
+
+        player.Hand.localRotation = Quaternion.Euler(-xRotation, yRotation, 0);
+
+        player.CameraHolder.localRotation = Quaternion.Lerp(player.CameraHolder.localRotation, Quaternion.Euler(0, yRotation, 0), player.Settings.cameraAcceleration * Time.deltaTime);
+        player.Camera.localRotation = Quaternion.Lerp(player.Camera.localRotation, Quaternion.Euler(-xRotation, 0, 0), player.Settings.cameraAcceleration * Time.deltaTime);
+
+    }
 
     public virtual void HandleDeath() 
     {
         player.ChangeState(new PlayerDeathState());
     }
 
+    protected void LookAround()
+    {
+
+    }
     protected void Rotate()
     {
         player.gameObject.transform.rotation = Quaternion.Slerp(player.gameObject.transform.rotation, player.PlayerRotation, player.Settings.RotationSpeed);
