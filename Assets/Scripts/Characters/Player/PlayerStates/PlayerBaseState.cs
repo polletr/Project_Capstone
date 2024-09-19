@@ -11,11 +11,6 @@ public class PlayerBaseState : MonoBehaviour
     protected static readonly int RunHash = Animator.StringToHash("Run");
     protected static readonly int WalkHash = Animator.StringToHash("Walk");
 
-    protected static readonly int ShootHash = Animator.StringToHash("Shoot");
-    protected static readonly int OneHandAimHash = Animator.StringToHash("OneHandAim");
-    protected static readonly int TwoHandAimHash = Animator.StringToHash("TwoHandAim");
-
-    protected static readonly int AttackHash = Animator.StringToHash("Attack");
     protected static readonly int GetHitHash = Animator.StringToHash("GetHit");
     protected static readonly int DieHash = Animator.StringToHash("Die");
 
@@ -40,7 +35,6 @@ public class PlayerBaseState : MonoBehaviour
     }
     public virtual void StateUpdate() 
     {
-        //Rotate();
         player.characterController.SimpleMove(_direction.normalized * GetSpeed());
 
         if (player.Event.OnSoundEmitted != null)
@@ -81,8 +75,7 @@ public class PlayerBaseState : MonoBehaviour
 
     public virtual void HandleAttack()
     {
-        if (player.currentItemEquipped != null && player.currentItemEquipped is MeleeWeapon)
-            player.ChangeState(new PlayerAttackState());
+        player.ChangeState(new PlayerAttackState());
     }
 
     public virtual void HandleInteract()
@@ -96,16 +89,6 @@ public class PlayerBaseState : MonoBehaviour
     public virtual void HandleGetHit()
     {
         player.ChangeState(new PlayerGetHitState());
-
-    }
-
-    public virtual void HandleChangeItem(int scrollDirection)
-    {
-
-    }
-
-    public virtual void HandleAim(bool check)
-    {
 
     }
 
@@ -124,12 +107,6 @@ public class PlayerBaseState : MonoBehaviour
             isRunning = false;
     }
 
-
-    public virtual void StopInteract() { }
-
-    public virtual void HandleDropItem() { }
-
-    public virtual void CancelDropItem() { }
 
     public virtual void HandleLookAround(Vector2 dir, InputDevice device)
     {
@@ -154,15 +131,6 @@ public class PlayerBaseState : MonoBehaviour
     public virtual void HandleDeath() 
     {
         player.ChangeState(new PlayerDeathState());
-    }
-
-    protected void LookAround()
-    {
-
-    }
-    protected void Rotate()
-    {
-        player.gameObject.transform.rotation = Quaternion.Slerp(player.gameObject.transform.rotation, player.PlayerRotation, player.Settings.RotationSpeed);
     }
 
     protected virtual float GetSpeed()

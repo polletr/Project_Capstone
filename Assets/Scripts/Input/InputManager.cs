@@ -75,8 +75,6 @@ public class InputManager : MonoBehaviour
         _action.Player.Run.canceled += (val) => _player.currentState?.HandleRun(false);
         _action.Player.Crouch.performed += (val) => _player.currentState?.HandleCrouch(true);
         _action.Player.Crouch.canceled += (val) => _player.currentState?.HandleCrouch(false);
-        _action.Player.Aim.performed += (val) => _player.currentState?.HandleAim(true);
-        _action.Player.Aim.canceled += (val) => _player.currentState?.HandleAim(false);
 
 
         _action.Enable();
@@ -92,24 +90,10 @@ public class InputManager : MonoBehaviour
         _action.Player.Run.canceled -= (val) => _player.currentState?.HandleRun(false);
         _action.Player.Crouch.performed -= (val) => _player.currentState?.HandleCrouch(true);
         _action.Player.Crouch.canceled -= (val) => _player.currentState?.HandleCrouch(false);
-        _action.Player.Aim.performed -= (val) => _player.currentState?.HandleAim(true);
-        _action.Player.Aim.canceled -= (val) => _player.currentState?.HandleAim(false);
 
 
         _action.Disable();
 
-    }
-
-    private void HandleScrollWeapon(Vector2 scrollValue)
-    {
-        if (scrollValue.y > 0 || scrollValue.x > 0)
-        {
-            _player.HandleChangeItem(1);
-        }
-        else if (scrollValue.y < 0 || scrollValue.x < 0)
-        {
-            _player.HandleChangeItem(-1);
-        }
     }
 
     private void OnPointerMove(InputAction.CallbackContext context)

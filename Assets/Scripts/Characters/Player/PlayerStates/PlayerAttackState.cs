@@ -6,7 +6,7 @@ public class PlayerAttackState : PlayerBaseState
 {
     public override void EnterState()
     {
-        player.animator.Play(AttackHash);
+        //Use current Flashlight ability Attack
     }
     public override void ExitState()
     {
@@ -21,14 +21,6 @@ public class PlayerAttackState : PlayerBaseState
     public override void StateUpdate()
     {
         base.StateUpdate();
-        AnimatorStateInfo stateInfo = player.animator.GetCurrentAnimatorStateInfo(1);
-        if (stateInfo.shortNameHash == AttackHash) // Ensure this matches the animation state name
-        {
-            if (stateInfo.normalizedTime >= 1f)
-            {
-                player.ChangeState(new PlayerMoveState());
-            }
-        }
     }
 
 }
