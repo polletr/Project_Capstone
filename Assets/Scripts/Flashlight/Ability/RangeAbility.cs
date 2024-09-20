@@ -28,7 +28,8 @@ public class RangeAbility : FlashlightAbility
         timer = new CountdownTimer(cooldown);
         timer.Start();
         flashlight = GetComponentInParent<FlashLight>();
-        flashlight.Intensity = intensity;
+
+        flashlight.Light.intensity = intensity;
         flashlight.Light.color = Color.white;
     }
 

@@ -1,5 +1,9 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class FlashLight : MonoBehaviour
 {
@@ -18,9 +22,21 @@ public class FlashLight : MonoBehaviour
 
     public Light Light { get; set; }
 
+    [SerializeField]
+    private float minFlickerTime = 0.1f;  // Minimum time between flickers
+    [SerializeField]
+    public float maxFlickerTime = 0.5f;  // Maximum time between flickers
+
+    private float flickerTimer;
+
     private void Awake()
     {
         Light = GetComponent<Light>();
+        Light.enabled = true;
+        Light.range = Range;
+        Light.intensity = Intensity;
+        Light.color = LightColor;
+
         currentAbility = flashlightAbilities[0];
     }
 
@@ -47,9 +63,8 @@ public class FlashLight : MonoBehaviour
 
     public void ResetLight(float cost)
     {
-        Light.range = Range;
-        Light.intensity = Intensity;
-        Light.color = LightColor;
+        StartCoroutine(Flicker(1f));
+
         BatteryLife -= cost;
     }
 
@@ -80,6 +95,33 @@ public class FlashLight : MonoBehaviour
         // Update currentAbility to the new selected ability
         currentAbility = flashlightAbilities[currentIndex];
     }
+
+    IEnumerator Flicker(float maxTime)
+    {
+        float timer = 0f;
+        while (timer < maxTime)
+        {
+            // Randomize the intensity
+            Light.intensity = Random.Range(0.2f, Intensity);
+
+            // Randomize the time interval for the next flicker
+            flickerTimer = Random.Range(minFlickerTime, maxFlickerTime);
+
+            // Randomly turn the light on or off for a more dramatic effect
+            Light.enabled = (Random.value > 0.3f); // 70% chance to stay on
+
+            timer += flickerTimer;
+            // Wait for the next flicker
+            yield return new WaitForSeconds(flickerTimer);
+        }
+
+        Light.enabled = true;
+        Light.range = Range;
+        Light.intensity = Intensity;
+        Light.color = LightColor;
+
+    }
+
 }
 
 
