@@ -3,11 +3,11 @@ using UnityEngine;
 public class FlashLight : MonoBehaviour
 {
 
-    public float Cost;
-    public float Range;
-    public Color LightColor;
-    public float Intensity;
-    public float BatteryLife;
+    [field: SerializeField] public float Cost { get; set; }
+    [field: SerializeField] public float Range { get; set; }
+    [field: SerializeField] public Color LightColor { get; set; }
+    [field: SerializeField] public float BatteryLife { get; set; }
+    [field: SerializeField] public float Intensity { get; set; }
 
 
     [SerializeField] private FlashlightAbility[] flashlightAbilities;
@@ -16,30 +16,20 @@ public class FlashLight : MonoBehaviour
 
     private Light _light;
 
-    private RayCastTest detector;
-
     private void Update()
     {
         Ray ray = new Ray(transform.position, transform.forward * Range);
-        RaycastHit[] hit = Physics.RaycastAll(ray, Range);
-        foreach (RaycastHit h in hit)
+        RaycastHit[] hits = Physics.SphereCastAll(ray, 2f, Range);
+        foreach (RaycastHit hit in hits)
         {
-           var obj = h.collider.gameObject;
-           /* if (obj.GetComponent<>())
-            {
-                obj.Execute();
-            }*/
+            var obj = hit.collider.gameObject;
+            obj.GetComponent<FlashlightStrategy>().Execute();
         }
     }
 
-    private void DepleteBattery(FlashlightAbility ability)
-    {
-        BatteryLife -= ability.Cost;
-    }
-
-
     public void HandleFlashAblility()
     {
+        if (currentAbility != null)
         currentAbility.OnUseAbility();
     }
 }
@@ -50,7 +40,8 @@ public enum FlashlightAbilityType
     None,
     Range,
     Reveal,
-    Brightness
+    Move,
+
 }
 
 
