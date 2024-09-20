@@ -119,6 +119,7 @@ public class FlashLight : MonoBehaviour
         Light.range = Range;
         Light.intensity = Intensity;
         Light.color = LightColor;
+        GetComponentInParent<PlayerController>().ChangeState(new PlayerMoveState());
 
     }
 

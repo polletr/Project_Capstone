@@ -36,7 +36,6 @@ public class RangeAbility : FlashlightAbility
     public override void OnStopAbility()
     {
         flashlight.ResetLight(Cost);
-        GetComponentInParent<PlayerController>().ChangeState(new PlayerMoveState());
     }
 
     void Update()
