@@ -18,6 +18,11 @@ public class PlayerController : MonoBehaviour, IDamageable
     public Animator animator { get; set; }
     public FlashLight flashlight { get; set; }
 
+    public float xRotation { get; set; }
+    public float yRotation { get; set; }
+
+
+
     [HideInInspector]
     public PlayerBaseState currentState;
 

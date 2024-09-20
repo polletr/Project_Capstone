@@ -73,6 +73,9 @@ public class InputManager : MonoBehaviour
         _action.Player.Interact.performed += (val) => _player.currentState?.HandleInteract();
         _action.Player.Run.performed += (val) => _player.currentState?.HandleRun(true);
         _action.Player.Run.canceled += (val) => _player.currentState?.HandleRun(false);
+
+        _action.Player.ChangeItem.performed += (val) => HandleScrollAbility(val.ReadValue<Vector2>());
+
         _action.Player.Crouch.performed += (val) => _player.currentState?.HandleCrouch(true);
         _action.Player.Crouch.canceled += (val) => _player.currentState?.HandleCrouch(false);
 
@@ -88,12 +91,26 @@ public class InputManager : MonoBehaviour
         _action.Player.Interact.performed -= (val) => _player.currentState?.HandleInteract();
         _action.Player.Run.performed -= (val) => _player.currentState?.HandleRun(true);
         _action.Player.Run.canceled -= (val) => _player.currentState?.HandleRun(false);
+
+        _action.Player.ChangeItem.performed -= (val) => HandleScrollAbility(val.ReadValue<Vector2>());
+
         _action.Player.Crouch.performed -= (val) => _player.currentState?.HandleCrouch(true);
         _action.Player.Crouch.canceled -= (val) => _player.currentState?.HandleCrouch(false);
 
 
         _action.Disable();
 
+    }
+    private void HandleScrollAbility(Vector2 scrollValue)
+    {
+        if (scrollValue.y > 0 || scrollValue.x > 0)
+        {
+            _player.currentState?.HandleChangeAbility(1);
+        }
+        else if (scrollValue.y < 0 || scrollValue.x < 0)
+        {
+            _player.currentState?.HandleChangeAbility(-1);
+        }
     }
 
     private void OnPointerMove(InputAction.CallbackContext context)

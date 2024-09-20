@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerAttackState : PlayerBaseState
 {
@@ -24,4 +25,8 @@ public class PlayerAttackState : PlayerBaseState
         base.StateUpdate();
     }
 
+    public override void HandleAttack()
+    {
+        
+    }
 }

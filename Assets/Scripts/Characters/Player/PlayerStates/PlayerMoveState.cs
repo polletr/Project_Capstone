@@ -20,5 +20,9 @@ public class PlayerMoveState : PlayerBaseState
         base.StateUpdate();
     }
 
+    public override void HandleChangeAbility(int d)
+    {
+        player.flashlight.ChangeSelectedAbility(d);
+    }
 
 }

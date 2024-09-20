@@ -19,9 +19,6 @@ public class PlayerBaseState : MonoBehaviour
     protected bool isRunning;
     protected bool isCrouching;
 
-    private float xRotation;
-    private float yRotation;
-
     public PlayerController player { get; set; }
     public InputManager inputManager { get; set; }
     public virtual void EnterState()
@@ -84,6 +81,8 @@ public class PlayerBaseState : MonoBehaviour
 
     }
 
+    public virtual void HandleChangeAbility(int direction) { }
+
     public virtual void HandleEquipItem(IInventoryItem item) { }
 
     public virtual void HandleGetHit()
@@ -117,14 +116,14 @@ public class PlayerBaseState : MonoBehaviour
             sensitivityMult = player.Settings.cameraSensitivityGamepad;
         }
 
-        xRotation += dir.y * sensitivityMult * Time.deltaTime;
-        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
-        yRotation += dir.x * sensitivityMult * Time.deltaTime;
+        player.xRotation += dir.y * sensitivityMult * Time.deltaTime;
+        player.xRotation = Mathf.Clamp(player.xRotation, -90f, 90f);
+        player.yRotation += dir.x * sensitivityMult * Time.deltaTime;
 
-        player.Hand.localRotation = Quaternion.Euler(-xRotation, yRotation, 0);
+        player.Hand.localRotation = Quaternion.Euler(-player.xRotation, player.yRotation, 0);
 
-        player.CameraHolder.localRotation = Quaternion.Lerp(player.CameraHolder.localRotation, Quaternion.Euler(0, yRotation, 0), player.Settings.cameraAcceleration * Time.deltaTime);
-        player.Camera.localRotation = Quaternion.Lerp(player.Camera.localRotation, Quaternion.Euler(-xRotation, 0, 0), player.Settings.cameraAcceleration * Time.deltaTime);
+        player.CameraHolder.localRotation = Quaternion.Lerp(player.CameraHolder.localRotation, Quaternion.Euler(0, player.yRotation, 0), player.Settings.cameraAcceleration * Time.deltaTime);
+        player.Camera.localRotation = Quaternion.Lerp(player.Camera.localRotation, Quaternion.Euler(-player.xRotation, 0, 0), player.Settings.cameraAcceleration * Time.deltaTime);
 
     }
 
