@@ -3,46 +3,51 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class InventoryItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
+public class InventoryItem : MonoBehaviour
 {
 
     [Header("UI Components")]
     [SerializeField] private Image image;
     [SerializeField] private TextMeshProUGUI quantityText;  
 
-    public InventoryItemData ItemSO;
+    public InventoryItemSO ItemSO;
     [field: SerializeField] public int Quantity { get; set; }  
     public Transform parentAfterDrag { get; set; }
 
     private void Awake()
     {
+
+    }
+
+    private void Start()
+    {
         SetUpUI(ItemSO, Quantity);
         GetComponentInParent<InventorySlot>().CurrentItem = this;
     }
 
-    public void SetUpUI(InventoryItemData itemSO, int quantity)
+    public void SetUpUI(InventoryItemSO itemSO, int quantity)
     {
         ItemSO = itemSO;
         Quantity = quantity;
 
-        image.sprite = itemSO.Image; 
+        image.sprite = itemSO.Icon; 
 
-        quantityText.text = ItemSO.StackSize > 1 ? Quantity.ToString() : "";
+        quantityText.text = ItemSO.MaxStackSize > 1 ? Quantity.ToString() : "";
     }
 
-    public void OnBeginDrag(PointerEventData eventData)
+    public void OnBeginDrag()
     {
         image.raycastTarget = false;
         parentAfterDrag = transform.parent;  
         transform.SetParent(transform.root); 
     }
 
-    public void OnDrag(PointerEventData eventData)
+    public void OnDrag()
     {
         transform.position = Input.mousePosition;
     }
 
-    public void OnEndDrag(PointerEventData eventData)
+    public void OnEndDrag()
     {
         image.raycastTarget = true;
         transform.SetParent(parentAfterDrag);

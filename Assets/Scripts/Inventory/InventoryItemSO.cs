@@ -2,19 +2,15 @@ using System;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "InventoryItems"), Serializable]
-public class InventoryItemData : ScriptableObject
+public class InventoryItemSO : ScriptableObject
 {
     public string Name;
 
     public string Description;
 
-    //public int SlotSize; pain
-
-    public int StackSize;
+    public int MaxStackSize;
 
     public bool QuickAccess;
 
-
-
-    public Sprite Image;
+    public Sprite Icon;
 }

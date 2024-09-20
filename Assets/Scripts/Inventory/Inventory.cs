@@ -14,14 +14,19 @@ public class Inventory : MonoBehaviour
 
     private List<IInventoryItem> qaItems = new List<IInventoryItem>();
 
-    private Dictionary<InventoryItemData, int> itemStackCount = new();
+    private Dictionary<InventoryItemSO, int> itemStackCount = new();
 
     public GameEvent Event;
 
+    private void Start()
+    {
+        
+    }
+
     public void AddItem(IInventoryItem item)
     {
-        InventoryItemData itemData = item.ItemSO;
-        int lootAmount = itemData.StackSize > 1 ? loot : 1; // remember to change this into the loot amount we find
+        InventoryItemSO itemData = item.ItemSO;
+        int lootAmount = itemData.MaxStackSize > 1 ? loot : 1; // remember to change this into the loot amount we find
 
         if (itemStackCount.ContainsKey(itemData))
         {
@@ -99,15 +104,15 @@ public class Inventory : MonoBehaviour
 
     }
 
-    private int StacksOfItem(InventoryItemData item) // this is the amount of stacks of the item in the inventory
+    private int StacksOfItem(InventoryItemSO item) // this is the amount of stacks of the item in the inventory
     {
-        return Mathf.CeilToInt(itemStackCount[item] / item.StackSize);
+        return Mathf.CeilToInt(itemStackCount[item] / item.MaxStackSize);
     }
 
     private int SlotsTaken() // this is the amount of slots taken by the items in the inventory
     {
         int numberofSlotsinDisctionary = 0;
-        foreach (KeyValuePair<InventoryItemData, int> item in itemStackCount)
+        foreach (KeyValuePair<InventoryItemSO, int> item in itemStackCount)
         {
             numberofSlotsinDisctionary += StacksOfItem(item.Key);
         }

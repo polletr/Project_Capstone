@@ -1,9 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.Windows;
-using static UnityEditor.IMGUI.Controls.PrimitiveBoundsHandle;
 
 public class PlayerController : MonoBehaviour, IDamageable
 {
@@ -21,6 +16,7 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     public CharacterController characterController { get; set; }
     public Animator animator { get; set; }
+    public FlashLight flashlight { get; set; }
 
     [HideInInspector]
     public PlayerBaseState currentState;
@@ -46,6 +42,7 @@ public class PlayerController : MonoBehaviour, IDamageable
         Cursor.lockState = CursorLockMode.Locked;//Move this from here later
         groundLayer = LayerMask.GetMask("Ground");
         inputManager = GetComponent<InputManager>();
+        flashlight = GetComponentInChildren<FlashLight>();
         characterController = GetComponent<CharacterController>();
         animator = GetComponentInChildren<Animator>();
         Health = Settings.PlayerHealth;
@@ -71,9 +68,9 @@ public class PlayerController : MonoBehaviour, IDamageable
         {
             currentState?.HandleDeath();
         }
-        
+
     }
-    
+
     #region Character Actions
 
     public void HandleInteract()
@@ -100,13 +97,13 @@ public class PlayerController : MonoBehaviour, IDamageable
         currentState.EnterState();
     }
 
-/*    private IEnumerator WaitFixedFrame(PlayerBaseState newState)
-    {
+    /*    private IEnumerator WaitFixedFrame(PlayerBaseState newState)
+        {
 
-        yield return new WaitForFixedUpdate();
+            yield return new WaitForFixedUpdate();
 
-    }
-*/    
+        }
+    */
     #endregion
 
 

@@ -5,8 +5,8 @@ using UnityEngine;
 public class Ammo : MonoBehaviour, IInventoryItem
 {
     [SerializeField]
-    private InventoryItemData _ItemSO;
-    public InventoryItemData ItemSO { get { return _ItemSO; } }
+    private InventoryItemSO _ItemSO;
+    public InventoryItemSO ItemSO { get { return _ItemSO; } }
 
     public void OnPickup()
     {

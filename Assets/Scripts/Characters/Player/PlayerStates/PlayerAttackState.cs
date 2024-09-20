@@ -7,6 +7,7 @@ public class PlayerAttackState : PlayerBaseState
     public override void EnterState()
     {
         //Use current Flashlight ability Attack
+        player.flashlight.HandleFlashAblility();
     }
     public override void ExitState()
     {

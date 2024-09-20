@@ -2,7 +2,7 @@ using UnityEngine;
 
 public interface IInventoryItem
 {
-    InventoryItemData ItemSO { get; }
+    InventoryItemSO ItemSO { get; }
     void OnPickup();
     void OnDrop();
 }
