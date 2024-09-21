@@ -1,66 +1,63 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Utilities;
 
-public class MoveAbility : MonoBehaviour
+public class MoveAbility : FlashlightAbility 
 {
     [SerializeField] private Transform moveHoldPos;
     [SerializeField] private float followSpeed;    
     [SerializeField] private float range;          
 
-    private GameObject pickupObj;                  
-    private Rigidbody pickupRb;                    
+    private MoveableObject pickup;
+
+    private CountdownTimer timer;
 
     private void Pickup()
     {
-        if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, range) &&
-            hit.collider.CompareTag("Pickup"))
+        if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, range) && hit.collider.TryGetComponent(out MoveableObject obj))
         {
-            Debug.Log($"Picked up {hit.collider.gameObject.name}");
-            pickupObj = hit.collider.gameObject;
-
-            pickupRb = pickupObj.GetComponent<Rigidbody>();
-
-            pickupRb.useGravity = false;
-            pickupRb.freezeRotation = true;
-
+            pickup = obj;
+            pickup.rb.useGravity = false;
         }
         else
         {
+            _flashlight.ResetLight(0);
             Debug.Log("No valid object to pick up.");
         }
     }
 
     private void Drop()
     {
-        if (pickupObj != null)
+        if (pickup != null)
         {
-            pickupRb.useGravity = true;
-            pickupRb.freezeRotation = false;
+            pickup.rb.useGravity = true;
 
-            pickupObj = null;
-            pickupRb = null;
+            pickup = null;
         }
     }
 
     private void Update()
     {
-        if (Input.GetMouseButton(0))
+        if (pickup != null)
         {
-            if (pickupObj == null)
-            {
-                Pickup();
-            }
-            else
-            {
-                pickupObj.transform.position = Vector3.Lerp(pickupObj.transform.position, moveHoldPos.position, followSpeed * Time.deltaTime);
-                Vector3 directionToPlayer = (transform.position - pickupObj.transform.position).normalized;
-                pickupObj.transform.rotation = Quaternion.LookRotation(-directionToPlayer); // Negative to make it face the player
-            }
+            pickup.transform.position = Vector3.Lerp(pickup.transform.position, moveHoldPos.position, followSpeed * Time.deltaTime);
+
+            Vector3 directionToPlayer = (transform.position - pickup.transform.position).normalized;
+            pickup.transform.rotation = Quaternion.LookRotation(-directionToPlayer); // Negative to make it face the player
         }
-        else
-        {
-            Drop();
-        }
+    }
+
+    public override void OnUseAbility()
+    {
+        if (pickup == null)
+            Pickup();
+    }
+
+    public override void OnStopAbility()
+    {
+        Drop();
+
+        _flashlight.ResetLight(cost); 
     }
 }

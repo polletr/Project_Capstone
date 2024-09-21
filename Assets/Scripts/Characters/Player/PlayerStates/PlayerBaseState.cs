@@ -30,7 +30,7 @@ public class PlayerBaseState : MonoBehaviour
     {
 
     }
-    public virtual void StateUpdate() 
+    public virtual void StateUpdate()
     {
         player.characterController.SimpleMove(_direction.normalized * GetSpeed());
 
@@ -51,7 +51,7 @@ public class PlayerBaseState : MonoBehaviour
 
     }
 
-    public virtual void HandleMovement(Vector2 dir) 
+    public virtual void HandleMovement(Vector2 dir)
     {
 
         // Get the camera's forward and right directions
@@ -70,9 +70,10 @@ public class PlayerBaseState : MonoBehaviour
         _direction = (cameraForward * dir.y + cameraRight * dir.x);
     }
 
-    public virtual void HandleAttack()
+    public virtual void HandleAttack(bool isHeld)
     {
-        player.ChangeState(new PlayerAttackState());
+        if (isHeld)
+            player.ChangeState(new PlayerAttackState());
     }
 
     public virtual void HandleInteract()
@@ -127,7 +128,7 @@ public class PlayerBaseState : MonoBehaviour
 
     }
 
-    public virtual void HandleDeath() 
+    public virtual void HandleDeath()
     {
         player.ChangeState(new PlayerDeathState());
     }

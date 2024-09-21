@@ -25,8 +25,11 @@ public class PlayerAttackState : PlayerBaseState
         base.StateUpdate();
     }
 
-    public override void HandleAttack()
+    public override void HandleAttack(bool isHeld)
     {
-        
+      if(!isHeld)
+      {
+            player.flashlight.StopUsingFlashlight();
+      } 
     }
 }

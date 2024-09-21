@@ -1,24 +1,22 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Threading;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class FlashLight : MonoBehaviour
 {
 
-    [field: SerializeField] public float Range { get; set; }
-    [field: SerializeField] public Color LightColor { get; set; }
-    [field: SerializeField] public float Intensity { get; set; }
+    [SerializeField] private float range;
+    [SerializeField] private Color lightColor;
+    [SerializeField] private float intensity;
 
-    [field: SerializeField] public float Cost { get; set; }
-    [field: SerializeField] public float BatteryLife { get; set; }
+    [SerializeField] private float cost;
+    [SerializeField] private float batteryLife;
 
 
     [SerializeField] private FlashlightAbility[] flashlightAbilities;
 
-    private FlashlightAbility currentAbility;
+    [SerializeField] private FlashlightAbility currentAbility;
 
     public Light Light { get; set; }
 
@@ -33,29 +31,35 @@ public class FlashLight : MonoBehaviour
     {
         Light = GetComponent<Light>();
         Light.enabled = true;
-        Light.range = Range;
-        Light.intensity = Intensity;
-        Light.color = LightColor;
+        Light.range = range;
+        Light.intensity = intensity;
+        Light.color = lightColor;
 
         currentAbility = flashlightAbilities[0];
+
+        foreach (FlashlightAbility ability in flashlightAbilities)
+        {
+            ability.Initialize(this);
+        }
     }
 
     private void Update()
     {
-        Ray ray = new Ray(transform.position, transform.forward * Range);
-        RaycastHit[] hits = Physics.SphereCastAll(ray, 2f, Range);
+        Ray ray = new Ray(transform.position, transform.forward * range);
+        RaycastHit[] hits = Physics.SphereCastAll(ray, 2f, range);
         foreach (RaycastHit hit in hits)
         {
             var obj = hit.collider.gameObject;
-            //obj.GetComponent<FlashlightStrategy>().Execute();
+            if (obj.TryGetComponent(out IEffectable thing))
+                ApplyCurrentAbilityEffect(obj);
         }
 
         // Decrease BatteryLife continuously over time based on Cost per second
-        BatteryLife -= Cost * Time.deltaTime;
+        batteryLife -= cost * Time.deltaTime;
 
-        if (BatteryLife < 0)
+        if (batteryLife < 0)
         {
-            BatteryLife = 0;
+            batteryLife = 0;
             // Add any logic for what happens when battery is depleted
             // Turn off the flashlight
         }
@@ -65,13 +69,20 @@ public class FlashLight : MonoBehaviour
     {
         StartCoroutine(Flicker(1f));
 
-        BatteryLife -= cost;
+        batteryLife -= cost;
     }
 
     public void HandleFlashAblility()
     {
+
         if (currentAbility != null)
             currentAbility.OnUseAbility();
+    }
+
+    public void StopUsingFlashlight()
+    {
+        if (currentAbility != null)
+            currentAbility.OnStopAbility();
     }
 
     public void ChangeSelectedAbility(int direction) // Fixed typo in method name
@@ -94,6 +105,26 @@ public class FlashLight : MonoBehaviour
 
         // Update currentAbility to the new selected ability
         currentAbility = flashlightAbilities[currentIndex];
+        Debug.Log($"Current Ability: {currentAbility.GetType().Name}");
+
+    }
+
+    private void ApplyCurrentAbilityEffect(GameObject obj)
+    {
+        switch (currentAbility)
+        {
+            case MoveAbility moveAbility:
+                if (obj.TryGetComponent(out IMovable moveObj))
+                    moveObj.ApplyEffect();
+                break;
+            case RevealAbility revealAbility:
+                if (obj.TryGetComponent(out IRevealable revealObj))
+                    revealObj.ApplyEffect();
+                break;
+                default:
+                Debug.Log("This ability is not on");
+                    break;
+        }
     }
 
     IEnumerator Flicker(float maxTime)
@@ -102,7 +133,7 @@ public class FlashLight : MonoBehaviour
         while (timer < maxTime)
         {
             // Randomize the intensity
-            Light.intensity = Random.Range(0.2f, Intensity);
+            Light.intensity = Random.Range(0.2f, intensity);
 
             // Randomize the time interval for the next flicker
             flickerTimer = Random.Range(minFlickerTime, maxFlickerTime);
@@ -116,9 +147,9 @@ public class FlashLight : MonoBehaviour
         }
 
         Light.enabled = true;
-        Light.range = Range;
-        Light.intensity = Intensity;
-        Light.color = LightColor;
+        Light.range = range;
+        Light.intensity = intensity;
+        Light.color = lightColor;
         GetComponentInParent<PlayerController>().ChangeState(new PlayerMoveState());
 
     }

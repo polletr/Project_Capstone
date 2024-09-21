@@ -69,7 +69,8 @@ public class InputManager : MonoBehaviour
     {
         _action.Player.Move.performed += (val) => _movement = val.ReadValue<Vector2>();
         _action.Player.PointerMove.performed += OnPointerMove;
-        _action.Player.Attack.performed += (val) => _player.currentState?.HandleAttack();
+        _action.Player.Attack.performed += (val) => _player.currentState?.HandleAttack(true);
+        _action.Player.Attack.canceled += (val) => _player.currentState?.HandleAttack(false);
         _action.Player.Interact.performed += (val) => _player.currentState?.HandleInteract();
         _action.Player.Run.performed += (val) => _player.currentState?.HandleRun(true);
         _action.Player.Run.canceled += (val) => _player.currentState?.HandleRun(false);
@@ -87,7 +88,8 @@ public class InputManager : MonoBehaviour
     {
         _action.Player.Move.performed -= (val) => Movement = val.ReadValue<Vector2>();
         _action.Player.PointerMove.performed -= OnPointerMove;
-        _action.Player.Attack.performed -= (val) => _player.currentState?.HandleAttack();
+        _action.Player.Attack.performed -= (val) => _player.currentState?.HandleAttack(true);
+        _action.Player.Attack.canceled -= (val) => _player.currentState?.HandleAttack(false);
         _action.Player.Interact.performed -= (val) => _player.currentState?.HandleInteract();
         _action.Player.Run.performed -= (val) => _player.currentState?.HandleRun(true);
         _action.Player.Run.canceled -= (val) => _player.currentState?.HandleRun(false);
