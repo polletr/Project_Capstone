@@ -9,6 +9,8 @@ public class MoveableObject : MonoBehaviour , IMovable
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+        rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+
     }
     public void ApplyEffect()
     {
