@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyClass : MonoBehaviour, IDamageable
+public class EnemyClass : MonoBehaviour, IDamageable, IStunnable
 {
     public Vector3 PatrolCenterPos { get; set; }
     public Animator animator { get; set; }
@@ -70,6 +70,11 @@ public class EnemyClass : MonoBehaviour, IDamageable
             currentState?.HandleDeath();
         }
 
+    }
+
+    public void ApplyEffect()
+    {
+        currentState?.HandleGetHit();
     }
 
     public void CanGetIntoGetHitState(int check)

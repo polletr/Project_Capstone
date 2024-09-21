@@ -14,7 +14,7 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
-  m_Fog: 1
+  m_Fog: 0
   m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.01
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.000017171533, g: 0.00000002662979, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.000017110597, g: 0.000000026180373, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 112000000, guid: ab94811be7055da4d974f02134875e6c,
+  m_LightingDataAsset: {fileID: 112000000, guid: af1cf9583525219448380fd323244cdf,
     type: 2}
   m_LightingSettings: {fileID: 4890085278179872738, guid: 2f946dadcd5822343acdec9c5e463555,
     type: 2}
@@ -1321,8 +1321,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ed5ba916c663b046b30fd91a7c4b197, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cost: 0
-  cooldown: 0
+  cost: 10
+  cooldown: 5
+  effectRadius: 3
+  flashColor: {r: 1, g: 1, b: 1, a: 1}
+  cooldownColor: {r: 1, g: 0.6094339, b: 0.6094339, a: 1}
+  decreaseRate: 1.5
+  lightIntensity: 100
+  cooldownIntensity: 3
 --- !u!1 &1786236307
 GameObject:
   m_ObjectHideFlags: 0
@@ -2256,51 +2262,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6078618007356151088, guid: bedc4c315612c0d429f32fda2e727742,
         type: 3}
-      propertyPath: cost
-      value: 0.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 6078618007356151088, guid: bedc4c315612c0d429f32fda2e727742,
-        type: 3}
-      propertyPath: range
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 6078618007356151088, guid: bedc4c315612c0d429f32fda2e727742,
-        type: 3}
-      propertyPath: intensity
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 6078618007356151088, guid: bedc4c315612c0d429f32fda2e727742,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6078618007356151088, guid: bedc4c315612c0d429f32fda2e727742,
-        type: 3}
-      propertyPath: batteryLife
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 6078618007356151088, guid: bedc4c315612c0d429f32fda2e727742,
-        type: 3}
-      propertyPath: lightColor.a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6078618007356151088, guid: bedc4c315612c0d429f32fda2e727742,
-        type: 3}
-      propertyPath: lightColor.b
-      value: 0.4575472
-      objectReference: {fileID: 0}
-    - target: {fileID: 6078618007356151088, guid: bedc4c315612c0d429f32fda2e727742,
-        type: 3}
-      propertyPath: lightColor.g
-      value: 0.9358243
-      objectReference: {fileID: 0}
-    - target: {fileID: 6078618007356151088, guid: bedc4c315612c0d429f32fda2e727742,
-        type: 3}
-      propertyPath: lightColor.r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6078618007356151088, guid: bedc4c315612c0d429f32fda2e727742,
-        type: 3}
       propertyPath: <LightColor>k__BackingField.b
       value: 0.51723033
       objectReference: {fileID: 0}
@@ -2313,11 +2274,6 @@ PrefabInstance:
         type: 3}
       propertyPath: <LightColor>k__BackingField.r
       value: 0.6301887
-      objectReference: {fileID: 0}
-    - target: {fileID: 6078618007356151088, guid: bedc4c315612c0d429f32fda2e727742,
-        type: 3}
-      propertyPath: flashlightAbilities.Array.size
-      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6078618007356151088, guid: bedc4c315612c0d429f32fda2e727742,
         type: 3}
@@ -2338,7 +2294,7 @@ PrefabInstance:
         type: 3}
       propertyPath: flashlightAbilities.Array.data[3]
       value: 
-      objectReference: {fileID: 370643554}
+      objectReference: {fileID: 1764442320}
     - target: {fileID: 7786466564607028178, guid: bedc4c315612c0d429f32fda2e727742,
         type: 3}
       propertyPath: m_LocalPosition.x

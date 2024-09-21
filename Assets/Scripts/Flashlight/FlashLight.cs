@@ -45,14 +45,6 @@ public class FlashLight : MonoBehaviour
 
     private void Update()
     {
-        Ray ray = new Ray(transform.position, transform.forward * range);
-        RaycastHit[] hits = Physics.SphereCastAll(ray, 2f, range);
-        foreach (RaycastHit hit in hits)
-        {
-            var obj = hit.collider.gameObject;
-            if (obj.TryGetComponent(out IEffectable thing))
-                ApplyCurrentAbilityEffect(obj);
-        }
 
         // Decrease BatteryLife continuously over time based on Cost per second
         batteryLife -= cost * Time.deltaTime;
@@ -62,6 +54,18 @@ public class FlashLight : MonoBehaviour
             batteryLife = 0;
             // Add any logic for what happens when battery is depleted
             // Turn off the flashlight
+        }
+    }
+
+    public void HandleSphereCast()
+    {
+        Ray ray = new Ray(transform.position, transform.forward * range);
+        RaycastHit[] hits = Physics.SphereCastAll(ray, 2f, range);
+        foreach (RaycastHit hit in hits)
+        {
+            var obj = hit.collider.gameObject;
+            if (obj.TryGetComponent(out IEffectable thing))
+                ApplyCurrentAbilityEffect(obj);
         }
     }
 

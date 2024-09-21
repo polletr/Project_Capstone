@@ -32,4 +32,10 @@ public class PlayerAttackState : PlayerBaseState
             player.flashlight.StopUsingFlashlight();
       } 
     }
+
+    public override void HandleFlashlightSphereCast()
+    {
+
+    }
+
 }

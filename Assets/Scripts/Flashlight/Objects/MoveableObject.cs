@@ -14,6 +14,6 @@ public class MoveableObject : MonoBehaviour , IMovable
     }
     public void ApplyEffect()
     {
-       Debug.Log("Moveable object");
+
     }
 }

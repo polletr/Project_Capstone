@@ -42,6 +42,8 @@ public class PlayerBaseState : MonoBehaviour
             }
         }
 
+        HandleFlashlightSphereCast();
+
         // Calculate the local movement direction relative to the player's forward direction
         Vector3 localDirection = player.transform.InverseTransformDirection(_direction);
 
@@ -105,6 +107,11 @@ public class PlayerBaseState : MonoBehaviour
 
         if (isCrouching)
             isRunning = false;
+    }
+    
+    public virtual void HandleFlashlightSphereCast()
+    {
+        player.flashlight.HandleSphereCast();
     }
 
 
