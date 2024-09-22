@@ -24,11 +24,11 @@ public class MoveAbility : FlashlightAbility
             pickup.transform.parent = moveHoldPos;
             pickup.rb.useGravity = false;
             pickup.rb.constraints = RigidbodyConstraints.FreezeRotation;
-
+            _flashlight.ConsumeBattery(cost);
         }
         else
         {
-            _flashlight.ResetLight(0);
+            _flashlight.ResetLight();
             Debug.Log("No valid object to pick up.");
         }
     }
@@ -75,6 +75,6 @@ public class MoveAbility : FlashlightAbility
     {
         Drop();
 
-        _flashlight.ResetLight(cost);
+        _flashlight.ResetLight();
     }
 }

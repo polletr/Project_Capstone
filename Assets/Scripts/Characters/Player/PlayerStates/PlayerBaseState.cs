@@ -78,6 +78,8 @@ public class PlayerBaseState : MonoBehaviour
             player.ChangeState(new PlayerAttackState());
     }
 
+    public virtual void HandleMove() { }
+
     public virtual void HandleInteract()
     {
         player.ChangeState(new PlayerInteractState());
@@ -112,6 +114,11 @@ public class PlayerBaseState : MonoBehaviour
     public virtual void HandleFlashlightSphereCast()
     {
         player.flashlight.HandleSphereCast();
+    }
+
+    public virtual void HandleFlashlightPower()
+    {
+        player.flashlight.HandleFlashlightPower();
     }
 
 

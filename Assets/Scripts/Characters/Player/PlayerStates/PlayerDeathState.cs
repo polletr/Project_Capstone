@@ -49,5 +49,11 @@ public class PlayerDeathState : PlayerBaseState
 
     }
 
+    public override void HandleFlashlightPower()
+    {
+
+    }
+
+
 
 }

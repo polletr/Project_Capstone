@@ -30,11 +30,11 @@ public class StunAbility : FlashlightAbility
         foreach (RaycastHit hit in hits)
         {
             var obj = hit.collider.gameObject;
-            Debug.Log("Flash Hit" + obj);
 
             if (obj.TryGetComponent(out IStunnable thing))
                 thing.ApplyEffect();
         }
+        _flashlight.ConsumeBattery(cost);
 
         StartCoroutine(RestoreLightOverTime());
 
@@ -63,7 +63,7 @@ public class StunAbility : FlashlightAbility
         // Reset the flashlight when the timer finishes
         if (timer != null && timer.IsFinished)
         {
-            _flashlight.ResetLight(cost);
+            _flashlight.ResetLight();
             timer = null;
         }
     }

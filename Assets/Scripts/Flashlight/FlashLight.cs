@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 using Random = UnityEngine.Random;
 
 public class FlashLight : MonoBehaviour
@@ -27,10 +28,17 @@ public class FlashLight : MonoBehaviour
 
     private float flickerTimer;
 
+    private PlayerController playerController;
+
+    bool isFlashlightOn;
+    bool isFlickering;
+
     private void Awake()
     {
+        playerController = GetComponentInParent<PlayerController>();
         Light = GetComponent<Light>();
         Light.enabled = true;
+        isFlashlightOn = true;
         Light.range = range;
         Light.intensity = intensity;
         Light.color = lightColor;
@@ -47,14 +55,19 @@ public class FlashLight : MonoBehaviour
     {
 
         // Decrease BatteryLife continuously over time based on Cost per second
-        batteryLife -= cost * Time.deltaTime;
+        if (isFlashlightOn)
+            batteryLife -= cost * Time.deltaTime;
 
         if (batteryLife < 0)
         {
+            Debug.Log("Out of Battery");
+
             batteryLife = 0;
-            // Add any logic for what happens when battery is depleted
             // Turn off the flashlight
+            if (isFlashlightOn && !isFlickering)
+                StartCoroutine(Flicker(3f, () => TurnOffLight()));
         }
+
     }
 
     public void HandleSphereCast()
@@ -69,25 +82,73 @@ public class FlashLight : MonoBehaviour
         }
     }
 
-    public void ResetLight(float cost)
+    public void ResetLight()
     {
-        StartCoroutine(Flicker(1f));
+        StartCoroutine(Flicker(1f, () => ResetLightState()));
 
-        batteryLife -= cost;
     }
 
     public void HandleFlashAblility()
     {
-
-        if (currentAbility != null)
+        if (currentAbility != null && isFlashlightOn)
             currentAbility.OnUseAbility();
     }
 
     public void StopUsingFlashlight()
     {
-        if (currentAbility != null)
+        if (currentAbility != null && isFlashlightOn)
             currentAbility.OnStopAbility();
     }
+
+    private void ResetLightState()
+    {
+        Light.enabled = true;
+        isFlashlightOn = true;
+        Light.range = range;
+        Light.intensity = intensity;
+        Light.color = lightColor;
+        playerController.currentState?.HandleMove();
+    }
+
+    public void TurnOffLight()
+    {
+        Light.enabled = false;
+        isFlashlightOn = false;
+    }
+
+    public void ConsumeBattery(float cost)
+    {
+        batteryLife -= cost;
+        Debug.Log(batteryLife);
+
+    }
+
+    public void TurnOnLight()
+    {
+        if (batteryLife > 0)
+        {
+            ResetLightState();
+        }
+        else
+        {
+            ResetLightState();
+            StartCoroutine(Flicker(1f, () => TurnOffLight()));
+        }
+    }
+
+    public void HandleFlashlightPower()
+    {
+        isFlashlightOn = !isFlashlightOn;
+        if (isFlashlightOn)
+        {
+            TurnOnLight();
+        }
+        else
+        {
+            TurnOffLight();
+        }
+    }
+
 
     public void ChangeSelectedAbility(int direction) // Fixed typo in method name
     {
@@ -125,14 +186,14 @@ public class FlashLight : MonoBehaviour
                 if (obj.TryGetComponent(out IRevealable revealObj))
                     revealObj.ApplyEffect();
                 break;
-                default:
-                Debug.Log("This ability is not on");
-                    break;
+            default:
+                break;
         }
     }
 
-    IEnumerator Flicker(float maxTime)
+    IEnumerator Flicker(float maxTime, System.Action onFlickerEnd)
     {
+        isFlickering = true;
         float timer = 0f;
         while (timer < maxTime)
         {
@@ -150,13 +211,10 @@ public class FlashLight : MonoBehaviour
             yield return new WaitForSeconds(flickerTimer);
         }
 
-        Light.enabled = true;
-        Light.range = range;
-        Light.intensity = intensity;
-        Light.color = lightColor;
-        GetComponentInParent<PlayerController>().ChangeState(new PlayerMoveState());
-
+        onFlickerEnd?.Invoke();
+        isFlickering = false;
     }
+
 
 }
 

@@ -74,6 +74,7 @@ public class InputManager : MonoBehaviour
         _action.Player.Interact.performed += (val) => _player.currentState?.HandleInteract();
         _action.Player.Run.performed += (val) => _player.currentState?.HandleRun(true);
         _action.Player.Run.canceled += (val) => _player.currentState?.HandleRun(false);
+        _action.Player.Flashlight.performed += (val) => _player.currentState?.HandleFlashlightPower();
 
         _action.Player.ChangeItem.performed += (val) => HandleScrollAbility(val.ReadValue<Vector2>());
 
@@ -93,6 +94,7 @@ public class InputManager : MonoBehaviour
         _action.Player.Interact.performed -= (val) => _player.currentState?.HandleInteract();
         _action.Player.Run.performed -= (val) => _player.currentState?.HandleRun(true);
         _action.Player.Run.canceled -= (val) => _player.currentState?.HandleRun(false);
+        _action.Player.Flashlight.performed -= (val) => _player.currentState?.HandleFlashlightPower();
 
         _action.Player.ChangeItem.performed -= (val) => HandleScrollAbility(val.ReadValue<Vector2>());
 

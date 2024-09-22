@@ -38,4 +38,15 @@ public class PlayerAttackState : PlayerBaseState
 
     }
 
+    public override void HandleMove()
+    {
+        player.ChangeState(new PlayerMoveState());
+    }
+
+    public override void HandleFlashlightPower()
+    {
+
+    }
+
+
 }

@@ -23,6 +23,8 @@ public class RangeAbility : FlashlightAbility
 
         _flashlight.Light.intensity = intensity;
         _flashlight.Light.color = Color.white;
+        _flashlight.ConsumeBattery(cost);
+
     }
 
     public override void OnStopAbility()
@@ -50,7 +52,7 @@ public class RangeAbility : FlashlightAbility
 
             if (timer.IsFinished)
             {
-                _flashlight.ResetLight(cost);
+                _flashlight.ResetLight();
                 timer = null;
             }
         }
