@@ -7,23 +7,36 @@ using Utilities;
 public class MoveAbility : FlashlightAbility
 {
     [SerializeField] private Transform moveHoldPos;
-    [SerializeField] private float followSpeed;
-    [SerializeField] private float range;
+    [SerializeField] private float pickupForce = 150f;
+    [SerializeField] private float pickupRange = 10f;
+    [SerializeField] private float maxHoldRange = 3f;
+    [SerializeField] private float maxHoldTime = 15f;
+
 
     [SerializeField] private MoveableObject pickup;
 
-    private Vector3 movePos;
-
     private CountdownTimer timer;
+
+    private void Awake()
+    {
+        timer = new CountdownTimer(maxHoldTime);
+    }
 
     private void Pickup()
     {
-        if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, range) && hit.collider.TryGetComponent(out MoveableObject obj))
+        if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, pickupRange) && hit.collider.TryGetComponent(out MoveableObject obj))
         {
             pickup = obj;
+
+            pickup.Rb.useGravity = false;
+            pickup.Rb.drag = 10;
+            pickup.Rb.constraints = RigidbodyConstraints.FreezeRotation;
+
             pickup.transform.parent = moveHoldPos;
-            pickup.rb.useGravity = false;
-            pickup.rb.constraints = RigidbodyConstraints.FreezeRotation;
+            pickup.transform.rotation = moveHoldPos.rotation;
+
+            timer.Start();
+
             _flashlight.ConsumeBattery(cost);
         }
         else
@@ -35,38 +48,54 @@ public class MoveAbility : FlashlightAbility
 
     private void Drop()
     {
+        timer.Stop();
+        timer.Reset();
+
         if (pickup != null)
         {
             pickup.transform.parent = null;
-            pickup.rb.useGravity = true;
-            pickup.rb.constraints = RigidbodyConstraints.None;
+            pickup.Rb.useGravity = true;
+            pickup.Rb.drag = 1;
+            pickup.Rb.constraints = RigidbodyConstraints.None;
             pickup = null;
         }
     }
 
-    private void FixedUpdate()
+    private void MoveObject()
     {
-        if (pickup != null)
+
+        if (pickup == null) return;
+
+        float distance = Vector3.Distance(pickup.transform.position, moveHoldPos.position);
+
+        if (distance < 0.1f && !pickup.IsPicked)
         {
-            //movePos = Vector3.Lerp(pickup.transform.position, moveHoldPos.position, followSpeed * Time.deltaTime);
-            //pickup.rb.MovePosition(movePos);
-
-            if (Vector3.Distance(pickup.transform.position, moveHoldPos.position) > 0.1f)
-            {
-                Vector3 directionToHoldPos = (moveHoldPos.position - pickup.transform.position).normalized;
-
-                // Rotate the object to always face the player (or the hold position)
-                Vector3 lookDirection = moveHoldPos.position - pickup.transform.position;
-                Quaternion targetRotation = Quaternion.LookRotation(-lookDirection);  // Rotate to face the player
-                pickup.rb.MoveRotation(Quaternion.Slerp(pickup.transform.rotation, targetRotation, followSpeed * Time.deltaTime));
-
-                // Apply force to move the object towards the hold position
-                pickup.rb.AddForce(directionToHoldPos * followSpeed, ForceMode.VelocityChange);
-            }
-
+            StartCoroutine(pickup.Pickup());
         }
+
+        if (distance > 0.1f)
+        {
+            Vector3 direction = moveHoldPos.position - pickup.transform.position;
+
+            pickup.Rb.AddForce(direction.normalized * pickupForce);
+        }
+
+/*       if (!pickup.IsPicked && distance < 0.1f) Debug.Log("Object dropped by hit");
+
+        if (distance > maxHoldRange) Debug.Log("Object dropped by distance");
+
+        if (timer.IsFinished) Debug.Log("Object dropped by time");
+*/
+        if (!pickup.IsPicked && distance < 0.1f || distance > maxHoldRange || timer.IsFinished)
+            Drop();
     }
 
+    private void FixedUpdate()
+    {
+        MoveObject();
+    }
+
+    private void Update() => timer.Tick(Time.deltaTime);
 
     public override void OnUseAbility()
     {
@@ -80,4 +109,5 @@ public class MoveAbility : FlashlightAbility
 
         _flashlight.ResetLight();
     }
+
 }

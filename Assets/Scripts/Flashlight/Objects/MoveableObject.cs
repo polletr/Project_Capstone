@@ -1,19 +1,36 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
-public class MoveableObject : MonoBehaviour , IMovable
+public class MoveableObject : MonoBehaviour, IMovable
 {
-    public Rigidbody rb;
 
-    private void Start()
+    [SerializeField] private float breakForce = 4f;
+
+    [field: SerializeField] public bool IsPicked { get; set; }
+
+    public Rigidbody Rb { get; set; }
+
+    private void Awake()
     {
-        rb = GetComponent<Rigidbody>();
-        rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
-
+        IsPicked = false;
+        Rb = GetComponent<Rigidbody>();
     }
+
     public void ApplyEffect()
     {
 
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (IsPicked && collision.relativeVelocity.magnitude > breakForce)
+            IsPicked = false;
+    }
+
+    public IEnumerator Pickup()
+    {
+        yield return new WaitForSecondsRealtime(5f);
+
+        IsPicked = true;
     }
 }

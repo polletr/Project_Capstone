@@ -119,8 +119,6 @@ public class FlashLight : MonoBehaviour
     public void ConsumeBattery(float cost)
     {
         batteryLife -= cost;
-        Debug.Log(batteryLife);
-
     }
 
     public void TurnOnLight()
@@ -170,7 +168,6 @@ public class FlashLight : MonoBehaviour
 
         // Update currentAbility to the new selected ability
         currentAbility = flashlightAbilities[currentIndex];
-        Debug.Log($"Current Ability: {currentAbility.GetType().Name}");
 
     }
 
