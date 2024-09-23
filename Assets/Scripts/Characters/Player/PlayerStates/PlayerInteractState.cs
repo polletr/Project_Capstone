@@ -6,6 +6,7 @@ public class PlayerInteractState : PlayerBaseState
 {
     public override void EnterState()
     {
+        player.interactableObj.OnInteract();
         player.ChangeState(new PlayerMoveState());
     }
     public override void ExitState()

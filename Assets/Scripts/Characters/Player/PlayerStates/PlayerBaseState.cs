@@ -82,7 +82,6 @@ public class PlayerBaseState : MonoBehaviour
 
     public virtual void HandleInteract()
     {
-        player.ChangeState(new PlayerInteractState());
 
     }
 

@@ -13,15 +13,18 @@ public class PlayerController : MonoBehaviour, IDamageable
     public Transform Hand { get { return _hand; } }
 
     public float Health { get; private set; }
+    public float InteractionRange { get; private set; }
+
 
     public CharacterController characterController { get; set; }
     public Animator animator { get; set; }
     public FlashLight flashlight { get; set; }
+    public IInteractable interactableObj { get; set; }
 
     public float xRotation { get; set; }
     public float yRotation { get; set; }
 
-
+    [SerializeField] private float interactionRange;
 
     [HideInInspector]
     public PlayerBaseState currentState;
