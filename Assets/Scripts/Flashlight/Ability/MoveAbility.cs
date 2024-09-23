@@ -50,16 +50,19 @@ public class MoveAbility : FlashlightAbility
         {
             //movePos = Vector3.Lerp(pickup.transform.position, moveHoldPos.position, followSpeed * Time.deltaTime);
             //pickup.rb.MovePosition(movePos);
-            //pickup.rb.MoveRotation(Quaternion.Slerp(pickup.transform.rotation, Quaternion.LookRotation(directionToPlayer), followSpeed * Time.deltaTime));
-
 
             if (Vector3.Distance(pickup.transform.position, moveHoldPos.position) > 0.1f)
             {
-                Vector3 directionToPlayer = (moveHoldPos.transform.position - pickup.transform.position).normalized;
+                Vector3 directionToHoldPos = (moveHoldPos.position - pickup.transform.position).normalized;
 
-                pickup.rb.AddForce(directionToPlayer);
+                // Rotate the object to always face the player (or the hold position)
+                Vector3 lookDirection = moveHoldPos.position - pickup.transform.position;
+                Quaternion targetRotation = Quaternion.LookRotation(-lookDirection);  // Rotate to face the player
+                pickup.rb.MoveRotation(Quaternion.Slerp(pickup.transform.rotation, targetRotation, followSpeed * Time.deltaTime));
+
+                // Apply force to move the object towards the hold position
+                pickup.rb.AddForce(directionToHoldPos * followSpeed, ForceMode.VelocityChange);
             }
-
 
         }
     }
