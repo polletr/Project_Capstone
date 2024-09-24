@@ -68,7 +68,7 @@ public class Door : MonoBehaviour, IInteractable
         else
         {
             //if player has key
-            UnlockDoor();
+            //UnlockDoor();
             //if player doesnt have key:
             OnInteractLocked.Invoke();
         }
