@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour, IDamageable
     public Transform Hand { get { return _hand; } }
 
     public float Health { get; private set; }
-    public float InteractionRange { get; private set; }
+    public float InteractionRange { get { return interactionRange; } }
 
 
     public CharacterController characterController { get; set; }

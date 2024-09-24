@@ -8,14 +8,14 @@ public class AppearDisappear : MonoBehaviour
     [SerializeField] GameObject disappearObj;
     public void Appear()
     {
-        disappearObj.SetActive(false);
-        appearObj.SetActive(true);
+        disappearObj?.SetActive(false);
+        appearObj?.SetActive(true);
     }
 
     public void Disappear()
     {
-        appearObj.SetActive(false);
-        disappearObj.SetActive(true);
+        appearObj?.SetActive(false);
+        disappearObj?.SetActive(true);
     }
 
 }

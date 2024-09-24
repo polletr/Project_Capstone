@@ -11,7 +11,7 @@ public class PlayerInteractState : PlayerBaseState
     }
     public override void ExitState()
     {
-
+        player.interactableObj = null;
     }
 
     public override void StateFixedUpdate()

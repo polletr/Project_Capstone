@@ -20,7 +20,8 @@ public class PlayerMoveState : PlayerBaseState
     {
         base.StateUpdate();
 
-        Ray ray = new Ray(transform.position, transform.forward);
+        Ray ray = new Ray(player.Camera.position, player.Camera.forward);
+
         if (Physics.Raycast(ray, out RaycastHit hit, player.InteractionRange))
         {
             var obj = hit.collider.gameObject;
@@ -28,6 +29,10 @@ public class PlayerMoveState : PlayerBaseState
             {
                 player.interactableObj = thing;
             }
+        }
+        else
+        {
+            player.interactableObj = null;
         }
     }
 
@@ -38,7 +43,8 @@ public class PlayerMoveState : PlayerBaseState
 
     public override void HandleInteract()
     {
-        player.ChangeState(new PlayerInteractState());
+        if (player.interactableObj != null)
+            player.ChangeState(new PlayerInteractState());
     }
 
 }
