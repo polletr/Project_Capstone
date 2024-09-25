@@ -12,6 +12,8 @@ public class LightController : MonoBehaviour
 
     private bool isFlickering = false; // Track flickering state
     private float flickerChance = 0.3f; // 30% chance to flicker when turning on
+
+    private float originalIntensity;
     private void Awake()
     {
         lightSource = GetComponent<Light>();
@@ -20,7 +22,11 @@ public class LightController : MonoBehaviour
         {
             Debug.LogError("Error: No Light component found on " + gameObject.name);
             enabled = false;
+            return;
         }
+
+        originalIntensity = lightSource.intensity;
+
     }
 
     // Turn light on or off
@@ -28,13 +34,13 @@ public class LightController : MonoBehaviour
     {
         if (lightSource != null)
         {
-            lightSource.enabled = check;
-
             // Random chance to flicker when turning on/off
             if (check && Random.value < flickerChance) // When turning on
             {
                 FlickerLight();
             }
+            lightSource.enabled = check;
+
         }
     }
 
@@ -70,6 +76,7 @@ public class LightController : MonoBehaviour
         }
 
         lightSource.enabled = true; // Ensure the light is left on after flickering
+        lightSource.intensity = originalIntensity;
         isFlickering = false; // Reset flickering state
     }
 
