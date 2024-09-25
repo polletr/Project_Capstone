@@ -4,41 +4,45 @@ using UnityEngine;
 
 public class MoveObjectsController : MonoBehaviour
 {
-    private Vector3 originalPosition; // Store the original position of the object
+    private Vector3 targetPos;
 
     [SerializeField] private Vector3 direction;
     [SerializeField] private float duration;
 
+    [SerializeField] private bool isMoving;
+
     private void Awake()
     {
-        originalPosition = transform.position; // Save the original position
+        targetPos = transform.position; // Save the original position
     }
 
     // Move the object in the specified direction
     public void MoveObject()
     {
-        StartCoroutine(SmoothMove(originalPosition + direction, duration));
+        targetPos += direction;
+
+        if (!isMoving)
+        {
+            StartCoroutine(SmoothMove(duration));
+        }
     }
 
-    // Snap the object to the new position
-    private void SnapToPosition(Vector3 targetPosition)
-    {
-        transform.position = targetPosition; // Set the position directly
-    }
 
     // Smoothly move the object to the target position
-    private IEnumerator SmoothMove(Vector3 targetPosition, float duration)
+    private IEnumerator SmoothMove(float duration)
     {
+        isMoving = true;
         Vector3 startPosition = transform.position;
         float elapsedTime = 0f;
 
         while (elapsedTime < duration)
         {
-            transform.position = Vector3.Lerp(startPosition, targetPosition, (elapsedTime / duration));
+            transform.position = Vector3.Lerp(startPosition, targetPos, (elapsedTime / duration));
             elapsedTime += Time.deltaTime;
             yield return null; // Wait for the next frame
         }
 
-        transform.position = targetPosition; // Ensure the final position is set
+        transform.position = targetPos; // Ensure the final position is set
+        isMoving = false;
     }
 }
