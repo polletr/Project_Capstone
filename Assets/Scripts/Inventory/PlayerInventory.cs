@@ -3,12 +3,30 @@ using UnityEngine;
 
 public class PlayerInventory : MonoBehaviour
 {
-    [SerializeField] private int maxBatteryCapacity; 
-                    
-    private Queue<Battery> _batteryPacks;
+    [SerializeField] private int maxBatteryCapacity;
+
+    private Queue<Battery> _batteryPacks = new();
 
     private List<ICollectable> _collectables;
 
+    public GameEvent Event;
+
+    private void OnEnable()
+    {
+        Event.OnCollectBattery += AddBattery;
+        Event.OnAskForBattery += SendBattery;
+    }
+
+    private void OnDisable()
+    {
+        Event.OnCollectBattery -= AddBattery;
+        Event.OnAskForBattery -= SendBattery;
+    }
+
+    private void Update()
+    {
+        Debug.Log("Battery: " + _batteryPacks.Count);
+    }
 
     public void CollectItem(ICollectable item)
     {
@@ -20,23 +38,46 @@ public class PlayerInventory : MonoBehaviour
         {
             _collectables.Add(item);
         }
+        //display item in inventory
     }
 
     public void AddBattery(Battery newBattery)
     {
-        if(_batteryPacks.Count < maxBatteryCapacity)
-        _batteryPacks.Enqueue(newBattery);
+        if (_batteryPacks.Count < maxBatteryCapacity)
+        {
+            newBattery.gameObject.SetActive(false);
+            _batteryPacks.Enqueue(newBattery);
+        }
+        else
+        {
+            Debug.Log("Battery inventory is full");
+        }
+
+        Debug.Log("Battery added to inventory");
     }
 
     public bool CanGetBattery(out Battery newBattery)
     {
-        if(_batteryPacks.Count > 0)
+        if (_batteryPacks.Count > 0)
         {
             newBattery = _batteryPacks.Dequeue();
+            Debug.Log("Battery sent from inventory");
             return true;
         }
 
-         newBattery = null;
-         return false;
+        newBattery = null;
+        return false;
+    }
+
+    public void SendBattery()
+    {
+        if (CanGetBattery(out Battery newBattery))
+        {
+            Event.OnChangeBattery?.Invoke(newBattery);
+        }
+        else
+        {
+            Debug.Log("No battery in inventory");
+        }
     }
 }

@@ -98,6 +98,7 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     }
 
+    
     #region Character Actions
 
     public void HandleInteract()
@@ -108,6 +109,12 @@ public class PlayerController : MonoBehaviour, IDamageable
     public void CancelInteract()
     {
 
+    }
+
+    public void HandleChangeBattery()
+    {
+        flashlight.RemoveOldBattery();
+        Event.OnAskForBattery?.Invoke();
     }
 
 
