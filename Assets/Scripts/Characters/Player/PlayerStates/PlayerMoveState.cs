@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class PlayerMoveState : PlayerBaseState
 {
+    public PlayerMoveState(PlayerAnimator animator, PlayerController playerController, InputManager inputM) : base(animator, playerController, inputM) { }
 
     public override void EnterState()
     {
-        player.animator.Play(IdleHash);
+        playerAnimator.animator.Play(playerAnimator.IdleHash);
     }
     public override void ExitState()
     {
@@ -44,7 +45,7 @@ public class PlayerMoveState : PlayerBaseState
     public override void HandleInteract()
     {
         if (player.interactableObj != null)
-            player.ChangeState(new PlayerInteractState());
+            player.ChangeState(player.InteractState);
     }
 
 }

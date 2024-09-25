@@ -1,9 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
 using Random = UnityEngine.Random;
-
 public class FlashLight : MonoBehaviour
 {
 
@@ -12,7 +10,7 @@ public class FlashLight : MonoBehaviour
     [SerializeField] private float intensity;
 
     [SerializeField] private float cost;
-    [SerializeField] private float batteryLife;
+    //[SerializeField] private Battery battery;
 
 
     [SerializeField] private FlashlightAbility[] flashlightAbilities;
@@ -50,23 +48,23 @@ public class FlashLight : MonoBehaviour
             ability.Initialize(this);
         }
     }
-
     private void Update()
     {
 
+        /*
         // Decrease BatteryLife continuously over time based on Cost per second
         if (isFlashlightOn)
-            batteryLife -= cost * Time.deltaTime;
+            battery.BatteryLife -= cost * Time.deltaTime;
 
-        if (batteryLife < 0)
+        if (battery.BatteryLife < 0)
         {
             Debug.Log("Out of Battery");
 
-            batteryLife = 0;
+            battery.BatteryLife = 0;
             // Turn off the flashlight
             if (isFlashlightOn && !isFlickering)
                 StartCoroutine(Flicker(3f, () => TurnOffLight()));
-        }
+        }*/
 
     }
 
@@ -77,7 +75,7 @@ public class FlashLight : MonoBehaviour
         foreach (RaycastHit hit in hits)
         {
             var obj = hit.collider.gameObject;
-            if (obj.TryGetComponent(out IEffectable thing))
+            if (obj.TryGetComponent(out IEffectable effectable))
                 ApplyCurrentAbilityEffect(obj);
         }
     }
@@ -118,12 +116,12 @@ public class FlashLight : MonoBehaviour
 
     public void ConsumeBattery(float cost)
     {
-        batteryLife -= cost;
+        //battery.BatteryLife -= cost;
     }
 
     public void TurnOnLight()
     {
-        if (batteryLife > 0)
+        /*if (battery.BatteryLife > 0)
         {
             ResetLightState();
         }
@@ -131,7 +129,7 @@ public class FlashLight : MonoBehaviour
         {
             ResetLightState();
             StartCoroutine(Flicker(1f, () => TurnOffLight()));
-        }
+        }*/
     }
 
     public void HandleFlashlightPower()
@@ -183,12 +181,11 @@ public class FlashLight : MonoBehaviour
                 if (obj.TryGetComponent(out IRevealable revealObj))
                     revealObj.ApplyEffect();
                 break;
-            default:
-                break;
+           
         }
     }
 
-    IEnumerator Flicker(float maxTime, System.Action onFlickerEnd)
+    IEnumerator Flicker(float maxTime, Action onFlickerEnd)
     {
         isFlickering = true;
         float timer = 0f;
@@ -213,8 +210,8 @@ public class FlashLight : MonoBehaviour
     }
 
 
-}
 
+}
 
 public enum FlashlightAbilityType
 {

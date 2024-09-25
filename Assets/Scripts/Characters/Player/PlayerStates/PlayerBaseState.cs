@@ -4,32 +4,29 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerBaseState : MonoBehaviour
+public abstract class PlayerBaseState 
 {
-
-    protected static readonly int IdleHash = Animator.StringToHash("Idle");
-    protected static readonly int RunHash = Animator.StringToHash("Run");
-    protected static readonly int WalkHash = Animator.StringToHash("Walk");
-
-    protected static readonly int GetHitHash = Animator.StringToHash("GetHit");
-    protected static readonly int DieHash = Animator.StringToHash("Die");
-
     protected Vector3 _direction;
 
     protected bool isRunning;
     protected bool isCrouching;
 
+    public PlayerAnimator playerAnimator { get; set; }
     public PlayerController player { get; set; }
+    
     public InputManager inputManager { get; set; }
-    public virtual void EnterState()
+  
+    public PlayerBaseState(PlayerAnimator animator, PlayerController playerController, InputManager inputM)
     {
-
+        playerAnimator = animator;
+        player = playerController;
+        inputManager = inputM;
     }
+
+  
+    public virtual void EnterState() { }
     public virtual void ExitState() { }
-    public virtual void StateFixedUpdate()
-    {
-
-    }
+    public virtual void StateFixedUpdate() { }
     public virtual void StateUpdate()
     {
         player.characterController.SimpleMove(_direction.normalized * GetSpeed());
@@ -48,8 +45,8 @@ public class PlayerBaseState : MonoBehaviour
         Vector3 localDirection = player.transform.InverseTransformDirection(_direction);
 
         // Set the animator parameters based on the local direction
-        player.animator.SetFloat("Horizontal", localDirection.x * GetMovementAnimValue());
-        player.animator.SetFloat("Vertical", localDirection.z * GetMovementAnimValue());
+        playerAnimator.animator.SetFloat("Horizontal", localDirection.x * GetMovementAnimValue());
+        playerAnimator.animator.SetFloat("Vertical", localDirection.z * GetMovementAnimValue());
 
     }
 
@@ -75,7 +72,7 @@ public class PlayerBaseState : MonoBehaviour
     public virtual void HandleAttack(bool isHeld)
     {
         if (isHeld)
-            player.ChangeState(new PlayerAttackState());
+            player.ChangeState(player.AttackState);
     }
 
     public virtual void HandleMove() { }
@@ -91,7 +88,7 @@ public class PlayerBaseState : MonoBehaviour
 
     public virtual void HandleGetHit()
     {
-        player.ChangeState(new PlayerGetHitState());
+        player.ChangeState(player.GetHitState);
 
     }
 
@@ -104,7 +101,7 @@ public class PlayerBaseState : MonoBehaviour
     public virtual void HandleCrouch(bool check)
     {
         isCrouching = check;
-        player.animator.SetBool("isCrouching", check);
+        playerAnimator.animator.SetBool("isCrouching", check);
 
         if (isCrouching)
             isRunning = false;
@@ -143,7 +140,7 @@ public class PlayerBaseState : MonoBehaviour
 
     public virtual void HandleDeath()
     {
-        player.ChangeState(new PlayerDeathState());
+        player.ChangeState(player.DeathState);
     }
 
     protected virtual float GetSpeed()

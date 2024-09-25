@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class PlayerDeathState : PlayerBaseState
 {
+    public PlayerDeathState(PlayerAnimator animator, PlayerController playerController, InputManager inputM) : base(animator, playerController, inputM)
+    {
+    }
+
     public override void EnterState()
     {
         Debug.Log("Player Dead");

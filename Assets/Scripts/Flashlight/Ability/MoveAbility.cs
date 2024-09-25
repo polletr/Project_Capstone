@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using Utilities;
 
@@ -80,12 +77,12 @@ public class MoveAbility : FlashlightAbility
             pickup.Rb.AddForce(direction.normalized * pickupForce);
         }
 
-/*       if (!pickup.IsPicked && distance < 0.1f) Debug.Log("Object dropped by hit");
+        /*       if (!pickup.IsPicked && distance < 0.1f) Debug.Log("Object dropped by hit");
 
-        if (distance > maxHoldRange) Debug.Log("Object dropped by distance");
+                if (distance > maxHoldRange) Debug.Log("Object dropped by distance");
 
-        if (timer.IsFinished) Debug.Log("Object dropped by time");
-*/
+                if (timer.IsFinished) Debug.Log("Object dropped by time");
+        */
         if (!pickup.IsPicked && distance < 0.1f || distance > maxHoldRange || timer.IsFinished)
             Drop();
     }

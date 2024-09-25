@@ -17,7 +17,6 @@ public class PlayerController : MonoBehaviour, IDamageable
 
 
     public CharacterController characterController { get; set; }
-    public Animator animator { get; set; }
     public FlashLight flashlight { get; set; }
     public IInteractable interactableObj { get; set; }
 
@@ -26,13 +25,21 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     [SerializeField] private float interactionRange;
 
-    [HideInInspector]
-    public PlayerBaseState currentState;
+     public PlayerBaseState currentState  { get; private set; } 
+     public PlayerAttackState AttackState { get; private set; }       
+     public PlayerDeathState DeathState { get; private set; }
+     public PlayerGetHitState GetHitState { get; private set; } 
+     public PlayerInteractState InteractState  { get; private set; }
+     public PlayerMoveState MoveState { get; private set; }
+    
+    
 
     [SerializeField]
     private PlayerSettings settings;
 
     private InputManager inputManager;
+    private PlayerAnimator playerAnimator;
+    
     private LayerMask groundLayer;
 
     [SerializeField]
@@ -44,17 +51,29 @@ public class PlayerController : MonoBehaviour, IDamageable
     [SerializeField] Transform _cameraHolder;
     [SerializeField] Transform _hand;
 
+    
 
     void Awake()
     {
+        playerAnimator = GetComponent<PlayerAnimator>();
+        playerAnimator.GetAnimator();
         Cursor.lockState = CursorLockMode.Locked;//Move this from here later
         groundLayer = LayerMask.GetMask("Ground");
         inputManager = GetComponent<InputManager>();
         flashlight = GetComponentInChildren<FlashLight>();
         characterController = GetComponent<CharacterController>();
-        animator = GetComponentInChildren<Animator>();
         Health = Settings.PlayerHealth;
-        ChangeState(new PlayerMoveState());
+        InitializeStates();
+        ChangeState(MoveState);
+    }
+
+    private void InitializeStates()
+    {
+        AttackState = new PlayerAttackState(playerAnimator,this,inputManager);
+        DeathState = new PlayerDeathState(playerAnimator,this,inputManager);
+        GetHitState = new PlayerGetHitState(playerAnimator,this,inputManager);
+        InteractState = new PlayerInteractState(playerAnimator,this,inputManager);    
+        MoveState = new PlayerMoveState(playerAnimator,this,inputManager);
     }
 
     private void Update()
@@ -101,7 +120,6 @@ public class PlayerController : MonoBehaviour, IDamageable
     {
         currentState?.ExitState();
         currentState = newState;
-        currentState.player = this;
         currentState.EnterState();
     }
 
