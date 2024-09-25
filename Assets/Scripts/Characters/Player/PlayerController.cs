@@ -37,8 +37,8 @@ public class PlayerController : MonoBehaviour, IDamageable
     [SerializeField]
     private PlayerSettings settings;
 
-    private InputManager inputManager;
-    private PlayerAnimator playerAnimator;
+    public InputManager inputManager     {get; private set;}
+    public PlayerAnimator playerAnimator {get; private set;}
     
     private LayerMask groundLayer;
 
@@ -57,12 +57,15 @@ public class PlayerController : MonoBehaviour, IDamageable
     {
         playerAnimator = GetComponent<PlayerAnimator>();
         playerAnimator.GetAnimator();
-        Cursor.lockState = CursorLockMode.Locked;//Move this from here later
-        groundLayer = LayerMask.GetMask("Ground");
         inputManager = GetComponent<InputManager>();
+        
         flashlight = GetComponentInChildren<FlashLight>();
         characterController = GetComponent<CharacterController>();
+        
         Health = Settings.PlayerHealth;
+        Cursor.lockState = CursorLockMode.Locked;//Move this from here later
+        
+        groundLayer = LayerMask.GetMask("Ground");
         InitializeStates();
         ChangeState(MoveState);
     }

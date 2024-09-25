@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -5,11 +6,21 @@ public class PlayerInventory : MonoBehaviour
 {
     [SerializeField] private int maxBatteryCapacity;
 
+    [SerializeField] private Battery battery;
+    
     private Queue<Battery> _batteryPacks = new();
 
     private List<ICollectable> _collectables;
 
     public GameEvent Event;
+
+
+    private void Awake()
+    { 
+      battery = Instantiate(new GameObject().AddComponent<Battery>(), transform);  
+      AddBattery(battery);
+      SendBattery();
+    }
 
     private void OnEnable()
     {
