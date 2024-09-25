@@ -1,16 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerInteractState : PlayerBaseState
 {
+    public PlayerInteractState(PlayerAnimator animator, PlayerController playerController, InputManager inputM) : base(animator, playerController, inputM) {}
+
     public override void EnterState()
     {
-        player.ChangeState(new PlayerMoveState());
+        player.interactableObj.OnInteract();
+        player.ChangeState(player.MoveState);
     }
     public override void ExitState()
     {
-
+        player.interactableObj = null;
     }
 
     public override void StateFixedUpdate()

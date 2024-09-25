@@ -13,23 +13,33 @@ public class PlayerController : MonoBehaviour, IDamageable
     public Transform Hand { get { return _hand; } }
 
     public float Health { get; private set; }
+    public float InteractionRange { get { return interactionRange; } }
+
 
     public CharacterController characterController { get; set; }
-    public Animator animator { get; set; }
     public FlashLight flashlight { get; set; }
+    public IInteractable interactableObj { get; set; }
 
     public float xRotation { get; set; }
     public float yRotation { get; set; }
 
+    [SerializeField] private float interactionRange;
 
-
-    [HideInInspector]
-    public PlayerBaseState currentState;
+     public PlayerBaseState currentState  { get; private set; } 
+     public PlayerAttackState AttackState { get; private set; }       
+     public PlayerDeathState DeathState { get; private set; }
+     public PlayerGetHitState GetHitState { get; private set; } 
+     public PlayerInteractState InteractState  { get; private set; }
+     public PlayerMoveState MoveState { get; private set; }
+    
+    
 
     [SerializeField]
     private PlayerSettings settings;
 
-    private InputManager inputManager;
+    public InputManager inputManager     {get; private set;}
+    public PlayerAnimator playerAnimator {get; private set;}
+    
     private LayerMask groundLayer;
 
     [SerializeField]
@@ -41,17 +51,32 @@ public class PlayerController : MonoBehaviour, IDamageable
     [SerializeField] Transform _cameraHolder;
     [SerializeField] Transform _hand;
 
+    
 
     void Awake()
     {
-        Cursor.lockState = CursorLockMode.Locked;//Move this from here later
-        groundLayer = LayerMask.GetMask("Ground");
+        playerAnimator = GetComponent<PlayerAnimator>();
+        playerAnimator.GetAnimator();
         inputManager = GetComponent<InputManager>();
+        
         flashlight = GetComponentInChildren<FlashLight>();
         characterController = GetComponent<CharacterController>();
-        animator = GetComponentInChildren<Animator>();
+        
         Health = Settings.PlayerHealth;
-        ChangeState(new PlayerMoveState());
+        Cursor.lockState = CursorLockMode.Locked;//Move this from here later
+        
+        groundLayer = LayerMask.GetMask("Ground");
+        InitializeStates();
+        ChangeState(MoveState);
+    }
+
+    private void InitializeStates()
+    {
+        AttackState = new PlayerAttackState(playerAnimator,this,inputManager);
+        DeathState = new PlayerDeathState(playerAnimator,this,inputManager);
+        GetHitState = new PlayerGetHitState(playerAnimator,this,inputManager);
+        InteractState = new PlayerInteractState(playerAnimator,this,inputManager);    
+        MoveState = new PlayerMoveState(playerAnimator,this,inputManager);
     }
 
     private void Update()
@@ -76,6 +101,7 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     }
 
+    
     #region Character Actions
 
     public void HandleInteract()
@@ -88,6 +114,12 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     }
 
+    public void HandleChangeBattery()
+    {
+        flashlight.RemoveOldBattery();
+        Event.OnAskForBattery?.Invoke();
+    }
+
 
 
     #endregion
@@ -98,7 +130,6 @@ public class PlayerController : MonoBehaviour, IDamageable
     {
         currentState?.ExitState();
         currentState = newState;
-        currentState.player = this;
         currentState.EnterState();
     }
 

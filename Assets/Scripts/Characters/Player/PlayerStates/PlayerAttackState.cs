@@ -5,6 +5,10 @@ using UnityEngine.InputSystem;
 
 public class PlayerAttackState : PlayerBaseState
 {
+    public PlayerAttackState (PlayerAnimator animator, PlayerController playerController, InputManager inputM) : base(animator, playerController, inputM)
+    {
+ 
+    }
     public override void EnterState()
     {
         //Use current Flashlight ability Attack
@@ -29,7 +33,8 @@ public class PlayerAttackState : PlayerBaseState
     {
       if(!isHeld)
       {
-            player.flashlight.StopUsingFlashlight();
+                                                                                             
+          player.flashlight.StopUsingFlashlight();
       } 
     }
 
@@ -40,7 +45,7 @@ public class PlayerAttackState : PlayerBaseState
 
     public override void HandleMove()
     {
-        player.ChangeState(new PlayerMoveState());
+        player.ChangeState(player.MoveState);
     }
 
     public override void HandleFlashlightPower()

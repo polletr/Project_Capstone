@@ -98,6 +98,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ChangeBattery"",
+                    ""type"": ""Button"",
+                    ""id"": ""3358e27e-e1c4-46ae-92ce-5caa96c70d49"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -320,6 +329,17 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""Crouch"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fcc5354b-843c-4513-be46-90a0b0b5a94f"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ChangeBattery"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -336,6 +356,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_Player_Flashlight = m_Player.FindAction("Flashlight", throwIfNotFound: true);
         m_Player_ChangeItem = m_Player.FindAction("ChangeItem", throwIfNotFound: true);
         m_Player_Crouch = m_Player.FindAction("Crouch", throwIfNotFound: true);
+        m_Player_ChangeBattery = m_Player.FindAction("ChangeBattery", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -405,6 +426,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Flashlight;
     private readonly InputAction m_Player_ChangeItem;
     private readonly InputAction m_Player_Crouch;
+    private readonly InputAction m_Player_ChangeBattery;
     public struct PlayerActions
     {
         private @PlayerInput m_Wrapper;
@@ -417,6 +439,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         public InputAction @Flashlight => m_Wrapper.m_Player_Flashlight;
         public InputAction @ChangeItem => m_Wrapper.m_Player_ChangeItem;
         public InputAction @Crouch => m_Wrapper.m_Player_Crouch;
+        public InputAction @ChangeBattery => m_Wrapper.m_Player_ChangeBattery;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -450,6 +473,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Crouch.started += instance.OnCrouch;
             @Crouch.performed += instance.OnCrouch;
             @Crouch.canceled += instance.OnCrouch;
+            @ChangeBattery.started += instance.OnChangeBattery;
+            @ChangeBattery.performed += instance.OnChangeBattery;
+            @ChangeBattery.canceled += instance.OnChangeBattery;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -478,6 +504,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Crouch.started -= instance.OnCrouch;
             @Crouch.performed -= instance.OnCrouch;
             @Crouch.canceled -= instance.OnCrouch;
+            @ChangeBattery.started -= instance.OnChangeBattery;
+            @ChangeBattery.performed -= instance.OnChangeBattery;
+            @ChangeBattery.canceled -= instance.OnChangeBattery;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -505,5 +534,6 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         void OnFlashlight(InputAction.CallbackContext context);
         void OnChangeItem(InputAction.CallbackContext context);
         void OnCrouch(InputAction.CallbackContext context);
+        void OnChangeBattery(InputAction.CallbackContext context);
     }
 }

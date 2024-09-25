@@ -77,7 +77,7 @@ GameObject:
   - component: {fileID: 2011918275808237361}
   m_Layer: 0
   m_Name: FirstPersonCamera
-  m_TagString: Untagged
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -243,7 +243,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2940176616893762427}
   - component: {fileID: 8899544617467568975}
+  - component: {fileID: 5010322365349921180}
   - component: {fileID: 3561872605050790335}
+  - component: {fileID: 8839245004111330457}
   - component: {fileID: 6327931661740232474}
   - component: {fileID: 8945051059167033171}
   m_Layer: 0
@@ -284,12 +286,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Event: {fileID: 11400000, guid: 821642c9ec9c5474b88bc1b575e70ddf, type: 2}
   inventory: {fileID: 0}
-  currentState: {fileID: 0}
+  interactionRange: 2
   settings: {fileID: 11400000, guid: c2f4f64214344764ba43d17779daa2bc, type: 2}
   meleeSocketHand: {fileID: 584513637194211814}
   _camera: {fileID: 1310225971918914898}
   _cameraHolder: {fileID: 374780903426527307}
   _hand: {fileID: 7786466564607028178}
+--- !u!114 &5010322365349921180
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3210734550747332603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6050c0932144a24eb31b1446708952f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &3561872605050790335
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -302,6 +316,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b70738de05e7e74bae2edaa2edfd270, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8839245004111330457
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3210734550747332603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58caca61dbe03e64c80148051df136eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxBatteryCapacity: 5
+  Event: {fileID: 11400000, guid: 821642c9ec9c5474b88bc1b575e70ddf, type: 2}
 --- !u!143 &6327931661740232474
 CharacterController:
   m_ObjectHideFlags: 0
@@ -480,11 +508,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3cee5a14e59ac14faff4be3396f5101, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Event: {fileID: 0}
   range: 10
   lightColor: {r: 1, g: 0.9660924, b: 0.7075472, a: 1}
   intensity: 10
   cost: 0.3
-  batteryLife: 100
+  <battery>k__BackingField: {fileID: 0}
   flashlightAbilities:
   - {fileID: 0}
   - {fileID: 0}

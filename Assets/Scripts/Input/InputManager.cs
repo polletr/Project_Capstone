@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.XR.Haptics;
 
 public class InputManager : MonoBehaviour
 {
@@ -78,6 +77,10 @@ public class InputManager : MonoBehaviour
 
         _action.Player.ChangeItem.performed += (val) => HandleScrollAbility(val.ReadValue<Vector2>());
 
+
+        _action.Player.ChangeBattery.performed += (val) => _player.HandleChangeBattery();
+
+
         _action.Player.Crouch.performed += (val) => _player.currentState?.HandleCrouch(true);
         _action.Player.Crouch.canceled += (val) => _player.currentState?.HandleCrouch(false);
 
@@ -97,6 +100,9 @@ public class InputManager : MonoBehaviour
         _action.Player.Flashlight.performed -= (val) => _player.currentState?.HandleFlashlightPower();
 
         _action.Player.ChangeItem.performed -= (val) => HandleScrollAbility(val.ReadValue<Vector2>());
+
+        _action.Player.ChangeBattery.performed -= (val) => _player.HandleChangeBattery();
+
 
         _action.Player.Crouch.performed -= (val) => _player.currentState?.HandleCrouch(true);
         _action.Player.Crouch.canceled -= (val) => _player.currentState?.HandleCrouch(false);

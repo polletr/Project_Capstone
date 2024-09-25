@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -12,7 +11,9 @@ public class GameEvent : ScriptableObject
     public UnityAction<IInventoryItem,Dictionary<InventoryItemSO, int>> OnItemEquipped;
 
 
-
+    public UnityAction<Battery> OnCollectBattery;
+    public UnityAction<Battery> OnChangeBattery;
+    public UnityAction OnAskForBattery;
 }
 
 
