@@ -1,8 +1,9 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Hub : MonoBehaviour
 {
-    [field: SerializeField] public string HubName { get; private set; }
-    [field: SerializeField] public string NextHubName { get; private set; }
-    [field: SerializeField] public Transform CheckpointPos { get; private set; }
+    public HubSO hubSO;
+    [field: SerializeField] public Transform Checkpoint {get; private set;}
 }

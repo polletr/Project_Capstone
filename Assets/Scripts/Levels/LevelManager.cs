@@ -1,23 +1,49 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic;
 
 public class LevelManager : MonoBehaviour
 {
     public Transform PlayerCheckpoint { get; private set; }
 
-    public void AddNextHub(Hub hub)
+    public HubSO[] hubs;
+
+    public void AddNextHub(int hubID)
     {
-       SceneManager.LoadSceneAsync(hub.NextHubName, LoadSceneMode.Additive);
+        HubSO hub = hubs[hubID - 1];
+        Debug.Log("Loading hub: " + hub.SceneName);
+
+        if (!IsSceneLoaded(hub.SceneName))
+        {
+            SceneManager.LoadScene(hub.SceneName, LoadSceneMode.Additive);
+            RemoveHub(hub);
+        }
+
     }
-    
-    public void RemoveHub(Hub hub)
+
+    public void RemoveHub(HubSO hub)
     {
-        SceneManager.UnloadSceneAsync(hub.HubName);
+        if (!string.IsNullOrEmpty(hub.PreviousSceneName) && IsSceneLoaded(hub.PreviousSceneName))
+        {
+            SceneManager.UnloadSceneAsync(hub.PreviousSceneName);
+        }
     }
-    
+
     public void SetCheckpoint(Hub hub)
     {
-        PlayerCheckpoint = hub.CheckpointPos;
+        PlayerCheckpoint = hub.Checkpoint;
     }
-  
+
+    private bool IsSceneLoaded(string sceneName)
+    {
+        for (int i = 0; i < SceneManager.sceneCount; i++)
+        {
+            Scene scene = SceneManager.GetSceneAt(i);
+            if (scene.name == sceneName && scene.isLoaded)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 }
