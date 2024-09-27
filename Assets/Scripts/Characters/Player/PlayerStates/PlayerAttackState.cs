@@ -33,7 +33,6 @@ public class PlayerAttackState : PlayerBaseState
     {
       if(!isHeld)
       {
-                                                                                             
           player.flashlight.StopUsingFlashlight();
       } 
     }
