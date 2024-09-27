@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 public class FlashLight : MonoBehaviour
@@ -45,11 +46,11 @@ public class FlashLight : MonoBehaviour
 
         currentAbility = flashlightAbilities[0];
 
-        foreach (FlashlightAbility ability in flashlightAbilities)
+/*        foreach (FlashlightAbility ability in flashlightAbilities)
         {
             ability.Initialize(this);
         }
-    }
+*/    }
 
     private void OnEnable()
     {
@@ -109,6 +110,8 @@ public class FlashLight : MonoBehaviour
     {
         if (currentAbility != null && isFlashlightOn)
             currentAbility.OnUseAbility();
+        else
+            playerController.currentState?.HandleMove();
     }
 
     public void StopUsingFlashlight()
@@ -170,24 +173,26 @@ public class FlashLight : MonoBehaviour
 
     public void ChangeSelectedAbility(int direction) // Fixed typo in method name
     {
-        int currentIndex = Array.IndexOf(flashlightAbilities, currentAbility);
-
-
-        // Update index based on direction (circular switching)
-        currentIndex += direction;
-
-        // Circular switching
-        if (currentIndex >= flashlightAbilities.Length)
+        if (flashlightAbilities.Count() > 0)
         {
-            currentIndex = 0;
-        }
-        else if (currentIndex < 0)
-        {
-            currentIndex = flashlightAbilities.Length - 1;
-        }
+            int currentIndex = Array.IndexOf(flashlightAbilities, currentAbility);
 
-        // Update currentAbility to the new selected ability
-        currentAbility = flashlightAbilities[currentIndex];
+            // Update index based on direction (circular switching)
+            currentIndex += direction;
+
+            // Circular switching
+            if (currentIndex >= flashlightAbilities.Length)
+            {
+                currentIndex = 0;
+            }
+            else if (currentIndex < 0)
+            {
+                currentIndex = flashlightAbilities.Length - 1;
+            }
+
+            // Update currentAbility to the new selected ability
+            currentAbility = flashlightAbilities[currentIndex];
+        }
 
     }
 

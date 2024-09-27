@@ -36,7 +36,7 @@ public class PlayerInventory : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log("Battery: " + _batteryPacks.Count);
+
     }
 
     public void CollectItem(ICollectable item)

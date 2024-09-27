@@ -13,7 +13,6 @@ public abstract class PlayerBaseState
 
     public PlayerAnimator playerAnimator { get; set; }
     public PlayerController player { get; set; }
-    
     public InputManager inputManager { get; set; }
   
     public PlayerBaseState(PlayerAnimator animator, PlayerController playerController, InputManager inputM)
