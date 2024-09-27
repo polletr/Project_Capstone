@@ -4,44 +4,50 @@ using UnityEngine;
 
 public class PlayerMoveState : PlayerBaseState
 {
+    public PlayerMoveState(PlayerAnimator animator, PlayerController playerController, InputManager inputM) : base(animator, playerController, inputM) { }
+
     public override void EnterState()
     {
-        player.animator.Play(IdleHash);
-
+        playerAnimator.animator.Play(playerAnimator.IdleHash);
     }
     public override void ExitState()
     {
 
     }
 
-    public override void StateFixedUpdate()
-    {
-    }
+    public override void StateFixedUpdate() { }
 
     public override void StateUpdate()
     {
-        Rotate();
-        player.characterController.SimpleMove(_direction.normalized * player.Settings.MovementSpeed);
-        
-        if (_direction != null && player.Settings != null)
+        base.StateUpdate();
+
+        Ray ray = new Ray(player.Camera.position, player.Camera.forward);
+
+        if (Physics.Raycast(ray, out RaycastHit hit, player.InteractionRange))
         {
-            if (_direction.sqrMagnitude > 0f)
+            var obj = hit.collider.gameObject;
+
+            if (obj.TryGetComponent(out IInteractable thing))
             {
-                player.Event.OnSoundEmitted.Invoke(player.transform.position, player.Settings.WalkSoundRange);
+                Debug.Log(obj);
+                player.interactableObj = thing;
             }
         }
-
+        else
+        {
+            player.interactableObj = null;
+        }
     }
 
-    public override void HandleMovement(Vector2 dir)
+    public override void HandleChangeAbility(int d)
     {
-        _direction = new Vector3(dir.x, 0, dir.y);
+        player.flashlight.ChangeSelectedAbility(d);
     }
 
-    private void Rotate()
+    public override void HandleInteract()
     {
-        player.gameObject.transform.rotation = Quaternion.Slerp(player.gameObject.transform.rotation, player.PlayerRotation, player.Settings.RotationSpeed);
+        if (player.interactableObj != null)
+            player.ChangeState(player.InteractState);
     }
-
 
 }

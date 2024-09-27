@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class PlayerDeathState : PlayerBaseState
 {
+    public PlayerDeathState(PlayerAnimator animator, PlayerController playerController, InputManager inputM) : base(animator, playerController, inputM)
+    {
+    }
+
     public override void EnterState()
     {
         Debug.Log("Player Dead");
@@ -23,6 +27,12 @@ public class PlayerDeathState : PlayerBaseState
 
     }
 
+    public override void HandleMovement(Vector2 dir)
+    {
+
+    }
+
+
     public override void HandleGetHit()
     {
 
@@ -32,5 +42,22 @@ public class PlayerDeathState : PlayerBaseState
     {
 
     }
+
+    public override void HandleAttack(bool isHeld)
+    {
+
+    }
+
+    public override void HandleFlashlightSphereCast()
+    {
+
+    }
+
+    public override void HandleFlashlightPower()
+    {
+
+    }
+
+
 
 }

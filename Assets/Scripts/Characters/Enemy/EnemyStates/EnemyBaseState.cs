@@ -25,7 +25,10 @@ public class EnemyBaseState : MonoBehaviour
     public virtual void StateFixedUpdate() { }
     public virtual void StateUpdate() { }
     public virtual void HandleAttack() { }
-    public virtual void HandleDeath() { }
+    public virtual void HandleDeath() 
+    {
+        enemy.ChangeState(new EnemyDeathState());
+    }
 
     protected virtual void OnSoundDetected(Vector3 soundPosition, float soundRange)
     {
@@ -36,6 +39,13 @@ public class EnemyBaseState : MonoBehaviour
             enemy.ChangeState(new EnemyChaseState());
         }
     }
+
+    public virtual void HandleGetHit()
+    {
+        if (enemy.CanGetHit)
+            enemy.ChangeState(new EnemyGetHitState());
+    }
+
 
     protected virtual void VisionDetection()
     {

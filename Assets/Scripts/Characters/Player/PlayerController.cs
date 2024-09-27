@@ -1,6 +1,4 @@
-using System.Collections;
 using UnityEngine;
-using UnityEngine.Windows;
 
 public class PlayerController : MonoBehaviour, IDamageable
 {
@@ -9,44 +7,112 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     public GameEvent Event;
 
-    public Vector3 AimPosition { get; private set; }
-    public Quaternion PlayerRotation { get; private set; }
-    public float Health { get; private set; }
+    public Transform Camera { get { return _camera; } }
+    public Transform CameraHolder { get { return _cameraHolder; } }
+    public Transform Hand { get { return _hand; } }
+
+    [SerializeField] private float health;
+  /*  public float Health
+    {
+        get => health;
+        private set
+        {
+            health = value;
+            playerHealth.SetHealth(value); 
+        }
+    }*/
+
+    public float InteractionRange { get { return interactionRange; } }
+
+    [field: SerializeField] public bool HasFlashlight { get; set; }
 
     public CharacterController characterController { get; set; }
-    public Animator animator { get; set; }
+    public FlashLight flashlight { get; set; }
+    public IInteractable interactableObj { get; set; }
 
-    [HideInInspector]
-    public PlayerBaseState currentState;
+    public float xRotation { get; set; }
+    public float yRotation { get; set; }
+
+    [SerializeField] private float interactionRange;
+
+     public PlayerBaseState currentState  { get; private set; } 
+     public PlayerAttackState AttackState { get; private set; }       
+     public PlayerDeathState DeathState { get; private set; }
+     public PlayerGetHitState GetHitState { get; private set; } 
+     public PlayerInteractState InteractState  { get; private set; }
+     public PlayerMoveState MoveState { get; private set; }
+    
+    
 
     [SerializeField]
     private PlayerSettings settings;
 
-    private InputManager inputManager;
+    public InputManager inputManager     {get; private set;}
+    public PlayerAnimator playerAnimator {get; private set;}
+    public PlayerHealth playerHealth {get; private set;}
+    
     private LayerMask groundLayer;
 
+    [SerializeField]
+    private GameObject meleeSocketHand;
+
+    public GameObject MeleeSocketHand { get { return meleeSocketHand; } }
+
+    [SerializeField] Transform _camera;
+    [SerializeField] Transform _cameraHolder;
+    [SerializeField] Transform _hand;
+
+    
 
     void Awake()
     {
-        groundLayer = LayerMask.GetMask("Ground");
+        playerAnimator = GetComponent<PlayerAnimator>();
+        playerAnimator.GetAnimator();
         inputManager = GetComponent<InputManager>();
+       // playerHealth = GetComponent<PlayerHealth>();
+        
+        flashlight = GetComponentInChildren<FlashLight>();
         characterController = GetComponent<CharacterController>();
-        animator = GetComponent<Animator>();
-        Health = Settings.PlayerHealth;
-        ChangeState(new PlayerMoveState());
+        
+        health = Settings.PlayerHealth;
+        Cursor.lockState = CursorLockMode.Locked;//Move this from here later
+        
+        groundLayer = LayerMask.GetMask("Ground");
+        InitializeStates();
+        ChangeState(MoveState);
+        if (!HasFlashlight && flashlight.gameObject.activeSelf)
+        {
+            flashlight.gameObject.SetActive(false);
+        }
+        else if (HasFlashlight && !flashlight.gameObject.activeSelf)
+        {
+            flashlight.gameObject.SetActive(true);
+        }
+
+    }
+
+    private void InitializeStates()
+    {
+        AttackState = new PlayerAttackState(playerAnimator,this,inputManager);
+        DeathState = new PlayerDeathState(playerAnimator,this,inputManager);
+        GetHitState = new PlayerGetHitState(playerAnimator,this,inputManager);
+        InteractState = new PlayerInteractState(playerAnimator,this,inputManager);    
+        MoveState = new PlayerMoveState(playerAnimator,this,inputManager);
     }
 
     private void Update()
     {
-        HandleMove(inputManager.Movement);
+        currentState?.HandleMovement(inputManager.Movement);
+        currentState?.HandleLookAround(inputManager.LookAround, inputManager.Device);
         currentState?.StateUpdate();
+
     }
     private void FixedUpdate() => currentState?.StateFixedUpdate();
 
     public void GetDamaged(float attackDamage)
     {
-        Health -= attackDamage;
-        if (Health > 0f)
+        health -= attackDamage;
+        if (health > 0f)
         {
             currentState?.HandleGetHit();
         }
@@ -54,18 +120,34 @@ public class PlayerController : MonoBehaviour, IDamageable
         {
             currentState?.HandleDeath();
         }
-        
+
     }
 
-    #region Character Actions
-    public void HandleMove(Vector2 dir)
+    public void HandleFlashlightPickUp(bool check)
     {
-        currentState?.HandleMovement(dir);
+        HasFlashlight = check;
+        if (!HasFlashlight && flashlight.gameObject.activeSelf)
+        {
+            flashlight.gameObject.SetActive(false);
+        }
+        else if (HasFlashlight && !flashlight.gameObject.activeSelf)
+        {
+            flashlight.gameObject.SetActive(true);
+        }
+
     }
+
+    public bool IsAlive()
+    {
+        return health > 0;
+    }
+
+    
+    #region Character Actions
 
     public void HandleInteract()
     {
-
+        currentState?.HandleInteract();
     }
 
     public void CancelInteract()
@@ -73,53 +155,32 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     }
 
-    public void HandleAttack()
+    public void HandleChangeBattery()
     {
-
+        flashlight.RemoveOldBattery();
+        Event.OnAskForBattery?.Invoke();
     }
 
-    public void HandleMouseInput(Vector2 input)
-    {
-        Ray ray = Camera.main.ScreenPointToRay(input);
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity, groundLayer))
-        {
-            Vector3 target = hit.point;
-            Vector3 direction = target - transform.position;
-            direction.y = 0; // Keep the character level on the Y-axis
-            PlayerRotation = Quaternion.LookRotation(direction);
-        }
-    }
-    public void HandleGamepadInput(Vector2 input)
-    {
-        // Logic to handle gamepad input
-        Vector3 inputDirection = new Vector3(input.x, 0, input.y);
-
-        if (inputDirection.sqrMagnitude > 0.01f)
-        {
-            PlayerRotation = Quaternion.LookRotation(inputDirection, Vector3.up);
-        }
-    }
 
 
     #endregion
+
 
     #region ChangeState
     public void ChangeState(PlayerBaseState newState)
     {
         currentState?.ExitState();
         currentState = newState;
-        currentState.player = this;
         currentState.EnterState();
     }
 
-/*    private IEnumerator WaitFixedFrame(PlayerBaseState newState)
-    {
+    /*    private IEnumerator WaitFixedFrame(PlayerBaseState newState)
+        {
 
-        yield return new WaitForFixedUpdate();
+            yield return new WaitForFixedUpdate();
 
-    }
-*/    
+        }
+    */
     #endregion
 
 

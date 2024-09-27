@@ -40,7 +40,7 @@ public class EnemyChaseState : EnemyBaseState
 
         if (enemy.playerCharacter != null)
         {
-            if (Vector3.Distance(enemy.transform.position, enemy.playerCharacter.transform.position) <= enemy.SightRange && enemy.playerCharacter.GetComponent<PlayerController>().Health > 0)
+            if (Vector3.Distance(enemy.transform.position, enemy.playerCharacter.transform.position) <= enemy.SightRange && enemy.playerCharacter.GetComponent<PlayerController>().IsAlive())
             {
                 chasePos = enemy.playerCharacter.transform.position;
                 if (Vector3.Distance(enemy.transform.position, enemy.playerCharacter.transform.position) <= enemy.AttackRange)
