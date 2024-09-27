@@ -108,12 +108,14 @@ public abstract class PlayerBaseState
     
     public virtual void HandleFlashlightSphereCast()
     {
-        player.flashlight.HandleSphereCast();
+        if (player.HasFlashlight)
+            player.flashlight.HandleSphereCast();
     }
 
     public virtual void HandleFlashlightPower()
     {
-        player.flashlight.HandleFlashlightPower();
+        if (player.HasFlashlight)
+            player.flashlight.HandleFlashlightPower();
     }
 
 
@@ -126,16 +128,23 @@ public abstract class PlayerBaseState
             sensitivityMult = player.Settings.cameraSensitivityGamepad;
         }
 
+        // Calculate player's body (y-axis) rotation
+        player.yRotation += dir.x * sensitivityMult * Time.deltaTime;
+        player.CameraHolder.localRotation = Quaternion.Euler(0, player.yRotation, 0);  // Rotate body horizontally
+
+        // Calculate camera pitch (x-axis) rotation
         player.xRotation += dir.y * sensitivityMult * Time.deltaTime;
         player.xRotation = Mathf.Clamp(player.xRotation, -90f, 90f);
-        player.yRotation += dir.x * sensitivityMult * Time.deltaTime;
+        player.Camera.localRotation = Quaternion.Euler(-player.xRotation, 0, 0);  // Rotate camera vertically
 
-        player.Hand.localRotation = Quaternion.Euler(-player.xRotation, player.yRotation, 0);
-
-        player.CameraHolder.localRotation = Quaternion.Lerp(player.CameraHolder.localRotation, Quaternion.Euler(0, player.yRotation, 0), player.Settings.cameraAcceleration * Time.deltaTime);
-        player.Camera.localRotation = Quaternion.Lerp(player.Camera.localRotation, Quaternion.Euler(-player.xRotation, 0, 0), player.Settings.cameraAcceleration * Time.deltaTime);
-
+        // Only update the flashlight's rotation if the player is holding it
+        if (player.HasFlashlight)
+        {
+            // Ensure the flashlight (hand) follows the camera's rotation
+            player.flashlight.transform.forward = player.Camera.forward;  // Rotate hand (and flashlight) to match camera
+        }
     }
+
 
     public virtual void HandleDeath()
     {

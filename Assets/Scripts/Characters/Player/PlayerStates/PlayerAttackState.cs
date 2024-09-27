@@ -12,7 +12,14 @@ public class PlayerAttackState : PlayerBaseState
     public override void EnterState()
     {
         //Use current Flashlight ability Attack
-        player.flashlight.HandleFlashAblility();
+        if (player.HasFlashlight)
+        {
+            player.flashlight.HandleFlashAblility();
+        }
+        else
+        {
+            player.ChangeState(player.MoveState);
+        }
     }
     public override void ExitState()
     {
@@ -31,7 +38,7 @@ public class PlayerAttackState : PlayerBaseState
 
     public override void HandleAttack(bool isHeld)
     {
-      if(!isHeld)
+      if(!isHeld && player.HasFlashlight)
       {
           player.flashlight.StopUsingFlashlight();
       } 
