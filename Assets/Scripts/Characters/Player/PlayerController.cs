@@ -80,6 +80,15 @@ public class PlayerController : MonoBehaviour, IDamageable
         groundLayer = LayerMask.GetMask("Ground");
         InitializeStates();
         ChangeState(MoveState);
+        if (!HasFlashlight && flashlight.gameObject.activeSelf)
+        {
+            flashlight.gameObject.SetActive(false);
+        }
+        else if (HasFlashlight && !flashlight.gameObject.activeSelf)
+        {
+            flashlight.gameObject.SetActive(true);
+        }
+
     }
 
     private void InitializeStates()
@@ -97,14 +106,6 @@ public class PlayerController : MonoBehaviour, IDamageable
         currentState?.HandleLookAround(inputManager.LookAround, inputManager.Device);
         currentState?.StateUpdate();
 
-        if (!HasFlashlight && flashlight.gameObject.activeSelf)
-        {
-            flashlight.gameObject.SetActive(false);
-        }
-        else if (HasFlashlight && !flashlight.gameObject.activeSelf)
-        {
-            flashlight.gameObject.SetActive(true);
-        }
     }
     private void FixedUpdate() => currentState?.StateFixedUpdate();
 
@@ -125,6 +126,15 @@ public class PlayerController : MonoBehaviour, IDamageable
     public void HandleFlashlightPickUp(bool check)
     {
         HasFlashlight = check;
+        if (!HasFlashlight && flashlight.gameObject.activeSelf)
+        {
+            flashlight.gameObject.SetActive(false);
+        }
+        else if (HasFlashlight && !flashlight.gameObject.activeSelf)
+        {
+            flashlight.gameObject.SetActive(true);
+        }
+
     }
 
     public bool IsAlive()
