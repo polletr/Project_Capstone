@@ -6,13 +6,22 @@ public class PlayerController : MonoBehaviour, IDamageable
     public PlayerSettings Settings { get { return settings; } }
 
     public GameEvent Event;
-    public Inventory inventory;
 
     public Transform Camera { get { return _camera; } }
     public Transform CameraHolder { get { return _cameraHolder; } }
     public Transform Hand { get { return _hand; } }
 
-    public float Health { get; private set; }
+    [SerializeField] private float health;
+  /*  public float Health
+    {
+        get => health;
+        private set
+        {
+            health = value;
+            playerHealth.SetHealth(value); 
+        }
+    }*/
+
     public float InteractionRange { get { return interactionRange; } }
 
 
@@ -39,6 +48,7 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     public InputManager inputManager     {get; private set;}
     public PlayerAnimator playerAnimator {get; private set;}
+    public PlayerHealth playerHealth {get; private set;}
     
     private LayerMask groundLayer;
 
@@ -58,11 +68,12 @@ public class PlayerController : MonoBehaviour, IDamageable
         playerAnimator = GetComponent<PlayerAnimator>();
         playerAnimator.GetAnimator();
         inputManager = GetComponent<InputManager>();
+       // playerHealth = GetComponent<PlayerHealth>();
         
         flashlight = GetComponentInChildren<FlashLight>();
         characterController = GetComponent<CharacterController>();
         
-        Health = Settings.PlayerHealth;
+        health = Settings.PlayerHealth;
         Cursor.lockState = CursorLockMode.Locked;//Move this from here later
         
         groundLayer = LayerMask.GetMask("Ground");
@@ -89,8 +100,8 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     public void GetDamaged(float attackDamage)
     {
-        Health -= attackDamage;
-        if (Health > 0f)
+        health -= attackDamage;
+        if (health > 0f)
         {
             currentState?.HandleGetHit();
         }
@@ -99,6 +110,11 @@ public class PlayerController : MonoBehaviour, IDamageable
             currentState?.HandleDeath();
         }
 
+    }
+
+    public bool IsAlive()
+    {
+        return health > 0;
     }
 
     
