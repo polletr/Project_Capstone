@@ -80,6 +80,7 @@ public class PlayerController : MonoBehaviour, IDamageable
         groundLayer = LayerMask.GetMask("Ground");
         InitializeStates();
         ChangeState(MoveState);
+
         if (!HasFlashlight && flashlight.gameObject.activeSelf)
         {
             flashlight.gameObject.SetActive(false);
@@ -134,7 +135,6 @@ public class PlayerController : MonoBehaviour, IDamageable
         {
             flashlight.gameObject.SetActive(true);
         }
-
     }
 
     public bool IsAlive()
