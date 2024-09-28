@@ -51,7 +51,8 @@ public class FlashLight : MonoBehaviour
 
             foreach (FlashlightAbility ability in flashlightAbilities)
             {
-                ability.Initialize(this);
+                if (ability != null)
+                    ability.Initialize(this);
             }
         }
     }

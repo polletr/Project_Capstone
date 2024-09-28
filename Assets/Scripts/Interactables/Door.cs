@@ -33,12 +33,14 @@ public class Door : MonoBehaviour, IInteractable
             {
                 // Close the door
                 StartCoroutine(RotateDoor(closedRotation, rotationSpeed));
+                AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.CloseDoor, this.transform.position);
                 OnClose.Invoke();
             }
             else
             {
                 // Open the door
                 StartCoroutine(RotateDoor(CheckDirection(), rotationSpeed));
+                AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.OpenDoor, this.transform.position);
                 OnOpen.Invoke();
             }
 
@@ -59,6 +61,7 @@ public class Door : MonoBehaviour, IInteractable
         if (!isOpen)
         {
             StartCoroutine(RotateDoor(CheckDirection(), speed));
+            AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.OpenDoor, this.transform.position);
             OnOpen.Invoke();
         }
     }

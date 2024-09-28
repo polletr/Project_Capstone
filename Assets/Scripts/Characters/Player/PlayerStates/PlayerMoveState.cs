@@ -29,7 +29,6 @@ public class PlayerMoveState : PlayerBaseState
 
             if (obj.TryGetComponent(out IInteractable thing))
             {
-                Debug.Log(obj);
                 player.interactableObj = thing;
             }
         }
