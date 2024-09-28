@@ -1,9 +1,10 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Hub", menuName = "Hub")]
+[CreateAssetMenu(fileName = "HubNum", menuName = "GameSO/HubSO")]
 public class HubSO : ScriptableObject
 {
-    public string SceneName;
-    public string NextSceneName;
-    public string PreviousSceneName;
+    [TextArea(1,2)]
+    public string ChallengeSceneName;
+    [Space(1)]
+    public HubSO NextHub;
 }
