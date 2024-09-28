@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     public float InteractionRange { get { return interactionRange; } }
 
+    [field: SerializeField] public bool HasFlashlight { get; set; }
 
     public CharacterController characterController { get; set; }
     public FlashLight flashlight { get; set; }
@@ -79,6 +80,15 @@ public class PlayerController : MonoBehaviour, IDamageable
         groundLayer = LayerMask.GetMask("Ground");
         InitializeStates();
         ChangeState(MoveState);
+        if (!HasFlashlight && flashlight.gameObject.activeSelf)
+        {
+            flashlight.gameObject.SetActive(false);
+        }
+        else if (HasFlashlight && !flashlight.gameObject.activeSelf)
+        {
+            flashlight.gameObject.SetActive(true);
+        }
+
     }
 
     private void InitializeStates()
@@ -95,6 +105,7 @@ public class PlayerController : MonoBehaviour, IDamageable
         currentState?.HandleMovement(inputManager.Movement);
         currentState?.HandleLookAround(inputManager.LookAround, inputManager.Device);
         currentState?.StateUpdate();
+
     }
     private void FixedUpdate() => currentState?.StateFixedUpdate();
 
@@ -108,6 +119,20 @@ public class PlayerController : MonoBehaviour, IDamageable
         else
         {
             currentState?.HandleDeath();
+        }
+
+    }
+
+    public void HandleFlashlightPickUp(bool check)
+    {
+        HasFlashlight = check;
+        if (!HasFlashlight && flashlight.gameObject.activeSelf)
+        {
+            flashlight.gameObject.SetActive(false);
+        }
+        else if (HasFlashlight && !flashlight.gameObject.activeSelf)
+        {
+            flashlight.gameObject.SetActive(true);
         }
 
     }
