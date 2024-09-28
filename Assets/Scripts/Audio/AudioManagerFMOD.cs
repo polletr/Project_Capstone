@@ -9,7 +9,6 @@ public class AudioManagerFMOD : Singleton<AudioManagerFMOD>
     public void PlayOneShot(EventReference sound, Vector3 worldPos)
     {
         RuntimeManager.PlayOneShot(sound, worldPos);
-        Debug.Log("Play");
     }
 
 
