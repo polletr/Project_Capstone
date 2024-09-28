@@ -44,13 +44,17 @@ public class FlashLight : MonoBehaviour
         Light.intensity = intensity;
         Light.color = lightColor;
 
-        currentAbility = flashlightAbilities[0];
 
-/*        foreach (FlashlightAbility ability in flashlightAbilities)
+        if (flashlightAbilities.Length > 0 )
         {
-            ability.Initialize(this);
+            currentAbility = flashlightAbilities[0];
+
+            foreach (FlashlightAbility ability in flashlightAbilities)
+            {
+                ability.Initialize(this);
+            }
         }
-*/    }
+    }
 
     private void OnEnable()
     {
@@ -102,7 +106,8 @@ public class FlashLight : MonoBehaviour
 
     public void ResetLight()
     {
-        StartCoroutine(Flicker(1f, () => ResetLightState()));
+        if (this.gameObject.activeSelf)
+            StartCoroutine(Flicker(1f, () => ResetLightState()));
 
     }
 

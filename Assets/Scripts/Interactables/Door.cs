@@ -14,7 +14,6 @@ public class Door : MonoBehaviour, IInteractable
     [SerializeField] private float rotationSpeed = 2f;   // Speed of rotation
 
     private Quaternion closedRotation;
-    private Quaternion openRotation;
     private bool isOpen = false;  // To track door state
 
     private Camera playerCamera;
@@ -23,7 +22,7 @@ public class Door : MonoBehaviour, IInteractable
     {
         // Save the door's closed rotation
         closedRotation = transform.localRotation;
-        playerCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
+        playerCamera = Camera.main;
     }
 
     public void OnInteract()
@@ -33,32 +32,13 @@ public class Door : MonoBehaviour, IInteractable
             if (isOpen)
             {
                 // Close the door
-                StartCoroutine(RotateDoor(closedRotation));
+                StartCoroutine(RotateDoor(closedRotation, rotationSpeed));
                 OnClose.Invoke();
             }
             else
             {
-                // Open the door forward relative to the player
-                Vector3 doorToPlayer = playerCamera.transform.position - transform.position;
-                Vector3 doorForward = transform.right;
-
-                // Check if the player is behind the door to determine opening direction
-                float dotProduct = Vector3.Dot(doorForward, doorToPlayer);
-
-                // Determine the target rotation to open the door forward
-                if (dotProduct > 0)
-                {
-                    // Player is behind the door, so open forward
-                    openRotation = Quaternion.Euler(0, -rotationAngle, 0) * closedRotation;
-                }
-                else
-                {
-                    // Player is in front of the door, open backwards
-                    openRotation = Quaternion.Euler(0, rotationAngle, 0) * closedRotation;
-                }
-
                 // Open the door
-                StartCoroutine(RotateDoor(openRotation));
+                StartCoroutine(RotateDoor(CheckDirection(), rotationSpeed));
                 OnOpen.Invoke();
             }
 
@@ -74,20 +54,63 @@ public class Door : MonoBehaviour, IInteractable
         }
     }
 
+    public void OnTriggerOpen(float speed)
+    {
+        if (!isOpen)
+        {
+            StartCoroutine(RotateDoor(CheckDirection(), speed));
+            OnOpen.Invoke();
+        }
+    }
+
+    public void OnTriggerClose(float speed)
+    {
+        if (isOpen)
+        {
+            // Close the door
+            StartCoroutine(RotateDoor(closedRotation, speed));
+            OnClose.Invoke();
+        }
+    }
+
+    private Quaternion CheckDirection()
+    {
+        // Open the door forward relative to the player
+        Vector3 doorToPlayer = playerCamera.transform.position - transform.position;
+        Vector3 doorForward = transform.right;
+
+        // Check if the player is behind the door to determine opening direction
+        float dotProduct = Vector3.Dot(doorForward, doorToPlayer);
+
+        // Determine the target rotation to open the door forward
+        if (dotProduct > 0)
+        {
+            // Player is behind the door, so open forward
+            return Quaternion.Euler(0, -rotationAngle, 0) * closedRotation;
+        }
+        else
+        {
+            // Player is in front of the door, open backwards
+            return Quaternion.Euler(0, rotationAngle, 0) * closedRotation;
+        }
+
+    }
+
+
     public void UnlockDoor()
     {
         OnUnlock.Invoke();
         isLocked = false;
     }
 
-    private IEnumerator RotateDoor(Quaternion targetRotation)
+    private IEnumerator RotateDoor(Quaternion targetRotation, float speed)
     {
         float timeElapsed = 0f;
         Quaternion currentRotation = transform.localRotation;
 
         while (timeElapsed < 1f)
         {
-            timeElapsed += Time.deltaTime * rotationSpeed;
+            timeElapsed += Time.deltaTime * speed;
             transform.localRotation = Quaternion.Slerp(currentRotation, targetRotation, timeElapsed);
             yield return null;
         }
