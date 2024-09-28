@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour, IDamageable
     public Transform Hand { get { return _hand; } }
 
     [SerializeField] private float health;
-  /*  public float Health
+    public float Health
     {
         get => health;
         private set
@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour, IDamageable
             health = value;
             playerHealth.SetHealth(value); 
         }
-    }*/
+    }
 
     public float InteractionRange { get { return interactionRange; } }
 
@@ -69,12 +69,14 @@ public class PlayerController : MonoBehaviour, IDamageable
         playerAnimator = GetComponent<PlayerAnimator>();
         playerAnimator.GetAnimator();
         inputManager = GetComponent<InputManager>();
-       // playerHealth = GetComponent<PlayerHealth>();
+        playerHealth = GetComponent<PlayerHealth>();
         
         flashlight = GetComponentInChildren<FlashLight>();
         characterController = GetComponent<CharacterController>();
-        
-        health = Settings.PlayerHealth;
+
+        Health = Settings.PlayerHealth;
+        playerHealth.SetMaxHealth(Health);
+
         Cursor.lockState = CursorLockMode.Locked;//Move this from here later
         
         groundLayer = LayerMask.GetMask("Ground");
@@ -107,13 +109,19 @@ public class PlayerController : MonoBehaviour, IDamageable
         currentState?.HandleLookAround(inputManager.LookAround, inputManager.Device);
         currentState?.StateUpdate();
 
+        if(Input.GetKeyDown(KeyCode.O))
+        {
+            GetDamaged(1f);
+            Debug.Log("Health: " + Health);
+        }
+
     }
     private void FixedUpdate() => currentState?.StateFixedUpdate();
 
     public void GetDamaged(float attackDamage)
     {
-        health -= attackDamage;
-        if (health > 0f)
+        Health -= attackDamage;
+        if (Health > 0f)
         {
             currentState?.HandleGetHit();
         }
@@ -139,7 +147,7 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     public bool IsAlive()
     {
-        return health > 0;
+        return Health > 0;
     }
 
     

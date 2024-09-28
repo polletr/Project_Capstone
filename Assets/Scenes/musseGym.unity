@@ -340,7 +340,7 @@ Transform:
   m_GameObject: {fileID: 348665538}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -22.272266, y: 22.185781, z: -4.802388}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -359,7 +359,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_IsGlobal: 1
-  priority: 0
+  priority: 1
   blendDistance: 0
   weight: 1
   sharedProfile: {fileID: 11400000, guid: 5cee803109bf2ac41a9082f78a32657a, type: 2}
@@ -1191,7 +1191,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d8f070b8ab4564fa5d72752b4bac63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <volume>k__BackingField: {fileID: 348665540}
+  volume: {fileID: 348665540}
+  healthToVignetteCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.086250305
+      value: 1.0070801
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1.2204132
+      value: 0.009433746
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _speed: 1
 --- !u!1 &2010934995
 GameObject:
   m_ObjectHideFlags: 0
