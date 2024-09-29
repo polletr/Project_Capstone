@@ -18,6 +18,8 @@ public class Door : MonoBehaviour, IInteractable
 
     private Camera playerCamera;
 
+    public UnityEngine.AI.NavMeshObstacle doorObstacle; // Assign in Inspector
+
     private void Start()
     {
         // Save the door's closed rotation

@@ -37,10 +37,4 @@ public class PlayerGetHitState : PlayerBaseState
 
     }
 
-
-    public override void HandleMovement(Vector2 dir)
-    {
-        _direction = new Vector3(dir.x, 0, dir.y);
-    }
-
 }
