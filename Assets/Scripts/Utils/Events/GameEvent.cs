@@ -10,6 +10,7 @@ public class GameEvent : ScriptableObject
     public UnityAction<IInventoryItem,Dictionary<InventoryItemSO,int>> OnItemRemoved;
     public UnityAction<IInventoryItem,Dictionary<InventoryItemSO, int>> OnItemEquipped;
 
+    public UnityAction<bool> OnFlashlightCollect;
 
     public UnityAction<Battery> OnCollectBattery;
     public UnityAction<Battery> OnChangeBattery;
