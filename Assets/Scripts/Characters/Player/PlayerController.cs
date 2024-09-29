@@ -1,5 +1,7 @@
-using System.Collections;
+using FMOD.Studio;
+using FMODUnity;
 using UnityEngine;
+using System.Collections;
 
 public class PlayerController : MonoBehaviour, IDamageable
 {
@@ -65,6 +67,8 @@ public class PlayerController : MonoBehaviour, IDamageable
     [SerializeField] Transform _cameraHolder;
     [SerializeField] Transform _hand;
 
+    public EventInstance playerFootsteps { get; private set; }
+
     private void OnEnable()
     {
         Event.OnFlashlightCollect += HandleFlashlightPickUp;
@@ -93,6 +97,8 @@ public class PlayerController : MonoBehaviour, IDamageable
         groundLayer = LayerMask.GetMask("Ground");
         InitializeStates();
         ChangeState(MoveState);
+        playerFootsteps = AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.PlayerSteps);
+        playerFootsteps.set3DAttributes(RuntimeUtils.To3DAttributes(transform.position));
 
         if (!HasFlashlight && flashlight.gameObject.activeSelf)
         {

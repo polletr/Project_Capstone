@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using FMOD.Studio;
+using static UnityEngine.ParticleSystem;
 
 public abstract class PlayerBaseState 
 {
@@ -14,6 +16,7 @@ public abstract class PlayerBaseState
     public PlayerAnimator playerAnimator { get; set; }
     public PlayerController player { get; set; }
     public InputManager inputManager { get; set; }
+
   
     public PlayerBaseState(PlayerAnimator animator, PlayerController playerController, InputManager inputM)
     {
@@ -30,13 +33,7 @@ public abstract class PlayerBaseState
     {
         player.characterController.SimpleMove(_direction.normalized * GetSpeed());
 
-        if (player.Event.OnSoundEmitted != null)
-        {
-            if (_direction.sqrMagnitude > 0f)
-            {
-                player.Event.OnSoundEmitted.Invoke(player.transform.position, GetSoundEmitted());
-            }
-        }
+        StepsSound();
 
         HandleFlashlightSphereCast();
 
@@ -145,6 +142,29 @@ public abstract class PlayerBaseState
         }
     }
 
+    protected virtual void StepsSound()
+    {
+        PLAYBACK_STATE playbackState;
+        player.playerFootsteps.getPlaybackState(out playbackState);
+
+        if (_direction.sqrMagnitude > 0f)
+        {
+            if (player.Event.OnSoundEmitted != null)
+                player.Event.OnSoundEmitted.Invoke(player.transform.position, GetSoundEmitted());
+            //Actual sound
+            if (playbackState.Equals(PLAYBACK_STATE.STOPPED))
+            {
+                player.playerFootsteps.start();
+            }
+        }
+        else
+        {
+            if (playbackState.Equals(PLAYBACK_STATE.PLAYING))
+            {
+                player.playerFootsteps.stop(STOP_MODE.ALLOWFADEOUT);
+            }
+        }
+    }
 
     public virtual void HandleDeath()
     {

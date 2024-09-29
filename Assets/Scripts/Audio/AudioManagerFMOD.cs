@@ -1,4 +1,5 @@
 using FMODUnity;
+using FMOD.Studio;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,5 +12,10 @@ public class AudioManagerFMOD : Singleton<AudioManagerFMOD>
         RuntimeManager.PlayOneShot(sound, worldPos);
     }
 
+    public EventInstance CreateEventInstance(EventReference eventReference)
+    {
+        EventInstance eventInstance = RuntimeManager.CreateInstance(eventReference);
+        return eventInstance;
+    }
 
 }
