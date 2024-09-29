@@ -8,17 +8,28 @@ public class MoveableObject : MonoBehaviour, IMovable
 
     [field: SerializeField] public bool IsPicked { get; set; }
 
+
+    public bool DefaultUseGravity { get; private set; }
+    public float DefaultDrag { get; private set; }
+    public RigidbodyConstraints DefaultConstraints { get; private set; }
+
+
     public Rigidbody Rb { get; set; }
 
     private void Awake()
     {
         IsPicked = false;
         Rb = GetComponent<Rigidbody>();
+        DefaultUseGravity = Rb.useGravity;
+        DefaultDrag = Rb.drag;
+        DefaultConstraints = Rb.constraints;
     }
+
+
 
     public void ApplyEffect()
     {
-
+      //outline effect
     }
 
     private void OnCollisionEnter(Collision collision)

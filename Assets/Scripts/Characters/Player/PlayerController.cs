@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour, IDamageable
@@ -21,6 +22,8 @@ public class PlayerController : MonoBehaviour, IDamageable
             playerHealth.SetHealth(value); 
         }
     }
+
+    private bool canRegenHealth = true;
 
     public float InteractionRange { get { return interactionRange; } }
 
@@ -120,8 +123,9 @@ public class PlayerController : MonoBehaviour, IDamageable
         if(Input.GetKeyDown(KeyCode.O))
         {
             GetDamaged(1f);
-            Debug.Log("Health: " + Health);
         }
+
+        RegenerateHealth(); 
 
     }
     private void FixedUpdate() => currentState?.StateFixedUpdate();
@@ -132,6 +136,7 @@ public class PlayerController : MonoBehaviour, IDamageable
         if (Health > 0f)
         {
             currentState?.HandleGetHit();
+            StartCoroutine(DelayHealthRegen());
         }
         else
         {
@@ -156,6 +161,23 @@ public class PlayerController : MonoBehaviour, IDamageable
     public bool IsAlive()
     {
         return Health > 0;
+    }
+
+    private void RegenerateHealth()
+    {
+        if (IsAlive() && canRegenHealth && Health <= Settings.PlayerHealth)//&& flashlight.) // check is player is not dead and flashlight is on / is player in light ( not in dark area)
+        {
+            Debug.Log("Regenerating Health" + Health) ;
+            Health += Settings.HealthRegenRate * Time.deltaTime;
+            Mathf.Clamp(Health, 0, Settings.PlayerHealth);
+        }
+    }
+
+    private IEnumerator DelayHealthRegen()
+    {
+        canRegenHealth = false;
+        yield return new WaitForSecondsRealtime(Settings.HealthRegenDelay);
+        canRegenHealth = true;
     }
 
     

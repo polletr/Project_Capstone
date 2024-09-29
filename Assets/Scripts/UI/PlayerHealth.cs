@@ -8,8 +8,6 @@ public class PlayerHealth : MonoBehaviour
     public Volume volume;
     public AnimationCurve healthToVignetteCurve; // Use this curve to map health to vignette intensity
 
-    [SerializeField] private float _speed = 1.0f;
-
     private Vignette _vignette;
     private float _maxHealth;
 
@@ -22,8 +20,7 @@ public class PlayerHealth : MonoBehaviour
     {
         if (_vignette != null)
         {
-            float normalizedHealth = Mathf.Clamp01(health / _maxHealth);
-            _vignette.intensity.value = healthToVignetteCurve.Evaluate(normalizedHealth);
+         _vignette.intensity.value = healthToVignetteCurve.Evaluate(health / _maxHealth);
         }
     }
 

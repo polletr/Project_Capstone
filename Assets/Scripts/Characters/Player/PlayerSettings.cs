@@ -21,6 +21,8 @@ public class PlayerSettings : ScriptableObject
     public float RunSoundRange = 5f;
     [Range(1, 5)]
     public int PlayerHealth = 3;
+    public float HealthRegenRate = 1f;
+    public float HealthRegenDelay = 2f;
     public float DropItemTime = 3f;
 
     public float cameraSensitivityMouse = 1.0f;

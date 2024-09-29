@@ -51,9 +51,9 @@ public class MoveAbility : FlashlightAbility
         if (pickup != null)
         {
             pickup.transform.parent = null;
-            pickup.Rb.useGravity = true;
-            pickup.Rb.drag = 1;
-            pickup.Rb.constraints = RigidbodyConstraints.None;
+            pickup.Rb.useGravity = pickup.DefaultUseGravity;
+            pickup.Rb.drag = pickup.DefaultDrag;
+            pickup.Rb.constraints = pickup.DefaultConstraints;
             pickup = null;
         }
     }

@@ -314,55 +314,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 7127223271197902522}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &348665538
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 348665539}
-  - component: {fileID: 348665540}
-  m_Layer: 0
-  m_Name: PlayerHealthVolume
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &348665539
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 348665538}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1934823328}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &348665540
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 348665538}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IsGlobal: 1
-  priority: 1
-  blendDistance: 0
-  weight: 1
-  sharedProfile: {fileID: 11400000, guid: 5cee803109bf2ac41a9082f78a32657a, type: 2}
 --- !u!1 &370643552
 GameObject:
   m_ObjectHideFlags: 0
@@ -1167,56 +1118,6 @@ MonoBehaviour:
   decreaseRate: 1.5
   lightIntensity: 100
   cooldownIntensity: 3
---- !u!1 &1934823315 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3210734550747332603, guid: bedc4c315612c0d429f32fda2e727742,
-    type: 3}
-  m_PrefabInstance: {fileID: 7127223271197902522}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1934823328 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2940176616893762427, guid: bedc4c315612c0d429f32fda2e727742,
-    type: 3}
-  m_PrefabInstance: {fileID: 7127223271197902522}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1934823329
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1934823315}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f3d8f070b8ab4564fa5d72752b4bac63, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  volume: {fileID: 348665540}
-  healthToVignetteCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0.086250305
-      value: 1.0070801
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1.2204132
-      value: 0.009433746
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  _speed: 1
 --- !u!1 &2010934995
 GameObject:
   m_ObjectHideFlags: 0
@@ -1722,10 +1623,6 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 2940176616893762427, guid: bedc4c315612c0d429f32fda2e727742,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 348665539}
     - targetCorrespondingSourceObject: {fileID: 3576279339221103449, guid: bedc4c315612c0d429f32fda2e727742,
         type: 3}
       insertIndex: -1
@@ -1746,11 +1643,7 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1412892942}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3210734550747332603, guid: bedc4c315612c0d429f32fda2e727742,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1934823329}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bedc4c315612c0d429f32fda2e727742, type: 3}
 --- !u!1001 &8141718573103549287
 PrefabInstance:
