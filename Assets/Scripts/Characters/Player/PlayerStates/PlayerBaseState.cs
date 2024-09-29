@@ -134,7 +134,7 @@ public abstract class PlayerBaseState
 
         // Calculate camera pitch (x-axis) rotation
         player.xRotation += dir.y * sensitivityMult * Time.deltaTime;
-        player.xRotation = Mathf.Clamp(player.xRotation, -90f, 90f);
+        player.xRotation = Mathf.Clamp(player.xRotation, -40f, 40f);
         player.Camera.localRotation = Quaternion.Euler(-player.xRotation, 0, 0);  // Rotate camera vertically
 
         // Only update the flashlight's rotation if the player is holding it
