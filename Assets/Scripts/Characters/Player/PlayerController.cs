@@ -2,6 +2,7 @@ using FMOD.Studio;
 using FMODUnity;
 using UnityEngine;
 using System.Collections;
+using FMOD;
 
 public class PlayerController : MonoBehaviour, IDamageable
 {
@@ -68,6 +69,7 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     public EventInstance playerFootsteps { get; private set; }
     public EventInstance playerBreathing { get; private set; }
+    public EventInstance playerHeartbeat { get; private set; }
 
 
     private void OnEnable()
@@ -126,7 +128,9 @@ public class PlayerController : MonoBehaviour, IDamageable
         currentState?.HandleLookAround(inputManager.LookAround, inputManager.Device);
         currentState?.StateUpdate();
 
-        if(Input.GetKeyDown(KeyCode.O))
+        RuntimeManager.StudioSystem.setParameterByName("Health", Health / Settings.PlayerHealth);
+
+        if (Input.GetKeyDown(KeyCode.O))
         {
             GetDamaged(1f);
         }
@@ -175,8 +179,6 @@ public class PlayerController : MonoBehaviour, IDamageable
     {
         if (IsAlive() && canRegenHealth && Health <= Settings.PlayerHealth)//&& flashlight.) // check is player is not dead and flashlight is on / is player in light ( not in dark area)
         {
-            StopBreathing();
-            Debug.Log("Regenerating Health" + Health) ;
             Health += Settings.HealthRegenRate * Time.deltaTime;
             Mathf.Clamp(Health, 0, Settings.PlayerHealth);
         }
@@ -197,6 +199,9 @@ public class PlayerController : MonoBehaviour, IDamageable
         playerFootsteps.set3DAttributes(RuntimeUtils.To3DAttributes(transform.position));
         playerBreathing = AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.HeavyToLowBreathing);
         playerBreathing.set3DAttributes(RuntimeUtils.To3DAttributes(transform.position));
+        playerHeartbeat = AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.PlayerHeartbeat);
+        playerHeartbeat.set3DAttributes(RuntimeUtils.To3DAttributes(transform.position));
+        playerHeartbeat.start();
 
     }
 
@@ -207,19 +212,7 @@ public class PlayerController : MonoBehaviour, IDamageable
 
         if (playbackState.Equals(PLAYBACK_STATE.STOPPED))
         {
-            playerBreathing.setParameterByName("BreathingLoop", 0);
             playerBreathing.start();
-        }
-    }
-
-    void StopBreathing()
-    {
-        PLAYBACK_STATE playbackState;
-        playerBreathing.getPlaybackState(out playbackState);
-
-        if (playbackState.Equals(PLAYBACK_STATE.PLAYING))
-        {
-            playerBreathing.setParameterByName("BreathingLoop", 1);
         }
     }
 
