@@ -15,5 +15,10 @@ public class SFXEvents : ScriptableObject
     [field: SerializeField] public EventReference HeavyToLowBreathing { get; private set; }
     [field: SerializeField] public EventReference PlayerHeartbeat { get; private set; }
 
+    [field: Header("Environment Lights SFX")]
+
+    [field: SerializeField] public EventReference LightConstantFlickering { get; private set; }
+
+
 
 }
