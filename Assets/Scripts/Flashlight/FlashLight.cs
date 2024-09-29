@@ -3,7 +3,7 @@ using System.Collections;
 using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
-public class FlashLight : MonoBehaviour
+public class FlashLight : MonoBehaviour, ICollectable, IInteractable
 {
     public GameEvent Event;
 
@@ -36,7 +36,10 @@ public class FlashLight : MonoBehaviour
 
     private void Awake()
     {
-        playerController = GetComponentInParent<PlayerController>();
+        if (this.TryGetComponentInParent<PlayerController>(out playerController))
+        {
+            GetComponent<BoxCollider>().enabled = false;
+        }
         Light = GetComponent<Light>();
         Light.enabled = true;
         isFlashlightOn = true;
@@ -251,6 +254,19 @@ public class FlashLight : MonoBehaviour
     {
         battery = newBattery;
     }
+
+    public void Collect()
+    {
+        Event.OnFlashlightCollect(true);
+        Destroy(this.gameObject);
+    }
+
+    public void OnInteract()
+    {
+        Collect();
+
+    }
+
 
 }
 

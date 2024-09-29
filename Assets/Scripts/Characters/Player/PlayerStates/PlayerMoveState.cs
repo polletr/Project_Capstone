@@ -26,7 +26,6 @@ public class PlayerMoveState : PlayerBaseState
         if (Physics.Raycast(ray, out RaycastHit hit, player.InteractionRange))
         {
             var obj = hit.collider.gameObject;
-
             if (obj.TryGetComponent(out IInteractable thing))
             {
                 player.interactableObj = thing;

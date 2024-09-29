@@ -62,7 +62,15 @@ public class PlayerController : MonoBehaviour, IDamageable
     [SerializeField] Transform _cameraHolder;
     [SerializeField] Transform _hand;
 
-    
+    private void OnEnable()
+    {
+        Event.OnFlashlightCollect += HandleFlashlightPickUp;
+    }
+
+    private void OnDisable()
+    {
+        Event.OnFlashlightCollect -= HandleFlashlightPickUp;
+    }
 
     void Awake()
     {
