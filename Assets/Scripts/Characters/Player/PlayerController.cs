@@ -60,7 +60,6 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     [SerializeField]
     private GameObject meleeSocketHand;
-
     public GameObject MeleeSocketHand { get { return meleeSocketHand; } }
 
     [SerializeField] Transform _camera;
@@ -68,6 +67,8 @@ public class PlayerController : MonoBehaviour, IDamageable
     [SerializeField] Transform _hand;
 
     public EventInstance playerFootsteps { get; private set; }
+    public EventInstance playerBreathing { get; private set; }
+
 
     private void OnEnable()
     {
@@ -97,8 +98,7 @@ public class PlayerController : MonoBehaviour, IDamageable
         groundLayer = LayerMask.GetMask("Ground");
         InitializeStates();
         ChangeState(MoveState);
-        playerFootsteps = AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.PlayerSteps);
-        playerFootsteps.set3DAttributes(RuntimeUtils.To3DAttributes(transform.position));
+        SetupSoundEvents();
 
         if (!HasFlashlight && flashlight.gameObject.activeSelf)
         {
@@ -139,6 +139,8 @@ public class PlayerController : MonoBehaviour, IDamageable
     public void GetDamaged(float attackDamage)
     {
         Health -= attackDamage;
+
+        PlayBreathing();
         if (Health > 0f)
         {
             currentState?.HandleGetHit();
@@ -173,6 +175,7 @@ public class PlayerController : MonoBehaviour, IDamageable
     {
         if (IsAlive() && canRegenHealth && Health <= Settings.PlayerHealth)//&& flashlight.) // check is player is not dead and flashlight is on / is player in light ( not in dark area)
         {
+            StopBreathing();
             Debug.Log("Regenerating Health" + Health) ;
             Health += Settings.HealthRegenRate * Time.deltaTime;
             Mathf.Clamp(Health, 0, Settings.PlayerHealth);
@@ -181,12 +184,47 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     private IEnumerator DelayHealthRegen()
     {
+        //We also need to check if we are out of danger!
         canRegenHealth = false;
         yield return new WaitForSecondsRealtime(Settings.HealthRegenDelay);
         canRegenHealth = true;
     }
 
-    
+
+    void SetupSoundEvents()
+    {
+        playerFootsteps = AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.PlayerSteps);
+        playerFootsteps.set3DAttributes(RuntimeUtils.To3DAttributes(transform.position));
+        playerBreathing = AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.HeavyToLowBreathing);
+        playerBreathing.set3DAttributes(RuntimeUtils.To3DAttributes(transform.position));
+
+    }
+
+    void PlayBreathing()
+    {
+        PLAYBACK_STATE playbackState;
+        playerBreathing.getPlaybackState(out playbackState);
+
+        if (playbackState.Equals(PLAYBACK_STATE.STOPPED))
+        {
+            playerBreathing.setParameterByName("BreathingLoop", 0);
+            playerBreathing.start();
+        }
+    }
+
+    void StopBreathing()
+    {
+        PLAYBACK_STATE playbackState;
+        playerBreathing.getPlaybackState(out playbackState);
+
+        if (playbackState.Equals(PLAYBACK_STATE.PLAYING))
+        {
+            playerBreathing.setParameterByName("BreathingLoop", 1);
+        }
+    }
+
+
+
     #region Character Actions
 
     public void HandleInteract()
