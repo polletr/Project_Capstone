@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Events;
 
 public class Door : MonoBehaviour, IInteractable
@@ -18,11 +19,12 @@ public class Door : MonoBehaviour, IInteractable
 
     private Camera playerCamera;
 
-    public UnityEngine.AI.NavMeshObstacle doorObstacle; // Assign in Inspector
+    private NavMeshObstacle doorObstacle; // Assign in Inspector
 
     private void Start()
     {
         // Save the door's closed rotation
+        doorObstacle = GetComponent<NavMeshObstacle>();
         closedRotation = transform.localRotation;
         playerCamera = Camera.main;
     }
@@ -122,5 +124,14 @@ public class Door : MonoBehaviour, IInteractable
 
         // Ensure the rotation is exactly the target rotation at the end
         transform.localRotation = targetRotation;
+
+        if (isOpen)
+        {
+            doorObstacle.carving = false;
+        }
+        else
+        {
+            doorObstacle.carving = true;
+        }
     }
 }
