@@ -80,8 +80,6 @@ public abstract class PlayerBaseState
 
     public virtual void HandleChangeAbility(int direction) { }
 
-    public virtual void HandleEquipItem(IInventoryItem item) { }
-
     public virtual void HandleGetHit()
     {
         player.ChangeState(player.GetHitState);
