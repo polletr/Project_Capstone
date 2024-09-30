@@ -29,9 +29,4 @@ public class PlayerInteractState : PlayerBaseState
 
     }
 
-    public override void HandleEquipItem(IInventoryItem item)
-    {
-
-    }
-
 }
