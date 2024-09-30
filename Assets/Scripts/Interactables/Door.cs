@@ -22,8 +22,11 @@ public class Door : MonoBehaviour, IInteractable
 
     private NavMeshObstacle doorObstacle; // Assign in Inspector
 
+    private ShakeEffect shakeEffect;
+
     private void Start()
     {
+        shakeEffect = GetComponent<ShakeEffect>();
         // Save the door's closed rotation
         doorObstacle = GetComponent<NavMeshObstacle>();
         closedRotation = transform.localRotation;
@@ -57,6 +60,7 @@ public class Door : MonoBehaviour, IInteractable
             //if player has key
             //UnlockDoor();
             //if player doesnt have key:
+            shakeEffect.ShakeObject();
             OnInteractLocked.Invoke();
             //Event.OnTryToUnlockDoor?.Invoke(this);
         }
