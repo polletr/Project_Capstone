@@ -4,18 +4,31 @@ using UnityEngine;
 
 public class AppearDisappear : MonoBehaviour
 {
-    [SerializeField] GameObject appearObj;
-    [SerializeField] GameObject disappearObj;
+    [SerializeField] List<GameObject> appearObj = new();
+    [SerializeField] List<GameObject> disappearObj = new();
     public void Appear()
     {
-        disappearObj?.SetActive(false);
-        appearObj?.SetActive(true);
+        foreach (GameObject obj in appearObj)
+        {
+            obj?.SetActive(true);
+        }
+        foreach (GameObject obj in disappearObj)
+        {
+            obj?.SetActive(false);
+        }
+
     }
 
     public void Disappear()
     {
-        appearObj?.SetActive(false);
-        disappearObj?.SetActive(true);
+        foreach (GameObject obj in appearObj)
+        {
+            obj?.SetActive(false);
+        }
+        foreach (GameObject obj in disappearObj)
+        {
+            obj?.SetActive(true);
+        }
     }
 
 }
