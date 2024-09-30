@@ -196,11 +196,8 @@ public class PlayerController : MonoBehaviour, IDamageable
     void SetupSoundEvents()
     {
         playerFootsteps = AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.PlayerSteps);
-        playerFootsteps.set3DAttributes(RuntimeUtils.To3DAttributes(transform.position));
         playerBreathing = AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.HeavyToLowBreathing);
-        playerBreathing.set3DAttributes(RuntimeUtils.To3DAttributes(transform.position));
         playerHeartbeat = AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.PlayerHeartbeat);
-        playerHeartbeat.set3DAttributes(RuntimeUtils.To3DAttributes(transform.position));
         playerHeartbeat.start();
 
     }
