@@ -10,7 +10,7 @@ public class MoveAbility : FlashlightAbility
     [SerializeField] private float maxHoldTime = 15f;
 
 
-    [SerializeField] private MoveableObject pickup;
+    private MoveableObject pickup;
 
     private CountdownTimer timer;
 
@@ -19,9 +19,16 @@ public class MoveAbility : FlashlightAbility
         timer = new CountdownTimer(maxHoldTime);
     }
 
+    public override void Initialize(FlashLight flashlight)
+    {
+        base.Initialize(flashlight);
+        moveHoldPos = flashlight.MoveHoldPos;
+    }
+
+
     private void Pickup()
     {
-        if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, pickupRange) && hit.collider.TryGetComponent(out MoveableObject obj))
+        if (Physics.Raycast(_flashlight.transform.position, _flashlight.transform.forward, out RaycastHit hit, pickupRange) && hit.collider.TryGetComponent(out MoveableObject obj))
         {
             pickup = obj;
 

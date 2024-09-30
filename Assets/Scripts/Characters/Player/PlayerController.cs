@@ -53,6 +53,8 @@ public class PlayerController : MonoBehaviour, IDamageable
     [SerializeField]
     private PlayerSettings settings;
 
+    private Coroutine healthRegenCoroutine;
+
     public InputManager inputManager     {get; private set;}
     public PlayerAnimator playerAnimator {get; private set;}
     public PlayerHealth playerHealth {get; private set;}
@@ -148,7 +150,9 @@ public class PlayerController : MonoBehaviour, IDamageable
         if (Health > 0f)
         {
             currentState?.HandleGetHit();
-            StartCoroutine(DelayHealthRegen());
+            if (healthRegenCoroutine != null)
+                StopCoroutine(healthRegenCoroutine);
+            healthRegenCoroutine = StartCoroutine(DelayHealthRegen());
         }
         else
         {
@@ -177,10 +181,10 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     private void RegenerateHealth()
     {
-        if (IsAlive() && canRegenHealth && Health <= Settings.PlayerHealth)//&& flashlight.) // check is player is not dead and flashlight is on / is player in light ( not in dark area)
+        if (IsAlive() && canRegenHealth && Health < Settings.PlayerHealth)//&& flashlight.) // check is player is not dead and flashlight is on / is player in light ( not in dark area)
         {
             Health += Settings.HealthRegenRate * Time.deltaTime;
-            Mathf.Clamp(Health, 0, Settings.PlayerHealth);
+            Health = Mathf.Clamp(Health, 0, Settings.PlayerHealth);
         }
     }
 
@@ -190,6 +194,7 @@ public class PlayerController : MonoBehaviour, IDamageable
         canRegenHealth = false;
         yield return new WaitForSecondsRealtime(Settings.HealthRegenDelay);
         canRegenHealth = true;
+        healthRegenCoroutine = null;
     }
 
 

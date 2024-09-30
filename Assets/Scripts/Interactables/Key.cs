@@ -1,20 +1,17 @@
 using UnityEngine;
 
-public class AbilityPickup : MonoBehaviour, IInteractable, ICollectable
+public class Key : MonoBehaviour ,IInteractable , ICollectable
 {
     public GameEvent Event;
-
-    public FlashlightAbility AbilityToPickup;
-
+    [field: SerializeField] public Door doorToOpen { get; private set;}
+    
     public void Collect()
     {
-        gameObject.SetActive(false);
+       gameObject.SetActive(false);
     }
 
     public void OnInteract()
     {
         Event.OnInteractItem?.Invoke(this);
     }
-
-
 }

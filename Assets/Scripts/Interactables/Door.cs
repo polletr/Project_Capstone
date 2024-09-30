@@ -5,6 +5,7 @@ using UnityEngine.Events;
 
 public class Door : MonoBehaviour, IInteractable
 {
+    public GameEvent Event;
     [SerializeField] private bool isLocked;
     [SerializeField] private UnityEvent OnOpen;
     [SerializeField] private UnityEvent OnClose;
@@ -57,7 +58,13 @@ public class Door : MonoBehaviour, IInteractable
             //UnlockDoor();
             //if player doesnt have key:
             OnInteractLocked.Invoke();
+            //Event.OnTryToUnlockDoor?.Invoke(this);
         }
+    }
+
+    private void Update()
+    {
+        Debug.Log("Door is locked" + isLocked);
     }
 
     public void OnTriggerOpen(float speed)
@@ -102,7 +109,6 @@ public class Door : MonoBehaviour, IInteractable
         }
 
     }
-
 
     public void UnlockDoor()
     {

@@ -1,12 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
+using FMOD.Studio;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using FMOD.Studio;
-using static UnityEngine.ParticleSystem;
 
-public abstract class PlayerBaseState 
+public abstract class PlayerBaseState
 {
     protected Vector3 _direction;
 
@@ -17,7 +13,7 @@ public abstract class PlayerBaseState
     public PlayerController player { get; set; }
     public InputManager inputManager { get; set; }
 
-  
+
     public PlayerBaseState(PlayerAnimator animator, PlayerController playerController, InputManager inputM)
     {
         playerAnimator = animator;
@@ -25,7 +21,7 @@ public abstract class PlayerBaseState
         inputManager = inputM;
     }
 
-  
+
     public virtual void EnterState() { }
     public virtual void ExitState() { }
     public virtual void StateFixedUpdate() { }
@@ -100,7 +96,7 @@ public abstract class PlayerBaseState
         if (isCrouching)
             isRunning = false;
     }
-    
+
     public virtual void HandleFlashlightSphereCast()
     {
         if (player.HasFlashlight)
