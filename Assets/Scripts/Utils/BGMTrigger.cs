@@ -17,7 +17,10 @@ public class BGMTrigger : MonoBehaviour
 
     public void PlayBGMusic()
     {
-        BGMusicInstance.start();
+        PLAYBACK_STATE playbackState;
+        BGMusicInstance.getPlaybackState(out playbackState);
+        if (playbackState.Equals(PLAYBACK_STATE.STOPPED))
+            BGMusicInstance.start();
     }
 
     public void StopBGM()
