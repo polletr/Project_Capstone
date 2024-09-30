@@ -7,9 +7,8 @@ public class EnemyClass : MonoBehaviour, IDamageable, IStunnable
 {
     public Vector3 PatrolCenterPos { get; set; }
     public Animator animator { get; set; }
-    public GameObject playerCharacter { get; set; }
+    public PlayerController playerCharacter { get; set; }
     public bool CanGetHit { get; set; }
-
     public float PatrolRange { get { return patrolRange; } }
     public float MaxIdleTime { get { return maxIdleTime; } }
     public float MinIdleTime { get { return minIdleTime; } }

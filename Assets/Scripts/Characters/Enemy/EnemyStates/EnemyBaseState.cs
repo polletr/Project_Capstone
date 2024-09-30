@@ -72,7 +72,8 @@ public class EnemyBaseState : MonoBehaviour
                             if (hit.collider.CompareTag("Player"))
                             {
                                 chasePos = target.transform.position;
-                                enemy.playerCharacter = hit.collider.gameObject;
+                                enemy.playerCharacter = hit.collider.GetComponent<PlayerController>();
+                                enemy.playerCharacter.AddEnemyToChaseList(enemy);
                                 enemy.ChangeState(new EnemyChaseState());
                             }
                         }

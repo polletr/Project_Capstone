@@ -45,6 +45,10 @@ public class PlayerInventory : MonoBehaviour
         {
             door.UnlockDoor();  
         }
+        else
+        {
+            door.LockedDoor();
+        }
     }
 
     public void CollectItem(ICollectable item)

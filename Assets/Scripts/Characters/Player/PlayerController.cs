@@ -2,6 +2,7 @@ using FMOD.Studio;
 using FMODUnity;
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using FMOD;
 
 public class PlayerController : MonoBehaviour, IDamageable
@@ -69,6 +70,7 @@ public class PlayerController : MonoBehaviour, IDamageable
     [SerializeField] Transform _cameraHolder;
     [SerializeField] Transform _hand;
 
+    private List<EnemyClass> enemiesChasing = new();
     public EventInstance playerFootsteps { get; private set; }
     public EventInstance playerBreathing { get; private set; }
     public EventInstance playerHeartbeat { get; private set; }
@@ -181,7 +183,7 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     private void RegenerateHealth()
     {
-        if (IsAlive() && canRegenHealth && Health < Settings.PlayerHealth)//&& flashlight.) // check is player is not dead and flashlight is on / is player in light ( not in dark area)
+        if (IsAlive() && canRegenHealth && Health < Settings.PlayerHealth && enemiesChasing.Count <= 0)//&& flashlight.) // check is player is not dead and flashlight is on / is player in light ( not in dark area)
         {
             Health += Settings.HealthRegenRate * Time.deltaTime;
             Health = Mathf.Clamp(Health, 0, Settings.PlayerHealth);
@@ -218,6 +220,18 @@ public class PlayerController : MonoBehaviour, IDamageable
         }
     }
 
+    public void AddEnemyToChaseList(EnemyClass enemy)
+    {
+        enemiesChasing.Add(enemy);
+    }
+
+    public void RemoveEnemyFromChaseList(EnemyClass enemy)
+    {
+        if (enemiesChasing.Contains(enemy))
+        {
+            enemiesChasing.Remove(enemy);
+        }
+    }
 
 
     #region Character Actions

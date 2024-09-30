@@ -12,6 +12,7 @@ public class EnemyIdleState : EnemyBaseState
         // Randomize the idle time between a range of seconds
         time = Random.Range(enemy.MinIdleTime, enemy.MaxIdleTime);
         timer = 0f; // Reset the timer
+        enemy.playerCharacter.RemoveEnemyFromChaseList(enemy);
         enemy.playerCharacter = null;
 
     }

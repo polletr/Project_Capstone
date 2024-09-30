@@ -6,6 +6,7 @@ using UnityEngine.Events;
 public class Door : MonoBehaviour, IInteractable
 {
     public GameEvent Event;
+    public bool IsOpen {  get; private set; }
     [SerializeField] private bool isLocked;
     [SerializeField] private UnityEvent OnOpen;
     [SerializeField] private UnityEvent OnClose;
@@ -16,7 +17,6 @@ public class Door : MonoBehaviour, IInteractable
     [SerializeField] private float rotationSpeed = 2f;   // Speed of rotation
 
     private Quaternion closedRotation;
-    private bool isOpen = false;  // To track door state
 
     private Camera playerCamera;
 
@@ -37,7 +37,7 @@ public class Door : MonoBehaviour, IInteractable
     {
         if (!isLocked)
         {
-            if (isOpen)
+            if (IsOpen)
             {
                 // Close the door
                 StartCoroutine(RotateDoor(closedRotation, rotationSpeed));
@@ -53,16 +53,13 @@ public class Door : MonoBehaviour, IInteractable
             }
 
             // Toggle the door state
-            isOpen = !isOpen;
+            IsOpen = !IsOpen;
         }
         else
         {
             //if player has key
-            //UnlockDoor();
+            Event.OnTryToUnlockDoor?.Invoke(this);
             //if player doesnt have key:
-            shakeEffect.ShakeObject();
-            OnInteractLocked.Invoke();
-            //Event.OnTryToUnlockDoor?.Invoke(this);
         }
     }
 
@@ -73,7 +70,7 @@ public class Door : MonoBehaviour, IInteractable
 
     public void OnTriggerOpen(float speed)
     {
-        if (!isOpen)
+        if (!IsOpen)
         {
             StartCoroutine(RotateDoor(CheckDirection(), speed));
             AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.OpenDoor, this.transform.position);
@@ -83,7 +80,7 @@ public class Door : MonoBehaviour, IInteractable
 
     public void OnTriggerClose(float speed)
     {
-        if (isOpen)
+        if (IsOpen)
         {
             // Close the door
             StartCoroutine(RotateDoor(closedRotation, speed));
@@ -115,9 +112,22 @@ public class Door : MonoBehaviour, IInteractable
     }
 
     public void UnlockDoor()
-    {
+    {        
+        //Apply sound Here
         OnUnlock.Invoke();
         isLocked = false;
+        // Open the door
+        StartCoroutine(RotateDoor(CheckDirection(), rotationSpeed));
+        AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.OpenDoor, this.transform.position);
+        OnOpen.Invoke();
+
+    }
+
+    public void LockedDoor()
+    {
+        //Apply sound Here
+        shakeEffect.ShakeObject();
+        OnInteractLocked.Invoke();
     }
 
     private IEnumerator RotateDoor(Quaternion targetRotation, float speed)
@@ -135,7 +145,7 @@ public class Door : MonoBehaviour, IInteractable
         // Ensure the rotation is exactly the target rotation at the end
         transform.localRotation = targetRotation;
 
-        if (isOpen)
+        if (IsOpen)
         {
             doorObstacle.carving = false;
         }
