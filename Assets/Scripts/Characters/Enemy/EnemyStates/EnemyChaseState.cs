@@ -88,28 +88,7 @@ public class EnemyChaseState : EnemyBaseState
         Collider[] targetsInViewRadius = Physics.OverlapSphere(enemy.transform.position, detectionRadius);
         if (enemy.playerCharacter == null)
         {
-            foreach (Collider target in targetsInViewRadius)
-            {
-                Vector3 directionToTarget = (target.transform.position - enemy.transform.position).normalized;
-
-                // Check if the target is within the cone's angle
-                if (Vector3.Angle(enemy.transform.forward, directionToTarget) < detectionAngle / 2)
-                {
-                    // Perform a raycast to ensure there are no obstacles
-                    RaycastHit hit;
-                    if (Physics.Raycast(enemy.transform.position, directionToTarget, out hit, detectionRadius))
-                    {
-                        if (hit.collider == target)
-                        {
-                            if (hit.collider.CompareTag("Player"))
-                            {
-                                enemy.playerCharacter = hit.collider.gameObject;
-                                Debug.Log("See Player");
-                            }
-                        }
-                    }
-                }
-            }
+            return;
         }
 
     }
