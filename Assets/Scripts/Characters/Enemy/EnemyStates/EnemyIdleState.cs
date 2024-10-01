@@ -5,6 +5,7 @@ public class EnemyIdleState : EnemyBaseState
 
     public override void EnterState()
     {
+        Debug.Log("Idle State");
         enemy.agent.ResetPath();
         enemy.animator.CrossFade(IdleHash, crossFadeDuration);
 

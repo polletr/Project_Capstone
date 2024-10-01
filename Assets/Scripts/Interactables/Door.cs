@@ -18,11 +18,16 @@ public class Door : MonoBehaviour, IInteractable
 
     private Quaternion closedRotation;
 
-    private Camera playerCamera;
+    private GameObject playerCamera;
 
     private NavMeshObstacle doorObstacle; // Assign in Inspector
 
     private ShakeEffect shakeEffect;
+
+    [SerializeField]
+    private float doorHealth = 10f;
+
+    private float currentHealth;
 
     private void Start()
     {
@@ -30,7 +35,8 @@ public class Door : MonoBehaviour, IInteractable
         // Save the door's closed rotation
         doorObstacle = GetComponent<NavMeshObstacle>();
         closedRotation = transform.localRotation;
-        playerCamera = Camera.main;
+        playerCamera = Camera.main.gameObject;
+        currentHealth = doorHealth;
     }
 
     public void OnInteract()
@@ -39,59 +45,45 @@ public class Door : MonoBehaviour, IInteractable
         {
             if (IsOpen)
             {
-                // Close the door
-                StartCoroutine(RotateDoor(closedRotation, rotationSpeed));
                 AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.CloseDoor, this.transform.position);
-                OnClose.Invoke();
+                CloseDoor(rotationSpeed);
             }
             else
             {
-                // Open the door
-                StartCoroutine(RotateDoor(CheckDirection(), rotationSpeed));
                 AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.OpenDoor, this.transform.position);
-                OnOpen.Invoke();
+                OpenDoor(rotationSpeed, playerCamera);
             }
-
-            // Toggle the door state
-            IsOpen = !IsOpen;
         }
         else
         {
-            //if player has key
             Event.OnTryToUnlockDoor?.Invoke(this);
-            //if player doesnt have key:
         }
     }
-
-    private void Update()
-    {
-        Debug.Log("Door is locked" + isLocked);
-    }
-
-    public void OnTriggerOpen(float speed)
+    private void OpenDoor(float speed, GameObject user)
     {
         if (!IsOpen)
         {
-            StartCoroutine(RotateDoor(CheckDirection(), speed));
-            AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.OpenDoor, this.transform.position);
+            StartCoroutine(RotateDoor(CheckDirection(user), speed));
             OnOpen.Invoke();
+            IsOpen = true;
         }
     }
 
-    public void OnTriggerClose(float speed)
+    private void CloseDoor(float speed)
     {
         if (IsOpen)
         {
             // Close the door
             StartCoroutine(RotateDoor(closedRotation, speed));
             OnClose.Invoke();
+            IsOpen = false;
         }
     }
 
-    private Quaternion CheckDirection()
+    private Quaternion CheckDirection(GameObject user)
     {
         // Open the door forward relative to the player
-        Vector3 doorToPlayer = playerCamera.transform.position - transform.position;
+        Vector3 doorToPlayer = user.transform.position - transform.position;
         Vector3 doorForward = transform.right;
 
         // Check if the player is behind the door to determine opening direction
@@ -111,23 +103,37 @@ public class Door : MonoBehaviour, IInteractable
 
     }
 
-    public void UnlockDoor()
-    {        
-        //Apply sound Here
-        OnUnlock.Invoke();
-        isLocked = false;
-        // Open the door
-        StartCoroutine(RotateDoor(CheckDirection(), rotationSpeed));
-        AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.OpenDoor, this.transform.position);
-        OnOpen.Invoke();
+    public void TakeDamage(float damage, GameObject user)
+    {
 
-    }
+        if (!IsOpen)
+        {
+            //Play strong Shaking sound
+            shakeEffect.ShakeObject();
+            currentHealth -= damage;
+        }
+
+        if (currentHealth <= 0)
+        {
+            //Play strong openning sound
+            OpenDoor(10f, user);
+            currentHealth = doorHealth;
+        }
+    }    
 
     public void LockedDoor()
     {
         //Apply sound Here
         shakeEffect.ShakeObject();
         OnInteractLocked.Invoke();
+    }
+
+    public void UnlockDoor()
+    {
+        //Apply sound Here
+        OnUnlock.Invoke();
+        isLocked = false;
+        OpenDoor(rotationSpeed, playerCamera);
     }
 
     private IEnumerator RotateDoor(Quaternion targetRotation, float speed)
@@ -154,4 +160,18 @@ public class Door : MonoBehaviour, IInteractable
             doorObstacle.carving = true;
         }
     }
+
+    public void OnTriggerOpen(float speed)
+    {
+        OpenDoor(speed, playerCamera);
+        //Think about opening sounds dependant on the speed
+    }
+
+    public void OnTriggerClose(float speed)
+    {
+        CloseDoor(speed);
+        //Think about opening sounds dependant on the speed
+
+    }
+
 }

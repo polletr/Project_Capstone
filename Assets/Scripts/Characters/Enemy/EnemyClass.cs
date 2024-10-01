@@ -9,6 +9,8 @@ public class EnemyClass : MonoBehaviour, IDamageable, IStunnable
     public Animator animator { get; set; }
     public PlayerController playerCharacter { get; set; }
     public bool CanGetHit { get; set; }
+    public Door TargetDoor { get; set; }
+
     public float PatrolRange { get { return patrolRange; } }
     public float MaxIdleTime { get { return maxIdleTime; } }
     public float MinIdleTime { get { return minIdleTime; } }
@@ -43,6 +45,7 @@ public class EnemyClass : MonoBehaviour, IDamageable, IStunnable
     [SerializeField] private float attackRecoveryTime = 1;
 
     [SerializeField] private float health = 3;
+    [field: SerializeField] public float AttackCooldown { get; private set; } 
 
     public GameEvent Event;
 
@@ -86,7 +89,6 @@ public class EnemyClass : MonoBehaviour, IDamageable, IStunnable
         if (Vector3.Distance(transform.position, playerCharacter.transform.position) <= AttackRange)
             playerCharacter.GetComponent<PlayerController>().GetDamaged(AttackDamage);
     }
-
 
     #region ChangeState
     public void ChangeState(EnemyBaseState newState)

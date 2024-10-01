@@ -53,34 +53,37 @@ public class EnemyBaseState : MonoBehaviour
         float detectionAngle = enemy.SightAngle;
 
         Collider[] targetsInViewRadius = Physics.OverlapSphere(enemy.transform.position, detectionRadius);
-        if (enemy.playerCharacter == null)
+        if (enemy.playerCharacter != null)
         {
-            foreach (Collider target in targetsInViewRadius)
+            return;
+        }
+
+        foreach (Collider target in targetsInViewRadius)
+        {
+            Vector3 directionToTarget = (target.transform.position - enemy.transform.position).normalized;
+
+            // Check if the target is within the cone's angle
+            if (Vector3.Angle(enemy.transform.forward, directionToTarget) < detectionAngle / 2)
             {
-                Vector3 directionToTarget = (target.transform.position - enemy.transform.position).normalized;
-
-                // Check if the target is within the cone's angle
-                if (Vector3.Angle(enemy.transform.forward, directionToTarget) < detectionAngle / 2)
+                // Perform a raycast to ensure there are no obstacles
+                RaycastHit hit;
+                if (Physics.Raycast(enemy.transform.position, directionToTarget, out hit, detectionRadius))
                 {
-                    // Perform a raycast to ensure there are no obstacles
-                    RaycastHit hit;
-                    if (Physics.Raycast(enemy.transform.position, directionToTarget, out hit, detectionRadius))
+                    if (hit.collider == target)
                     {
-
-                        if (hit.collider == target)
+                        if (hit.collider.CompareTag("Player"))
                         {
-                            if (hit.collider.CompareTag("Player"))
-                            {
-                                chasePos = target.transform.position;
-                                enemy.playerCharacter = hit.collider.GetComponent<PlayerController>();
-                                enemy.playerCharacter.AddEnemyToChaseList(enemy);
-                                enemy.ChangeState(new EnemyChaseState());
-                            }
+                            Debug.Log("See Player");
+                            chasePos = target.transform.position;
+                            enemy.playerCharacter = hit.collider.GetComponent<PlayerController>();
+                            enemy.playerCharacter.AddEnemyToChaseList(enemy);
+                            enemy.ChangeState(new EnemyChaseState());
                         }
                     }
                 }
             }
         }
+
     }
 
 

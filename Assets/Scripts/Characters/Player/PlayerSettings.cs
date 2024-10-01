@@ -25,6 +25,9 @@ public class PlayerSettings : ScriptableObject
     public float HealthRegenDelay = 2f;
     public float DropItemTime = 3f;
 
+    public float MaxEnemyDistance = 5.0f;
+
+
     public float cameraSensitivityMouse = 1.0f;
     public float cameraSensitivityGamepad = 1.0f;
     public float cameraAcceleration = 5.0f;

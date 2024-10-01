@@ -7,7 +7,6 @@ using FMOD;
 
 public class PlayerController : MonoBehaviour, IDamageable
 {
-
     public PlayerSettings Settings { get { return settings; } }
 
     public GameEvent Event;
@@ -61,6 +60,8 @@ public class PlayerController : MonoBehaviour, IDamageable
     public PlayerHealth playerHealth {get; private set;}
     
     private LayerMask groundLayer;
+
+    private float minEnemyDistance;
 
     [SerializeField]
     private GameObject meleeSocketHand;
@@ -231,6 +232,24 @@ public class PlayerController : MonoBehaviour, IDamageable
         {
             enemiesChasing.Remove(enemy);
         }
+    }
+
+    private void CheckEnemies()
+    {
+        if (enemiesChasing.Count == 0)
+            return;
+
+        foreach(EnemyClass enemy in enemiesChasing)
+        {
+            if (Vector3.Distance(enemy.transform.position, transform.position) < minEnemyDistance)
+            {
+                minEnemyDistance = Vector3.Distance(enemy.transform.position, transform.position);
+            }
+        }
+
+        RuntimeManager.StudioSystem.setParameterByName("EnemyDistance", minEnemyDistance / Settings.MaxEnemyDistance);
+
+
     }
 
 
