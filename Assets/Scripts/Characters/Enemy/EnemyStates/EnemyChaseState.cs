@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class EnemyChaseState : EnemyBaseState
 {
+    public EnemyChaseState(EnemyClass enemyClass,EnemyAnimator enemyAnim) 
+        : base(enemyClass,enemyAnim) { }
     public override void EnterState()
     {
-        enemy.animator.CrossFade(ChaseHash, crossFadeDuration);
+        enemyAnimator.animator.CrossFade(enemyAnimator.ChaseHash, crossFadeDuration);
 
         enemy.agent.speed = enemy.ChaseSpeed;
 
@@ -40,14 +42,14 @@ public class EnemyChaseState : EnemyBaseState
                 if (Vector3.Distance(enemy.transform.position, enemy.playerCharacter.transform.position) <= enemy.AttackRange)
                 {
                     enemy.agent.ResetPath();
-                    enemy.ChangeState(new EnemyAttackState());
+                    enemy.ChangeState(enemy.AttackState);
                 }
             }
             else
             {
                 enemy.agent.ResetPath();
                 enemy.PatrolCenterPos = enemy.transform.position;
-                enemy.ChangeState(new EnemyIdleState());
+                enemy.ChangeState(enemy.AttackState);
             }
 
         }
@@ -56,7 +58,7 @@ public class EnemyChaseState : EnemyBaseState
         {
             if (enemy.agent.velocity.sqrMagnitude == 0f)
             {
-                enemy.ChangeState(new EnemyIdleState());
+                enemy.ChangeState(enemy.IdleState);
             }
         }
 
@@ -85,7 +87,7 @@ public class EnemyChaseState : EnemyBaseState
                         {
                             Debug.Log("See Door");
                             enemy.TargetDoor = door;
-                            enemy.ChangeState(new EnemyOpenDoorState());
+                            enemy.ChangeState(enemy.OpenDoorState);
                         }
                         if (hit.collider.CompareTag("Player") && enemy.playerCharacter == null)
                         {
@@ -93,7 +95,7 @@ public class EnemyChaseState : EnemyBaseState
                             chasePos = target.transform.position;
                             enemy.playerCharacter = hit.collider.GetComponent<PlayerController>();
                             enemy.playerCharacter.AddEnemyToChaseList(enemy);
-                            enemy.ChangeState(new EnemyChaseState());
+                            enemy.ChangeState(enemy.ChaseState);
                         }
 
                     }

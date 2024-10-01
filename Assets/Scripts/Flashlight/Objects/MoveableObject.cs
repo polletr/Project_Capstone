@@ -1,18 +1,15 @@
-using System.Collections;
 using UnityEngine;
+
 [RequireComponent(typeof(Rigidbody))]
 public class MoveableObject : MonoBehaviour, IMovable
 {
 
-    [SerializeField] private float breakForce = 4f;
-
+   // [SerializeField] private float breakForce = 4f;
     [field: SerializeField] public bool IsPicked { get; set; }
-
 
     public bool DefaultUseGravity { get; private set; }
     public float DefaultDrag { get; private set; }
     public RigidbodyConstraints DefaultConstraints { get; private set; }
-
 
     public Rigidbody Rb { get; set; }
 
@@ -20,6 +17,7 @@ public class MoveableObject : MonoBehaviour, IMovable
     {
         IsPicked = false;
         Rb = GetComponent<Rigidbody>();
+
         DefaultUseGravity = Rb.useGravity;
         DefaultDrag = Rb.drag;
         DefaultConstraints = Rb.constraints;
@@ -29,19 +27,21 @@ public class MoveableObject : MonoBehaviour, IMovable
 
     public void ApplyEffect()
     {
-      //outline effect
+        //outline effect
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (IsPicked && collision.relativeVelocity.magnitude > breakForce)
-            IsPicked = false;
-    }
+    #region CollisonDrop
+    /* private void OnCollisionEnter(Collision collision)
+     {
+         if (IsPicked && collision.relativeVelocity.magnitude > breakForce)
+             IsPicked = false;
+     }
 
-    public IEnumerator Pickup()
-    {
-        yield return new WaitForSecondsRealtime(5f);
+     public IEnumerator Pickup()
+     {
+         yield return new WaitForSecondsRealtime(5f);
 
-        IsPicked = true;
-    }
+         IsPicked = true;
+     }*/
+    #endregion
 }

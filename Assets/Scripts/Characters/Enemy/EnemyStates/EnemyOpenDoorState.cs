@@ -7,6 +7,9 @@ public class EnemyOpenDoorState : EnemyBaseState
     private bool attacked;
     private float attackCooldown; // Time between attacks
     private float attackCooldownTimer;
+    
+    public EnemyOpenDoorState(EnemyClass enemyClass, EnemyAnimator enemyAnim)
+        : base(enemyClass, enemyAnim) { }
 
     public override void EnterState()
     {
@@ -22,7 +25,7 @@ public class EnemyOpenDoorState : EnemyBaseState
 
         enemy.agent.SetDestination(enemy.TargetDoor.transform.position);
 
-        enemy.animator.Play(AttackHash);
+        enemyAnimator.animator.Play(enemyAnimator.AttackHash);
 
     }
 
@@ -53,7 +56,7 @@ public class EnemyOpenDoorState : EnemyBaseState
                 attacked = false;
                 attackCooldownTimer = 0f;
                 timer = 0f; // Reset the anticipation timer for next attack
-                enemy.animator.Play(AttackHash);
+                enemyAnimator.animator.Play(enemyAnimator.AttackHash);
             }
         }
 
@@ -68,19 +71,19 @@ public class EnemyOpenDoorState : EnemyBaseState
             {
                 enemy.agent.ResetPath();
                 enemy.PatrolCenterPos = enemy.transform.position;
-                enemy.ChangeState(new EnemyIdleState());
+                enemy.ChangeState(enemy.IdleState);
             }
 
         }
         else
         {
-            enemy.ChangeState(new EnemyIdleState());
+            enemy.ChangeState(enemy.IdleState);
         }
 
         // Check if the door is opened
         if (enemy.TargetDoor.IsOpen)
         {
-            enemy.ChangeState(new EnemyChaseState()); // Go to another state once the door is open
+            enemy.ChangeState(enemy.ChaseState); // Go to another state once the door is open
         }
 
     }
@@ -91,7 +94,7 @@ public class EnemyOpenDoorState : EnemyBaseState
         if (distance <= soundRange * enemy.HearingMultiplier / 2f && enemy.agent.hasPath)
         {
             chasePos = soundPosition;
-            enemy.ChangeState(new EnemyChaseState());
+            enemy.ChangeState(enemy.ChaseState);
         }
     }
 

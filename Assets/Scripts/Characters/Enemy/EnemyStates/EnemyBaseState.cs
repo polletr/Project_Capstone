@@ -3,23 +3,25 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public class EnemyBaseState : MonoBehaviour
+public abstract class EnemyBaseState 
 {
     protected Vector3 chasePos;
 
     protected float time; // How long the enemy will stay in the idle state
     protected float timer; // Tracks the time spent in the idle state
 
-    protected static readonly int IdleHash = Animator.StringToHash("Idle");
-    protected static readonly int ChaseHash = Animator.StringToHash("Chase");
-    protected static readonly int WalkHash = Animator.StringToHash("Walk");
-    protected static readonly int AttackHash = Animator.StringToHash("Attack");
-    protected static readonly int GetHitHash = Animator.StringToHash("GetHit");
-    protected static readonly int DieHash = Animator.StringToHash("Die");
-
     protected const float crossFadeDuration = 0.2f;
 
+    public EnemyAnimator enemyAnimator { get; private set; }
     public EnemyClass enemy { get; set; }
+    
+    public EnemyBaseState(EnemyClass enemyClass,EnemyAnimator enemyAnim)
+    {
+        enemy = enemyClass;
+        enemyAnimator = enemyAnim;
+    }
+    
+
     public virtual void EnterState() { }
     public virtual void ExitState() { }
     public virtual void StateFixedUpdate() { }
@@ -27,7 +29,7 @@ public class EnemyBaseState : MonoBehaviour
     public virtual void HandleAttack() { }
     public virtual void HandleDeath() 
     {
-        enemy.ChangeState(new EnemyDeathState());
+        enemy.ChangeState(enemy.DeathState);
     }
 
     protected virtual void OnSoundDetected(Vector3 soundPosition, float soundRange)
@@ -36,14 +38,14 @@ public class EnemyBaseState : MonoBehaviour
         if (distance <= soundRange * enemy.HearingMultiplier)
         {
             chasePos = soundPosition;
-            enemy.ChangeState(new EnemyChaseState());
+            enemy.ChangeState(enemy.ChaseState);
         }
     }
 
     public virtual void HandleGetHit()
     {
         if (enemy.CanGetHit)
-            enemy.ChangeState(new EnemyGetHitState());
+            enemy.ChangeState(enemy.GetHitState);
     }
 
 
@@ -77,7 +79,7 @@ public class EnemyBaseState : MonoBehaviour
                             chasePos = target.transform.position;
                             enemy.playerCharacter = hit.collider.GetComponent<PlayerController>();
                             enemy.playerCharacter.AddEnemyToChaseList(enemy);
-                            enemy.ChangeState(new EnemyChaseState());
+                            enemy.ChangeState(enemy.ChaseState);
                         }
                     }
                 }

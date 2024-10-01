@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6645186365888055305}
   - component: {fileID: 4065168574063520080}
   - component: {fileID: 8122665178086589820}
+  - component: {fileID: 5615136101197325716}
   m_Layer: 0
   m_Name: BaseEnemy
   m_TagString: Enemy
@@ -70,7 +71,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 679fb04ba36c7454882cef773305a7ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentState: {fileID: 0}
   agent: {fileID: 0}
   patrolRange: 8
   maxIdleTime: 5
@@ -85,6 +85,7 @@ MonoBehaviour:
   attackAntecipationTime: 1
   attackRecoveryTime: 1
   health: 3
+  <AttackCooldown>k__BackingField: 0
   Event: {fileID: 11400000, guid: 821642c9ec9c5474b88bc1b575e70ddf, type: 2}
 --- !u!95 &4065168574063520080
 Animator:
@@ -130,6 +131,19 @@ CapsuleCollider:
   m_Height: 2.0788207
   m_Direction: 1
   m_Center: {x: 0, y: -0.18949679, z: 0}
+--- !u!114 &5615136101197325716
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4130351107741602822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20cf758cad1b19d409c29f0b5f5f386e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <animator>k__BackingField: {fileID: 4065168574063520080}
 --- !u!1001 &805948520899254903
 PrefabInstance:
   m_ObjectHideFlags: 0

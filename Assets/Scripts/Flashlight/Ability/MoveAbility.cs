@@ -72,10 +72,10 @@ public class MoveAbility : FlashlightAbility
 
         float distance = Vector3.Distance(pickup.transform.position, moveHoldPos.position);
 
-        if (distance < 0.1f && !pickup.IsPicked)
+       /* if (distance < 0.1f && !pickup.IsPicked)
         {
             StartCoroutine(pickup.Pickup());
-        }
+        }*/
 
         if (distance > 0.1f)
         {
@@ -84,13 +84,7 @@ public class MoveAbility : FlashlightAbility
             pickup.Rb.AddForce(direction.normalized * pickupForce);
         }
 
-        /*       if (!pickup.IsPicked && distance < 0.1f) Debug.Log("Object dropped by hit");
-
-                if (distance > maxHoldRange) Debug.Log("Object dropped by distance");
-
-                if (timer.IsFinished) Debug.Log("Object dropped by time");
-        */
-        if (!pickup.IsPicked && distance < 0.1f || distance > maxHoldRange || timer.IsFinished)
+        if ( distance < 0.1f || distance > maxHoldRange || timer.IsFinished) // && !pickup.IsPicked ) // collison drop
             Drop();
     }
 

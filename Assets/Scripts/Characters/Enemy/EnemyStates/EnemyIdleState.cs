@@ -2,12 +2,15 @@ using UnityEngine;
 
 public class EnemyIdleState : EnemyBaseState
 {
+    
+    public EnemyIdleState(EnemyClass enemyClass, EnemyAnimator enemyAnim) 
+        : base(enemyClass,enemyAnim) { }
 
     public override void EnterState()
     {
         Debug.Log("Idle State");
         enemy.agent.ResetPath();
-        enemy.animator.CrossFade(IdleHash, crossFadeDuration);
+        enemyAnimator.animator.CrossFade(enemyAnimator.IdleHash, crossFadeDuration);
 
         enemy.Event.OnSoundEmitted += OnSoundDetected;
         // Randomize the idle time between a range of seconds
@@ -38,7 +41,7 @@ public class EnemyIdleState : EnemyBaseState
 
         if (timer >= time)
         {
-            enemy.ChangeState(new EnemyPatrolState());
+            enemy.ChangeState(enemy.PatrolState);
         }
     }
 

@@ -29,6 +29,7 @@ public class PlayerInventory : MonoBehaviour
         Event.OnInteractItem += CollectItem;
         Event.OnAskForBattery += SendBattery;
         Event.OnTryToUnlockDoor += TryToOpenDoor;
+        Event.OnEnterRoom += RemoveAllKeys;
     }
 
     private void OnDisable()
@@ -36,6 +37,7 @@ public class PlayerInventory : MonoBehaviour
         Event.OnInteractItem -= CollectItem;
         Event.OnAskForBattery -= SendBattery;
         Event.OnTryToUnlockDoor -= TryToOpenDoor;
+        Event.OnEnterRoom -= RemoveAllKeys;
 
     }
 
@@ -43,7 +45,8 @@ public class PlayerInventory : MonoBehaviour
     {
         if (HasKey(door))
         {
-            door.UnlockDoor();  
+            door.UnlockDoor(); 
+            keys.Remove(door);
         }
         else
         {
@@ -110,6 +113,11 @@ public class PlayerInventory : MonoBehaviour
         {
             Debug.Log("No battery in inventory");
         }
+    }
+
+    public void RemoveAllKeys(HubSO data)
+    {
+        keys.Clear();
     }
 
     public bool HasKey(Door item) // musse wtf change this later

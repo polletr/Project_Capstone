@@ -1,20 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerDeathState : PlayerBaseState
 {
-    public PlayerDeathState(PlayerAnimator animator, PlayerController playerController, InputManager inputM) : base(animator, playerController, inputM)
-    {
-    }
+    public PlayerDeathState
+        (PlayerAnimator animator, PlayerController playerController, InputManager inputM)
+        : base(animator, playerController, inputM) { }
 
     public override void EnterState()
     {
-        Debug.Log("Player Dead");
+        playerAnimator.animator.Play(playerAnimator.DieHash);
+        player.Event.OnPlayerDeath?.Invoke();
+        //player.cam.transform.parent = null;
     }
     public override void ExitState()
     {
-
+        //player.cam.transform.parent = null;
     }
 
     public override void StateFixedUpdate()
@@ -24,7 +24,7 @@ public class PlayerDeathState : PlayerBaseState
 
     public override void StateUpdate()
     {
-        StepsSound();
+
     }
 
     public override void HandleMovement(Vector2 dir)

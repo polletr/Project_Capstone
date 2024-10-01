@@ -1,10 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMoveState : PlayerBaseState
 {
-    public PlayerMoveState(PlayerAnimator animator, PlayerController playerController, InputManager inputM) : base(animator, playerController, inputM) { }
+    public PlayerMoveState(PlayerAnimator animator, PlayerController playerController, InputManager inputM)
+        : base(animator, playerController, inputM) { }
 
     public override void EnterState()
     {
