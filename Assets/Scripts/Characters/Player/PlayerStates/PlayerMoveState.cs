@@ -21,8 +21,17 @@ public class PlayerMoveState : PlayerBaseState
         base.StateUpdate();
 
         Ray ray = new Ray(player.Camera.position, player.Camera.forward);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, player.Settings.MaxEnemyDistance))
+        {
+            var obj = hit.collider.gameObject;
+            if (obj.TryGetComponent(out EnemyClass enemy))
+            {
+                player.AddEnemyToChaseList(enemy);
+            }
+        }
 
-        if (Physics.Raycast(ray, out RaycastHit hit, player.InteractionRange))
+        if (Physics.Raycast(ray, out hit, player.InteractionRange))
         {
             var obj = hit.collider.gameObject;
             if (obj.TryGetComponent(out IInteractable thing))

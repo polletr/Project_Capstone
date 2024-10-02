@@ -1,3 +1,4 @@
+using FMOD.Studio;
 using UnityEngine;
 
 public class EnemyIdleState : EnemyBaseState
@@ -47,6 +48,11 @@ public class EnemyIdleState : EnemyBaseState
         {
             enemy.ChangeState(enemy.PatrolState);
         }
+
+        PLAYBACK_STATE playbackState;
+        enemy.currentAudio.getPlaybackState(out playbackState);
+
+        Debug.Log(playbackState);
     }
 
 }

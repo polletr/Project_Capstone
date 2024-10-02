@@ -246,10 +246,18 @@ public class PlayerController : MonoBehaviour, IDamageable
             {
                 minEnemyDistance = Vector3.Distance(enemy.transform.position, transform.position);
             }
+            
+            if (Vector3.Distance(enemy.transform.position, transform.position) > Settings.MaxEnemyDistance)
+            {
+                enemiesChasing.Remove(enemy);
+                break;
+            }
         }
 
-        RuntimeManager.StudioSystem.setParameterByName("EnemyDistance", minEnemyDistance / Settings.MaxEnemyDistance);
-
+        if (enemiesChasing.Count > 0)
+            RuntimeManager.StudioSystem.setParameterByName("EnemyDistance", minEnemyDistance / Settings.MaxEnemyDistance);
+        else
+            RuntimeManager.StudioSystem.setParameterByName("EnemyDistance", 1);
 
     }
 
