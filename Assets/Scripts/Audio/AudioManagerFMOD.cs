@@ -21,7 +21,9 @@ public class AudioManagerFMOD : Singleton<AudioManagerFMOD>
     public EventInstance CreateEventInstance(EventReference eventReference)
     {
         EventInstance eventInstance = RuntimeManager.CreateInstance(eventReference);
-        eventInstances.Add(eventInstance);
+        if (!eventInstances.Contains(eventInstance))
+            eventInstances.Add(eventInstance);
+
         return eventInstance;
     }
 

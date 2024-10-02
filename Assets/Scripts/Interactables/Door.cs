@@ -73,7 +73,6 @@ public class Door : MonoBehaviour, IInteractable
     {
         if (IsOpen)
         {
-            // Close the door
             StartCoroutine(RotateDoor(closedRotation, speed));
             OnClose.Invoke();
             IsOpen = false;
@@ -108,7 +107,7 @@ public class Door : MonoBehaviour, IInteractable
 
         if (!IsOpen)
         {
-            //Play strong Shaking sound
+            AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.TenseLockedDoor, transform.position);
             shakeEffect.ShakeObject();
             currentHealth -= damage;
         }
@@ -123,7 +122,7 @@ public class Door : MonoBehaviour, IInteractable
 
     public void LockedDoor()
     {
-        //Apply sound Here
+        AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.EasyLockedDoor, transform.position);
         shakeEffect.ShakeObject();
         OnInteractLocked.Invoke();
     }

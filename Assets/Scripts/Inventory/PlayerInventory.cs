@@ -80,6 +80,7 @@ public class PlayerInventory : MonoBehaviour
         if (_batteryPacks.Count < maxBatteryCapacity)
         {
             _batteryPacks.Enqueue(newBattery);
+            AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.PickUpBatteries, transform.position);
             newBattery.Collect();
         }
         else
