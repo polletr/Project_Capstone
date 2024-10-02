@@ -19,6 +19,8 @@ public class SFXEvents : ScriptableObject
     [field: SerializeField] public EventReference HeavyToLowBreathing { get; private set; }
     [field: SerializeField] public EventReference PlayerHeartbeat { get; private set; }
     [field: SerializeField] public EventReference PickUpBatteries { get; private set; }
+    [field: SerializeField] public EventReference GetHit { get; private set; }
+
 
     [field: Header("Flashlight")]
     [field: SerializeField] public EventReference PickUpFlashlight { get; private set; }
@@ -32,5 +34,9 @@ public class SFXEvents : ScriptableObject
 
     [field: Header("Enemies")]
     [field: SerializeField] public EventReference Cry { get; private set; }
+    [field: SerializeField] public EventReference Chase { get; private set; }
+    [field: SerializeField] public EventReference Attack { get; private set; }
+
+
 
 }
