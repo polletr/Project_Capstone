@@ -19,7 +19,7 @@ public class AppearDisappear : MonoBehaviour
 
     }
 
-    public void Disappear()
+    public void RevertAppear()
     {
         foreach (GameObject obj in appearObj)
         {
