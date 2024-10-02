@@ -117,6 +117,9 @@ public class FlashLight : MonoBehaviour, ICollectable, IInteractable
             ability.Initialize(this);
             ability.gameObject.transform.parent = transform;
             flashlightAbilities.Add(ability);
+
+            if(flashlightAbilities.Count == 1)
+                CurrentAbility = ability;
         }
     }
 

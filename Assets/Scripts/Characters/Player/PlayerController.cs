@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour, IDamageable
     public Transform Camera { get { return _camera; } }
     public Transform CameraHolder { get { return _cameraHolder; } }
     public Transform Hand { get { return _hand; } }
+    public Transform DeathParentObj;
 
     [SerializeField] private float health;
     public float Health

@@ -16,7 +16,7 @@ public class DebugAbilityUI : MonoBehaviour
     {
         if (flashLight != null)
         {
-            batteryLifeUI.text = flashLight.battery != null ? "Battery Life: " + flashLight.battery.BatteryLife.ToString("F2") : "No battery in flashlight";
+            batteryLifeUI.text = flashLight.battery != null ? "Battery Life: " + flashLight.battery.BatteryLife.ToString("F2") : "No battery in flashlight press {Q}";
             currentAbilityUI.text = flashLight.CurrentAbility != null ? "Current Ability: " + flashLight.CurrentAbility : "No ability";        }
         else
         {

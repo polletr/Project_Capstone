@@ -6,6 +6,7 @@ public class GameEvent : ScriptableObject
     public UnityAction<Vector3, float> OnSoundEmitted;
 
     public UnityAction OnPlayerDeath;
+    public UnityAction OnPlayerRespawn;
 
     public UnityAction<bool> OnFlashlightCollect;
     public UnityAction<FlashlightAbility> OnPickupAbility;

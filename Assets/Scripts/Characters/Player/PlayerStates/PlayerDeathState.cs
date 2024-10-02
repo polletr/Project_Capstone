@@ -1,4 +1,5 @@
 using UnityEngine;
+using Utilities;
 
 public class PlayerDeathState : PlayerBaseState
 {
@@ -6,25 +7,34 @@ public class PlayerDeathState : PlayerBaseState
         (PlayerAnimator animator, PlayerController playerController, InputManager inputM)
         : base(animator, playerController, inputM) { }
 
+    CountdownTimer timer;
+
     public override void EnterState()
     {
         playerAnimator.animator.Play(playerAnimator.DieHash);
         player.Event.OnPlayerDeath?.Invoke();
+        timer = new CountdownTimer(player.Settings.RespawnTime);
+        timer.Start();
         //player.cam.transform.parent = null;
     }
     public override void ExitState()
     {
         //player.cam.transform.parent = null;
+        player.Event.OnPlayerRespawn?.Invoke();
     }
 
     public override void StateFixedUpdate()
     {
-
+      
     }
 
     public override void StateUpdate()
     {
-
+      timer.Tick(Time.deltaTime);
+        if (timer.IsFinished)
+        {
+            player.Event.OnPlayerRespawn?.Invoke(); 
+        }
     }
 
     public override void HandleMovement(Vector2 dir)

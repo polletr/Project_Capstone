@@ -25,6 +25,8 @@ public class PlayerSettings : ScriptableObject
     public float HealthRegenDelay = 2f;
     public float DropItemTime = 3f;
 
+    public float RespawnTime = 5f;
+
     public float MaxEnemyDistance = 5.0f;
 
 
