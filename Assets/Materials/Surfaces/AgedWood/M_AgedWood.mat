@@ -14,7 +14,6 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _COORDINATE_SPACE_UV_SPACE
-  - _SPECULAR_SETUP
   - _WORLD_SPACE_DIRECTION_UP
   m_InvalidKeywords:
   - _USE_BASE_COLOR_TEXTURE
@@ -24,7 +23,7 @@ Material:
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 2000
   stringTagMap:
     RenderType: Opaque
   disabledShaderPasses: []
@@ -80,6 +79,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SpecularMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -108,6 +111,7 @@ Material:
     - _Contrast: 1
     - _Cull: 2
     - _Detail_Normal_Strength: 1
+    - _Displacement_Scale: 0
     - _DstBlend: 0
     - _ENABLE_DETAIL_LAYER: 0
     - _Emission_Intensity: 0
@@ -131,7 +135,7 @@ Material:
     - _USE_NORMAL_MAP: 1
     - _USE_ROUGHNESS_TEXTURE: 1
     - _WORLD_SPACE_DIRECTION: 0
-    - _WorkflowMode: 0
+    - _WorkflowMode: 1
     - _ZTest: 4
     - _ZWrite: 1
     - _ZWriteControl: 0
