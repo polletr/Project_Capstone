@@ -5,7 +5,7 @@
 			<value>FlickerOnce</value>
 		</property>
 		<property name="outputFormat">
-			<value>1</value>
+			<value>2</value>
 		</property>
 		<relationship name="folder">
 			<destination>{c6cf5acc-e8ef-4407-bc04-a2c454a08765}</destination>
@@ -100,6 +100,9 @@
 		</relationship>
 	</object>
 	<object class="EventMixerGroup" id="{44ecdc60-0db7-41a2-a937-bf65297c7ee3}">
+		<property name="volume">
+			<value>-5.5</value>
+		</property>
 		<property name="name">
 			<value>Audio 1</value>
 		</property>
@@ -119,6 +122,7 @@
 	<object class="MixerBusEffectChain" id="{8d935772-16bd-4cbd-a979-ac273b7e25c4}">
 		<relationship name="effects">
 			<destination>{0da8f34b-7b87-46fe-af9b-c31447b560ad}</destination>
+			<destination>{65f489e1-4d4f-48c7-9fa3-6ca264d1e8f1}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{e06dc2ed-e6c2-4e44-b2d3-1effad0320ba}" />
@@ -131,13 +135,19 @@
 			<value>-80</value>
 		</property>
 		<property name="attackTime">
-			<value>960</value>
+			<value>915.128235</value>
+		</property>
+		<property name="peakValue">
+			<value>-8.66666794</value>
 		</property>
 		<property name="holdTime">
 			<value>4000</value>
 		</property>
+		<property name="decayTime">
+			<value>3019.23145</value>
+		</property>
 		<property name="sustainValue">
-			<value>-5.5</value>
+			<value>-17.0555553</value>
 		</property>
 		<property name="releaseTime">
 			<value>5200</value>
@@ -149,9 +159,12 @@
 	<object class="MixerBusEffectChain" id="{56800e7f-b61b-4810-9b62-2472e3ecae76}">
 		<relationship name="effects">
 			<destination>{eb0c5f5d-145c-407c-b6bd-0462fe0250b9}</destination>
+			<destination>{1a3c29c3-4913-4842-8032-4987f7a21d35}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{a14b668b-4848-434e-bd15-ff67dde2bc56}" />
 	<object class="MixerBusFader" id="{0da8f34b-7b87-46fe-af9b-c31447b560ad}" />
+	<object class="SpatialiserEffect" id="{65f489e1-4d4f-48c7-9fa3-6ca264d1e8f1}" />
 	<object class="MixerBusFader" id="{eb0c5f5d-145c-407c-b6bd-0462fe0250b9}" />
+	<object class="SFXReverbEffect" id="{1a3c29c3-4913-4842-8032-4987f7a21d35}" />
 </objects>

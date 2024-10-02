@@ -1,10 +1,11 @@
 using UnityEngine;
+using System.Collections;
 
 [RequireComponent(typeof(Rigidbody))]
 public class MoveableObject : MonoBehaviour, IMovable
 {
 
-   // [SerializeField] private float breakForce = 4f;
+    //[SerializeField] private float breakForce = 4f;
     [field: SerializeField] public bool IsPicked { get; set; }
 
     public bool DefaultUseGravity { get; private set; }
@@ -31,17 +32,17 @@ public class MoveableObject : MonoBehaviour, IMovable
     }
 
     #region CollisonDrop
-    /* private void OnCollisionEnter(Collision collision)
-     {
-         if (IsPicked && collision.relativeVelocity.magnitude > breakForce)
-             IsPicked = false;
-     }
+  /*  private void OnCollisionEnter(Collision collision)
+    {
+        if (IsPicked && collision.relativeVelocity.magnitude > breakForce)
+            IsPicked = false;
+    }
 
-     public IEnumerator Pickup()
-     {
-         yield return new WaitForSecondsRealtime(5f);
+    public IEnumerator Pickup()
+    {
+        yield return new WaitForSecondsRealtime(5f);
 
-         IsPicked = true;
-     }*/
+        IsPicked = true;
+    }*/
     #endregion
 }
