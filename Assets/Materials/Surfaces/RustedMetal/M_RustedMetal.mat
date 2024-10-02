@@ -27,13 +27,12 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _COORDINATE_SPACE_UV_SPACE
-  - _SPECULAR_SETUP
-  - _USE_METALLIC_MAP
   - _WORLD_SPACE_DIRECTION_UP
   m_InvalidKeywords:
   - _USE_AO_MAP
   - _USE_BASE_COLOR_TEXTURE
   - _USE_HEIGHT_MAP
+  - _USE_METALLIC_MAP
   - _USE_NORMAL_MAP
   - _USE_ROUGHNESS_TEXTURE
   m_LightmapFlags: 4
@@ -135,6 +134,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SpecularMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -205,7 +208,7 @@ Material:
     - _USE_NORMAL_MAP: 1
     - _USE_ROUGHNESS_TEXTURE: 1
     - _WORLD_SPACE_DIRECTION: 0
-    - _WorkflowMode: 0
+    - _WorkflowMode: 1
     - _ZTest: 4
     - _ZWrite: 1
     - _ZWriteControl: 0
