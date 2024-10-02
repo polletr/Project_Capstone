@@ -19,10 +19,14 @@ public class EnemyAttackState : EnemyBaseState
         time = enemy.AttackAntecipationTime;
         timer = 0f; // Reset the timer
 
+        enemy.currentAudio = AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.Attack);
+        enemy.currentAudio.start();
+
+
     }
     public override void ExitState()
     {
-
+        enemy.currentAudio.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
     }
 
     public override void StateFixedUpdate()
