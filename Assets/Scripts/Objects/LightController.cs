@@ -47,6 +47,8 @@ public class LightController : MonoBehaviour
     {
         if (!check)
             StopConstantFlickering();
+        else
+            AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.LightTurnOn, transform.position);
         // Random chance to flicker when turning on/off
         if (check && Random.value < flickerChance) // When turning on
         {
@@ -61,6 +63,7 @@ public class LightController : MonoBehaviour
     {
         if (!isFlickering)
         {
+            AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.LightFlickerOnce, transform.position);
             float randomFlickerDuration = Random.Range(minFlickerDuration, maxFlickerDuration);
             StartCoroutine(FlickerCoroutine(randomFlickerDuration));
         }

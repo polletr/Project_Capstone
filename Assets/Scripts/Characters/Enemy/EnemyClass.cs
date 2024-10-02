@@ -1,3 +1,4 @@
+using FMOD.Studio;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,7 @@ public class EnemyClass : MonoBehaviour, IDamageable, IStunnable
     public PlayerController playerCharacter { get; set; }
     public bool CanGetHit { get; set; }
     public Door TargetDoor { get; set; }
+    public EventInstance currentAudio{ get; set; }
 
     public float PatrolRange
     {
@@ -101,6 +103,7 @@ public class EnemyClass : MonoBehaviour, IDamageable, IStunnable
     [field: SerializeField] public float AttackCooldown { get; private set; }
 
     public GameEvent Event;
+
 
     void Awake()
     {

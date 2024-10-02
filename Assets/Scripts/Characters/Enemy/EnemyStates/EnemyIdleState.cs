@@ -22,10 +22,14 @@ public class EnemyIdleState : EnemyBaseState
             enemy.playerCharacter = null;
         }
 
+        enemy.currentAudio = AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.Cry);
+        enemy.currentAudio.start();
+
     }
     public override void ExitState()
     {
         enemy.Event.OnSoundEmitted -= OnSoundDetected;
+        enemy.currentAudio.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
     }
 
     public override void StateFixedUpdate()

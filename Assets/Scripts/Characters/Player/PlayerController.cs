@@ -134,7 +134,7 @@ public class PlayerController : MonoBehaviour, IDamageable
         currentState?.StateUpdate();
 
         RuntimeManager.StudioSystem.setParameterByName("Health", Health / Settings.PlayerHealth);
-
+        CheckEnemies();
         if (Input.GetKeyDown(KeyCode.O))
         {
             GetDamaged(1f);
@@ -206,6 +206,7 @@ public class PlayerController : MonoBehaviour, IDamageable
         playerFootsteps = AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.PlayerSteps);
         playerBreathing = AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.HeavyToLowBreathing);
         playerHeartbeat = AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.PlayerHeartbeat);
+        RuntimeManager.StudioSystem.setParameterByName("EnemyDistance", 1);
         playerHeartbeat.start();
 
     }

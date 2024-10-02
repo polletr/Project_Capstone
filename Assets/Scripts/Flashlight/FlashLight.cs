@@ -39,10 +39,6 @@ public class FlashLight : MonoBehaviour, ICollectable, IInteractable
 
     private void Awake()
     {
-        if (this.TryGetComponentInParent(out playerController))
-        {
-            GetComponent<BoxCollider>().enabled = false;
-        }
         Light = GetComponent<Light>();
         Light.enabled = true;
         isFlashlightOn = true;
@@ -61,18 +57,28 @@ public class FlashLight : MonoBehaviour, ICollectable, IInteractable
                     ability.Initialize(this);
             }
         }
+
+        if (this.TryGetComponentInParent(out playerController))
+        {
+            GetComponent<BoxCollider>().enabled = false;
+        }
+        else
+        {
+            StartCoroutine(Flicker(Mathf.Infinity, null));
+        }
+
     }
 
     private void OnEnable()
     {
         Event.OnChangeBattery += SetBattery;
-        Event.OnPickupAbility += Collect;
+        Event.OnPickupAbility += CollectAbility;
     }
 
     private void OnDisable()
     {
         Event.OnChangeBattery -= SetBattery;
-        Event.OnPickupAbility -= Collect;
+        Event.OnPickupAbility -= CollectAbility;
     }
 
     private void Update()
@@ -101,8 +107,9 @@ public class FlashLight : MonoBehaviour, ICollectable, IInteractable
 
     }
 
-    private void Collect(FlashlightAbility ability)
+    private void CollectAbility(FlashlightAbility ability)
     {
+
         // check if its in flashlightAbilities
         // add and enable it
         if (!flashlightAbilities.Contains(ability))
@@ -158,6 +165,7 @@ public class FlashLight : MonoBehaviour, ICollectable, IInteractable
 
     public void TurnOffLight()
     {
+
         Light.enabled = false;
         isFlashlightOn = false;
     }
@@ -185,6 +193,8 @@ public class FlashLight : MonoBehaviour, ICollectable, IInteractable
 
     public void HandleFlashlightPower()
     {
+        AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.FlashlightOnOff, transform.position);
+
         isFlashlightOn = !isFlashlightOn;
         if (isFlashlightOn)
         {
@@ -274,6 +284,8 @@ public class FlashLight : MonoBehaviour, ICollectable, IInteractable
 
     public void Collect()
     {
+        AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.PickUpFlashlight, transform.position);
+
         Event.OnFlashlightCollect(true);
         Destroy(this.gameObject);// uhhhhhhh disable it?
     }
