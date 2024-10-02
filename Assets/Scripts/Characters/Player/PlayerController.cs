@@ -14,7 +14,6 @@ public class PlayerController : MonoBehaviour, IDamageable
     public Transform Camera { get { return _camera; } }
     public Transform CameraHolder { get { return _cameraHolder; } }
     public Transform Hand { get { return _hand; } }
-    public Transform DeathParentObj;
 
     [SerializeField] private float health;
     public float Health
@@ -71,6 +70,9 @@ public class PlayerController : MonoBehaviour, IDamageable
     [SerializeField] Transform _camera;
     [SerializeField] Transform _cameraHolder;
     [SerializeField] Transform _hand;
+    public Transform DeathParentObj;
+
+    public Camera PlayerCam { get; private set; }
 
     private List<EnemyClass> enemiesChasing = new();
     public EventInstance playerFootsteps { get; private set; }
@@ -95,6 +97,8 @@ public class PlayerController : MonoBehaviour, IDamageable
         inputManager = GetComponent<InputManager>();
         playerHealth = GetComponent<PlayerHealth>();
         
+        PlayerCam = Camera.GetComponentInChildren<Camera>();
+
         flashlight = GetComponentInChildren<FlashLight>();
         characterController = GetComponent<CharacterController>();
 
@@ -160,6 +164,7 @@ public class PlayerController : MonoBehaviour, IDamageable
         }
         else
         {
+            if(currentState!= DeathState)
             currentState?.HandleDeath();
         }
 
@@ -259,6 +264,14 @@ public class PlayerController : MonoBehaviour, IDamageable
             RuntimeManager.StudioSystem.setParameterByName("EnemyDistance", minEnemyDistance / Settings.MaxEnemyDistance);
         else
             RuntimeManager.StudioSystem.setParameterByName("EnemyDistance", 1);
+
+    }
+
+    public void Respawn()
+    {
+       playerAnimator.transform.position = LevelManager.Instance.PlayerCheckpoint.position;
+       Health = Settings.PlayerHealth;
+        ChangeState(MoveState);
 
     }
 

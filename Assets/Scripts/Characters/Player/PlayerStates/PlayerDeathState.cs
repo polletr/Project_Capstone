@@ -15,11 +15,11 @@ public class PlayerDeathState : PlayerBaseState
         player.Event.OnPlayerDeath?.Invoke();
         timer = new CountdownTimer(player.Settings.RespawnTime);
         timer.Start();
-        //player.cam.transform.parent = null;
+        player.PlayerCam.transform.parent = player.DeathParentObj;
     }
     public override void ExitState()
     {
-        //player.cam.transform.parent = null;
+        player.PlayerCam.transform.parent = player.CameraHolder;
         player.Event.OnPlayerRespawn?.Invoke();
     }
 

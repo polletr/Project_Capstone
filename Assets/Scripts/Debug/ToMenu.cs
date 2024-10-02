@@ -4,6 +4,8 @@ public class ToMenu : MonoBehaviour
 {
     public void LoadMenu()
     {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
         UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
     }
 
