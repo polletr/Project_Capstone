@@ -1,4 +1,5 @@
 using FMOD.Studio;
+using FMODUnity;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -122,10 +123,25 @@ public class EnemyClass : MonoBehaviour, IDamageable, IStunnable
         agent = GetComponent<NavMeshAgent>();
         PatrolCenterPos = transform.position;
         ChangeState(IdleState);
+
+
     }
 
     private void FixedUpdate() => currentState?.StateFixedUpdate();
-    private void Update() => currentState?.StateUpdate();
+    private void Update()
+    {
+        currentState?.StateUpdate();
+
+        // Update 3D attributes based on the enemy's position and orientation
+        FMOD.ATTRIBUTES_3D attributes = new FMOD.ATTRIBUTES_3D
+        {
+            position = RuntimeUtils.ToFMODVector(transform.position),
+            forward = RuntimeUtils.ToFMODVector(transform.forward),
+            up = RuntimeUtils.ToFMODVector(transform.up)
+        };
+
+        currentAudio.set3DAttributes(attributes);
+    }
 
     public void GetDamaged(float attackDamage)
     {
