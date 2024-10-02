@@ -5,6 +5,8 @@ public class AbilityPickup : MonoBehaviour, IInteractable, ICollectable
     public GameEvent Event;
 
     public FlashlightAbility AbilityToPickup;
+    
+    private InteractTrigger interactTrigger;
 
     public void Collect()
     {
@@ -13,6 +15,9 @@ public class AbilityPickup : MonoBehaviour, IInteractable, ICollectable
 
     public void OnInteract()
     {
+        if(TryGetComponent(out interactTrigger))
+            interactTrigger.InvokeInteractTrigger();
+
         Event.OnInteractItem?.Invoke(this);
     }
 

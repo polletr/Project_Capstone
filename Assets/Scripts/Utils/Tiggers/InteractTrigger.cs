@@ -5,13 +5,7 @@ public class InteractTrigger : MonoBehaviour
 {
     public UnityEvent onPlayerInteract;
 
-    IInteractable interactable;
-    private void Awake()
-    {
-       TryGetComponent(out interactable);
-    }
-
-    public void OnInteract()
+    public void InvokeInteractTrigger()
     {
         onPlayerInteract?.Invoke();
     }

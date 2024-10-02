@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -49,7 +50,12 @@ public class LevelManager : MonoBehaviour
 
     public void EnteredHub(HubSO hubSO)
     {
-       StartCoroutine(WaitForLoadingScene());
+        StartCoroutine(WaitForLoadingScene(hubSO));
+    }
+
+    private IEnumerator WaitForLoadingScene(HubSO hubSO)
+    {
+        yield return new WaitForSecondsRealtime(2f);
 
         if (hubSO.NextHub != null && GetHub(hubSO))
             GetHub(hubSO.NextHub).gameObject.SetActive(true); //enable next hub 
@@ -65,17 +71,6 @@ public class LevelManager : MonoBehaviour
         _previousHub = hubSO;                                  //set previous hub to current hub
 
         SetCheckpoint(GetHub(hubSO));                          //set checkpoint
-
-    }
-
-    private IEnumerator WaitForLoadingScene()
-    {
-       
-       yield return new WaitForSecondsRealtime(1f);
-
-
-
-        yield return null;
 
     }
 

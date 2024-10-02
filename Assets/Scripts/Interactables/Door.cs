@@ -173,7 +173,7 @@ public class Door : MonoBehaviour, IInteractable
 
     }
     
-    public void LockTheDoor(bool islockedDoor)
+    public void LockOrUnlockDoor(bool islockedDoor)
     {
         isLocked = islockedDoor;
         //Apply sound here
