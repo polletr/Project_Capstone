@@ -172,5 +172,11 @@ public class Door : MonoBehaviour, IInteractable
         //Think about opening sounds dependant on the speed
 
     }
+    
+    public void LockTheDoor(bool islockedDoor)
+    {
+        isLocked = islockedDoor;
+        //Apply sound here
+    }
 
 }

@@ -19,7 +19,8 @@ public class PlayerInventory : MonoBehaviour
 
     private void Awake()
     { 
-      battery = Instantiate(new GameObject().AddComponent<Battery>(), transform);  
+      battery = Instantiate(new GameObject().AddComponent<Battery>(), transform);
+      battery.Event = Event;
       AddBattery(battery);
       SendBattery();
     }

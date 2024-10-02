@@ -32,11 +32,13 @@ public class LevelManager : MonoBehaviour
     private void OnEnable()
     {
         Event.OnRoomInitialize += RegisterHubs;
+        Event.OnEnterRoom += EnteredHub;
     }
 
     private void OnDisable()
     {
         Event.OnRoomInitialize -= RegisterHubs;
+        Event.OnEnterRoom -= EnteredHub;
     }
 
     private void RegisterHubs(Hub hub)
@@ -47,6 +49,8 @@ public class LevelManager : MonoBehaviour
 
     public void EnteredHub(HubSO hubSO)
     {
+       StartCoroutine(WaitForLoadingScene());
+
         if (hubSO.NextHub != null && GetHub(hubSO))
             GetHub(hubSO.NextHub).gameObject.SetActive(true); //enable next hub 
 
@@ -61,6 +65,18 @@ public class LevelManager : MonoBehaviour
         _previousHub = hubSO;                                  //set previous hub to current hub
 
         SetCheckpoint(GetHub(hubSO));                          //set checkpoint
+
+    }
+
+    private IEnumerator WaitForLoadingScene()
+    {
+       
+       yield return new WaitForSecondsRealtime(1f);
+
+
+
+        yield return null;
+
     }
 
     private void UnloadScene(string sceneName)
