@@ -11,6 +11,8 @@ public class SFXEvents : ScriptableObject
     [field: SerializeField] public EventReference CloseDoor { get; private set; }
     [field: SerializeField] public EventReference EasyLockedDoor { get; private set; }
     [field: SerializeField] public EventReference TenseLockedDoor { get; private set; }
+    [field: SerializeField] public EventReference UnlockDoor { get; private set; }
+
 
     [field: Header("Player SFX")]
     [field: SerializeField] public EventReference PlayerSteps { get; private set; }

@@ -129,7 +129,7 @@ public class Door : MonoBehaviour, IInteractable
 
     public void UnlockDoor()
     {
-        //Apply sound Here
+        AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.UnlockDoor, transform.position);
         OnUnlock.Invoke();
         isLocked = false;
         OpenDoor(rotationSpeed, playerCamera);
@@ -176,7 +176,7 @@ public class Door : MonoBehaviour, IInteractable
     public void LockOrUnlockDoor(bool islockedDoor)
     {
         isLocked = islockedDoor;
-        //Apply sound here
+        AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.UnlockDoor, transform.position);
     }
 
 }
