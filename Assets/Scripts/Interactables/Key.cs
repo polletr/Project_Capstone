@@ -7,7 +7,8 @@ public class Key : MonoBehaviour ,IInteractable , ICollectable
     
     public void Collect()
     {
-       gameObject.SetActive(false);
+        AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.PickUpBatteries, transform.position);
+        gameObject.SetActive(false);
     }
 
     public void OnInteract()
