@@ -1,121 +1,80 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic;
+using System.Collections;
+using UnityEditor.SearchService;
 
 public class LevelManager : Singleton<LevelManager>
 {
     public GameEvent Event;
 
-    [Header("Master Scene"), TextArea(1, 2)]
-    public string MasterSceneName;
+   [field: SerializeField] public string MasterScene { get; private set; }
+   [field: SerializeField] public string StartingScene { get; private set; }
 
-    [Header("Starter Hub/Scene")]
-    public HubSO StarterHubSO;
+    [SerializeField] private float _loadingWaitTime = 1f;
 
-    [field: SerializeField]
-    public Transform PlayerCheckpoint { get; private set; }
-
-    private HubSO _previousHub;
-    private Dictionary<HubSO, Hub> hubs = new Dictionary<HubSO, Hub>();
-
-    private void Start()
-    {
-        //hubs[StarterHubSO].gameObject.SetActive(true);// enable starter hub (tutorial) if it has a hub 
-
-        //if we need to set first checkpoint do in inspector
-
-        SceneManager.LoadSceneAsync(StarterHubSO.ChallengeSceneName, LoadSceneMode.Additive); // load starter scene
-        GetHub(StarterHubSO.NextHub).gameObject.SetActive(true);                              //disable previous hub
-        _previousHub = StarterHubSO;
-    }
+    private string _currentScene;
+    private List<string> _currentLoadedScenes = new();
 
     private void OnEnable()
     {
-        Event.OnRoomInitialize += RegisterHubs;
-        Event.OnEnterRoom += EnteredHub;
+        Event.OnLevelChange += StartLevelLoading;
     }
 
     private void OnDisable()
     {
-        Event.OnRoomInitialize -= RegisterHubs;
-        Event.OnEnterRoom -= EnteredHub;
+        Event.OnLevelChange -= StartLevelLoading;
     }
 
-    private void RegisterHubs(Hub hub)
+    private void Start()
     {
-        hubs.Add(hub.hubSO, hub);
-        hub.gameObject.SetActive(false);
+       _currentScene = StartingScene;
+        SceneManager.LoadSceneAsync(_currentScene, LoadSceneMode.Additive);
     }
 
-    public void EnteredHub(HubSO hubSO)
+    private void StartLevelLoading(LevelData level) => StartCoroutine(LoadLevels(level));
+
+    private IEnumerator LoadLevels(LevelData level)
     {
-        StartCoroutine(WaitForLoadingScene(hubSO));
-    }
+        _currentScene = level.CurrentSceneName;
+        //wait beofre loading the new scenes
+        WaitForSeconds waiter = new WaitForSeconds(_loadingWaitTime);
+        Debug.Log($"Loading Level.....{waiter}");
+        yield return waiter;
 
-    private IEnumerator WaitForLoadingScene(HubSO hubSO)
-    {
-        yield return new WaitForSecondsRealtime(2f);
-
-        if (hubSO.NextHub != null && GetHub(hubSO))
-            GetHub(hubSO.NextHub).gameObject.SetActive(true); //enable next hub 
-
-        UnloadScene(_previousHub.ChallengeSceneName);         //unloading previous challenge
-
-        if (hubSO.ChallengeSceneName != "")
-            SceneManager.LoadSceneAsync(hubSO.ChallengeSceneName, LoadSceneMode.Additive);  //load new challenge34
-
-        if (_previousHub != StarterHubSO)
-            GetHub(_previousHub).gameObject.SetActive(false);  //disable previous hub
-
-        _previousHub = hubSO;                                  //set previous hub to current hub
-
-        SetCheckpoint(GetHub(hubSO));                          //set checkpoint
-
-    }
-
-    private void UnloadScene(string sceneName)
-    {
-        if (IsSceneLoaded(sceneName))
+        //unload all scenes except the master scene , current scene and  the scenes to load
+        foreach (var scene in GetActiveScenes())
         {
-            SceneManager.UnloadSceneAsync(sceneName);
-        }
-        else
-            Debug.LogWarning("Scene not loaded: " + _previousHub.ChallengeSceneName + "wtf");
-    }
-
-    private void UnloadChallengeScenes()
-    {
-        for (int i = 0; i < SceneManager.sceneCount; i++)
-        {
-            Scene scene = SceneManager.GetSceneAt(i);
-            if (scene.name != MasterSceneName && scene.isLoaded)
+            if (scene != MasterScene && scene != _currentScene && !level.ScenesToLoad.Contains(scene))
             {
                 SceneManager.UnloadSceneAsync(scene);
             }
         }
-    }
 
-    public void SetCheckpoint(Hub hub)
-    {
-        PlayerCheckpoint = hub.Checkpoint;
-    }
-
-    private bool IsSceneLoaded(string sceneName) // this should never be needed there must be a starter scene loaded
-    {
-        for (int i = 0; i < SceneManager.sceneCount; i++)
+        //load the new scenes   
+        foreach (var scene in level.ScenesToLoad)
         {
-            Scene scene = SceneManager.GetSceneAt(i);
-            if (scene.name == sceneName && scene.isLoaded)
+            if (!SceneManager.GetSceneByName(scene).isLoaded) //check if the scene is already loaded
             {
-                return true;
+                SceneManager.LoadSceneAsync(scene, LoadSceneMode.Additive);
             }
         }
-        return false;
+
     }
 
-    private Hub GetHub(HubSO hubSO)
+    public void LoadOnlyScene(string sceneName)
     {
-        return hubs[hubSO];
+        SceneManager.LoadScene(sceneName);
+    }
+
+    private List<string> GetActiveScenes()
+    {
+        _currentLoadedScenes.Clear();
+        for (int i = 0; i < SceneManager.loadedSceneCount; i++)
+        {
+            _currentLoadedScenes.Add(SceneManager.GetSceneAt(i).name);
+        }
+
+        return _currentLoadedScenes;
     }
 }

@@ -16,8 +16,8 @@ public class GameEvent : ScriptableObject
     public UnityAction<Battery> OnChangeBattery;
     public UnityAction OnAskForBattery;
 
-    public UnityAction<Hub> OnRoomInitialize;
-    public UnityAction<HubSO> OnEnterRoom;
+    public UnityAction<LevelData> OnLevelChange;
+ 
     public UnityAction<Transform> SetNewSpawn;
 }
 

@@ -26,6 +26,8 @@ public class PlayerController : MonoBehaviour, IDamageable
         }
     }
 
+    private Transform CheckPoint;
+
     private bool canRegenHealth = true;
 
     public float InteractionRange { get { return interactionRange; } }
@@ -83,15 +85,19 @@ public class PlayerController : MonoBehaviour, IDamageable
     private void OnEnable()
     {
         Event.OnFlashlightCollect += HandleFlashlightPickUp;
+        Event.SetNewSpawn += SetSpawn;
     }
 
     private void OnDisable()
     {
         Event.OnFlashlightCollect -= HandleFlashlightPickUp;
+        Event.SetNewSpawn -= SetSpawn;
     }
+
 
     void Awake()
     {
+        SetSpawn(transform);
         playerAnimator = GetComponent<PlayerAnimator>();
         playerAnimator.GetAnimator();
         inputManager = GetComponent<InputManager>();
@@ -269,10 +275,14 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     public void Respawn()
     {
-       playerAnimator.transform.position = LevelManager.Instance.PlayerCheckpoint.position;
-       Health = Settings.PlayerHealth;
+        playerAnimator.transform.position = CheckPoint.position;
+        Health = Settings.PlayerHealth;
         ChangeState(MoveState);
+    }
 
+    private void SetSpawn(Transform pos)
+    {
+        CheckPoint = pos;
     }
 
 

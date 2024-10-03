@@ -30,7 +30,7 @@ public class PlayerInventory : MonoBehaviour
         Event.OnInteractItem += CollectItem;
         Event.OnAskForBattery += SendBattery;
         Event.OnTryToUnlockDoor += TryToOpenDoor;
-        Event.OnEnterRoom += RemoveAllKeys;
+        Event.OnLevelChange += RemoveAllKeys;
     }
 
     private void OnDisable()
@@ -38,7 +38,7 @@ public class PlayerInventory : MonoBehaviour
         Event.OnInteractItem -= CollectItem;
         Event.OnAskForBattery -= SendBattery;
         Event.OnTryToUnlockDoor -= TryToOpenDoor;
-        Event.OnEnterRoom -= RemoveAllKeys;
+        Event.OnLevelChange -= RemoveAllKeys;
 
     }
 
@@ -117,7 +117,7 @@ public class PlayerInventory : MonoBehaviour
         }
     }
 
-    public void RemoveAllKeys(HubSO data)
+    public void RemoveAllKeys(LevelData data)
     {
         keys.Clear();
     }
