@@ -1,9 +1,10 @@
 using System;
 using System.Collections;
 using System.Linq;
+using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
-public class FlashLight : MonoBehaviour
+public class FlashLight : MonoBehaviour, ICollectable, IInteractable
 {
     public GameEvent Event;
 
@@ -12,12 +13,14 @@ public class FlashLight : MonoBehaviour
     [SerializeField] private float intensity;
 
     [SerializeField] private float cost;
-    [field: SerializeField] private Battery battery { get; set; }
+    [field: SerializeField] public Battery battery { get; private set; }
 
 
-    [SerializeField] private FlashlightAbility[] flashlightAbilities;
+    [SerializeField] private List<FlashlightAbility> flashlightAbilities;
 
-    [SerializeField] private FlashlightAbility currentAbility;
+    public FlashlightAbility CurrentAbility { get; private set; }
+
+    [field: SerializeField] public Transform MoveHoldPos { get; private set; }
 
     public Light Light { get; set; }
 
@@ -36,7 +39,6 @@ public class FlashLight : MonoBehaviour
 
     private void Awake()
     {
-        playerController = GetComponentInParent<PlayerController>();
         Light = GetComponent<Light>();
         Light.enabled = true;
         isFlashlightOn = true;
@@ -44,22 +46,39 @@ public class FlashLight : MonoBehaviour
         Light.intensity = intensity;
         Light.color = lightColor;
 
-        currentAbility = flashlightAbilities[0];
 
-/*        foreach (FlashlightAbility ability in flashlightAbilities)
+        if (flashlightAbilities.Count > 0)
         {
-            ability.Initialize(this);
+            CurrentAbility = flashlightAbilities[0];
+
+            foreach (FlashlightAbility ability in flashlightAbilities)
+            {
+                if (ability != null)
+                    ability.Initialize(this);
+            }
         }
-*/    }
+
+        if (this.TryGetComponentInParent(out playerController))
+        {
+            GetComponent<BoxCollider>().enabled = false;
+        }
+        else
+        {
+            StartCoroutine(Flicker(Mathf.Infinity, null));
+        }
+
+    }
 
     private void OnEnable()
     {
         Event.OnChangeBattery += SetBattery;
+        Event.OnPickupAbility += CollectAbility;
     }
 
     private void OnDisable()
     {
         Event.OnChangeBattery -= SetBattery;
+        Event.OnPickupAbility -= CollectAbility;
     }
 
     private void Update()
@@ -88,6 +107,22 @@ public class FlashLight : MonoBehaviour
 
     }
 
+    private void CollectAbility(FlashlightAbility ability)
+    {
+
+        // check if its in flashlightAbilities
+        // add and enable it
+        if (!flashlightAbilities.Contains(ability))
+        {
+            ability.Initialize(this);
+            ability.gameObject.transform.parent = transform;
+            flashlightAbilities.Add(ability);
+
+            if(flashlightAbilities.Count == 1)
+                CurrentAbility = ability;
+        }
+    }
+
     public void HandleSphereCast()
     {
         Ray ray = new Ray(transform.position, transform.forward * range);
@@ -102,22 +137,23 @@ public class FlashLight : MonoBehaviour
 
     public void ResetLight()
     {
-        StartCoroutine(Flicker(1f, () => ResetLightState()));
+        if (this.gameObject.activeSelf)
+            StartCoroutine(Flicker(1f, () => ResetLightState()));
 
     }
 
     public void HandleFlashAblility()
     {
-        if (currentAbility != null && isFlashlightOn)
-            currentAbility.OnUseAbility();
+        if (CurrentAbility != null && isFlashlightOn)
+            CurrentAbility.OnUseAbility();
         else
             playerController.currentState?.HandleMove();
     }
 
     public void StopUsingFlashlight()
     {
-        if (currentAbility != null && isFlashlightOn)
-            currentAbility.OnStopAbility();
+        if (CurrentAbility != null && isFlashlightOn)
+            CurrentAbility.OnStopAbility();
     }
 
     private void ResetLightState()
@@ -132,6 +168,7 @@ public class FlashLight : MonoBehaviour
 
     public void TurnOffLight()
     {
+
         Light.enabled = false;
         isFlashlightOn = false;
     }
@@ -141,7 +178,7 @@ public class FlashLight : MonoBehaviour
         if (!battery.IsBatteryDead())
             battery.Drain(cost);
         else
-            Debug.Log("Battery is Dead change it B***H");
+            Debug.Log("Battery is Dead change it B***H");//Ui to change battery
     }
 
     public void TurnOnLight()
@@ -159,6 +196,8 @@ public class FlashLight : MonoBehaviour
 
     public void HandleFlashlightPower()
     {
+        AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.FlashlightOnOff, transform.position);
+
         isFlashlightOn = !isFlashlightOn;
         if (isFlashlightOn)
         {
@@ -173,32 +212,32 @@ public class FlashLight : MonoBehaviour
 
     public void ChangeSelectedAbility(int direction) // Fixed typo in method name
     {
-        if (flashlightAbilities.Count() > 0)
+        if (flashlightAbilities.Count() > 1)
         {
-            int currentIndex = Array.IndexOf(flashlightAbilities, currentAbility);
+            int currentIndex = flashlightAbilities.IndexOf(CurrentAbility);
 
             // Update index based on direction (circular switching)
             currentIndex += direction;
 
             // Circular switching
-            if (currentIndex >= flashlightAbilities.Length)
+            if (currentIndex >= flashlightAbilities.Count)
             {
                 currentIndex = 0;
             }
             else if (currentIndex < 0)
             {
-                currentIndex = flashlightAbilities.Length - 1;
+                currentIndex = flashlightAbilities.Count - 1;
             }
 
             // Update currentAbility to the new selected ability
-            currentAbility = flashlightAbilities[currentIndex];
+            CurrentAbility = flashlightAbilities[currentIndex];
         }
 
     }
 
     private void ApplyCurrentAbilityEffect(GameObject obj)
     {
-        switch (currentAbility)
+        switch (CurrentAbility)
         {
             case MoveAbility moveAbility:
                 if (obj.TryGetComponent(out IMovable moveObj))
@@ -245,6 +284,20 @@ public class FlashLight : MonoBehaviour
     {
         battery = newBattery;
     }
+
+    public void Collect()
+    {
+        AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.PickUpFlashlight, transform.position);
+
+        Event.OnFlashlightCollect(true);
+        Destroy(this.gameObject);// uhhhhhhh disable it?
+    }
+
+    public void OnInteract()
+    {
+        Collect();
+    }
+
 
 }
 

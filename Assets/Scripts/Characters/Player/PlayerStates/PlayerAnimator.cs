@@ -9,7 +9,7 @@ public class PlayerAnimator : MonoBehaviour
     public readonly int GetHitHash = Animator.StringToHash("GetHit");
     public  readonly int DieHash = Animator.StringToHash("Die");
 
-    public Animator animator { get; set; }
+    public Animator animator { get; private set; }
 
     public void GetAnimator()
     {

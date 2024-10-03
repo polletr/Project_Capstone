@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using Utilities;
 
 public class VisionCone : MonoBehaviour
 {
@@ -11,7 +8,7 @@ public class VisionCone : MonoBehaviour
     [Range(0, 1)]
     public float angleth = 5f;
     public Transform player;
-    void OnDrawGizmos()
+    /*void OnDrawGizmos()
     {
         Gizmos.matrix = Handles.matrix = transform.localToWorldMatrix;
         Gizmos.color = Handles.color = Contains(player.position) ? Color.red : Color.white;
@@ -38,7 +35,7 @@ public class VisionCone : MonoBehaviour
         Gizmos.DrawLine(Vector3.zero + vLeft, top + vLeft);
         Gizmos.DrawLine(Vector3.zero + vRight, top + vRight);
 
-    }
+    }*/
 
     public bool Contains(Vector3 position)
     {

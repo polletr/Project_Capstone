@@ -1,8 +1,6 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-[CreateAssetMenu(menuName = "User Containers/PlayerPrefs"), Serializable]
+[CreateAssetMenu(menuName = "GameSO/User Container", fileName = "PlayerPrefs"), Serializable]
 public class PlayerSettings : ScriptableObject
 {
     [Range(0.001f, 0.2f)]
@@ -23,7 +21,14 @@ public class PlayerSettings : ScriptableObject
     public float RunSoundRange = 5f;
     [Range(1, 5)]
     public int PlayerHealth = 3;
+    public float HealthRegenRate = 1f;
+    public float HealthRegenDelay = 2f;
     public float DropItemTime = 3f;
+
+    public float RespawnTime = 5f;
+
+    public float MaxEnemyDistance = 5.0f;
+
 
     public float cameraSensitivityMouse = 1.0f;
     public float cameraSensitivityGamepad = 1.0f;

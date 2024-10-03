@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class EnemyDeathState : EnemyBaseState
 {
+    public EnemyDeathState(EnemyClass enemyClass, EnemyAnimator enemyAnim)
+        : base(enemyClass, enemyAnim) { }
+    
     public override void EnterState()
     {
         enemy.agent.ResetPath();
-        enemy.animator.CrossFade(DieHash, crossFadeDuration);
+        enemyAnimator.animator.CrossFade(enemyAnimator.DieHash, crossFadeDuration);
 
     }
     public override void ExitState()

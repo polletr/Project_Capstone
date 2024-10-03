@@ -1,10 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMoveState : PlayerBaseState
 {
-    public PlayerMoveState(PlayerAnimator animator, PlayerController playerController, InputManager inputM) : base(animator, playerController, inputM) { }
+    public PlayerMoveState(PlayerAnimator animator, PlayerController playerController, InputManager inputM)
+        : base(animator, playerController, inputM) { }
 
     public override void EnterState()
     {
@@ -22,14 +21,21 @@ public class PlayerMoveState : PlayerBaseState
         base.StateUpdate();
 
         Ray ray = new Ray(player.Camera.position, player.Camera.forward);
-
-        if (Physics.Raycast(ray, out RaycastHit hit, player.InteractionRange))
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, player.Settings.MaxEnemyDistance))
         {
             var obj = hit.collider.gameObject;
+            if (obj.TryGetComponent(out EnemyClass enemy))
+            {
+                player.AddEnemyToChaseList(enemy);
+            }
+        }
 
+        if (Physics.Raycast(ray, out hit, player.InteractionRange))
+        {
+            var obj = hit.collider.gameObject;
             if (obj.TryGetComponent(out IInteractable thing))
             {
-                Debug.Log(obj);
                 player.interactableObj = thing;
             }
         }

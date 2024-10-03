@@ -4,21 +4,29 @@ using UnityEngine;
 
 public class EnemyAttackState : EnemyBaseState
 {
+    
+    public EnemyAttackState(EnemyClass enemyClass,EnemyAnimator enemyAnim) 
+        : base(enemyClass,enemyAnim) { }
+    
     private bool attacked;
     public override void EnterState()
     {
         enemy.agent.ResetPath();
-        enemy.animator.Play(AttackHash);
+        enemy.enemyAnimator.animator.Play(enemyAnimator.AttackHash);
 
         attacked = false;
 
         time = enemy.AttackAntecipationTime;
         timer = 0f; // Reset the timer
 
+        enemy.currentAudio = AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.Attack);
+        enemy.currentAudio.start();
+
+
     }
     public override void ExitState()
     {
-
+        enemy.currentAudio.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
     }
 
     public override void StateFixedUpdate()
@@ -36,12 +44,12 @@ public class EnemyAttackState : EnemyBaseState
         }
 
 
-        AnimatorStateInfo stateInfo = enemy.animator.GetCurrentAnimatorStateInfo(0);
-        if (stateInfo.shortNameHash == AttackHash) // Ensure this matches the animation state name
+        AnimatorStateInfo stateInfo = enemyAnimator.animator.GetCurrentAnimatorStateInfo(0);
+        if (stateInfo.shortNameHash == enemyAnimator.AttackHash) // Ensure this matches the animation state name
         {
             if (stateInfo.normalizedTime >= 1f)
             {
-                enemy.ChangeState(new EnemyChaseState());
+                enemy.ChangeState(enemy.ChaseState);
             }
         }
     }

@@ -11,7 +11,7 @@ public abstract class FlashlightAbility : MonoBehaviour
     public abstract void OnStopAbility();
 
 
-    public void Initialize(FlashLight flashlight)
+    public virtual void Initialize(FlashLight flashlight)
     {
         _flashlight = flashlight;
     }

@@ -14,8 +14,7 @@ public class Battery : MonoBehaviour, IDrainable<float>, ICollectable, IInteract
     public void Collect()
     {
         //pool manager handle collected 
-        Event.OnCollectBattery?.Invoke(this);
-
+        gameObject.SetActive(false);
     }
     public void Drain(float drainAmount)
     {
@@ -29,7 +28,6 @@ public class Battery : MonoBehaviour, IDrainable<float>, ICollectable, IInteract
 
     public void OnInteract()
     {
-       Collect();
-
+        Event.OnInteractItem?.Invoke(this);
     }
 }

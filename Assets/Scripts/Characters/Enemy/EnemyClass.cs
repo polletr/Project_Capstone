@@ -1,3 +1,5 @@
+using FMOD.Studio;
+using FMODUnity;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,29 +8,84 @@ using UnityEngine.AI;
 public class EnemyClass : MonoBehaviour, IDamageable, IStunnable
 {
     public Vector3 PatrolCenterPos { get; set; }
-    public Animator animator { get; set; }
-    public GameObject playerCharacter { get; set; }
+    public PlayerController playerCharacter { get; set; }
     public bool CanGetHit { get; set; }
+    public Door TargetDoor { get; set; }
+    public EventInstance currentAudio{ get; set; }
 
-    public float PatrolRange { get { return patrolRange; } }
-    public float MaxIdleTime { get { return maxIdleTime; } }
-    public float MinIdleTime { get { return minIdleTime; } }
-    public float PatrolSpeed { get { return patrolSpeed; } }
-    public float ChaseSpeed { get { return chaseSpeed; } }
-    public float HearingMultiplier { get { return hearingMultiplier; } }
-    public float SightRange { get { return sightRange; } }
-    public float SightAngle { get { return sightAngle; } }
-    public float AttackRange { get { return attackRange; } }
-    public float AttackDamage { get { return attackDamage; } }
-    public float AttackAntecipationTime { get { return attackAntecipationTime; } }
-    public float AttackRecoveryTime { get { return attackRecoveryTime; } }
+    public float PatrolRange
+    {
+        get { return patrolRange; }
+    }
+
+    public float MaxIdleTime
+    {
+        get { return maxIdleTime; }
+    }
+
+    public float MinIdleTime
+    {
+        get { return minIdleTime; }
+    }
+
+    public float PatrolSpeed
+    {
+        get { return patrolSpeed; }
+    }
+
+    public float ChaseSpeed
+    {
+        get { return chaseSpeed; }
+    }
+
+    public float HearingMultiplier
+    {
+        get { return hearingMultiplier; }
+    }
+
+    public float SightRange
+    {
+        get { return sightRange; }
+    }
+
+    public float SightAngle
+    {
+        get { return sightAngle; }
+    }
+
+    public float AttackRange
+    {
+        get { return attackRange; }
+    }
+
+    public float AttackDamage
+    {
+        get { return attackDamage; }
+    }
+
+    public float AttackAntecipationTime
+    {
+        get { return attackAntecipationTime; }
+    }
+
+    public float AttackRecoveryTime
+    {
+        get { return attackRecoveryTime; }
+    }
+
+    public EnemyAttackState AttackState { get; private set; }
+    public EnemyChaseState ChaseState { get; private set; }
+    public EnemyDeathState DeathState { get; private set; }
+    public EnemyGetHitState GetHitState { get; private set; }
+    public EnemyIdleState IdleState { get; private set; }
+    public EnemyPatrolState PatrolState { get; private set; }
+    public EnemyOpenDoorState OpenDoorState { get; private set; }
 
 
-    [HideInInspector]
     public EnemyBaseState currentState;
+    public EnemyAnimator enemyAnimator { get; set; }
 
-    [HideInInspector]
-    public NavMeshAgent agent;
+    [HideInInspector] public NavMeshAgent agent;
 
     [SerializeField] private float patrolRange;
     [SerializeField] private float maxIdleTime;
@@ -44,19 +101,47 @@ public class EnemyClass : MonoBehaviour, IDamageable, IStunnable
     [SerializeField] private float attackRecoveryTime = 1;
 
     [SerializeField] private float health = 3;
+    [field: SerializeField] public float AttackCooldown { get; private set; }
 
     public GameEvent Event;
 
+
     void Awake()
     {
+        
+        enemyAnimator = GetComponentInChildren<EnemyAnimator>();
+        enemyAnimator.GetAnimator();
+        
+        AttackState = new EnemyAttackState(this, enemyAnimator);
+        ChaseState = new EnemyChaseState(this, enemyAnimator);
+        DeathState = new EnemyDeathState(this, enemyAnimator);
+        GetHitState = new EnemyGetHitState(this, enemyAnimator);
+        IdleState = new EnemyIdleState(this, enemyAnimator);
+        PatrolState = new EnemyPatrolState(this, enemyAnimator);
+        OpenDoorState = new EnemyOpenDoorState(this, enemyAnimator);
+        
         agent = GetComponent<NavMeshAgent>();
-        animator = GetComponentInChildren<Animator>();
         PatrolCenterPos = transform.position;
-        ChangeState(new EnemyIdleState());
+        ChangeState(IdleState);
+
+
     }
 
     private void FixedUpdate() => currentState?.StateFixedUpdate();
-    private void Update() => currentState?.StateUpdate();
+    private void Update()
+    {
+        currentState?.StateUpdate();
+
+        // Update 3D attributes based on the enemy's position and orientation
+        FMOD.ATTRIBUTES_3D attributes = new FMOD.ATTRIBUTES_3D
+        {
+            position = RuntimeUtils.ToFMODVector(transform.position),
+            forward = RuntimeUtils.ToFMODVector(transform.forward),
+            up = RuntimeUtils.ToFMODVector(transform.up)
+        };
+
+        currentAudio.set3DAttributes(attributes);
+    }
 
     public void GetDamaged(float attackDamage)
     {
@@ -69,7 +154,6 @@ public class EnemyClass : MonoBehaviour, IDamageable, IStunnable
         {
             currentState?.HandleDeath();
         }
-
     }
 
     public void ApplyEffect()
@@ -79,7 +163,7 @@ public class EnemyClass : MonoBehaviour, IDamageable, IStunnable
 
     public void CanGetIntoGetHitState(int check)
     {
-        CanGetHit = check == 0? true : false;
+        CanGetHit = check == 0 ? true : false;
     }
 
     public virtual void Attack()
@@ -88,8 +172,8 @@ public class EnemyClass : MonoBehaviour, IDamageable, IStunnable
             playerCharacter.GetComponent<PlayerController>().GetDamaged(AttackDamage);
     }
 
-
     #region ChangeState
+
     public void ChangeState(EnemyBaseState newState)
     {
         currentState?.ExitState();
@@ -97,6 +181,6 @@ public class EnemyClass : MonoBehaviour, IDamageable, IStunnable
         currentState.enemy = this;
         currentState.EnterState();
     }
-    #endregion
 
+    #endregion
 }

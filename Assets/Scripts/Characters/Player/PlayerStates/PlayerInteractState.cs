@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class PlayerInteractState : PlayerBaseState
 {
-    public PlayerInteractState(PlayerAnimator animator, PlayerController playerController, InputManager inputM) : base(animator, playerController, inputM) {}
+    public PlayerInteractState(PlayerAnimator animator, PlayerController playerController, InputManager inputM) 
+        : base(animator, playerController, inputM) {}
 
     public override void EnterState()
     {
@@ -21,15 +22,10 @@ public class PlayerInteractState : PlayerBaseState
 
     public override void StateUpdate()
     {
-
+        StepsSound();
     }
 
     public override void HandleMovement(Vector2 dir)
-    {
-
-    }
-
-    public override void HandleEquipItem(IInventoryItem item)
     {
 
     }

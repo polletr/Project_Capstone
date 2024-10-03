@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
+using FMOD.Studio;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public abstract class PlayerBaseState 
+public abstract class PlayerBaseState
 {
     protected Vector3 _direction;
 
@@ -14,7 +12,8 @@ public abstract class PlayerBaseState
     public PlayerAnimator playerAnimator { get; set; }
     public PlayerController player { get; set; }
     public InputManager inputManager { get; set; }
-  
+
+
     public PlayerBaseState(PlayerAnimator animator, PlayerController playerController, InputManager inputM)
     {
         playerAnimator = animator;
@@ -22,7 +21,7 @@ public abstract class PlayerBaseState
         inputManager = inputM;
     }
 
-  
+
     public virtual void EnterState() { }
     public virtual void ExitState() { }
     public virtual void StateFixedUpdate() { }
@@ -30,13 +29,7 @@ public abstract class PlayerBaseState
     {
         player.characterController.SimpleMove(_direction.normalized * GetSpeed());
 
-        if (player.Event.OnSoundEmitted != null)
-        {
-            if (_direction.sqrMagnitude > 0f)
-            {
-                player.Event.OnSoundEmitted.Invoke(player.transform.position, GetSoundEmitted());
-            }
-        }
+        StepsSound();
 
         HandleFlashlightSphereCast();
 
@@ -83,8 +76,6 @@ public abstract class PlayerBaseState
 
     public virtual void HandleChangeAbility(int direction) { }
 
-    public virtual void HandleEquipItem(IInventoryItem item) { }
-
     public virtual void HandleGetHit()
     {
         player.ChangeState(player.GetHitState);
@@ -105,7 +96,7 @@ public abstract class PlayerBaseState
         if (isCrouching)
             isRunning = false;
     }
-    
+
     public virtual void HandleFlashlightSphereCast()
     {
         if (player.HasFlashlight)
@@ -134,7 +125,7 @@ public abstract class PlayerBaseState
 
         // Calculate camera pitch (x-axis) rotation
         player.xRotation += dir.y * sensitivityMult * Time.deltaTime;
-        player.xRotation = Mathf.Clamp(player.xRotation, -90f, 90f);
+        player.xRotation = Mathf.Clamp(player.xRotation, -40f, 40f);
         player.Camera.localRotation = Quaternion.Euler(-player.xRotation, 0, 0);  // Rotate camera vertically
 
         // Only update the flashlight's rotation if the player is holding it
@@ -145,6 +136,29 @@ public abstract class PlayerBaseState
         }
     }
 
+    protected virtual void StepsSound()
+    {
+        PLAYBACK_STATE playbackState;
+        player.playerFootsteps.getPlaybackState(out playbackState);
+
+        if (_direction.sqrMagnitude > 0f)
+        {
+            if (player.Event.OnSoundEmitted != null)
+                player.Event.OnSoundEmitted.Invoke(player.transform.position, GetSoundEmitted());
+            //Actual sound
+            if (playbackState.Equals(PLAYBACK_STATE.STOPPED))
+            {
+                player.playerFootsteps.start();
+            }
+        }
+        else
+        {
+            if (playbackState.Equals(PLAYBACK_STATE.PLAYING))
+            {
+                player.playerFootsteps.stop(STOP_MODE.ALLOWFADEOUT);
+            }
+        }
+    }
 
     public virtual void HandleDeath()
     {

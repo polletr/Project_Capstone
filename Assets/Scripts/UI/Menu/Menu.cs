@@ -13,7 +13,7 @@ public class Menu : MonoBehaviour
 
     //Menu Management
 
-    public void OnToggleCurrentMenu() => _currentMenu.SetActive(!_currentMenu.activeSelf);
+    public void OnToggleCurrentMenu() => _currentMenu?.SetActive(!_currentMenu.activeSelf);
 
     public void OnQuitGame()
     {

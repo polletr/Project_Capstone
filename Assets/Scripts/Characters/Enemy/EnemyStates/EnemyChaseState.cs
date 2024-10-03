@@ -4,23 +4,23 @@ using UnityEngine;
 
 public class EnemyChaseState : EnemyBaseState
 {
+    public EnemyChaseState(EnemyClass enemyClass,EnemyAnimator enemyAnim) 
+        : base(enemyClass,enemyAnim) { }
     public override void EnterState()
     {
-        enemy.animator.CrossFade(ChaseHash, crossFadeDuration);
-
-        enemy.Event.OnSoundEmitted += OnSoundDetected;
+        enemyAnimator.animator.CrossFade(enemyAnimator.ChaseHash, crossFadeDuration);
 
         enemy.agent.speed = enemy.ChaseSpeed;
 
-        if (chasePos != null )
-            enemy.agent.SetDestination(chasePos);
-        else
-            enemy.ChangeState(new EnemyPatrolState());
+        Debug.Log("Chasing");
+
+        enemy.currentAudio = AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.Chase);
+        enemy.currentAudio.start();
 
     }
     public override void ExitState()
     {
-        enemy.Event.OnSoundEmitted -= OnSoundDetected;
+        enemy.currentAudio.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
     }
 
     public override void StateFixedUpdate()
@@ -37,7 +37,6 @@ public class EnemyChaseState : EnemyBaseState
             enemy.agent.SetDestination(chasePos);
         }
 
-
         if (enemy.playerCharacter != null)
         {
             if (Vector3.Distance(enemy.transform.position, enemy.playerCharacter.transform.position) <= enemy.SightRange && enemy.playerCharacter.GetComponent<PlayerController>().IsAlive())
@@ -46,14 +45,14 @@ public class EnemyChaseState : EnemyBaseState
                 if (Vector3.Distance(enemy.transform.position, enemy.playerCharacter.transform.position) <= enemy.AttackRange)
                 {
                     enemy.agent.ResetPath();
-                    enemy.ChangeState(new EnemyAttackState());
+                    enemy.ChangeState(enemy.AttackState);
                 }
             }
             else
             {
                 enemy.agent.ResetPath();
                 enemy.PatrolCenterPos = enemy.transform.position;
-                enemy.ChangeState(new EnemyIdleState());
+                enemy.ChangeState(enemy.AttackState);
             }
 
         }
@@ -62,21 +61,10 @@ public class EnemyChaseState : EnemyBaseState
         {
             if (enemy.agent.velocity.sqrMagnitude == 0f)
             {
-                enemy.ChangeState(new EnemyIdleState());
+                enemy.ChangeState(enemy.IdleState);
             }
         }
 
-
-    }
-
-    protected override void OnSoundDetected(Vector3 soundPosition, float soundRange)
-    {
-        float distance = Vector3.Distance(enemy.transform.position, soundPosition);
-
-        if (distance <= soundRange * enemy.HearingMultiplier && enemy.playerCharacter == null)
-        {
-            chasePos = soundPosition;
-        }
 
     }
 
@@ -86,31 +74,39 @@ public class EnemyChaseState : EnemyBaseState
         float detectionAngle = enemy.SightAngle;
 
         Collider[] targetsInViewRadius = Physics.OverlapSphere(enemy.transform.position, detectionRadius);
-        if (enemy.playerCharacter == null)
-        {
-            foreach (Collider target in targetsInViewRadius)
-            {
-                Vector3 directionToTarget = (target.transform.position - enemy.transform.position).normalized;
 
-                // Check if the target is within the cone's angle
-                if (Vector3.Angle(enemy.transform.forward, directionToTarget) < detectionAngle / 2)
+        foreach (Collider target in targetsInViewRadius)
+        {
+            Vector3 directionToTarget = (target.transform.position - enemy.transform.position).normalized;
+
+            // Check if the target is within the cone's angle
+            if (Vector3.Angle(enemy.transform.forward, directionToTarget) < detectionAngle / 2)
+            {
+                if (Physics.Raycast(enemy.transform.position, directionToTarget, out RaycastHit hit, detectionRadius))
                 {
-                    // Perform a raycast to ensure there are no obstacles
-                    RaycastHit hit;
-                    if (Physics.Raycast(enemy.transform.position, directionToTarget, out hit, detectionRadius))
+                    if (hit.collider == target)
                     {
-                        if (hit.collider == target)
+                        if (hit.collider.TryGetComponent(out Door door))
                         {
-                            if (hit.collider.CompareTag("Player"))
-                            {
-                                enemy.playerCharacter = hit.collider.gameObject;
-                                Debug.Log("See Player");
-                            }
+                            Debug.Log("See Door");
+                            enemy.TargetDoor = door;
+                            enemy.ChangeState(enemy.OpenDoorState);
                         }
+                        if (hit.collider.CompareTag("Player") && enemy.playerCharacter == null)
+                        {
+                            Debug.Log("See Player");
+                            chasePos = target.transform.position;
+                            enemy.playerCharacter = hit.collider.GetComponent<PlayerController>();
+                            enemy.playerCharacter.AddEnemyToChaseList(enemy);
+                            enemy.ChangeState(enemy.ChaseState);
+                        }
+
                     }
                 }
             }
         }
+
+
 
     }
 

@@ -1,8 +1,12 @@
+using FMOD.Studio;
+using FMODUnity;
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using FMOD;
 
 public class PlayerController : MonoBehaviour, IDamageable
 {
-
     public PlayerSettings Settings { get { return settings; } }
 
     public GameEvent Event;
@@ -12,7 +16,7 @@ public class PlayerController : MonoBehaviour, IDamageable
     public Transform Hand { get { return _hand; } }
 
     [SerializeField] private float health;
-  /*  public float Health
+    public float Health
     {
         get => health;
         private set
@@ -20,7 +24,9 @@ public class PlayerController : MonoBehaviour, IDamageable
             health = value;
             playerHealth.SetHealth(value); 
         }
-    }*/
+    }
+
+    private bool canRegenHealth = true;
 
     public float InteractionRange { get { return interactionRange; } }
 
@@ -47,39 +53,65 @@ public class PlayerController : MonoBehaviour, IDamageable
     [SerializeField]
     private PlayerSettings settings;
 
+    private Coroutine healthRegenCoroutine;
+
     public InputManager inputManager     {get; private set;}
     public PlayerAnimator playerAnimator {get; private set;}
     public PlayerHealth playerHealth {get; private set;}
     
     private LayerMask groundLayer;
 
+    private float minEnemyDistance;
+
     [SerializeField]
     private GameObject meleeSocketHand;
-
     public GameObject MeleeSocketHand { get { return meleeSocketHand; } }
 
     [SerializeField] Transform _camera;
     [SerializeField] Transform _cameraHolder;
     [SerializeField] Transform _hand;
+    public Transform DeathParentObj;
 
-    
+    public Camera PlayerCam { get; private set; }
+
+    private List<EnemyClass> enemiesChasing = new();
+    public EventInstance playerFootsteps { get; private set; }
+    public EventInstance playerBreathing { get; private set; }
+    public EventInstance playerHeartbeat { get; private set; }
+
+
+    private void OnEnable()
+    {
+        Event.OnFlashlightCollect += HandleFlashlightPickUp;
+    }
+
+    private void OnDisable()
+    {
+        Event.OnFlashlightCollect -= HandleFlashlightPickUp;
+    }
 
     void Awake()
     {
         playerAnimator = GetComponent<PlayerAnimator>();
         playerAnimator.GetAnimator();
         inputManager = GetComponent<InputManager>();
-       // playerHealth = GetComponent<PlayerHealth>();
+        playerHealth = GetComponent<PlayerHealth>();
         
+        PlayerCam = Camera.GetComponentInChildren<Camera>();
+
         flashlight = GetComponentInChildren<FlashLight>();
         characterController = GetComponent<CharacterController>();
-        
-        health = Settings.PlayerHealth;
+
+        Health = Settings.PlayerHealth;
+        playerHealth.SetMaxHealth(Health);
+
         Cursor.lockState = CursorLockMode.Locked;//Move this from here later
         
         groundLayer = LayerMask.GetMask("Ground");
         InitializeStates();
         ChangeState(MoveState);
+        SetupSoundEvents();
+
         if (!HasFlashlight && flashlight.gameObject.activeSelf)
         {
             flashlight.gameObject.SetActive(false);
@@ -106,18 +138,33 @@ public class PlayerController : MonoBehaviour, IDamageable
         currentState?.HandleLookAround(inputManager.LookAround, inputManager.Device);
         currentState?.StateUpdate();
 
+        RuntimeManager.StudioSystem.setParameterByName("Health", Health / Settings.PlayerHealth);
+        CheckEnemies();
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            GetDamaged(1f);
+        }
+
+        RegenerateHealth(); 
+
     }
     private void FixedUpdate() => currentState?.StateFixedUpdate();
 
     public void GetDamaged(float attackDamage)
     {
-        health -= attackDamage;
-        if (health > 0f)
+        Health -= attackDamage;
+
+        PlayBreathing();
+        if (Health > 0f)
         {
             currentState?.HandleGetHit();
+            if (healthRegenCoroutine != null)
+                StopCoroutine(healthRegenCoroutine);
+            healthRegenCoroutine = StartCoroutine(DelayHealthRegen());
         }
         else
         {
+            if(currentState!= DeathState)
             currentState?.HandleDeath();
         }
 
@@ -134,15 +181,101 @@ public class PlayerController : MonoBehaviour, IDamageable
         {
             flashlight.gameObject.SetActive(true);
         }
-
     }
 
     public bool IsAlive()
     {
-        return health > 0;
+        return Health > 0;
     }
 
-    
+    private void RegenerateHealth()
+    {
+        if (IsAlive() && canRegenHealth && Health < Settings.PlayerHealth && enemiesChasing.Count <= 0)//&& flashlight.) // check is player is not dead and flashlight is on / is player in light ( not in dark area)
+        {
+            Health += Settings.HealthRegenRate * Time.deltaTime;
+            Health = Mathf.Clamp(Health, 0, Settings.PlayerHealth);
+        }
+    }
+
+    private IEnumerator DelayHealthRegen()
+    {
+        //We also need to check if we are out of danger!
+        canRegenHealth = false;
+        yield return new WaitForSecondsRealtime(Settings.HealthRegenDelay);
+        canRegenHealth = true;
+        healthRegenCoroutine = null;
+    }
+
+
+    void SetupSoundEvents()
+    {
+        playerFootsteps = AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.PlayerSteps);
+        playerBreathing = AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.HeavyToLowBreathing);
+        playerHeartbeat = AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.PlayerHeartbeat);
+        RuntimeManager.StudioSystem.setParameterByName("EnemyDistance", 1);
+        playerHeartbeat.start();
+
+    }
+
+    void PlayBreathing()
+    {
+        PLAYBACK_STATE playbackState;
+        playerBreathing.getPlaybackState(out playbackState);
+
+        if (playbackState.Equals(PLAYBACK_STATE.STOPPED))
+        {
+            playerBreathing.start();
+        }
+    }
+
+    public void AddEnemyToChaseList(EnemyClass enemy)
+    {
+        enemiesChasing.Add(enemy);
+    }
+
+    public void RemoveEnemyFromChaseList(EnemyClass enemy)
+    {
+        if (enemiesChasing.Contains(enemy))
+        {
+            enemiesChasing.Remove(enemy);
+        }
+    }
+
+    private void CheckEnemies()
+    {
+        if (enemiesChasing.Count == 0)
+            return;
+
+        foreach(EnemyClass enemy in enemiesChasing)
+        {
+            if (Vector3.Distance(enemy.transform.position, transform.position) < minEnemyDistance)
+            {
+                minEnemyDistance = Vector3.Distance(enemy.transform.position, transform.position);
+            }
+            
+            if (Vector3.Distance(enemy.transform.position, transform.position) > Settings.MaxEnemyDistance)
+            {
+                enemiesChasing.Remove(enemy);
+                break;
+            }
+        }
+
+        if (enemiesChasing.Count > 0)
+            RuntimeManager.StudioSystem.setParameterByName("EnemyDistance", minEnemyDistance / Settings.MaxEnemyDistance);
+        else
+            RuntimeManager.StudioSystem.setParameterByName("EnemyDistance", 1);
+
+    }
+
+    public void Respawn()
+    {
+       playerAnimator.transform.position = LevelManager.Instance.PlayerCheckpoint.position;
+       Health = Settings.PlayerHealth;
+        ChangeState(MoveState);
+
+    }
+
+
     #region Character Actions
 
     public void HandleInteract()

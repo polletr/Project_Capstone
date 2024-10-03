@@ -5,11 +5,16 @@ using UnityEngine.AI;
 
 public class EnemyPatrolState : EnemyBaseState
 {
+    
+    public EnemyPatrolState(EnemyClass enemyClass,EnemyAnimator enemyAnim) 
+        : base(enemyClass,enemyAnim) { }
+    
     private Coroutine patrolRoutine;
 
     public override void EnterState()
     {
-        enemy.animator.CrossFade(WalkHash, crossFadeDuration);
+        Debug.Log("Patrol");
+        enemyAnimator.animator.CrossFade(enemyAnimator.WalkHash, crossFadeDuration);
 
         enemy.Event.OnSoundEmitted += OnSoundDetected;
 
@@ -42,7 +47,7 @@ public class EnemyPatrolState : EnemyBaseState
         {
             if (enemy.agent.velocity.sqrMagnitude == 0f)
             {
-                enemy.ChangeState(new EnemyIdleState());
+                enemy.ChangeState(enemy.IdleState);
             }
         }
     }

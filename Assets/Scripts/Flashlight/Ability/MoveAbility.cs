@@ -10,7 +10,7 @@ public class MoveAbility : FlashlightAbility
     [SerializeField] private float maxHoldTime = 15f;
 
 
-    [SerializeField] private MoveableObject pickup;
+    private MoveableObject pickup;
 
     private CountdownTimer timer;
 
@@ -19,9 +19,16 @@ public class MoveAbility : FlashlightAbility
         timer = new CountdownTimer(maxHoldTime);
     }
 
+    public override void Initialize(FlashLight flashlight)
+    {
+        base.Initialize(flashlight);
+        moveHoldPos = flashlight.MoveHoldPos;
+    }
+
+
     private void Pickup()
     {
-        if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, pickupRange) && hit.collider.TryGetComponent(out MoveableObject obj))
+        if (Physics.Raycast(_flashlight.transform.position, _flashlight.transform.forward, out RaycastHit hit, pickupRange) && hit.collider.TryGetComponent(out MoveableObject obj))
         {
             pickup = obj;
 
@@ -51,9 +58,9 @@ public class MoveAbility : FlashlightAbility
         if (pickup != null)
         {
             pickup.transform.parent = null;
-            pickup.Rb.useGravity = true;
-            pickup.Rb.drag = 1;
-            pickup.Rb.constraints = RigidbodyConstraints.None;
+            pickup.Rb.useGravity = pickup.DefaultUseGravity;
+            pickup.Rb.drag = pickup.DefaultDrag;
+            pickup.Rb.constraints = pickup.DefaultConstraints;
             pickup = null;
         }
     }
@@ -65,26 +72,21 @@ public class MoveAbility : FlashlightAbility
 
         float distance = Vector3.Distance(pickup.transform.position, moveHoldPos.position);
 
-        if (distance < 0.1f && !pickup.IsPicked)
+        /*if (distance < 0.1f && !pickup.IsPicked)
         {
             StartCoroutine(pickup.Pickup());
-        }
+        }*/
 
         if (distance > 0.1f)
         {
             Vector3 direction = moveHoldPos.position - pickup.transform.position;
-
             pickup.Rb.AddForce(direction.normalized * pickupForce);
         }
 
-        /*       if (!pickup.IsPicked && distance < 0.1f) Debug.Log("Object dropped by hit");
-
-                if (distance > maxHoldRange) Debug.Log("Object dropped by distance");
-
-                if (timer.IsFinished) Debug.Log("Object dropped by time");
-        */
-        if (!pickup.IsPicked && distance < 0.1f || distance > maxHoldRange || timer.IsFinished)
+        if (distance > maxHoldRange || timer.IsFinished)
+        {
             Drop();
+        }
     }
 
     private void FixedUpdate()
