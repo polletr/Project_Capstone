@@ -1,15 +1,15 @@
-using UnityEngine;
-using UnityEngine.SceneManagement;
-using System.Collections.Generic;
 using System.Collections;
-using UnityEditor.SearchService;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class LevelManager : Singleton<LevelManager>
 {
     public GameEvent Event;
 
-   [field: SerializeField] public string MasterScene { get; private set; }
-   [field: SerializeField] public string StartingScene { get; private set; }
+    [field: SerializeField] public string MasterScene { get; private set; }
+    [field: SerializeField] public string StartingScene { get; private set; }
 
     [SerializeField] private float _loadingWaitTime = 1f;
 
@@ -28,8 +28,8 @@ public class LevelManager : Singleton<LevelManager>
 
     private void Start()
     {
-       _currentScene = StartingScene;
-        SceneManager.LoadSceneAsync(_currentScene, LoadSceneMode.Additive);
+        _currentScene = StartingScene;
+        StartCoroutine(LoadSceneWithDelay(Event.OnLoadStarterScene));
     }
 
     private void StartLevelLoading(LevelData level) => StartCoroutine(LoadLevels(level));
@@ -38,9 +38,7 @@ public class LevelManager : Singleton<LevelManager>
     {
         _currentScene = level.CurrentSceneName;
         //wait beofre loading the new scenes
-        WaitForSeconds waiter = new WaitForSeconds(_loadingWaitTime);
-        Debug.Log($"Loading Level.....{waiter}");
-        yield return waiter;
+        yield return new WaitForSeconds(_loadingWaitTime);
 
         //unload all scenes except the master scene , current scene and  the scenes to load
         foreach (var scene in GetActiveScenes())
@@ -66,6 +64,20 @@ public class LevelManager : Singleton<LevelManager>
     {
         SceneManager.LoadScene(sceneName);
     }
+
+    private IEnumerator LoadSceneWithDelay(UnityAction action)
+    {
+        SceneManager.LoadSceneAsync(_currentScene, LoadSceneMode.Additive);
+        yield return new WaitForSeconds(_loadingWaitTime);
+        action?.Invoke();  // Invoking the action with no parameters
+    }
+    private IEnumerator LoadSceneWithDelay<T>(UnityAction<T> action, T parameter)
+    {
+        SceneManager.LoadSceneAsync(_currentScene, LoadSceneMode.Additive);
+        yield return new WaitForSeconds(_loadingWaitTime);
+        action?.Invoke(parameter);
+    }
+
 
     private List<string> GetActiveScenes()
     {

@@ -17,6 +17,7 @@ public class GameEvent : ScriptableObject
     public UnityAction OnAskForBattery;
 
     public UnityAction<LevelData> OnLevelChange;
+    public UnityAction OnLoadStarterScene;
  
     public UnityAction<Transform> SetNewSpawn;
 }
