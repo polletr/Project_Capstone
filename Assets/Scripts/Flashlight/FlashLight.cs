@@ -127,6 +127,21 @@ public class FlashLight : MonoBehaviour, ICollectable, IInteractable
         }
     }
 
+    private void RemoveAbility(FlashlightAbility ability)
+    {
+        if (flashlightAbilities.Contains(ability))
+        {
+            if (flashlightAbilities.Count <=0)
+               CurrentAbility = null;
+            else 
+            CurrentAbility = flashlightAbilities[0];
+
+            flashlightAbilities.Remove(ability);
+            Destroy(ability.gameObject); // Destroy the ability
+        }
+    }
+
+    
     public void HandleSphereCast()
     {
         Ray ray = new Ray(transform.position, transform.forward * range);
@@ -183,7 +198,7 @@ public class FlashLight : MonoBehaviour, ICollectable, IInteractable
         if (this.gameObject.activeSelf)
             StartCoroutine(Flicker(1f, () => ResetLightState()));
 
-    }
+                                                                                                         }
 
     public void HandleFlashAblility()
     {

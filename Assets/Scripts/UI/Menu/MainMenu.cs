@@ -20,7 +20,7 @@ public class MainMenu : Menu
 
     public void OnPlay() 
     {
-        SceneManager.LoadScene("MasterScene");
+        SceneManager.LoadScene("GameScene");
     } 
 
     public void PlayClickSound()
