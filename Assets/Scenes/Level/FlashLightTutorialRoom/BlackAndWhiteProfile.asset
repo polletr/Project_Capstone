@@ -65,7 +65,7 @@ MonoBehaviour:
   maxNits:
     m_OverrideState: 0
     m_Value: 1000
---- !u!114 &-1050268752037356212
+--- !u!114 &-6009040892444013286
 MonoBehaviour:
   m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
@@ -74,25 +74,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 899c54efeace73346a0a16faa3afe726, type: 3}
-  m_Name: Vignette
+  m_Script: {fileID: 11500000, guid: bba95ee541be4fe3b76c758f1424e975, type: 3}
+  m_Name: FlowVol
   m_EditorClassIdentifier: 
   active: 0
-  color:
-    m_OverrideState: 1
-    m_Value: {r: 0, g: 0, b: 0, a: 1}
-  center:
-    m_OverrideState: 1
-    m_Value: {x: 0.5, y: 0.5}
-  intensity:
-    m_OverrideState: 1
-    m_Value: 1
-  smoothness:
-    m_OverrideState: 1
-    m_Value: 1
-  rounded:
-    m_OverrideState: 1
+  m_Fade:
+    m_OverrideState: 0
     m_Value: 0
+  m_Strain:
+    m_OverrideState: 0
+    m_Value: 0
+  m_Print:
+    m_OverrideState: 0
+    m_Value: 0
+  m_Angle:
+    m_OverrideState: 0
+    m_Value: 0
+  m_Flow:
+    m_OverrideState: 0
+    m_Value: {x: 0, y: 0, z: 0}
 --- !u!114 &-910615442858451655
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -160,7 +160,7 @@ MonoBehaviour:
   - {fileID: -7532018970147552871}
   - {fileID: 3693952566654369975}
   - {fileID: -910615442858451655}
-  - {fileID: -1050268752037356212}
+  - {fileID: -6009040892444013286}
 --- !u!114 &3693952566654369975
 MonoBehaviour:
   m_ObjectHideFlags: 3
