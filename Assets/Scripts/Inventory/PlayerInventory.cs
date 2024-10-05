@@ -6,9 +6,13 @@ public class PlayerInventory : MonoBehaviour
 {
     [SerializeField] private int maxBatteryCapacity;
 
-    [SerializeField] private Battery battery;
+    private Battery battery;// on start give 1 battery to player
     
     private Queue<Battery> _batteryPacks = new();
+
+    private Stack<FlashlightAbility> _collectedAbilitys = new();
+
+    private int numberOfAbilityCollectedperCheckpoint;
 
     public int BatteryCount => _batteryPacks.Count;
 
@@ -63,6 +67,8 @@ public class PlayerInventory : MonoBehaviour
         }
         else if (item is AbilityPickup abilityPickup)
         {
+            _collectedAbilitys.Push(abilityPickup.AbilityToPickup);
+            numberOfAbilityCollectedperCheckpoint++;
             Event.OnPickupAbility?.Invoke(abilityPickup.AbilityToPickup);
             abilityPickup.Collect();
         }
@@ -74,6 +80,16 @@ public class PlayerInventory : MonoBehaviour
         }
 
         // Display item in inventory
+    }
+
+    private void RemoveAbility()
+    {
+        while(numberOfAbilityCollectedperCheckpoint > 0)
+        {
+            FlashlightAbility ability = _collectedAbilitys.Pop();
+            Event.OnRemoveAbility?.Invoke(ability);
+            numberOfAbilityCollectedperCheckpoint--;
+        }
     }
 
     public void AddBattery(Battery newBattery)
