@@ -8,7 +8,7 @@ public class EnemyChaseState : EnemyBaseState
         : base(enemyClass,enemyAnim) { }
     public override void EnterState()
     {
-        enemyAnimator.animator.CrossFade(enemyAnimator.ChaseHash, crossFadeDuration);
+        enemyAnimator.animator.CrossFade(enemyAnimator.ChaseHash, enemyAnimator.animationCrossFade);
 
         enemy.agent.speed = enemy.ChaseSpeed;
 

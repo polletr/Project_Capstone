@@ -37,6 +37,10 @@ public class FlashLight : MonoBehaviour, ICollectable, IInteractable
     bool isFlashlightOn;
     bool isFlickering;
 
+    List<IEffectable> effectedObjs = new();
+    HashSet<IEffectable> effectedObjsThisFrame = new();
+
+
     private void Awake()
     {
         Light = GetComponent<Light>();
@@ -126,13 +130,52 @@ public class FlashLight : MonoBehaviour, ICollectable, IInteractable
     public void HandleSphereCast()
     {
         Ray ray = new Ray(transform.position, transform.forward * range);
-        RaycastHit[] hits = Physics.SphereCastAll(ray, 2f, range);
+        RaycastHit[] hits = Physics.SphereCastAll(ray, 1f, range);
+        effectedObjsThisFrame.Clear();
         foreach (RaycastHit hit in hits)
         {
             var obj = hit.collider.gameObject;
             if (obj.TryGetComponent(out IEffectable effectable))
-                ApplyCurrentAbilityEffect(obj);
+            {
+                effectedObjsThisFrame.Add(effectable);
+                if (!effectedObjs.Contains(effectable))
+                    ApplyCurrentAbilityEffect(obj);
+            }
         }
+
+        // Remove effects from objects that were affected in the last frame but are not in this frame
+        for (int i = 0; i < effectedObjs.Count; i++)
+        {
+            if (!effectedObjsThisFrame.Contains(effectedObjs[i]))
+            {
+                effectedObjs[i].RemoveEffect();
+                effectedObjs.Remove(effectedObjs[i]);
+            }
+        }
+
+    }
+    private void OnDrawGizmos()
+    {
+        if (!Application.isPlaying) return;
+
+        // Set the color for the Gizmos
+        Gizmos.color = Color.red;
+
+        // Ray and range definition
+        Vector3 origin = transform.position;
+        Vector3 direction = transform.forward * range;
+
+        // Draw the sphere at the origin point
+        Gizmos.DrawWireSphere(origin, 2f);
+
+        // Calculate the end point of the SphereCast
+        Vector3 endPoint = origin + direction;
+
+        // Draw the line representing the ray of the SphereCast
+        Gizmos.DrawLine(origin, endPoint);
+
+        // Draw the sphere at the end point
+        Gizmos.DrawWireSphere(endPoint, 2f);
     }
 
     public void ResetLight()
@@ -241,11 +284,24 @@ public class FlashLight : MonoBehaviour, ICollectable, IInteractable
         {
             case MoveAbility moveAbility:
                 if (obj.TryGetComponent(out IMovable moveObj))
+                {
                     moveObj.ApplyEffect();
+                    effectedObjs.Add(moveObj);
+                }
                 break;
             case RevealAbility revealAbility:
                 if (obj.TryGetComponent(out IRevealable revealObj))
+                {
                     revealObj.ApplyEffect();
+                    effectedObjs.Add(revealObj);
+                }
+                break;
+            default:
+                if (obj.TryGetComponent(out IParalisable enemyParalised))
+                {
+                    enemyParalised.ApplyEffect();
+                    effectedObjs.Add(enemyParalised);
+                }
                 break;
 
         }

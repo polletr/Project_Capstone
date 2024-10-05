@@ -12,7 +12,7 @@ public class EnemyIdleState : EnemyBaseState
     {
         Debug.Log("Idle State");
         enemy.agent.ResetPath();
-        enemyAnimator.animator.CrossFade(enemyAnimator.IdleHash, crossFadeDuration);
+        enemyAnimator.animator.CrossFade(enemyAnimator.IdleHash, enemyAnimator.animationCrossFade);
 
         enemy.Event.OnSoundEmitted += OnSoundDetected;
         // Randomize the idle time between a range of seconds

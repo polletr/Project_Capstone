@@ -5,11 +5,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyClass : MonoBehaviour, IDamageable, IStunnable
+public class EnemyClass : MonoBehaviour, IEffectable, IStunnable
 {
     public Vector3 PatrolCenterPos { get; set; }
     public PlayerController playerCharacter { get; set; }
-    public bool CanGetHit { get; set; }
+    public bool Paralised { get; set; }
     public Door TargetDoor { get; set; }
     public EventInstance currentAudio{ get; set; }
 
@@ -58,25 +58,15 @@ public class EnemyClass : MonoBehaviour, IDamageable, IStunnable
         get { return attackRange; }
     }
 
-    public float AttackDamage
-    {
-        get { return attackDamage; }
-    }
-
     public float AttackAntecipationTime
     {
         get { return attackAntecipationTime; }
     }
 
-    public float AttackRecoveryTime
-    {
-        get { return attackRecoveryTime; }
-    }
-
     public EnemyAttackState AttackState { get; private set; }
     public EnemyChaseState ChaseState { get; private set; }
-    public EnemyDeathState DeathState { get; private set; }
-    public EnemyGetHitState GetHitState { get; private set; }
+    public EnemyStunState StunState { get; private set; }
+    public EnemyParalisedState ParalisedState { get; private set; }
     public EnemyIdleState IdleState { get; private set; }
     public EnemyPatrolState PatrolState { get; private set; }
     public EnemyOpenDoorState OpenDoorState { get; private set; }
@@ -88,19 +78,18 @@ public class EnemyClass : MonoBehaviour, IDamageable, IStunnable
     [HideInInspector] public NavMeshAgent agent;
 
     [SerializeField] private float patrolRange;
+    [SerializeField] private List<Transform> patrolTransforms = new List<Transform>();
     [SerializeField] private float maxIdleTime;
     [SerializeField] private float minIdleTime;
     [SerializeField] private float patrolSpeed;
     [SerializeField] private float chaseSpeed;
+    [SerializeField] private float stunTime;
     [SerializeField, Range(0f, 2f)] private float hearingMultiplier = 1f;
     [SerializeField, Range(0.2f, 15f)] private float sightRange = 5f;
     [SerializeField, Range(20f, 90f)] private float sightAngle = 45f;
     [SerializeField, Range(0.5f, 3f)] private float attackRange = 1f;
-    [SerializeField] private float attackDamage = 1;
     [SerializeField] private float attackAntecipationTime = 1;
-    [SerializeField] private float attackRecoveryTime = 1;
 
-    [SerializeField] private float health = 3;
     [field: SerializeField] public float AttackCooldown { get; private set; }
 
     public GameEvent Event;
@@ -114,8 +103,8 @@ public class EnemyClass : MonoBehaviour, IDamageable, IStunnable
         
         AttackState = new EnemyAttackState(this, enemyAnimator);
         ChaseState = new EnemyChaseState(this, enemyAnimator);
-        DeathState = new EnemyDeathState(this, enemyAnimator);
-        GetHitState = new EnemyGetHitState(this, enemyAnimator);
+        StunState = new EnemyStunState(this, enemyAnimator);
+        ParalisedState = new EnemyParalisedState(this, enemyAnimator);
         IdleState = new EnemyIdleState(this, enemyAnimator);
         PatrolState = new EnemyPatrolState(this, enemyAnimator);
         OpenDoorState = new EnemyOpenDoorState(this, enemyAnimator);
@@ -143,33 +132,31 @@ public class EnemyClass : MonoBehaviour, IDamageable, IStunnable
         currentAudio.set3DAttributes(attributes);
     }
 
-    public void GetDamaged(float attackDamage)
+    public void ApplyStunEffect()
     {
-        health -= attackDamage;
-        if (health > 0f)
-        {
-            currentState?.HandleGetHit();
-        }
-        else
-        {
-            currentState?.HandleDeath();
-        }
+        currentState?.HandleStun();
     }
 
     public void ApplyEffect()
     {
-        currentState?.HandleGetHit();
+        currentState?.HandleParalise();
+        if (!Paralised)
+            Paralised = true;
     }
 
-    public void CanGetIntoGetHitState(int check)
+    public void RemoveEffect()
     {
-        CanGetHit = check == 0 ? true : false;
+        currentState?.HandleChase();
+
+        if (Paralised)
+            Paralised = false;
+
     }
 
     public virtual void Attack()
     {
-        if (Vector3.Distance(transform.position, playerCharacter.transform.position) <= AttackRange)
-            playerCharacter.GetComponent<PlayerController>().GetDamaged(AttackDamage);
+        //if (Vector3.Distance(transform.position, playerCharacter.transform.position) <= AttackRange)
+            //playerCharacter.GetComponent<PlayerController>().GetDamaged(AttackDamage); Kill Player here
     }
 
     #region ChangeState

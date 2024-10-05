@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyDeathState : EnemyBaseState
+public class EnemyStunState : EnemyBaseState
 {
-    public EnemyDeathState(EnemyClass enemyClass, EnemyAnimator enemyAnim)
+    public EnemyStunState(EnemyClass enemyClass, EnemyAnimator enemyAnim)
         : base(enemyClass, enemyAnim) { }
     
     public override void EnterState()
     {
         enemy.agent.ResetPath();
-        enemyAnimator.animator.CrossFade(enemyAnimator.DieHash, crossFadeDuration);
+        enemyAnimator.animator.CrossFade(enemyAnimator.StunHash, enemyAnimator.animationCrossFade);
 
     }
     public override void ExitState()
@@ -34,16 +34,6 @@ public class EnemyDeathState : EnemyBaseState
     }
 
     protected override void VisionDetection()
-    {
-
-    }
-
-    public override void HandleGetHit()
-    {
-
-    }
-
-    public override void HandleDeath()
     {
 
     }
