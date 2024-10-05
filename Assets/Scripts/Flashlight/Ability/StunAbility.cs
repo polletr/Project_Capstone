@@ -32,7 +32,7 @@ public class StunAbility : FlashlightAbility
             var obj = hit.collider.gameObject;
 
             if (obj.TryGetComponent(out IStunnable thing))
-                thing.ApplyEffect();
+                thing.ApplyStunEffect();
         }
         _flashlight.ConsumeBattery(cost);
 

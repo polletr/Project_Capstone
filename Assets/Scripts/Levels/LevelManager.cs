@@ -84,7 +84,7 @@ public class LevelManager : Singleton<LevelManager>
 
     #region    Extra Methods
 
-    private void LoadSceneWithDelay<T>(UnityAction<T> action, T parameter)
+   /* private void LoadSceneWithDelay<T>(UnityAction<T> action, T parameter)
     {
         SceneManager.LoadSceneAsync(_currentScene, LoadSceneMode.Additive);
         action?.Invoke(parameter);
@@ -93,6 +93,6 @@ public class LevelManager : Singleton<LevelManager>
     {
         SceneManager.LoadSceneAsync(_currentScene, LoadSceneMode.Additive);
         action?.Invoke();
-    }
+    }*/
     #endregion
 }

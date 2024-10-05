@@ -7,10 +7,8 @@ public abstract class EnemyBaseState
 {
     protected Vector3 chasePos;
 
-    protected float time; // How long the enemy will stay in the idle state
-    protected float timer; // Tracks the time spent in the idle state
-
-    protected const float crossFadeDuration = 0.2f;
+    protected float time;
+    protected float timer;
 
     public EnemyAnimator enemyAnimator { get; private set; }
     public EnemyClass enemy { get; set; }
@@ -27,9 +25,9 @@ public abstract class EnemyBaseState
     public virtual void StateFixedUpdate() { }
     public virtual void StateUpdate() { }
     public virtual void HandleAttack() { }
-    public virtual void HandleDeath() 
+    public virtual void HandleStun() 
     {
-        enemy.ChangeState(enemy.DeathState);
+        enemy.ChangeState(enemy.StunState);
     }
 
     protected virtual void OnSoundDetected(Vector3 soundPosition, float soundRange)
@@ -42,12 +40,17 @@ public abstract class EnemyBaseState
         }
     }
 
-    public virtual void HandleGetHit()
+    public virtual void HandleParalise()
     {
-        if (enemy.CanGetHit)
-            enemy.ChangeState(enemy.GetHitState);
+        if (!enemy.Paralised)
+            enemy.ChangeState(enemy.ParalisedState);
     }
 
+    public virtual void HandleChase()
+    {
+        if (!enemy.Paralised)
+            enemy.ChangeState(enemy.ChaseState);
+    }
 
     protected virtual void VisionDetection()
     {

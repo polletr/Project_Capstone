@@ -42,7 +42,7 @@ public class EnemyOpenDoorState : EnemyBaseState
 
         if (timer >= time && !attacked)
         {
-            AttackDoor();
+            //AttackDoor();
             attacked = true;
         }
 
@@ -99,12 +99,12 @@ public class EnemyOpenDoorState : EnemyBaseState
     }
 
 
-    private void AttackDoor()
+/*    private void AttackDoor()
     {
         // Logic for applying damage or force to the door
         enemy.TargetDoor.TakeDamage(enemy.AttackDamage, enemy.gameObject);
     }
-
+*/
     protected override void VisionDetection()
     {
 
