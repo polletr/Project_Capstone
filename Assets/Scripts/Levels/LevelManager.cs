@@ -29,7 +29,7 @@ public class LevelManager : Singleton<LevelManager>
     private void Start()
     {
         _currentScene = StartingScene;
-        StartCoroutine(LoadSceneWithDelay(Event.OnLoadStarterScene));
+        LoadStartScene();
     }
 
     private void StartLevelLoading(LevelData level) => StartCoroutine(LoadLevels(level));
@@ -65,19 +65,11 @@ public class LevelManager : Singleton<LevelManager>
         SceneManager.LoadScene(sceneName);
     }
 
-    private IEnumerator LoadSceneWithDelay(UnityAction action)
+    private void LoadStartScene()
     {
-        SceneManager.LoadSceneAsync(_currentScene, LoadSceneMode.Additive);
-        yield return new WaitForSeconds(_loadingWaitTime);
-        action?.Invoke();  // Invoking the action with no parameters
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(_currentScene, LoadSceneMode.Additive);
+        asyncLoad.completed += (_) => Event.OnLoadStarterScene?.Invoke();
     }
-    private IEnumerator LoadSceneWithDelay<T>(UnityAction<T> action, T parameter)
-    {
-        SceneManager.LoadSceneAsync(_currentScene, LoadSceneMode.Additive);
-        yield return new WaitForSeconds(_loadingWaitTime);
-        action?.Invoke(parameter);
-    }
-
 
     private List<string> GetActiveScenes()
     {
@@ -89,4 +81,18 @@ public class LevelManager : Singleton<LevelManager>
 
         return _currentLoadedScenes;
     }
+
+    #region    Extra Methods
+
+    private void LoadSceneWithDelay<T>(UnityAction<T> action, T parameter)
+    {
+        SceneManager.LoadSceneAsync(_currentScene, LoadSceneMode.Additive);
+        action?.Invoke(parameter);
+    }
+    private void LoadSceneWithDelay(UnityAction action)
+    {
+        SceneManager.LoadSceneAsync(_currentScene, LoadSceneMode.Additive);
+        action?.Invoke();
+    }
+    #endregion
 }
