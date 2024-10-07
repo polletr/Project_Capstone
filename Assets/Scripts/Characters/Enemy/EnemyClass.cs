@@ -40,9 +40,9 @@ public class EnemyClass : MonoBehaviour, IStunnable
         get { return patrolSpeed; }
     }
 
-    public float ChaseSpeed
+    public float ParalisedSpeed
     {
-        get { return chaseSpeed; }
+        get { return paralisedSpeed; }
     }
 
     public float HearingMultiplier
@@ -93,7 +93,7 @@ public class EnemyClass : MonoBehaviour, IStunnable
     [SerializeField] private float maxIdleTime;
     [SerializeField] private float minIdleTime;
     [SerializeField] private float patrolSpeed;
-    [SerializeField] private float chaseSpeed;
+    [SerializeField] private float paralisedSpeed;
     [SerializeField] private float stunTime;
     [SerializeField] private float rotationSpeed;
     [SerializeField, Range(0f, 2f)] private float hearingMultiplier = 1f;
@@ -154,11 +154,8 @@ public class EnemyClass : MonoBehaviour, IStunnable
 
     public void ApplyEffect()
     {
-        if (!Paralised)
-        {
-            currentState?.HandleParalise();
-            Paralised = true;
-        }
+        Debug.Log("Paralise");
+        currentState?.HandleParalise();
     }
 
     public void RemoveEffect()
@@ -175,6 +172,23 @@ public class EnemyClass : MonoBehaviour, IStunnable
         //if (Vector3.Distance(transform.position, playerCharacter.transform.position) <= AttackRange)
             //playerCharacter.GetComponent<PlayerController>().GetDamaged(AttackDamage); Kill Player here
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.TryGetComponent(out LightController light))
+        {
+            light.TurnOnOffLight(false);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.TryGetComponent(out LightController light))
+        {
+            light.TurnOnOffLight(true);
+        }
+    }
+
 
     #region ChangeState
 

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.AI;
 
 public abstract class EnemyBaseState 
 {
@@ -30,25 +31,42 @@ public abstract class EnemyBaseState
         enemy.ChangeState(enemy.StunState);
     }
 
-    public virtual void HandleParalise() { }
+    public virtual void HandleParalise() 
+    {
+        if (!enemy.Paralised)
+        {
+            enemy.Paralised = true;
+            enemy.ChangeState(enemy.ParalisedState);
+        }
+
+    }
 
     public virtual void HandleChase()
     {
-        if (!enemy.Paralised)
-            enemy.ChangeState(enemy.ChaseState);
+        enemy.ChangeState(enemy.ChaseState);
     }
-
 
     protected virtual void OnSoundDetected(Vector3 soundPosition, float soundRange)
     {
         float distance = Vector3.Distance(enemy.transform.position, soundPosition);
         if (distance <= soundRange * enemy.HearingMultiplier)
         {
-            chasePos = soundPosition;
-            enemy.ChangeState(enemy.ChaseState);
+            NavMeshHit navHit;
+            // Check if there's a valid NavMesh path to the sound position
+            if (NavMesh.SamplePosition(soundPosition, out navHit, 1.0f, NavMesh.AllAreas))
+            {
+                // If the path is clear, proceed with chasing the player
+                if (NavMesh.Raycast(enemy.transform.position, soundPosition, out NavMeshHit navMHit, NavMesh.AllAreas))
+                {
+                    if (navMHit.mask == 0) // No obstacles found
+                    {
+                        chasePos = soundPosition;
+                        enemy.ChangeState(enemy.ChaseState);
+                    }
+                }
+            }
         }
     }
-
 
     protected virtual void VisionDetection()
     {
@@ -73,15 +91,22 @@ public abstract class EnemyBaseState
             {
                 if (hit.collider == target && hit.collider.CompareTag("Player"))
                 {
-                    Debug.Log("Player Detected");
-                    chasePos = target.transform.position;
-                    enemy.playerCharacter = hit.collider.GetComponent<PlayerController>();
-                    enemy.playerCharacter.AddEnemyToChaseList(enemy);
-                    enemy.ChangeState(enemy.ChaseState);
+                    // Check if there's a valid NavMesh path to the player
+                    NavMeshHit navHit;
+                    if (NavMesh.SamplePosition(target.transform.position, out navHit, 1.0f, NavMesh.AllAreas))
+                    {
+                        if (!NavMesh.Raycast(enemy.transform.position, target.transform.position, out navHit, NavMesh.AllAreas))
+                        {
+                            Debug.Log("Player Detected");
+                            chasePos = target.transform.position;
+                            enemy.playerCharacter = hit.collider.GetComponent<PlayerController>();
+                            enemy.playerCharacter.AddEnemyToChaseList(enemy);
+                            enemy.ChangeState(enemy.ChaseState);
+                        }
+                    }
                 }
             }
         }
     }
-
 
 }

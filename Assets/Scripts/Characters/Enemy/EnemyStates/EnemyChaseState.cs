@@ -9,9 +9,9 @@ public class EnemyChaseState : EnemyBaseState
         : base(enemyClass,enemyAnim) { }
     public override void EnterState()
     {
-        enemyAnimator.animator.CrossFade(enemyAnimator.ChaseHash, enemyAnimator.animationCrossFade);
+        enemyAnimator.animator.CrossFade(enemyAnimator.WalkHash, enemyAnimator.animationCrossFade);
 
-        enemy.agent.speed = enemy.ChaseSpeed;
+        enemy.agent.speed = enemy.PatrolSpeed;
 
         Debug.Log("Chasing");
 
@@ -60,10 +60,10 @@ public class EnemyChaseState : EnemyBaseState
 
     }
 
-    public override void HandleParalise()
+
+    protected override void OnSoundDetected(Vector3 soundPosition, float soundRange)
     {
-        if (!enemy.Paralised)
-            enemy.ChangeState(enemy.ParalisedState);
+
     }
 
 

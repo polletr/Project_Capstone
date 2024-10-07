@@ -40,6 +40,7 @@ public class FlashLight : MonoBehaviour, ICollectable, IInteractable
     List<IEffectable> effectedObjs = new();
     HashSet<IEffectable> effectedObjsThisFrame = new();
 
+    public LayerMask layerMask;
 
     private void Awake()
     {
@@ -50,6 +51,7 @@ public class FlashLight : MonoBehaviour, ICollectable, IInteractable
         Light.intensity = intensity;
         Light.color = lightColor;
 
+        layerMask = LayerMask.GetMask("Flashlight");
 
         if (flashlightAbilities.Count > 0)
         {
@@ -145,16 +147,19 @@ public class FlashLight : MonoBehaviour, ICollectable, IInteractable
     public void HandleSphereCast()
     {
         Ray ray = new Ray(transform.position, transform.forward * range);
-        RaycastHit[] hits = Physics.SphereCastAll(ray, 1f, range);
+        RaycastHit[] hits = Physics.SphereCastAll(ray, 1f, range, layerMask);
         effectedObjsThisFrame.Clear();
         foreach (RaycastHit hit in hits)
         {
             var obj = hit.collider.gameObject;
+
             if (obj.TryGetComponent(out IEffectable effectable))
             {
                 effectedObjsThisFrame.Add(effectable);
                 if (!effectedObjs.Contains(effectable))
+                {
                     ApplyCurrentAbilityEffect(obj);
+                }
             }
         }
 
