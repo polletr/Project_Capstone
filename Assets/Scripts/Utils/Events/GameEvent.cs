@@ -9,7 +9,7 @@ public class GameEvent : ScriptableObject
     public UnityAction OnPlayerDeath;
     public UnityAction OnPlayerRespawn;
 
-    public UnityAction<bool> OnFlashlightCollect;
+    public UnityAction OnPickupFlashlight;
     public UnityAction<FlashlightAbility> OnPickupAbility;
     public UnityAction<FlashlightAbility> OnRemoveAbility;
 

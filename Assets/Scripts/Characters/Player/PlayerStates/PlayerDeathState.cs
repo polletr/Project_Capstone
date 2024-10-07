@@ -4,8 +4,7 @@ using Utilities;
 public class PlayerDeathState : PlayerBaseState
 {
     public PlayerDeathState
-        (PlayerAnimator animator, PlayerController playerController, InputManager inputM)
-        : base(animator, playerController, inputM) { }
+        (PlayerController playerController) : base(playerController) { }
 
     CountdownTimer timer;
 
@@ -15,7 +14,7 @@ public class PlayerDeathState : PlayerBaseState
         player.Event.OnPlayerDeath?.Invoke();
         timer = new CountdownTimer(player.Settings.RespawnTime);
         timer.Start();
-        player.PlayerCam.transform.parent = player.DeathParentObj;
+        player.PlayerCam.transform.parent = player.DeathCamPos;
     }
     public override void ExitState()
     {

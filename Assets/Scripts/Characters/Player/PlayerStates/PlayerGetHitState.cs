@@ -1,11 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerGetHitState : PlayerBaseState
 {
-    public PlayerGetHitState(PlayerAnimator animator, PlayerController playerController, InputManager inputM)
-        : base(animator, playerController, inputM) { }
+    public PlayerGetHitState(PlayerController playerController) : base(playerController) { }
 
     public override void EnterState()
     {

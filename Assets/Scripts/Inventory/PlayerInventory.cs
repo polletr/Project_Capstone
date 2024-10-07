@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,26 +6,26 @@ public class PlayerInventory : MonoBehaviour
     [SerializeField] private int maxBatteryCapacity;
 
     private Battery battery;// on start give 1 battery to player
-    
+
     private Queue<Battery> _batteryPacks = new();
 
     private Stack<FlashlightAbility> _collectedAbilitys = new();
 
-    private int numberOfAbilityCollectedperCheckpoint;
+    private int numAbilityCollectedperCheckpoint;
 
     public int BatteryCount => _batteryPacks.Count;
 
-    private Dictionary<Door,ICollectable> keys = new();
+    private Dictionary<Door, ICollectable> keys = new();
 
     public GameEvent Event;
 
 
     private void Awake()
-    { 
-      battery = Instantiate(new GameObject().AddComponent<Battery>(), transform);
-      battery.Event = Event;
-      AddBattery(battery);
-      SendBattery();
+    {
+        battery = Instantiate(new GameObject().AddComponent<Battery>(), transform);
+        battery.Event = Event;
+        AddBattery(battery);
+        SendBattery();
     }
 
     private void OnEnable()
@@ -35,6 +34,8 @@ public class PlayerInventory : MonoBehaviour
         Event.OnAskForBattery += SendBattery;
         Event.OnTryToUnlockDoor += TryToOpenDoor;
         Event.OnLevelChange += RemoveAllKeys;
+        Event.OnPlayerDeath += PlayerDiedRemoveAbility;
+        Event.OnLevelChange += RestAbilityCheckpointCounter;
     }
 
     private void OnDisable()
@@ -43,14 +44,15 @@ public class PlayerInventory : MonoBehaviour
         Event.OnAskForBattery -= SendBattery;
         Event.OnTryToUnlockDoor -= TryToOpenDoor;
         Event.OnLevelChange -= RemoveAllKeys;
-
+        Event.OnPlayerDeath -= PlayerDiedRemoveAbility;
+        Event.OnLevelChange -= RestAbilityCheckpointCounter;
     }
 
     private void TryToOpenDoor(Door door)
     {
         if (HasKey(door))
         {
-            door.UnlockDoor(); 
+            door.UnlockDoor();
             keys.Remove(door);
         }
         else
@@ -61,35 +63,32 @@ public class PlayerInventory : MonoBehaviour
 
     public void CollectItem(ICollectable item)
     {
-        if (item is Battery batteryItem)
+        switch (item)
         {
-            AddBattery(batteryItem);
-        }
-        else if (item is AbilityPickup abilityPickup)
-        {
-            _collectedAbilitys.Push(abilityPickup.AbilityToPickup);
-            numberOfAbilityCollectedperCheckpoint++;
-            Event.OnPickupAbility?.Invoke(abilityPickup.AbilityToPickup);
-            abilityPickup.Collect();
-        }
-        else if (item is Key key)
-        {
-            Debug.Log("PICKED UP ITEM");
-            keys.Add(key.doorToOpen, key);
-            item.Collect();
+            case Battery batteryItem:
+                AddBattery(batteryItem);
+                break;
+            case AbilityPickup abilityPickup:
+                _collectedAbilitys.Push(abilityPickup.AbilityToPickup);
+                numAbilityCollectedperCheckpoint++;
+                Event.OnPickupAbility?.Invoke(abilityPickup.AbilityToPickup);
+                abilityPickup.Collect();
+                break;
+            case Key key:
+                Debug.Log("PICKED UP ITEM");
+                keys.Add(key.doorToOpen, key);
+                item.Collect();
+                break;
+            case FlashlightPickup flashlightPickup:
+                Event.OnPickupFlashlight?.Invoke();
+                flashlightPickup.Collect();
+                break;
+            default:
+                Debug.Log($"Item not recognized wtf is this {item}");
+                break;
         }
 
         // Display item in inventory
-    }
-
-    private void RemoveAbility()
-    {
-        while(numberOfAbilityCollectedperCheckpoint > 0)
-        {
-            FlashlightAbility ability = _collectedAbilitys.Pop();
-            Event.OnRemoveAbility?.Invoke(ability);
-            numberOfAbilityCollectedperCheckpoint--;
-        }
     }
 
     public void AddBattery(Battery newBattery)
@@ -143,4 +142,15 @@ public class PlayerInventory : MonoBehaviour
         return keys.ContainsKey(item);
     }
 
+    private void PlayerDiedRemoveAbility()
+    {
+        while (numAbilityCollectedperCheckpoint > 0 && _collectedAbilitys.Count > 0 )
+        {
+            FlashlightAbility ability = _collectedAbilitys.Pop();
+            Event.OnRemoveAbility?.Invoke(ability);
+            numAbilityCollectedperCheckpoint--;
+        }
+    }
+
+    private void RestAbilityCheckpointCounter(LevelData x) => numAbilityCollectedperCheckpoint = 0;
 }

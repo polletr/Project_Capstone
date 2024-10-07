@@ -5,8 +5,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerAttackState : PlayerBaseState
 {
-    public PlayerAttackState(PlayerAnimator animator, PlayerController playerController, InputManager inputM)
-        : base(animator, playerController, inputM) { }
+    public PlayerAttackState(PlayerController playerController)
+        : base(playerController) { }
     public override void EnterState()
     {
         //Use current Flashlight ability Attack

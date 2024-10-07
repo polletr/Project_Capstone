@@ -2,8 +2,7 @@ using UnityEngine;
 
 public class PlayerInteractState : PlayerBaseState
 {
-    public PlayerInteractState(PlayerAnimator animator, PlayerController playerController, InputManager inputM) 
-        : base(animator, playerController, inputM) {}
+    public PlayerInteractState(PlayerController playerController) : base(playerController) {}
 
     public override void EnterState()
     {

@@ -20,6 +20,9 @@ public class MainMenu : Menu
 
     public void OnPlay() 
     {
+
+        Cursor.lockState = CursorLockMode.Locked;//Move this from here later
+        Cursor.visible = false;//Move this from here later
         SceneManager.LoadScene("GameScene");
     } 
 

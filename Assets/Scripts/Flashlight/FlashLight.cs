@@ -4,7 +4,7 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
-public class FlashLight : MonoBehaviour, ICollectable, IInteractable
+public class FlashLight : MonoBehaviour
 {
     public GameEvent Event;
 
@@ -355,20 +355,6 @@ public class FlashLight : MonoBehaviour, ICollectable, IInteractable
     {
         battery = newBattery;
     }
-
-    public void Collect()
-    {
-        AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.PickUpFlashlight, transform.position);
-
-        Event.OnFlashlightCollect(true);
-        Destroy(this.gameObject);// uhhhhhhh disable it?
-    }
-
-    public void OnInteract()
-    {
-        Collect();
-    }
-
 
 }
 

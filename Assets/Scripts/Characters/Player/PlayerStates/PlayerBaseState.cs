@@ -9,16 +9,18 @@ public abstract class PlayerBaseState
     protected bool isRunning;
     protected bool isCrouching;
 
-    public PlayerAnimator playerAnimator { get; set; }
     public PlayerController player { get; set; }
+    public PlayerAnimator playerAnimator { get; set; }
     public InputManager inputManager { get; set; }
 
+    protected float _bobTimer;
 
-    public PlayerBaseState(PlayerAnimator animator, PlayerController playerController, InputManager inputM)
+
+    public PlayerBaseState(PlayerController playerController)
     {
-        playerAnimator = animator;
         player = playerController;
-        inputManager = inputM;
+        playerAnimator = player.playerAnimator;
+        inputManager = player.inputManager;
     }
 
 
@@ -46,8 +48,8 @@ public abstract class PlayerBaseState
     {
 
         // Get the camera's forward and right directions
-        Vector3 cameraForward = player.Camera.forward;
-        Vector3 cameraRight = player.Camera.right;
+        Vector3 cameraForward = player.PlayerCam.transform.forward;
+        Vector3 cameraRight = player.PlayerCam.transform.right;
 
         // Since we're working in a 3D space, we don't want any vertical movement on the Y axis
         cameraForward.y = 0;
@@ -126,15 +128,16 @@ public abstract class PlayerBaseState
         // Calculate camera pitch (x-axis) rotation
         player.xRotation += dir.y * sensitivityMult * Time.deltaTime;
         player.xRotation = Mathf.Clamp(player.xRotation, -40f, 40f);
-        player.Camera.localRotation = Quaternion.Euler(-player.xRotation, 0, 0);  // Rotate camera vertically
+        player.PlayerCam.transform.localRotation = Quaternion.Euler(-player.xRotation, 0, 0);  // Rotate camera vertically
 
         // Only update the flashlight's rotation if the player is holding it
         if (player.HasFlashlight)
         {
             // Ensure the flashlight (hand) follows the camera's rotation
-            player.flashlight.transform.forward = player.Camera.forward;  // Rotate hand (and flashlight) to match camera
+           player.flashlight.transform.forward = player.PlayerCam.transform.forward;  // Rotate hand (and flashlight) to match camera
         }
     }
+
 
     protected virtual void StepsSound()
     {
