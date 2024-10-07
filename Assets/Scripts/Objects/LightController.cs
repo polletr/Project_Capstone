@@ -4,6 +4,8 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(SphereCollider))]
 public class LightController : MonoBehaviour
 {
     private Light lightSource;
@@ -23,9 +25,17 @@ public class LightController : MonoBehaviour
 
     private EventInstance constantFlickeringSound;
 
+    private Rigidbody rb;
+    private SphereCollider sphereCollider;
+
     private void Awake()
     {
         lightSource = GetComponent<Light>();
+
+        rb = GetComponent<Rigidbody>();
+        rb.isKinematic = true;
+        sphereCollider = GetComponent<SphereCollider>();
+        sphereCollider.isTrigger = true;
 
         if (lightSource == null)
         {
