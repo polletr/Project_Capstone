@@ -147,7 +147,7 @@ public class FlashLight : MonoBehaviour
     public void HandleSphereCast()
     {
         Ray ray = new Ray(transform.position, transform.forward * range);
-        RaycastHit[] hits = Physics.SphereCastAll(ray, 1f, range, layerMask);
+        RaycastHit[] hits = Physics.SphereCastAll(ray, 1f, range);
         effectedObjsThisFrame.Clear();
         foreach (RaycastHit hit in hits)
         {
@@ -155,6 +155,7 @@ public class FlashLight : MonoBehaviour
 
             if (obj.TryGetComponent(out IEffectable effectable))
             {
+                Debug.Log(obj.ToString());  
                 effectedObjsThisFrame.Add(effectable);
                 if (!effectedObjs.Contains(effectable))
                 {

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7393242699462606258}
   - component: {fileID: 733488586319824286}
   - component: {fileID: 2076442353892275476}
-  - component: {fileID: 2334545084448161925}
+  - component: {fileID: 409374397354755012}
   m_Layer: 0
   m_Name: ShadowEnemy
   m_TagString: Untagged
@@ -54,7 +54,7 @@ MonoBehaviour:
   patrolRange: 5
   maxIdleTime: 5
   minIdleTime: 1
-  patrolSpeed: 0.8
+  patrolSpeed: 0.5
   paralisedSpeed: 0.2
   stunTime: 10
   rotationSpeed: 5
@@ -122,28 +122,20 @@ CapsuleCollider:
   m_Radius: 0.22780198
   m_Height: 2.2737765
   m_Direction: 1
-  m_Center: {x: 0.012275845, y: 0.63688827, z: -0.061958015}
---- !u!135 &2334545084448161925
-SphereCollider:
+  m_Center: {x: 0.012275845, y: 0.63688827, z: 0}
+--- !u!114 &409374397354755012
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 904477281664417906}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 128
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 8
-  m_Center: {x: 0, y: 0, z: 0}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b56abe239700932499b1a12b7a9bf077, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  detectionRadius: 8
 --- !u!1001 &1619360997120739988
 PrefabInstance:
   m_ObjectHideFlags: 0

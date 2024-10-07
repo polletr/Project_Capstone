@@ -36,6 +36,7 @@ public class LightController : MonoBehaviour
         rb.isKinematic = true;
         sphereCollider = GetComponent<SphereCollider>();
         sphereCollider.isTrigger = true;
+        gameObject.layer = LayerMask.NameToLayer("LightController");
 
         if (lightSource == null)
         {
