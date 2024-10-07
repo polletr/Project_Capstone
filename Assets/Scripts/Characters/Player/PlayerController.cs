@@ -290,4 +290,10 @@ public class PlayerController : MonoBehaviour, IDamageable
     */
     #endregion
 
+    private void OnDrawGizmos()
+    {
+        Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward * Settings.InteractionRange);
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawRay(ray);
+    }
 }
