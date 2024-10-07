@@ -2,6 +2,7 @@ using FMOD.Studio;
 using FMODUnity;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class LightController : MonoBehaviour
 {
@@ -18,8 +19,9 @@ public class LightController : MonoBehaviour
 
     private float originalIntensity;
 
-    private EventInstance constantFlickeringSound;
+    [SerializeField] bool guidingLight = false;
 
+    private EventInstance constantFlickeringSound;
 
     private void Awake()
     {
@@ -45,16 +47,18 @@ public class LightController : MonoBehaviour
     // Turn light on or off
     public void TurnOnOffLight(bool check)
     {
-        if (!check)
-            StopConstantFlickering();
-        else
-            AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.LightTurnOn, transform.position);
-        // Random chance to flicker when turning on/off
-        if (check && Random.value < flickerChance) // When turning on
+        if (!guidingLight)
         {
-            FlickerLight();
+            if (!check && constantFlickering)
+                StopConstantFlickering();
+            else
+                AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.LightTurnOn, transform.position);
+            // Random chance to flicker when turning on/off
+            if (check && Random.value < flickerChance) // When turning on
+                FlickerLight();
+
+            lightSource.enabled = check;
         }
-        lightSource.enabled = check;
 
     }
 

@@ -7,7 +7,11 @@ public class EnemyParalisedState : EnemyBaseState
 
     public override void EnterState()
     {
+        Debug.Log("Paralised");
         enemy.agent.ResetPath();
+
+        enemy.agent.speed = enemy.ParalisedSpeed;
+
         enemyAnimator.animator.CrossFade(enemyAnimator.IdleHash, enemyAnimator.animationCrossFade);
     }
     public override void ExitState()
@@ -17,7 +21,35 @@ public class EnemyParalisedState : EnemyBaseState
 
     public override void StateUpdate()
     {
-        //ROtate enemy towards player
+        if (enemy.playerCharacter == null)
+        {
+            enemy.playerCharacter = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
+            enemy.playerCharacter.AddEnemyToChaseList(enemy);
+        }
+
+        if (enemy.agent.destination != chasePos)
+        {
+            enemy.agent.SetDestination(chasePos);
+        }
+
+        if (Vector3.Distance(enemy.transform.position, enemy.playerCharacter.transform.position) <= enemy.SightRange && enemy.playerCharacter.GetComponent<PlayerController>().IsAlive())
+        {
+            chasePos = enemy.playerCharacter.transform.position;
+            if (Vector3.Distance(enemy.transform.position, enemy.playerCharacter.transform.position) <= enemy.AttackRange)
+            {
+                enemy.agent.ResetPath();
+                enemy.ChangeState(enemy.AttackState);
+            }
+        }
+
+        // Get the direction to the player
+        Vector3 directionToPlayer = (enemy.playerCharacter.transform.position - enemy.transform.position).normalized;
+
+        // Calculate the rotation towards the player
+        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(directionToPlayer.x, 0, directionToPlayer.z)); // Ignore y-axis to keep rotation flat
+
+        // Smoothly rotate the enemy towards the player
+        enemy.transform.rotation = Quaternion.Slerp(enemy.transform.rotation, lookRotation, Time.deltaTime * enemy.RotationSpeed);
     }
 
 
@@ -25,6 +57,11 @@ public class EnemyParalisedState : EnemyBaseState
     {
 
     }
+
+    protected override void VisionDetection() { }
+
+    protected override void OnSoundDetected(Vector3 soundPosition, float soundRange) { }
+
 
 
 }

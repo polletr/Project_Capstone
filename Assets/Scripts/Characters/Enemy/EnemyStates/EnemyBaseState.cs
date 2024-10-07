@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.AI;
 
 public abstract class EnemyBaseState 
 {
@@ -30,34 +31,51 @@ public abstract class EnemyBaseState
         enemy.ChangeState(enemy.StunState);
     }
 
+    public virtual void HandleParalise() 
+    {
+        if (!enemy.Paralised)
+        {
+            enemy.Paralised = true;
+            enemy.ChangeState(enemy.ParalisedState);
+        }
+
+    }
+
+    public virtual void HandleChase()
+    {
+        enemy.ChangeState(enemy.ChaseState);
+    }
+
     protected virtual void OnSoundDetected(Vector3 soundPosition, float soundRange)
     {
         float distance = Vector3.Distance(enemy.transform.position, soundPosition);
         if (distance <= soundRange * enemy.HearingMultiplier)
         {
-            chasePos = soundPosition;
-            enemy.ChangeState(enemy.ChaseState);
+            NavMeshHit navHit;
+            // Check if there's a valid NavMesh path to the sound position
+            if (NavMesh.SamplePosition(soundPosition, out navHit, 1.0f, NavMesh.AllAreas))
+            {
+                // If the path is clear, proceed with chasing the player
+                if (NavMesh.Raycast(enemy.transform.position, soundPosition, out NavMeshHit navMHit, NavMesh.AllAreas))
+                {
+                    if (navMHit.mask == 0) // No obstacles found
+                    {
+                        chasePos = soundPosition;
+                        enemy.ChangeState(enemy.ChaseState);
+                    }
+                }
+            }
         }
-    }
-
-    public virtual void HandleParalise()
-    {
-        if (!enemy.Paralised)
-            enemy.ChangeState(enemy.ParalisedState);
-    }
-
-    public virtual void HandleChase()
-    {
-        if (!enemy.Paralised)
-            enemy.ChangeState(enemy.ChaseState);
     }
 
     protected virtual void VisionDetection()
     {
         float detectionRadius = enemy.SightRange;
-        float detectionAngle = enemy.SightAngle;
 
+        // Detect all targets within the detection radius
         Collider[] targetsInViewRadius = Physics.OverlapSphere(enemy.transform.position, detectionRadius);
+
+        // If the enemy already sees the player, stop checking
         if (enemy.playerCharacter != null)
         {
             return;
@@ -65,20 +83,21 @@ public abstract class EnemyBaseState
 
         foreach (Collider target in targetsInViewRadius)
         {
+            // Perform a raycast to ensure there are no obstacles between the enemy and the target
             Vector3 directionToTarget = (target.transform.position - enemy.transform.position).normalized;
+            RaycastHit hit;
 
-            // Check if the target is within the cone's angle
-            if (Vector3.Angle(enemy.transform.forward, directionToTarget) < detectionAngle / 2)
+            if (Physics.Raycast(enemy.transform.position, directionToTarget, out hit, detectionRadius))
             {
-                // Perform a raycast to ensure there are no obstacles
-                RaycastHit hit;
-                if (Physics.Raycast(enemy.transform.position, directionToTarget, out hit, detectionRadius))
+                if (hit.collider == target && hit.collider.CompareTag("Player"))
                 {
-                    if (hit.collider == target)
+                    // Check if there's a valid NavMesh path to the player
+                    NavMeshHit navHit;
+                    if (NavMesh.SamplePosition(target.transform.position, out navHit, 1.0f, NavMesh.AllAreas))
                     {
-                        if (hit.collider.CompareTag("Player"))
+                        if (!NavMesh.Raycast(enemy.transform.position, target.transform.position, out navHit, NavMesh.AllAreas))
                         {
-                            Debug.Log("See Player");
+                            Debug.Log("Player Detected");
                             chasePos = target.transform.position;
                             enemy.playerCharacter = hit.collider.GetComponent<PlayerController>();
                             enemy.playerCharacter.AddEnemyToChaseList(enemy);
@@ -88,8 +107,6 @@ public abstract class EnemyBaseState
                 }
             }
         }
-
     }
-
 
 }
