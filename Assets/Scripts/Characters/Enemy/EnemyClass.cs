@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyClass : MonoBehaviour, IEffectable, IStunnable
+public class EnemyClass : MonoBehaviour, IStunnable
 {
     public Vector3 PatrolCenterPos { get; set; }
     public PlayerController playerCharacter { get; set; }
@@ -13,6 +13,13 @@ public class EnemyClass : MonoBehaviour, IEffectable, IStunnable
     public Door TargetDoor { get; set; }
     public EventInstance currentAudio{ get; set; }
 
+    [SerializeField] private List<Transform> patrolTransforms = new List<Transform>();
+
+    public List<Transform> PatrolTransforms
+    {
+        get { return patrolTransforms; }
+        set { patrolTransforms = value; }
+    }
     public float PatrolRange
     {
         get { return patrolRange; }
@@ -58,6 +65,11 @@ public class EnemyClass : MonoBehaviour, IEffectable, IStunnable
         get { return attackRange; }
     }
 
+    public float RotationSpeed
+    {
+        get { return rotationSpeed; }
+    }
+
     public float AttackAntecipationTime
     {
         get { return attackAntecipationTime; }
@@ -78,12 +90,12 @@ public class EnemyClass : MonoBehaviour, IEffectable, IStunnable
     [HideInInspector] public NavMeshAgent agent;
 
     [SerializeField] private float patrolRange;
-    [SerializeField] private List<Transform> patrolTransforms = new List<Transform>();
     [SerializeField] private float maxIdleTime;
     [SerializeField] private float minIdleTime;
     [SerializeField] private float patrolSpeed;
     [SerializeField] private float chaseSpeed;
     [SerializeField] private float stunTime;
+    [SerializeField] private float rotationSpeed;
     [SerializeField, Range(0f, 2f)] private float hearingMultiplier = 1f;
     [SerializeField, Range(0.2f, 15f)] private float sightRange = 5f;
     [SerializeField, Range(20f, 90f)] private float sightAngle = 45f;
@@ -111,6 +123,9 @@ public class EnemyClass : MonoBehaviour, IEffectable, IStunnable
         
         agent = GetComponent<NavMeshAgent>();
         PatrolCenterPos = transform.position;
+
+        Paralised = false;
+
         ChangeState(IdleState);
 
 
@@ -139,18 +154,20 @@ public class EnemyClass : MonoBehaviour, IEffectable, IStunnable
 
     public void ApplyEffect()
     {
-        currentState?.HandleParalise();
         if (!Paralised)
+        {
+            currentState?.HandleParalise();
             Paralised = true;
+        }
     }
 
     public void RemoveEffect()
     {
-        currentState?.HandleChase();
-
         if (Paralised)
+        {
+            currentState?.HandleChase();
             Paralised = false;
-
+        }
     }
 
     public virtual void Attack()

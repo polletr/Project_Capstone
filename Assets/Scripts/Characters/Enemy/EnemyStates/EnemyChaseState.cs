@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.HighDefinition;
 
 public class EnemyChaseState : EnemyBaseState
 {
@@ -14,13 +15,13 @@ public class EnemyChaseState : EnemyBaseState
 
         Debug.Log("Chasing");
 
-        enemy.currentAudio = AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.Chase);
-        enemy.currentAudio.start();
+        //enemy.currentAudio = AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.Chase);
+        //enemy.currentAudio.start();
 
     }
     public override void ExitState()
     {
-        enemy.currentAudio.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        //enemy.currentAudio.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
     }
 
     public override void StateFixedUpdate()
@@ -48,25 +49,23 @@ public class EnemyChaseState : EnemyBaseState
                     enemy.ChangeState(enemy.AttackState);
                 }
             }
-            else
-            {
-                enemy.agent.ResetPath();
-                enemy.PatrolCenterPos = enemy.transform.position;
-                enemy.ChangeState(enemy.AttackState);
-            }
 
         }
         
         if (enemy.agent.remainingDistance <= enemy.agent.stoppingDistance && enemy.agent.hasPath && enemy.playerCharacter == null)
         {
-            if (enemy.agent.velocity.sqrMagnitude == 0f)
-            {
-                enemy.ChangeState(enemy.IdleState);
-            }
+            enemy.ChangeState(enemy.IdleState);
         }
 
 
     }
+
+    public override void HandleParalise()
+    {
+        if (!enemy.Paralised)
+            enemy.ChangeState(enemy.ParalisedState);
+    }
+
 
     protected override void VisionDetection()
     {

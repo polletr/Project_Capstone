@@ -10,6 +10,7 @@ public class EnemyPatrolState : EnemyBaseState
         : base(enemyClass,enemyAnim) { }
     
     private Coroutine patrolRoutine;
+    private int currentPatrolIndex = 0;
 
     public override void EnterState()
     {
@@ -45,10 +46,7 @@ public class EnemyPatrolState : EnemyBaseState
         VisionDetection();
         if (enemy.agent.remainingDistance <= enemy.agent.stoppingDistance && enemy.agent.hasPath)
         {
-            if (enemy.agent.velocity.sqrMagnitude == 0f)
-            {
-                enemy.ChangeState(enemy.IdleState);
-            }
+            enemy.ChangeState(enemy.IdleState);
         }
     }
 
@@ -57,10 +55,23 @@ public class EnemyPatrolState : EnemyBaseState
         Vector3 point;
         while (!enemy.agent.hasPath)
         {
-            if (RandomPoint(enemy.PatrolCenterPos, out point))
+            if (enemy.PatrolTransforms.Count > 1) // Patrol between preset points
             {
-                Debug.DrawRay(point, Vector3.up, Color.blue, 1.0f);
-                enemy.agent.SetDestination(point);
+                // Get the next patrol point (loop back to the start if at the end)
+                Transform patrolPoint = enemy.PatrolTransforms[currentPatrolIndex];
+                enemy.agent.SetDestination(patrolPoint.position);
+                Debug.DrawRay(patrolPoint.position, Vector3.up, Color.green, 1.0f);
+
+                // Move to the next point in the list, looping around
+                currentPatrolIndex = (currentPatrolIndex + 1) % enemy.PatrolTransforms.Count;
+            }
+            else
+            {
+                if (RandomPoint(enemy.PatrolCenterPos, out point))
+                {
+                    Debug.DrawRay(point, Vector3.up, Color.blue, 1.0f);
+                    enemy.agent.SetDestination(point);
+                }
             }
             yield return null; // Wait until the next frame to avoid blocking
         }

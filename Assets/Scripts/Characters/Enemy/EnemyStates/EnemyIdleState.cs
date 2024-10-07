@@ -52,8 +52,6 @@ public class EnemyIdleState : EnemyBaseState
 
         PLAYBACK_STATE playbackState;
         enemy.currentAudio.getPlaybackState(out playbackState);
-
-        Debug.Log(playbackState);
     }
 
 }

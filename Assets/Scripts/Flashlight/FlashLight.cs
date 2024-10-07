@@ -198,7 +198,7 @@ public class FlashLight : MonoBehaviour, ICollectable, IInteractable
         if (this.gameObject.activeSelf)
             StartCoroutine(Flicker(1f, () => ResetLightState()));
 
-                                                                                                         }
+    }
 
     public void HandleFlashAblility()
     {
@@ -295,6 +295,12 @@ public class FlashLight : MonoBehaviour, ICollectable, IInteractable
 
     private void ApplyCurrentAbilityEffect(GameObject obj)
     {
+        if (obj.TryGetComponent(out IStunnable enemy))
+        {
+            enemy.ApplyEffect();
+            effectedObjs.Add(enemy);
+        }
+
         switch (CurrentAbility)
         {
             case MoveAbility moveAbility:
@@ -309,13 +315,6 @@ public class FlashLight : MonoBehaviour, ICollectable, IInteractable
                 {
                     revealObj.ApplyEffect();
                     effectedObjs.Add(revealObj);
-                }
-                break;
-            default:
-                if (obj.TryGetComponent(out IParalisable enemyParalised))
-                {
-                    enemyParalised.ApplyEffect();
-                    effectedObjs.Add(enemyParalised);
                 }
                 break;
 

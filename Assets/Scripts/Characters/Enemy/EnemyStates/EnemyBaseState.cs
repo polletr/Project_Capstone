@@ -30,6 +30,15 @@ public abstract class EnemyBaseState
         enemy.ChangeState(enemy.StunState);
     }
 
+    public virtual void HandleParalise() { }
+
+    public virtual void HandleChase()
+    {
+        if (!enemy.Paralised)
+            enemy.ChangeState(enemy.ChaseState);
+    }
+
+
     protected virtual void OnSoundDetected(Vector3 soundPosition, float soundRange)
     {
         float distance = Vector3.Distance(enemy.transform.position, soundPosition);
@@ -40,24 +49,15 @@ public abstract class EnemyBaseState
         }
     }
 
-    public virtual void HandleParalise()
-    {
-        if (!enemy.Paralised)
-            enemy.ChangeState(enemy.ParalisedState);
-    }
-
-    public virtual void HandleChase()
-    {
-        if (!enemy.Paralised)
-            enemy.ChangeState(enemy.ChaseState);
-    }
 
     protected virtual void VisionDetection()
     {
         float detectionRadius = enemy.SightRange;
-        float detectionAngle = enemy.SightAngle;
 
+        // Detect all targets within the detection radius
         Collider[] targetsInViewRadius = Physics.OverlapSphere(enemy.transform.position, detectionRadius);
+
+        // If the enemy already sees the player, stop checking
         if (enemy.playerCharacter != null)
         {
             return;
@@ -65,30 +65,22 @@ public abstract class EnemyBaseState
 
         foreach (Collider target in targetsInViewRadius)
         {
+            // Perform a raycast to ensure there are no obstacles between the enemy and the target
             Vector3 directionToTarget = (target.transform.position - enemy.transform.position).normalized;
+            RaycastHit hit;
 
-            // Check if the target is within the cone's angle
-            if (Vector3.Angle(enemy.transform.forward, directionToTarget) < detectionAngle / 2)
+            if (Physics.Raycast(enemy.transform.position, directionToTarget, out hit, detectionRadius))
             {
-                // Perform a raycast to ensure there are no obstacles
-                RaycastHit hit;
-                if (Physics.Raycast(enemy.transform.position, directionToTarget, out hit, detectionRadius))
+                if (hit.collider == target && hit.collider.CompareTag("Player"))
                 {
-                    if (hit.collider == target)
-                    {
-                        if (hit.collider.CompareTag("Player"))
-                        {
-                            Debug.Log("See Player");
-                            chasePos = target.transform.position;
-                            enemy.playerCharacter = hit.collider.GetComponent<PlayerController>();
-                            enemy.playerCharacter.AddEnemyToChaseList(enemy);
-                            enemy.ChangeState(enemy.ChaseState);
-                        }
-                    }
+                    Debug.Log("Player Detected");
+                    chasePos = target.transform.position;
+                    enemy.playerCharacter = hit.collider.GetComponent<PlayerController>();
+                    enemy.playerCharacter.AddEnemyToChaseList(enemy);
+                    enemy.ChangeState(enemy.ChaseState);
                 }
             }
         }
-
     }
 
 
