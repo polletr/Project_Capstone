@@ -40,6 +40,7 @@ public class FlashLight : MonoBehaviour
     List<IEffectable> effectedObjs = new();
     HashSet<IEffectable> effectedObjsThisFrame = new();
 
+    public LayerMask layerMask;
 
     private void Awake()
     {
@@ -50,6 +51,7 @@ public class FlashLight : MonoBehaviour
         Light.intensity = intensity;
         Light.color = lightColor;
 
+        layerMask = LayerMask.GetMask("Flashlight");
 
         if (flashlightAbilities.Count > 0)
         {
@@ -145,16 +147,19 @@ public class FlashLight : MonoBehaviour
     public void HandleSphereCast()
     {
         Ray ray = new Ray(transform.position, transform.forward * range);
-        RaycastHit[] hits = Physics.SphereCastAll(ray, 1f, range);
+        RaycastHit[] hits = Physics.SphereCastAll(ray, 1f, range, layerMask);
         effectedObjsThisFrame.Clear();
         foreach (RaycastHit hit in hits)
         {
             var obj = hit.collider.gameObject;
+
             if (obj.TryGetComponent(out IEffectable effectable))
             {
                 effectedObjsThisFrame.Add(effectable);
                 if (!effectedObjs.Contains(effectable))
+                {
                     ApplyCurrentAbilityEffect(obj);
+                }
             }
         }
 
@@ -198,7 +203,7 @@ public class FlashLight : MonoBehaviour
         if (this.gameObject.activeSelf)
             StartCoroutine(Flicker(1f, () => ResetLightState()));
 
-                                                                                                         }
+    }
 
     public void HandleFlashAblility()
     {
@@ -295,6 +300,12 @@ public class FlashLight : MonoBehaviour
 
     private void ApplyCurrentAbilityEffect(GameObject obj)
     {
+        if (obj.TryGetComponent(out IStunnable enemy))
+        {
+            enemy.ApplyEffect();
+            effectedObjs.Add(enemy);
+        }
+
         switch (CurrentAbility)
         {
             case MoveAbility moveAbility:
@@ -309,13 +320,6 @@ public class FlashLight : MonoBehaviour
                 {
                     revealObj.ApplyEffect();
                     effectedObjs.Add(revealObj);
-                }
-                break;
-            default:
-                if (obj.TryGetComponent(out IParalisable enemyParalised))
-                {
-                    enemyParalised.ApplyEffect();
-                    effectedObjs.Add(enemyParalised);
                 }
                 break;
 

@@ -10,7 +10,7 @@ public class EnemyAnimator : MonoBehaviour
 
     [field: SerializeField] public float animationCrossFade { get; private set; }
 
-    [field: SerializeField] public Animator animator { get; private set; }
+    public Animator animator { get; private set; }
 
     public void GetAnimator()
     {

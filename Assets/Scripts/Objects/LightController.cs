@@ -2,7 +2,10 @@ using FMOD.Studio;
 using FMODUnity;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UIElements;
 
+[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(SphereCollider))]
 public class LightController : MonoBehaviour
 {
     private Light lightSource;
@@ -18,12 +21,21 @@ public class LightController : MonoBehaviour
 
     private float originalIntensity;
 
+    [SerializeField] bool guidingLight = false;
+
     private EventInstance constantFlickeringSound;
 
+    private Rigidbody rb;
+    private SphereCollider sphereCollider;
 
     private void Awake()
     {
         lightSource = GetComponent<Light>();
+
+        rb = GetComponent<Rigidbody>();
+        rb.isKinematic = true;
+        sphereCollider = GetComponent<SphereCollider>();
+        sphereCollider.isTrigger = true;
 
         if (lightSource == null)
         {
@@ -45,16 +57,18 @@ public class LightController : MonoBehaviour
     // Turn light on or off
     public void TurnOnOffLight(bool check)
     {
-        if (!check)
-            StopConstantFlickering();
-        else
-            AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.LightTurnOn, transform.position);
-        // Random chance to flicker when turning on/off
-        if (check && Random.value < flickerChance) // When turning on
+        if (!guidingLight)
         {
-            FlickerLight();
+            if (!check && constantFlickering)
+                StopConstantFlickering();
+            else
+                AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.LightTurnOn, transform.position);
+            // Random chance to flicker when turning on/off
+            if (check && Random.value < flickerChance) // When turning on
+                FlickerLight();
+
+            lightSource.enabled = check;
         }
-        lightSource.enabled = check;
 
     }
 

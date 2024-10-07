@@ -14,7 +14,4 @@ public interface IStunnable : IEffectable
     void ApplyStunEffect() { }
 }
 
-public interface IParalisable : IEffectable { }
-
-
 
