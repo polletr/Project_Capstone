@@ -14,6 +14,7 @@ public class EnemyClass : MonoBehaviour, IStunnable
     public EventInstance currentAudio{ get; set; }
 
     [SerializeField] private List<Transform> patrolTransforms = new List<Transform>();
+    [SerializeField] private Transform eyes;
 
     public List<Transform> PatrolTransforms
     {
@@ -102,7 +103,9 @@ public class EnemyClass : MonoBehaviour, IStunnable
     [SerializeField, Range(0.5f, 3f)] private float attackRange = 1f;
     [SerializeField] private float attackAntecipationTime = 1;
 
-    [field: SerializeField] public float AttackCooldown { get; private set; }
+    [field: SerializeField] public float DoorAttackCooldown { get; private set; }
+    [field: SerializeField] public float DoorAttackDamage { get; private set; }
+
 
     public GameEvent Event;
 
@@ -169,8 +172,7 @@ public class EnemyClass : MonoBehaviour, IStunnable
 
     public virtual void Attack()
     {
-        //if (Vector3.Distance(transform.position, playerCharacter.transform.position) <= AttackRange)
-            //playerCharacter.GetComponent<PlayerController>().GetDamaged(AttackDamage); Kill Player here
+        playerCharacter.GetKilled(this, eyes);
     }
 
     private void OnTriggerEnter(Collider other)

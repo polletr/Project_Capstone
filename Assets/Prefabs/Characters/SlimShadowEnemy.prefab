@@ -51,6 +51,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   patrolTransforms: []
+  eyes: {fileID: 9204836737115642125}
   agent: {fileID: 0}
   patrolRange: 5
   maxIdleTime: 5
@@ -62,9 +63,10 @@ MonoBehaviour:
   hearingMultiplier: 1
   sightRange: 10
   sightAngle: 45
-  attackRange: 0.8
-  attackAntecipationTime: 1
-  <AttackCooldown>k__BackingField: 0
+  attackRange: 1.5
+  attackAntecipationTime: 2
+  <DoorAttackCooldown>k__BackingField: 2
+  <DoorAttackDamage>k__BackingField: 2
   Event: {fileID: 11400000, guid: 821642c9ec9c5474b88bc1b575e70ddf, type: 2}
 --- !u!114 &7393242699462606258
 MonoBehaviour:
@@ -347,6 +349,12 @@ PrefabInstance:
 --- !u!4 &6873721253427522439 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2142731607897281118, guid: 695293388826b864f8015255c24320f0,
+    type: 3}
+  m_PrefabInstance: {fileID: 4816843913625188825}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &9204836737115642125 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4424496615975280852, guid: 695293388826b864f8015255c24320f0,
     type: 3}
   m_PrefabInstance: {fileID: 4816843913625188825}
   m_PrefabAsset: {fileID: 0}

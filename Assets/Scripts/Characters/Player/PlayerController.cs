@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour, IDamageable
+public class PlayerController : MonoBehaviour
 {
     public PlayerSettings Settings;
     public GameEvent Event;
@@ -51,7 +51,6 @@ public class PlayerController : MonoBehaviour, IDamageable
     private float _minEnemyDistance;
     private bool _canRegenHealth = true;
     private Transform _checkPoint;
-    private Coroutine _healthRegenCoroutine;
     private List<EnemyClass> _enemiesChasing = new();
 
 
@@ -107,24 +106,10 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     private void FixedUpdate() => currentState?.StateFixedUpdate();
 
-    public void GetDamaged(float attackDamage)
+    public void GetKilled(EnemyClass enemy, Transform face)
     {
-        Health -= attackDamage;
-
-        PlayBreathing();
-        if (Health > 0f)
-        {
-            currentState?.HandleGetHit();
-            if (_healthRegenCoroutine != null)
-                StopCoroutine(_healthRegenCoroutine);
-            _healthRegenCoroutine = StartCoroutine(DelayHealthRegen());
-        }
-        else
-        {
-            if (currentState != DeathState)
-                currentState?.HandleDeath();
-        }
-
+        //Get Killed Logic Here
+        Debug.Log("Player Attacked");
     }
 
     public bool IsAlive()
@@ -141,13 +126,12 @@ public class PlayerController : MonoBehaviour, IDamageable
         }
     }
 
-    private IEnumerator DelayHealthRegen()
+    private IEnumerator DelayHealthRegen() // We probably dont need this anymore
     {
         //We also need to check if we are out of danger!
         _canRegenHealth = false;
         yield return new WaitForSecondsRealtime(Settings.HealthRegenDelay);
         _canRegenHealth = true;
-        _healthRegenCoroutine = null;
     }
 
     void SetupSoundEvents()

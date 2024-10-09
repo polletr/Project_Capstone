@@ -19,7 +19,7 @@ public class EnemyOpenDoorState : EnemyBaseState
         enemy.Event.OnSoundEmitted += OnSoundDetected;
 
         time = enemy.AttackAntecipationTime;
-        attackCooldown = enemy.AttackCooldown;
+        attackCooldown = enemy.DoorAttackCooldown;
         attackCooldownTimer = 0f;
         timer = 0f;
 
@@ -42,7 +42,7 @@ public class EnemyOpenDoorState : EnemyBaseState
 
         if (timer >= time && !attacked)
         {
-            //AttackDoor();
+            AttackDoor();
             attacked = true;
         }
 
@@ -88,23 +88,12 @@ public class EnemyOpenDoorState : EnemyBaseState
 
     }
 
-    protected override void OnSoundDetected(Vector3 soundPosition, float soundRange)
-    {
-        float distance = Vector3.Distance(enemy.transform.position, soundPosition);
-        if (distance <= soundRange * enemy.HearingMultiplier / 2f && enemy.agent.hasPath)
-        {
-            chasePos = soundPosition;
-            enemy.ChangeState(enemy.ChaseState);
-        }
-    }
-
-
-/*    private void AttackDoor()
+    private void AttackDoor()
     {
         // Logic for applying damage or force to the door
-        enemy.TargetDoor.TakeDamage(enemy.AttackDamage, enemy.gameObject);
+        enemy.TargetDoor.TakeDamage(enemy.DoorAttackDamage, enemy.gameObject);
     }
-*/
+
     protected override void VisionDetection()
     {
 
