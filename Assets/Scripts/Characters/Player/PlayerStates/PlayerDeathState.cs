@@ -24,11 +24,11 @@ public class PlayerDeathState : PlayerBaseState
 
         if (IsKilledByEnemy())
         {
-           //player.PlayerCam.transform.parent = player.DeathCamPos;
+           player.PlayerCam.transform.LookAt(EnemyFace.position); 
         }
         else
         {
-
+          //UI fade black or something
         }
     }
     public override void ExitState()
@@ -50,6 +50,7 @@ public class PlayerDeathState : PlayerBaseState
       timer.Tick(Time.deltaTime);
         if (timer.IsFinished)
         {
+            //animation stuff here
             player.Event.OnPlayerRespawn?.Invoke(); 
         }
     }
