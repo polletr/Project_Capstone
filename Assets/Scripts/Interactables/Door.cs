@@ -160,13 +160,13 @@ public class Door : MonoBehaviour, IInteractable
         }
     }
 
-    public void OnTriggerOpen(float speed)
+    public void OnOpenDoor(float speed)
     {
         OpenDoor(speed, playerCamera);
         //Think about opening sounds dependant on the speed
     }
 
-    public void OnTriggerClose(float speed)
+    public void OnCloseDoor(float speed)
     {
         CloseDoor(speed);
         //Think about opening sounds dependant on the speed
