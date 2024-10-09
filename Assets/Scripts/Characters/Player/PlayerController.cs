@@ -1,6 +1,5 @@
 using FMOD.Studio;
 using FMODUnity;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,19 +10,9 @@ public class PlayerController : MonoBehaviour
 
     [field: SerializeField] public Transform CameraHolder { get; private set; }
     [field: SerializeField] public Transform DeathCamPos { get; private set; }
+    [field: SerializeField] public Transform Hand { get; private set; }
     public Camera PlayerCam { get; private set; }
     public Vector3 DefaultCameraLocalPosition { get; set; }
-
-    private float _currentHealth;
-    public float Health
-    {
-        get => _currentHealth;
-        private set
-        {
-            _currentHealth = value;
-            playerHealth.SetHealth(value);
-        }
-    }
 
     [field: SerializeField] public bool HasFlashlight { get; set; }
     public CharacterController characterController { get; set; }
@@ -36,7 +25,6 @@ public class PlayerController : MonoBehaviour
     public PlayerBaseState currentState { get; private set; }
     public PlayerAttackState AttackState { get; private set; }
     public PlayerDeathState DeathState { get; private set; }
-    public PlayerGetHitState GetHitState { get; private set; }
     public PlayerInteractState InteractState { get; private set; }
     public PlayerMoveState MoveState { get; private set; }
 
@@ -72,8 +60,6 @@ public class PlayerController : MonoBehaviour
         PlayerCam = CameraHolder.GetComponentInChildren<Camera>();
         DefaultCameraLocalPosition = PlayerCam.transform.localPosition;
 
-        Health = Settings.PlayerHealth;
-
         InitializeStates();
         ChangeState(MoveState);
         SetupSoundEvents();
@@ -98,10 +84,7 @@ public class PlayerController : MonoBehaviour
         currentState?.HandleLookAround(inputManager.LookAround, inputManager.Device);
         currentState?.StateUpdate();
 
-        RuntimeManager.StudioSystem.setParameterByName("Health", Health / Settings.PlayerHealth);
-
         CheckEnemies();
-        RegenerateHealth();
     }
 
     private void FixedUpdate() => currentState?.StateFixedUpdate();
@@ -109,29 +92,18 @@ public class PlayerController : MonoBehaviour
     public void GetKilled(EnemyClass enemy, Transform face)
     {
         //Get Killed Logic Here
+        
         Debug.Log("Player Attacked");
+
+        DeathState.EnemyFace = face;
+        DeathState.EnemyKiller = enemy;
+
+        ChangeState(DeathState);
     }
 
-    public bool IsAlive()
+    public void GetKilled()
     {
-        return Health > 0;
-    }
-
-    private void RegenerateHealth()
-    {
-        if (IsAlive() && _canRegenHealth && Health < Settings.PlayerHealth && _enemiesChasing.Count <= 0)//&& flashlight.) // check is player is not dead and flashlight is on / is player in light ( not in dark area)
-        {
-            Health += Settings.HealthRegenRate * Time.deltaTime;
-            Health = Mathf.Clamp(Health, 0, Settings.PlayerHealth);
-        }
-    }
-
-    private IEnumerator DelayHealthRegen() // We probably dont need this anymore
-    {
-        //We also need to check if we are out of danger!
-        _canRegenHealth = false;
-        yield return new WaitForSecondsRealtime(Settings.HealthRegenDelay);
-        _canRegenHealth = true;
+        ChangeState(DeathState);
     }
 
     void SetupSoundEvents()
@@ -210,8 +182,12 @@ public class PlayerController : MonoBehaviour
     public void Respawn()
     {
         playerAnimator.transform.position = _checkPoint.position;
-        Health = Settings.PlayerHealth;
         ChangeState(MoveState);
+    }
+
+    public bool IsAlive()
+    {
+        return currentState != DeathState;
     }
 
     private void SetSpawn(Transform pos)
@@ -253,7 +229,6 @@ public class PlayerController : MonoBehaviour
     {
         AttackState = new PlayerAttackState(this);
         DeathState = new PlayerDeathState(this);
-        GetHitState = new PlayerGetHitState(this);
         InteractState = new PlayerInteractState(this);
         MoveState = new PlayerMoveState(this);
     }

@@ -25,7 +25,7 @@ public class DebugAbilityUI : MonoBehaviour
         }
 
         batteryCountUI.text = playerInventory != null ? "Battery Count: " + playerInventory.BatteryCount : "No inventory";
-        playerHealthUI.text = playerController != null ? "Player Health: " + playerController.Health : "";
+        //playerHealthUI.text = playerController != null ? "Player Health: " + playerController.Health : "";
 
     }
 }

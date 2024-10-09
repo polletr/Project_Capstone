@@ -6,20 +6,38 @@ public class PlayerDeathState : PlayerBaseState
     public PlayerDeathState
         (PlayerController playerController) : base(playerController) { }
 
+
+    public Transform EnemyFace { get; set; }
+    public EnemyClass EnemyKiller { get; set; }
+
     CountdownTimer timer;
 
     public override void EnterState()
     {
-        playerAnimator.animator.Play(playerAnimator.DieHash);
         player.Event.OnPlayerDeath?.Invoke();
+        playerAnimator.animator.Play(playerAnimator.DieHash);
+
+
         timer = new CountdownTimer(player.Settings.RespawnTime);
         timer.Start();
-        player.PlayerCam.transform.parent = player.DeathCamPos;
+
+
+        if (IsKilledByEnemy())
+        {
+           //player.PlayerCam.transform.parent = player.DeathCamPos;
+        }
+        else
+        {
+
+        }
     }
     public override void ExitState()
     {
-        player.PlayerCam.transform.parent = player.CameraHolder;
+       // player.PlayerCam.transform.parent = player.CameraHolder;
         player.Event.OnPlayerRespawn?.Invoke();
+
+        EnemyFace = null;
+        EnemyKiller = null;
     }
 
     public override void StateFixedUpdate()
@@ -37,12 +55,6 @@ public class PlayerDeathState : PlayerBaseState
     }
 
     public override void HandleMovement(Vector2 dir)
-    {
-
-    }
-
-
-    public override void HandleGetHit()
     {
 
     }
@@ -67,6 +79,9 @@ public class PlayerDeathState : PlayerBaseState
 
     }
 
-
+     private bool IsKilledByEnemy()
+    {
+        return EnemyKiller != null && EnemyFace;
+    }
 
 }

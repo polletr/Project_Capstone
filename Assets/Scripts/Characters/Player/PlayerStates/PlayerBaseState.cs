@@ -1,4 +1,5 @@
 using FMOD.Studio;
+using STOP_MODE = FMOD.Studio.STOP_MODE;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -78,12 +79,6 @@ public abstract class PlayerBaseState
 
     public virtual void HandleChangeAbility(int direction) { }
 
-    public virtual void HandleGetHit()
-    {
-        player.ChangeState(player.GetHitState);
-
-    }
-
     public virtual void HandleRun(bool check)
     {
         if (!isCrouching)
@@ -127,14 +122,20 @@ public abstract class PlayerBaseState
 
         // Calculate camera pitch (x-axis) rotation
         player.xRotation += dir.y * sensitivityMult * Time.deltaTime;
-        player.xRotation = Mathf.Clamp(player.xRotation, -40f, 40f);
+        player.xRotation = Mathf.Clamp(player.xRotation, player.Settings.ClampAngleUp, player.Settings.ClampAngleDown);
         player.PlayerCam.transform.localRotation = Quaternion.Euler(-player.xRotation, 0, 0);  // Rotate camera vertically
 
         // Only update the flashlight's rotation if the player is holding it
-        if (player.HasFlashlight)
+        if (player.HasFlashlight && player.xRotation > player.flashlight.transform.localEulerAngles.y)
         {
-            // Ensure the flashlight (hand) follows the camera's rotation
-           player.flashlight.transform.forward = player.PlayerCam.transform.forward;  // Rotate hand (and flashlight) to match camera
+           //player.flashlight.transform.forward = player.PlayerCam.transform.forward;  // Rotate hand (and flashlight) to match camera
+
+
+            Quaternion targetRotation = Quaternion.LookRotation(player.PlayerCam.transform.forward, player.Hand.up);
+
+            // Apply the rotation to the object
+            player.Hand.rotation = Quaternion.Slerp(player.Hand.rotation, targetRotation, player.Settings.FlashlightRotateSpeed * Time.deltaTime);
+           
         }
     }
 
