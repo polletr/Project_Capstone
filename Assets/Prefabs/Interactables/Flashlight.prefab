@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 7975032335739277217}
   - component: {fileID: 3341116582347002850}
   - component: {fileID: 5424195487663760967}
-  - component: {fileID: 2382072397467846432}
   m_Layer: 0
   m_Name: Flashlight
   m_TagString: Untagged
@@ -146,9 +145,12 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  currentAbility: {fileID: 0}
+  <MoveHoldPos>k__BackingField: {fileID: 0}
   minFlickerTime: 0.05
   maxFlickerTime: 0.2
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!23 &3341116582347002850
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -199,27 +201,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6191043455370362153}
   m_Mesh: {fileID: 0}
---- !u!65 &2382072397467846432
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6191043455370362153}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.3531036, y: 0.16719037, z: 0.27151203}
-  m_Center: {x: -0.0012301356, y: 0.05541852, z: -0.24074203}
 --- !u!1001 &5823232885399548292
 PrefabInstance:
   m_ObjectHideFlags: 0

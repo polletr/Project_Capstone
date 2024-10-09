@@ -32,7 +32,6 @@ public class FlashLight : MonoBehaviour
     private float flickerTimer;
 
     private PlayerController playerController;
-    private PlayerInventory playerInventory;
 
     bool isFlashlightOn;
     bool isFlickering;
@@ -53,6 +52,9 @@ public class FlashLight : MonoBehaviour
 
         layerMask = LayerMask.GetMask("Flashlight");
 
+        playerController = GetComponentInParent<PlayerController>();
+
+
         if (flashlightAbilities.Count > 0)
         {
             CurrentAbility = flashlightAbilities[0];
@@ -62,15 +64,6 @@ public class FlashLight : MonoBehaviour
                 if (ability != null)
                     ability.Initialize(this);
             }
-        }
-
-        if (this.TryGetComponentInParent(out playerController))
-        {
-            GetComponent<BoxCollider>().enabled = false;
-        }
-        else
-        {
-            StartCoroutine(Flicker(Mathf.Infinity, null));
         }
 
     }

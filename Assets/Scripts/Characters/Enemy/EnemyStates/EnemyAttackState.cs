@@ -40,6 +40,9 @@ public class EnemyAttackState : EnemyBaseState
         // Anticipation phase
         if (anticipating)
         {
+
+            //Eyes LErping to Red
+            //Body Lerping to Red
             if (anticipationTimer >= enemy.AttackAntecipationTime) // End of anticipation phase
             {
                 anticipating = false;

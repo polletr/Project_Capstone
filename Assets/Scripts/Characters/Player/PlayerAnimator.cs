@@ -14,5 +14,6 @@ public class PlayerAnimator : MonoBehaviour
     public void GetAnimator()
     {
         animator = GetComponentInChildren<Animator>();
+        animator.Play(IdleHash);
     }
 }

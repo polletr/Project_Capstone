@@ -126,16 +126,17 @@ public abstract class PlayerBaseState
         player.PlayerCam.transform.localRotation = Quaternion.Euler(-player.xRotation, 0, 0);  // Rotate camera vertically
 
         // Only update the flashlight's rotation if the player is holding it
-        if (player.HasFlashlight && player.xRotation > player.flashlight.transform.localEulerAngles.y)
+        if (player.HasFlashlight && player.xRotation > player.Settings.FlashlightAngleDown)
         {
-           //player.flashlight.transform.forward = player.PlayerCam.transform.forward;  // Rotate hand (and flashlight) to match camera
+            // Get current rotation and target rotation in Euler angles
+            Vector3 currentRotation = player.Hand.localRotation.eulerAngles;
+            Vector3 targetRotation = player.PlayerCam.transform.rotation.eulerAngles;
 
+            // Slerp only the z-axis, while keeping the x and y axes unchanged
+            float zRotation = Mathf.LerpAngle(currentRotation.z, targetRotation.x, player.Settings.FlashlightRotateSpeed * Time.deltaTime);
 
-            Quaternion targetRotation = Quaternion.LookRotation(player.PlayerCam.transform.forward, player.Hand.up);
-
-            // Apply the rotation to the object
-            player.Hand.rotation = Quaternion.Slerp(player.Hand.rotation, targetRotation, player.Settings.FlashlightRotateSpeed * Time.deltaTime);
-           
+            // Apply the new rotation, only modifying the z-axis
+            player.Hand.localRotation = Quaternion.Euler(currentRotation.x, currentRotation.y, zRotation);
         }
     }
 
