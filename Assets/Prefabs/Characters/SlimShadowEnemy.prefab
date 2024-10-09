@@ -20,7 +20,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6080547743055034047
 Transform:
   m_ObjectHideFlags: 0
@@ -56,12 +56,12 @@ MonoBehaviour:
   patrolRange: 5
   maxIdleTime: 5
   minIdleTime: 1
-  patrolSpeed: 0.5
+  patrolSpeed: 2
   paralisedSpeed: 0.2
   stunTime: 10
   rotationSpeed: 5
   hearingMultiplier: 1
-  sightRange: 10
+  sightRange: 15
   sightAngle: 45
   attackRange: 1.5
   attackAntecipationTime: 2
@@ -151,6 +151,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SmokeParticle
+      objectReference: {fileID: 0}
+    - target: {fileID: 3623308592137223400, guid: 20c20b1e4b41b43909a24bd09f7554e7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8049856286128354886, guid: 20c20b1e4b41b43909a24bd09f7554e7,
         type: 3}

@@ -3,6 +3,7 @@ using FMODUnity;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UIElements;
+using System.Collections.Generic;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(SphereCollider))]
@@ -28,6 +29,8 @@ public class LightController : MonoBehaviour
     private Rigidbody rb;
     private SphereCollider sphereCollider;
 
+    private List<Light> childLights = new();
+
     private void Awake()
     {
         lightSource = GetComponent<Light>();
@@ -43,6 +46,11 @@ public class LightController : MonoBehaviour
             Debug.LogError("Error: No Light component found on " + gameObject.name);
             enabled = false;
             return;
+        }
+
+        foreach (Light light in GetComponentsInChildren<Light>())
+        {
+            childLights.Add(light);
         }
 
         originalIntensity = lightSource.intensity;
@@ -65,14 +73,41 @@ public class LightController : MonoBehaviour
             else
                 AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.LightTurnOn, transform.position);
             // Random chance to flicker when turning on/off
-            if (check && Random.value < flickerChance) // When turning on
-                FlickerLight();
-
+            //if (check && Random.value < flickerChance) // When turning on
             lightSource.enabled = check;
+            FlickerLight();
+
+            foreach (Light light in childLights)
+            {
+                light.enabled = check;
+            }
         }
 
     }
 
+    public void WaitAndTurnOnLight(float delay)
+    {
+        StartCoroutine(WaitAndTurnOnLightCoroutine(delay));
+    }
+
+    private IEnumerator WaitAndTurnOnLightCoroutine(float delay)
+    {
+        // Wait for the specified time.
+        yield return new WaitForSeconds(delay);
+
+        if (!guidingLight)
+        {
+            AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.LightTurnOn, transform.position);
+
+            lightSource.enabled = true;
+            FlickerLight();
+
+            foreach (Light light in childLights)
+            {
+                light.enabled = true;
+            }
+        }
+    }
     // Flicker the light for a specified duration
     public void FlickerLight()
     {
@@ -87,6 +122,7 @@ public class LightController : MonoBehaviour
     private IEnumerator FlickerCoroutine(float maxTime)
     {
         float timer = 0f;
+        bool currentEnabled = lightSource.enabled;
 
         StopConstantFlickering();
         while (timer < maxTime)
@@ -106,7 +142,7 @@ public class LightController : MonoBehaviour
             yield return new WaitForSeconds(flickerTimer);
         }
 
-        lightSource.enabled = true; // Ensure the light is left on after flickering
+        lightSource.enabled = currentEnabled;
         lightSource.intensity = originalIntensity;
         isFlickering = false; // Reset flickering state
     }

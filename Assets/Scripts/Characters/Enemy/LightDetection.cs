@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class LightDetection : MonoBehaviour
@@ -30,8 +31,11 @@ public class LightDetection : MonoBehaviour
                 // Turn off the light if it hasn't been turned off yet
                 if (!turnedOffLights.Contains(lightController))
                 {
-                    lightController.TurnOnOffLight(false);
-                    turnedOffLights.Add(lightController); // Keep track of turned off lights
+                    if (lightController.transform.position.y >= transform.position.y)
+                    {
+                        lightController.TurnOnOffLight(false);
+                        turnedOffLights.Add(lightController); // Keep track of turned off lights
+                    }
                 }
             }
         }
@@ -41,7 +45,7 @@ public class LightDetection : MonoBehaviour
         {
             if (!currentLights.Contains(lightController))
             {
-                lightController.TurnOnOffLight(true);
+                lightController.WaitAndTurnOnLight(10f);
             }
         }
 
