@@ -85,12 +85,6 @@ public class EnemyChaseState : EnemyBaseState
                 {
                     if (hit.collider == target)
                     {
-                        if (hit.collider.TryGetComponent(out Door door))
-                        {
-                            Debug.Log("See Door");
-                            enemy.TargetDoor = door;
-                            enemy.ChangeState(enemy.OpenDoorState);
-                        }
                         if (hit.collider.CompareTag("Player") && enemy.playerCharacter == null)
                         {
                             Debug.Log("See Player");
