@@ -26,15 +26,17 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _COORDINATE_SPACE_UV_SPACE
   - _ENABLE_DETAIL_LAYER
   - _PARALLAX_MODE_SIMPLE
-  - _WORLD_SPACE_DIRECTION_UP
+  - _PROJECTION_METHOD_UV_SPACE
+  - _WORLD_SPACE_AXIS_X_AXIS
   m_InvalidKeywords:
+  - _COORDINATE_SPACE_UV_SPACE
   - _PARALLAX_METHOD_SIMPLE
   - _USE_BASE_COLOR_TEXTURE
   - _USE_HEIGHT_MAP
   - _USE_NORMAL_MAP
+  - _WORLD_SPACE_DIRECTION_UP
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -86,6 +88,14 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SGBasicSurfaceTriplanar_68755126d4ba489f960258dd8c6f6b55_MetallicMap_3145445682_Texture2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SGBasicSurfaceTriplanar_68755126d4ba489f960258dd8c6f6b55_SpecularMap_2538108213_Texture2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SGBasicSurface_bdc364b348af4881a36f60f474542107_MetalMap_1802881011_Texture2D:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -116,8 +126,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AO_Contrast: 1
     - _AO_Influence: 0.397
     - _AO_Multiplier: 0
+    - _AO_Strength: 1
     - _AlphaClip: 0
     - _AlphaToMask: 0
     - _Base_Metallic: 0
@@ -143,14 +155,18 @@ Material:
     - _Normal_Strength: 0
     - _PARALLAX_METHOD: 0
     - _PARALLAX_MODE: 0
+    - _PROJECTION_METHOD: 0
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
+    - _Rotation_Degrees: 0
     - _Saturation: 1
     - _SrcBlend: 1
     - _Surface: 0
     - _TREAT_ROUGHNESS_AS_SMOOTHNESS: 0
+    - _Tile_Size_m: 1
     - _Tint_Intensity: 0
+    - _Triplanar_Blend_Strength: 2
     - _USE_AO_MAP: 0
     - _USE_BASE_COLOR_TEXTURE: 1
     - _USE_EMISSION_MAP: 0
@@ -159,12 +175,14 @@ Material:
     - _USE_NORMAL_MAP: 1
     - _USE_ROUGHNESS_TEXTURE: 0
     - _USE_SPECULAR_MAP: 0
+    - _WORLD_SPACE_AXIS: 0
     - _WORLD_SPACE_DIRECTION: 0
     - _WorkflowMode: 1
     - _ZTest: 4
     - _ZWrite: 1
     - _ZWriteControl: 0
     m_Colors:
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 0}
     - _Default_Base_Colour: {r: 1, g: 1, b: 1, a: 0}
     - _Emission_Tint: {r: 1, g: 1, b: 1, a: 0}
     - _Offset: {r: 0, g: 0, b: 0, a: 0}
