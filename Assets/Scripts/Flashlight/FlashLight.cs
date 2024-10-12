@@ -13,7 +13,9 @@ public class FlashLight : MonoBehaviour
     [SerializeField] private float intensity;
 
     [SerializeField] private float cost;
-    [field: SerializeField] public Battery battery { get; private set; }
+    [field: SerializeField] public float BatteryLife { get; private set; }
+    
+    public float MaxBatteryLife { get; private set; } = 100;
 
 
     [SerializeField] private List<FlashlightAbility> flashlightAbilities;
@@ -31,7 +33,10 @@ public class FlashLight : MonoBehaviour
 
     private float flickerTimer;
 
+    private int _extraBatteryPacks;
+    
     private PlayerController playerController;
+    
 
     bool isFlashlightOn;
     bool isFlickering;
@@ -70,40 +75,30 @@ public class FlashLight : MonoBehaviour
 
     private void OnEnable()
     {
-        Event.OnChangeBattery += SetBattery;
         Event.OnPickupAbility += CollectAbility;
+        Event.OnFinishRecharge += Recharge;
+        Event.OnBatteryAdded += UpdateExtraBattery;
     }
 
     private void OnDisable()
     {
-        Event.OnChangeBattery -= SetBattery;
         Event.OnPickupAbility -= CollectAbility;
+        Event.OnFinishRecharge -= Recharge; 
     }
 
     private void Update()
     {
-
-        if (battery != null)
-        {
-
             // Decrease BatteryLife continuously over time based on Cost per second
-            if (isFlashlightOn && !battery.IsBatteryDead())
-                battery.BatteryLife -= cost * Time.deltaTime;
+            if (isFlashlightOn && !IsBatteryDead())
+               Drain(cost * Time.deltaTime);
 
-            if (battery.IsBatteryDead())
+            if (IsBatteryDead())
             {
-                Debug.Log("Out of Battery");
-                // Turn off the flashlight
+                CurrentAbility.OnStopAbility();
+               // Turn off the flashlight
                 if (isFlashlightOn && !isFlickering)
                     StartCoroutine(Flicker(3f, () => TurnOffLight()));
             }
-        }
-        else
-        {
-            if (isFlashlightOn && !isFlickering)
-                StartCoroutine(Flicker(3f, () => TurnOffLight()));
-        }
-
     }
 
     private void CollectAbility(FlashlightAbility ability)
@@ -232,15 +227,15 @@ public class FlashLight : MonoBehaviour
 
     public void ConsumeBattery(float cost)
     {
-        if (!battery.IsBatteryDead())
-            battery.Drain(cost);
+        if (!IsBatteryDead())
+            Drain(cost);
         else
-            Debug.Log("Battery is Dead change it B***H");//Ui to change battery
+            Debug.Log("Battery is Dead recharge B***H");//Ui to change battery
     }
 
     public void TurnOnLight()
     {
-        if (battery != null && !battery.IsBatteryDead())
+        if (!IsBatteryDead())
         {
             ResetLightState();
         }
@@ -344,25 +339,23 @@ public class FlashLight : MonoBehaviour
         isFlickering = false;
     }
 
-    public void RemoveOldBattery()
+    private bool IsBatteryDead()
     {
-        battery = null;
+        return BatteryLife <= 0;
     }
-
-    private void SetBattery(Battery newBattery)
+    
+    private void Drain(float cost)
     {
-        battery = newBattery;
+        BatteryLife -= cost;
+    }
+    private void Recharge()
+    {
+        BatteryLife = MaxBatteryLife + _extraBatteryPacks;
+    }
+    
+    private void UpdateExtraBattery(int battery)
+    {
+        _extraBatteryPacks = battery;
     }
 
 }
-
-public enum FlashlightAbilityType
-{
-    None,
-    Range,
-    Reveal,
-    Move,
-
-}
-
-

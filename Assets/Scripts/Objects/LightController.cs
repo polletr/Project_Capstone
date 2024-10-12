@@ -18,7 +18,7 @@ public class LightController : MonoBehaviour
     [SerializeField] bool constantFlickering;
 
     private bool isFlickering = false; // Track flickering state
-    private float flickerChance = 0.3f; // 30% chance to flicker when turning on
+    //private float flickerChance = 0.3f; // 30% chance to flicker when turning on
 
     private float originalIntensity;
 

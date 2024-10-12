@@ -15,8 +15,9 @@ public class GameEvent : ScriptableObject
 
     public UnityAction<Door> OnTryToUnlockDoor;
     public UnityAction<ICollectable> OnInteractItem;
-    public UnityAction<Battery> OnChangeBattery;
-    public UnityAction OnAskForBattery;
+    
+    public UnityAction<int> OnBatteryAdded;
+    public UnityAction OnFinishRecharge;
 
     public UnityAction<LevelData> OnLevelChange;
     public UnityAction OnLoadStarterScene;

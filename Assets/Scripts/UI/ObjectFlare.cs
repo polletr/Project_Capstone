@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
@@ -24,22 +21,20 @@ public class ObjectFlare : MonoBehaviour
     {
         
         Sequence sequenceScale = DOTween.Sequence();
-        sequenceScale.Append(rectTransform.DOScale(new Vector3(0.5f,0.5f), duration).SetEase(ease))
-            .AppendInterval(delay).
-            Append(rectTransform.DOScale(new Vector3(1.5f, 1.5f), duration).SetEase(ease))
-                .AppendInterval(0.5f).SetLoops(-1, LoopType.Yoyo);
+        sequenceScale.Append(rectTransform.DOScale(new Vector3(0.2f,0.2f), duration).SetEase(ease))
+            .AppendInterval(delay)
+            .Append(rectTransform.DOScale(new Vector3(1f, 1f), duration))
+            .AppendInterval(0.5f).SetLoops(-1, LoopType.Yoyo);
         
         Sequence sequenceFade = DOTween.Sequence();
         sequenceFade.Append(canvasGroup.DOFade(0, duration).SetEase(ease))
             .AppendInterval(delay)
-            .Append(canvasGroup.DOFade(1, duration).SetEase(ease))
-                .AppendInterval(0.5f).SetLoops(-1, LoopType.Yoyo);
-        
-        
+            .Append(canvasGroup.DOFade(1, duration))
+            .AppendInterval(0.5f).SetLoops(-1, LoopType.Yoyo);
     }
 
     private void Update()
     {
-        this.transform.LookAt(Camera.main.transform);
+        transform.LookAt(Camera.main.transform);
     }
 }

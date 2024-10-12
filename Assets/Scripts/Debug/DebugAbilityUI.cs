@@ -16,7 +16,7 @@ public class DebugAbilityUI : MonoBehaviour
     {
         if (flashLight != null)
         {
-            batteryLifeUI.text = flashLight.battery != null ? "Battery Life: " + flashLight.battery.BatteryLife.ToString("F2") : flashLight.isActiveAndEnabled ? "No battery in flashlight press {Q}" : "pickup flash light";
+            batteryLifeUI.text = flashLight.BatteryLife > 0 ? "Battery Life: " + flashLight.BatteryLife.ToString("F2") : flashLight.isActiveAndEnabled ? "press {Q} to recharge" : "pickup flash light";
             currentAbilityUI.text = flashLight.CurrentAbility != null ? "Current Ability: " + flashLight.CurrentAbility : "No ability";        }
         else
         {
@@ -24,7 +24,7 @@ public class DebugAbilityUI : MonoBehaviour
             currentAbilityUI.text = "";
         }
 
-        batteryCountUI.text = playerInventory != null ? "Battery Count: " + playerInventory.BatteryCount : "No inventory";
+        batteryCountUI.text = playerInventory != null ? "BatteryPack Count: " + playerInventory.ExtraBatteryCount : "No inventory setup";
         //playerHealthUI.text = playerController != null ? "Player Health: " + playerController.Health : "";
 
     }

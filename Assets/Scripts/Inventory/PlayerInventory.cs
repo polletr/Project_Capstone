@@ -5,33 +5,21 @@ public class PlayerInventory : MonoBehaviour
 {
     [SerializeField] private int maxBatteryCapacity;
 
-    private Battery battery;// on start give 1 battery to player
-
-    private Queue<Battery> _batteryPacks = new();
+    [field: SerializeField] public int ExtraBatteryCount { get; private set; }
 
     private Stack<FlashlightAbility> _collectedAbilitys = new();
 
     private int numAbilityCollectedperCheckpoint;
-
-    public int BatteryCount => _batteryPacks.Count;
+    private int numBatteryCollectedperCheckpoint;
 
     private Dictionary<Door, ICollectable> keys = new();
 
     public GameEvent Event;
 
 
-    private void Awake()
-    {
-        battery = Instantiate(new GameObject().AddComponent<Battery>(), transform);
-        battery.Event = Event;
-        AddBattery(battery);
-        SendBattery();
-    }
-
     private void OnEnable()
     {
         Event.OnInteractItem += CollectItem;
-        Event.OnAskForBattery += SendBattery;
         Event.OnTryToUnlockDoor += TryToOpenDoor;
         Event.OnLevelChange += RemoveAllKeys;
         Event.OnPlayerDeath += PlayerDiedRemoveAbility;
@@ -41,7 +29,6 @@ public class PlayerInventory : MonoBehaviour
     private void OnDisable()
     {
         Event.OnInteractItem -= CollectItem;
-        Event.OnAskForBattery -= SendBattery;
         Event.OnTryToUnlockDoor -= TryToOpenDoor;
         Event.OnLevelChange -= RemoveAllKeys;
         Event.OnPlayerDeath -= PlayerDiedRemoveAbility;
@@ -66,7 +53,7 @@ public class PlayerInventory : MonoBehaviour
         switch (item)
         {
             case Battery batteryItem:
-                AddBattery(batteryItem);
+                AddBattery();
                 break;
             case AbilityPickup abilityPickup:
                 _collectedAbilitys.Push(abilityPickup.AbilityToPickup);
@@ -91,46 +78,14 @@ public class PlayerInventory : MonoBehaviour
         // Display item in inventory
     }
 
-    public void AddBattery(Battery newBattery)
+    public void AddBattery()
     {
-        if (_batteryPacks.Count < maxBatteryCapacity)
-        {
-            _batteryPacks.Enqueue(newBattery);
-            AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.PickUpBatteries, transform.position);
-            newBattery.Collect();
-        }
-        else
-        {
-            Debug.Log("Battery inventory is full");
-        }
-
-        Debug.Log("Battery added to inventory");
+        AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.PickUpBatteries, transform.position);
+        ExtraBatteryCount++;
+        numBatteryCollectedperCheckpoint++;
+        Event.OnBatteryAdded?.Invoke(ExtraBatteryCount);
     }
-
-    public bool CanGetBattery(out Battery newBattery)
-    {
-        if (_batteryPacks.Count > 0)
-        {
-            newBattery = _batteryPacks.Dequeue();
-            Debug.Log("Battery sent from inventory");
-            return true;
-        }
-
-        newBattery = null;
-        return false;
-    }
-
-    public void SendBattery()
-    {
-        if (CanGetBattery(out Battery newBattery))
-        {
-            Event.OnChangeBattery?.Invoke(newBattery);
-        }
-        else
-        {
-            Debug.Log("No battery in inventory");
-        }
-    }
+    
 
     public void RemoveAllKeys(LevelData data)
     {
@@ -144,7 +99,7 @@ public class PlayerInventory : MonoBehaviour
 
     private void PlayerDiedRemoveAbility()
     {
-        while (numAbilityCollectedperCheckpoint > 0 && _collectedAbilitys.Count > 0 )
+        while (numAbilityCollectedperCheckpoint > 0 && _collectedAbilitys.Count > 0)
         {
             FlashlightAbility ability = _collectedAbilitys.Pop();
             Event.OnRemoveAbility?.Invoke(ability);

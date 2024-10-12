@@ -5,7 +5,7 @@ using UnityEngine.Events;
 [RequireComponent(typeof(CanvasGroup))]
 public class UIAnimator : MonoBehaviour
 {
-    [SerializeField] private Ease ease = Ease.Linear;
+    /*[SerializeField] private Ease ease = Ease.Linear;
 
     [SerializeField] private float duration = 1f;
 
@@ -43,7 +43,7 @@ public class UIAnimator : MonoBehaviour
                 isFadeChanged = !isFadeChanged;
                 FadeAnimate();
             });
-            */
+            #1#
 
     }
 
@@ -61,11 +61,11 @@ public class UIAnimator : MonoBehaviour
             isFadeChanged = fade;
         });
     }
-    */
+    #1#
 
 
     public void RotateAnimate()
     {
         rectTransform.DORotate(new Vector3(0, 0, -180), duration).SetEase(ease).SetLoops(-1);
-    }
+    }*/
 }

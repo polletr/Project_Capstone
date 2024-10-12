@@ -27,6 +27,8 @@ public class PlayerController : MonoBehaviour
     public PlayerDeathState DeathState { get; private set; }
     public PlayerInteractState InteractState { get; private set; }
     public PlayerMoveState MoveState { get; private set; }
+    
+    public PlayerRechargeState RechargeState { get; private set; }
 
     public InputManager inputManager { get; private set; }
     public PlayerAnimator playerAnimator { get; private set; }
@@ -37,7 +39,7 @@ public class PlayerController : MonoBehaviour
     public EventInstance playerHeartbeat { get; private set; }
 
     private float _minEnemyDistance;
-    private bool _canRegenHealth = true;
+   // private bool _canRegenHealth = true;
     private Transform _checkPoint;
     private List<EnemyClass> _enemiesChasing = new();
 
@@ -210,8 +212,7 @@ public class PlayerController : MonoBehaviour
 
     public void HandleChangeBattery()
     {
-        flashlight.RemoveOldBattery();
-        Event.OnAskForBattery?.Invoke();
+        ChangeState(RechargeState);
     }
 
     public void HandleFlashlightPickUp()
@@ -231,6 +232,7 @@ public class PlayerController : MonoBehaviour
         DeathState = new PlayerDeathState(this);
         InteractState = new PlayerInteractState(this);
         MoveState = new PlayerMoveState(this);
+        RechargeState = new PlayerRechargeState(this);
     }
 
     public void ChangeState(PlayerBaseState newState)

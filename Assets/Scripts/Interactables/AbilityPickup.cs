@@ -1,12 +1,18 @@
+using System;
 using UnityEngine;
 
 public class AbilityPickup : MonoBehaviour, IInteractable, ICollectable
 {
     public GameEvent Event;
 
-    public FlashlightAbility AbilityToPickup;
-    
+    [field: SerializeField] public FlashlightAbility AbilityToPickup { get; private set; }
+
     private InteractTrigger interactTrigger;
+
+    private void Awake()
+    {
+        AbilityToPickup = GetComponentInChildren<FlashlightAbility>();
+    }
 
     public void Collect()
     {
@@ -15,11 +21,9 @@ public class AbilityPickup : MonoBehaviour, IInteractable, ICollectable
 
     public void OnInteract()
     {
-        if(TryGetComponent(out interactTrigger))
+        if (TryGetComponent(out interactTrigger))
             interactTrigger.InvokeInteractTrigger();
 
         Event.OnInteractItem?.Invoke(this);
     }
-
-
 }

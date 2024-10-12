@@ -1,5 +1,57 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4424997316803569384
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1890239959092145966}
+  - component: {fileID: 3279577489532715111}
+  m_Layer: 0
+  m_Name: StunAbility
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1890239959092145966
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4424997316803569384}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7012944213930110152}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3279577489532715111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4424997316803569384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ed5ba916c663b046b30fd91a7c4b197, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cost: 0
+  cooldown: 0
+  effectRadius: 0
+  flashColor: {r: 0, g: 0, b: 0, a: 0}
+  cooldownColor: {r: 0, g: 0, b: 0, a: 0}
+  decreaseRate: 0
+  lightIntensity: 0
+  cooldownIntensity: 0
 --- !u!1001 &3787266799679114167
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22,21 +74,21 @@ PrefabInstance:
         type: 3}
       propertyPath: AbilityToPickup
       value: 
-      objectReference: {fileID: 7464004718742819437}
+      objectReference: {fileID: 0}
     - target: {fileID: 6187357157855225727, guid: 877482f4ae4b4ff428c6c5bdd5bb209f,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.01
+      value: 7.817026
       objectReference: {fileID: 0}
     - target: {fileID: 6187357157855225727, guid: 877482f4ae4b4ff428c6c5bdd5bb209f,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.47
+      value: 0.049999524
       objectReference: {fileID: 0}
     - target: {fileID: 6187357157855225727, guid: 877482f4ae4b4ff428c6c5bdd5bb209f,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 3.54
+      value: 5.948773
       objectReference: {fileID: 0}
     - target: {fileID: 6187357157855225727, guid: 877482f4ae4b4ff428c6c5bdd5bb209f,
         type: 3}
@@ -75,36 +127,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2126905111428986721, guid: 877482f4ae4b4ff428c6c5bdd5bb209f,
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 6187357157855225727, guid: 877482f4ae4b4ff428c6c5bdd5bb209f,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 7464004718742819437}
+      addedObject: {fileID: 1890239959092145966}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 877482f4ae4b4ff428c6c5bdd5bb209f, type: 3}
---- !u!1 &2957558704182852822 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2126905111428986721, guid: 877482f4ae4b4ff428c6c5bdd5bb209f,
+--- !u!4 &7012944213930110152 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6187357157855225727, guid: 877482f4ae4b4ff428c6c5bdd5bb209f,
     type: 3}
   m_PrefabInstance: {fileID: 3787266799679114167}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7464004718742819437
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2957558704182852822}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2ed5ba916c663b046b30fd91a7c4b197, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cost: 10
-  cooldown: 5
-  effectRadius: 3
-  flashColor: {r: 1, g: 1, b: 1, a: 1}
-  cooldownColor: {r: 1, g: 0.6094339, b: 0.6094339, a: 1}
-  decreaseRate: 1.5
-  lightIntensity: 100
-  cooldownIntensity: 3

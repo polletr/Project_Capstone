@@ -19,6 +19,7 @@ public class PlayerSettings : ScriptableObject
     public float FlashlightRotateSpeed = 100.0f;
     public float FlashlightAngleUp = 50.0f;
     public float FlashlightAngleDown = 10.0f;
+    public float FlashlightReloadTime = 5.0f;
 
     [Header("Sound Distance")]
     [Range(0.5f, 5f)] public float WalkSoundRange = 2f;
@@ -38,7 +39,6 @@ public class PlayerSettings : ScriptableObject
 
 
     [Header("Bobbing")]
-    public float BobFrequency = 0.2f;
     public float BobAmount = 0.2f;
     public float BobSpeedWalk = 0.2f;
     public float BobSpeedRun = 0.2f;
