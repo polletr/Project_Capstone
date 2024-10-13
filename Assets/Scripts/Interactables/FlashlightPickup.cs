@@ -1,10 +1,7 @@
-using UnityEngine;
 using UnityEngine.Events;
 
-public class FlashlightPickup : MonoBehaviour, IInteractable, ICollectable
+public class FlashlightPickup : Interactable, ICollectable
 {
-    public GameEvent Event;
-
     public UnityEvent OnCollect;
 
     public void Collect()
@@ -16,8 +13,9 @@ public class FlashlightPickup : MonoBehaviour, IInteractable, ICollectable
         OnCollect.Invoke();
     }
 
-    public void OnInteract()
+    public override void OnInteract()
     {
+        base.OnInteract();
         Event.OnInteractItem?.Invoke(this);
     }
 }

@@ -1,4 +1,6 @@
 using DG.Tweening;
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 [RequireComponent(typeof(CanvasGroup))]
@@ -21,6 +23,9 @@ public class UIAnimator : MonoBehaviour
 
     public UnityEvent OnAnimateStarted;
     public UnityEvent OnAnimateFinished;
+
+
+    private Queue<bool> growCommands = new ();
 
     private void Awake()
     {
@@ -95,9 +100,16 @@ public class UIAnimator : MonoBehaviour
 
     public void GrowInAnimate(bool scale)
     {
-        if (currentTween.IsActive() || isScaleChanged == scale)
+        if(isScaleChanged == scale)
             return;
+
+        if (currentTween.IsActive() && isScaleChanged != scale)
+        {
+            currentTween.Kill(); 
+        }
         OnAnimateStarted.Invoke();
+
+        isScaleChanged = scale;
 
         if (!scale)
             currentTween = rectTransform.DOScale(Vector3.zero, duration).SetEase(ease);
@@ -107,7 +119,6 @@ public class UIAnimator : MonoBehaviour
         currentTween.OnComplete(() =>
         {
             currentTween.Kill();
-            isScaleChanged = scale;
             OnAnimateFinished.Invoke();
         });
 

@@ -13,7 +13,7 @@ public class PlayerMoveState : PlayerBaseState
     }
     public override void ExitState()
     {
-
+      
     }
 
     public override void StateFixedUpdate() { }
@@ -35,18 +35,6 @@ public class PlayerMoveState : PlayerBaseState
             }
         }
 
-        if (Physics.Raycast(ray, out hit, player.Settings.InteractionRange))
-        {
-            var obj = hit.collider.gameObject;
-            if (obj.TryGetComponent(out IInteractable thing))
-            {
-                player.interactableObj = thing;
-            }
-        }
-        else
-        {
-            player.interactableObj = null;
-        }
     }
 
     public override void HandleChangeAbility(int d)

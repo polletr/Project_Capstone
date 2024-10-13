@@ -1,16 +1,13 @@
 using System;
 using UnityEngine;
 
-public class AbilityPickup : MonoBehaviour, IInteractable, ICollectable
+public class AbilityPickup : Interactable, ICollectable
 {
-    public GameEvent Event;
-
     [field: SerializeField] public FlashlightAbility AbilityToPickup { get; private set; }
 
-    private InteractTrigger interactTrigger;
-
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         AbilityToPickup = GetComponentInChildren<FlashlightAbility>();
     }
 
@@ -19,11 +16,9 @@ public class AbilityPickup : MonoBehaviour, IInteractable, ICollectable
         gameObject.SetActive(false);
     }
 
-    public void OnInteract()
+    public override void OnInteract()
     {
-        if (TryGetComponent(out interactTrigger))
-            interactTrigger.InvokeInteractTrigger();
-
+        base.OnInteract();
         Event.OnInteractItem?.Invoke(this);
     }
 }

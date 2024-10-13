@@ -1,16 +1,14 @@
-using UnityEngine;
-public class Battery : MonoBehaviour, ICollectable, IInteractable
+public class Battery : Interactable , ICollectable
 {
-  public GameEvent Event;
-
     public void Collect()
     {
         //pool manager handle collected 
         gameObject.SetActive(false);
     }
     
-    public void OnInteract()
+    public override void OnInteract()
     {
+        base.OnInteract();
         Event.OnInteractItem?.Invoke(this);
     }
 }

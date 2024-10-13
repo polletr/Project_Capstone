@@ -36,6 +36,8 @@ public abstract class PlayerBaseState
 
         HandleFlashlightSphereCast();
 
+        CheckInteractionUI();
+
         // Calculate the local movement direction relative to the player's forward direction
         Vector3 localDirection = player.transform.InverseTransformDirection(_direction);
 
@@ -168,6 +170,33 @@ public abstract class PlayerBaseState
     public virtual void HandleDeath()
     {
         player.ChangeState(player.DeathState);
+    }
+
+    public virtual void CheckInteractionUI()
+    {
+        if (Physics.Raycast(player.PlayerCam.transform.position, player.PlayerCam.transform.forward, out RaycastHit hit, player.Settings.InteractionRange))
+        {
+            var obj = hit.collider.gameObject;
+            if (obj.TryGetComponent(out Interactable thing))
+            {
+                player.interactableObj = thing;
+                player.interactableObj.indicatorHandler.IndicatorUI.TriggerTextIndicator(true);
+            }
+            else
+            {
+                if (player.interactableObj != null)
+                    player.interactableObj.indicatorHandler.IndicatorUI.TriggerTextIndicator(false);
+            }
+        }
+        else
+        {
+            if (player.interactableObj != null)
+            {
+                player.interactableObj.indicatorHandler.IndicatorUI.TriggerTextIndicator(false);
+                player.interactableObj = null;
+            }
+        }
+
     }
 
     protected virtual float GetSpeed()

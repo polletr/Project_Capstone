@@ -1,8 +1,7 @@
 using UnityEngine;
 
-public class Key : MonoBehaviour ,IInteractable , ICollectable
+public class Key : Interactable , ICollectable
 {
-    public GameEvent Event;
     [field: SerializeField] public Door doorToOpen { get; private set;}
     
     public void Collect()
@@ -11,13 +10,9 @@ public class Key : MonoBehaviour ,IInteractable , ICollectable
         gameObject.SetActive(false);
     }
 
-    public void OnInteract()
+    public override void OnInteract()
     {
+        base.OnInteract();
         Event.OnInteractItem?.Invoke(this);
-        if (TryGetComponent(out InteractTrigger trigger))
-        {
-            trigger.onPlayerInteract.Invoke();
-        }
-
     }
 }

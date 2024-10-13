@@ -3,10 +3,9 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
 
-public class Door : MonoBehaviour, IInteractable
+public class Door : Interactable
 {
-    public GameEvent Event;
-    public bool IsOpen {  get; private set; }
+    public bool IsOpen { get; private set; }
     [SerializeField] private bool isLocked;
     [SerializeField] private UnityEvent OnOpen;
     [SerializeField] private UnityEvent OnClose;
@@ -16,6 +15,13 @@ public class Door : MonoBehaviour, IInteractable
     [SerializeField] private float rotationAngle = 90f;  // Angle to open the door
     [SerializeField] private float rotationSpeed = 2f;   // Speed of rotation
 
+    [SerializeField] private float doorHealth = 10f;
+    [SerializeField] private float distanceToCheckUIPos = 5f;
+
+    [SerializeField] private Transform frontUIPos;
+    [SerializeField] private Transform backUIPos;
+
+
     private Quaternion closedRotation;
 
     private GameObject playerCamera;
@@ -24,10 +30,9 @@ public class Door : MonoBehaviour, IInteractable
 
     private ShakeEffect shakeEffect;
 
-    [SerializeField]
-    private float doorHealth = 10f;
-
     private float currentHealth;
+
+    private bool rotating;
 
     private void Start()
     {
@@ -39,18 +44,25 @@ public class Door : MonoBehaviour, IInteractable
         currentHealth = doorHealth;
     }
 
-    public void OnInteract()
+    private void Update()
+    {
+        var distanceToPlayer = Vector3.Distance(playerCamera.transform.position, transform.position);
+        if (distanceToPlayer < distanceToCheckUIPos)
+        {
+            CheckDirectionUI();
+        }
+    }
+
+    public override void OnInteract()
     {
         if (!isLocked)
         {
             if (IsOpen)
             {
-                AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.CloseDoor, this.transform.position);
                 CloseDoor(rotationSpeed);
             }
             else
             {
-                AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.OpenDoor, this.transform.position);
                 OpenDoor(rotationSpeed, playerCamera);
             }
         }
@@ -59,6 +71,7 @@ public class Door : MonoBehaviour, IInteractable
             Event.OnTryToUnlockDoor?.Invoke(this);
         }
     }
+
     private void OpenDoor(float speed, GameObject user)
     {
         if (!IsOpen)
@@ -101,6 +114,18 @@ public class Door : MonoBehaviour, IInteractable
         }
 
     }
+    private void CheckDirectionUI()
+    {
+        // Open the door forward relative to the player
+        Vector3 doorToPlayer = playerCamera.transform.position - transform.position;
+        Vector3 doorForward = transform.right;
+
+        float dotProduct = Vector3.Dot(doorForward, doorToPlayer);
+        if (dotProduct > 0)
+            indicatorHandler.IndicatorUI.SetIndicatorPosition(frontUIPos.position);
+        else
+            indicatorHandler.IndicatorUI.SetIndicatorPosition(backUIPos.position);
+    }
 
     public void TakeDamage(float damage, GameObject user)
     {
@@ -118,7 +143,7 @@ public class Door : MonoBehaviour, IInteractable
             OpenDoor(10f, user);
             currentHealth = doorHealth;
         }
-    }    
+    }
 
     public void LockedDoor()
     {
@@ -137,6 +162,15 @@ public class Door : MonoBehaviour, IInteractable
 
     private IEnumerator RotateDoor(Quaternion targetRotation, float speed)
     {
+        if (rotating) yield break;
+
+        if (IsOpen)
+            AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.CloseDoor, this.transform.position);
+        else
+            AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.OpenDoor, this.transform.position);
+
+
+        rotating = true;
         float timeElapsed = 0f;
         Quaternion currentRotation = transform.localRotation;
 
@@ -158,6 +192,8 @@ public class Door : MonoBehaviour, IInteractable
         {
             doorObstacle.carving = true;
         }
+
+        rotating = false;
     }
 
     public void OnOpenDoor(float speed)
@@ -172,7 +208,7 @@ public class Door : MonoBehaviour, IInteractable
         //Think about opening sounds dependant on the speed
 
     }
-    
+
     public void LockOrUnlockDoor(bool islockedDoor)
     {
         isLocked = islockedDoor;

@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
     [field: SerializeField] public bool HasFlashlight { get; set; }
     public CharacterController characterController { get; set; }
     public FlashLight flashlight { get; set; }
-    public IInteractable interactableObj { get; set; }
+    public Interactable interactableObj { get; set; }
 
     public float xRotation { get; set; }
     public float yRotation { get; set; }
@@ -44,7 +44,7 @@ public class PlayerController : MonoBehaviour
     private List<EnemyClass> _enemiesChasing = new();
     private float currentEnemyDistance;
 
-    void Awake()
+    private void Awake()
     {
         Cursor.lockState = CursorLockMode.Locked;//Move this from here later
         Cursor.visible = false;//Move this from here later

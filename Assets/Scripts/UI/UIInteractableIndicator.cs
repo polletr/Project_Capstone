@@ -29,7 +29,11 @@ public class UIInteractableIndicator : MonoBehaviour
     public void TriggerTextIndicator(bool grow)
     {
         if (animator == null) return;
+         animator.GrowInAnimate(grow);
+    }
 
-        animator.GrowInAnimate(grow);
+    public void SetIndicatorPosition(Vector3 position)
+    {
+        transform.position = position;
     }
 }

@@ -22,6 +22,7 @@ public class PlayerInteractState : PlayerBaseState
     public override void StateUpdate()
     {
         StepsSound();
+        CheckInteractionUI();
     }
 
     public override void HandleMovement(Vector2 dir)

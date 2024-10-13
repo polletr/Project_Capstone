@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class IndicatorHandler : MonoBehaviour
@@ -6,25 +5,30 @@ public class IndicatorHandler : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private float minDistance = 2f;
     [SerializeField] private float circleUIDistance = 10f;
-    [SerializeField] private float textUIDistance = 2f;
 
     [Header("References")]
-    [SerializeField] private UIInteractableIndicator indicatorUI;
     [SerializeField] private float radius = 5f;
-    [SerializeField] private Transform target;
+    [field: SerializeField] public Transform playerTarget { get; set; }
+    [field: SerializeField] public Transform TargetUIPos { get; set; }
+    [field: SerializeField] public UIInteractableIndicator IndicatorUI { get; private set;}
 
-    private Camera cam; 
+    private Camera cam;
 
     private void Start()
     {
         cam = Camera.main;
-        indicatorUI.SetCircleIndicator(0);
-        indicatorUI.TriggerTextIndicator(false);
+        var UI = GetComponentInChildren<UIInteractableIndicator>();
+        IndicatorUI = UI ? UI : IndicatorUI;
+        
+        IndicatorUI.SetIndicatorPosition(TargetUIPos? TargetUIPos.position : transform.position);
+
+        IndicatorUI.SetCircleIndicator(0);
+        IndicatorUI.TriggerTextIndicator(false);
     }
 
     private void Update()
     {
-        if (target == null)
+        if (playerTarget == null)
         {
             DetectTarget();
         }
@@ -42,34 +46,18 @@ public class IndicatorHandler : MonoBehaviour
         {
             if (collider.TryGetComponent(out PlayerController player))
             {
-                target = player.transform;
-                break; 
+                playerTarget = player.transform;
+                break;
             }
         }
     }
 
     private void UpdateIndicators()
     {
-        float distance = Vector3.Distance(target.position, transform.position);
+        float distance = Vector3.Distance(playerTarget.position, transform.position);
 
-    
-        indicatorUI.SetCircleIndicator(distance < circleUIDistance ? Mathf.InverseLerp(circleUIDistance, minDistance, distance) : 0);
+        IndicatorUI.SetCircleIndicator(distance < circleUIDistance ? Mathf.InverseLerp(circleUIDistance, minDistance, distance) : 0);
 
-       
-        if (distance < textUIDistance)
-        {
-            if (Physics.Raycast(cam.transform.position, cam.transform.forward, out RaycastHit hit, textUIDistance))            
-            {
-                if (hit.collider.TryGetComponent(out IndicatorHandler obj) && obj == this)
-                    indicatorUI.TriggerTextIndicator(true);
-                else
-                    indicatorUI.TriggerTextIndicator(false);
-            }
-            else
-                indicatorUI.TriggerTextIndicator(false);
-        }
-        else
-            indicatorUI.TriggerTextIndicator(false);
     }
 
     private void OnDrawGizmos()
