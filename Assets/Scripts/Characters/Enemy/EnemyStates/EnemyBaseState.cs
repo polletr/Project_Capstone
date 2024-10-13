@@ -95,13 +95,16 @@ public abstract class EnemyBaseState
                     NavMeshHit navHit;
                     if (NavMesh.SamplePosition(target.transform.position, out navHit, 1.0f, NavMesh.AllAreas))
                     {
-                        if (!NavMesh.Raycast(enemy.transform.position, target.transform.position, out navHit, NavMesh.AllAreas))
+                        if (NavMesh.Raycast(enemy.transform.position, target.transform.position, out navHit, NavMesh.AllAreas))
                         {
-                            Debug.Log("Player Detected");
-                            chasePos = target.transform.position;
-                            enemy.playerCharacter = hit.collider.GetComponent<PlayerController>();
-                            enemy.playerCharacter.AddEnemyToChaseList(enemy);
-                            enemy.ChangeState(enemy.ChaseState);
+                            if (navHit.mask == 0) // No obstacles found
+                            {
+                                Debug.Log("Player Detected");
+                                chasePos = target.transform.position;
+                                enemy.playerCharacter = hit.collider.GetComponent<PlayerController>();
+                                enemy.playerCharacter.AddEnemyToChaseList(enemy);
+                                enemy.ChangeState(enemy.ChaseState);
+                            }
                         }
                     }
                 }

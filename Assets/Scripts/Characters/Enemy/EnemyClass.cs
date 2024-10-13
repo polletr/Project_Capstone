@@ -102,10 +102,11 @@ public class EnemyClass : MonoBehaviour, IStunnable
     [SerializeField, Range(20f, 90f)] private float sightAngle = 45f;
     [SerializeField, Range(0.5f, 3f)] private float attackRange = 1f;
     [SerializeField] private float attackAntecipationTime = 1;
+    [field: SerializeField] public float TeleportCooldown { get; private set; }
+    [field: SerializeField] public float MaxChaseTime { get; private set; }
 
     [field: SerializeField] public float DoorAttackCooldown { get; private set; }
     [field: SerializeField] public float DoorAttackDamage { get; private set; }
-
 
     public GameEvent Event;
 

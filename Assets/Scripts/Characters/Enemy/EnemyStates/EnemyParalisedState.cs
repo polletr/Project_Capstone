@@ -27,7 +27,7 @@ public class EnemyParalisedState : EnemyBaseState
             enemy.playerCharacter.AddEnemyToChaseList(enemy);
         }
 
-        if (enemy.agent.destination != chasePos)
+/*        if (enemy.agent.destination != chasePos)
         {
             enemy.agent.SetDestination(chasePos);
         }
@@ -41,7 +41,7 @@ public class EnemyParalisedState : EnemyBaseState
                 enemy.ChangeState(enemy.AttackState);
             }
         }
-
+*/
         // Get the direction to the player
         Vector3 directionToPlayer = (enemy.playerCharacter.transform.position - enemy.transform.position).normalized;
 
