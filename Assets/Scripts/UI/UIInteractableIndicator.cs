@@ -1,10 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class UIInteractableIndicator : MonoBehaviour
 {
-    [SerializeField] private Vector3 offset;
+
+    [Header("References")]
+    [SerializeField] private UIAnimator animator;
+    [SerializeField] private CanvasGroup canvasGroup;
 
     private Camera cam;
 
@@ -15,8 +16,20 @@ public class UIInteractableIndicator : MonoBehaviour
 
     private void Update()
     {
-        Vector3 screenPos = cam.WorldToScreenPoint(transform.position + offset);
-        if(transform.position != screenPos)
-        transform.position = screenPos;
+        transform.LookAt(cam.transform.position);
+    }
+
+    public void SetCircleIndicator(float value)
+    {
+        if (animator == null || canvasGroup == null) return;
+
+        canvasGroup.alpha = value;
+    }
+
+    public void TriggerTextIndicator(bool grow)
+    {
+        if (animator == null) return;
+
+        animator.GrowInAnimate(grow);
     }
 }

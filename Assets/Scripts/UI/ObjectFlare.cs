@@ -10,8 +10,10 @@ public class ObjectFlare : MonoBehaviour
 
     private CanvasGroup canvasGroup;
     private RectTransform rectTransform;
+    private Camera cam;
     private void Awake()
     {
+        cam = Camera.main;
         rectTransform = GetComponent<RectTransform>();
         canvasGroup = GetComponent<CanvasGroup>();
         canvasGroup.alpha = 1;
@@ -35,6 +37,6 @@ public class ObjectFlare : MonoBehaviour
 
     private void Update()
     {
-        transform.LookAt(Camera.main.transform);
+        transform.LookAt(cam.transform);
     }
 }
