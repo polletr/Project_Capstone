@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour
    // private bool _canRegenHealth = true;
     private Transform _checkPoint;
     private List<EnemyClass> _enemiesChasing = new();
-
+    private float currentEnemyDistance;
 
     void Awake()
     {
@@ -157,28 +157,37 @@ public class PlayerController : MonoBehaviour
 
     private void CheckEnemies()
     {
-        if (_enemiesChasing.Count == 0)
-            return;
-
-        foreach (EnemyClass enemy in _enemiesChasing)
+        if (_enemiesChasing.Count > 0)
         {
-            if (Vector3.Distance(enemy.transform.position, transform.position) < _minEnemyDistance)
+            // Calculate the normalized distance based on the nearest enemy
+            float targetDistance = _minEnemyDistance / Settings.MaxEnemyDistance;
+
+            // Directly set the FMOD parameter based on the nearest enemy
+            currentEnemyDistance = targetDistance;
+
+            foreach (EnemyClass enemy in _enemiesChasing)
             {
-                _minEnemyDistance = Vector3.Distance(enemy.transform.position, transform.position);
+                if (Vector3.Distance(enemy.transform.position, transform.position) < _minEnemyDistance)
+                {
+                    _minEnemyDistance = Vector3.Distance(enemy.transform.position, transform.position);
+                }
+
+                if (Vector3.Distance(enemy.transform.position, transform.position) > Settings.MaxEnemyDistance)
+                {
+                    _enemiesChasing.Remove(enemy);
+                    break;
+                }
             }
 
-            if (Vector3.Distance(enemy.transform.position, transform.position) > Settings.MaxEnemyDistance)
-            {
-                _enemiesChasing.Remove(enemy);
-                break;
-            }
+        }
+        else
+        {
+            // Smoothly interpolate towards 1 when there are no enemies
+            currentEnemyDistance = Mathf.Lerp(currentEnemyDistance, 1f, Time.deltaTime);
         }
 
-        if (_enemiesChasing.Count > 0)
-            RuntimeManager.StudioSystem.setParameterByName("EnemyDistance", _minEnemyDistance / Settings.MaxEnemyDistance);
-        else
-            RuntimeManager.StudioSystem.setParameterByName("EnemyDistance", 1);
-
+        // Apply the interpolated or direct value to FMOD
+        RuntimeManager.StudioSystem.setParameterByName("EnemyDistance", currentEnemyDistance);
     }
 
     public void Respawn()
