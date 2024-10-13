@@ -35,6 +35,14 @@ public class EnemyChaseState : EnemyBaseState
         teleportTimer += Time.deltaTime;
         if (enemy.playerCharacter != null)
         {
+            // Get the direction to the player
+            Vector3 directionToPlayer = (enemy.playerCharacter.transform.position - enemy.transform.position).normalized;
+
+            // Calculate the rotation towards the player
+            Quaternion lookRotation = Quaternion.LookRotation(new Vector3(directionToPlayer.x, 0, directionToPlayer.z)); // Ignore y-axis to keep rotation flat
+
+            // Smoothly rotate the enemy towards the player
+            enemy.transform.rotation = Quaternion.Slerp(enemy.transform.rotation, lookRotation, Time.deltaTime * enemy.RotationSpeed);
 
             // If within attack range, switch to attack state
             if (Vector3.Distance(enemy.transform.position, enemy.playerCharacter.transform.position) <= enemy.AttackRange)
@@ -49,9 +57,6 @@ public class EnemyChaseState : EnemyBaseState
                     TeleportTowardsPlayer();
                 }
             }
-            Vector3 directionToPlayer = enemy.playerCharacter.transform.position - enemy.transform.position;
-            directionToPlayer.y = 0f; // Ignore the y-axis for rotation
-            enemy.transform.rotation = Quaternion.LookRotation(directionToPlayer.normalized);
         }
 
         // If no player is detected, return to idle state
@@ -75,18 +80,14 @@ public class EnemyChaseState : EnemyBaseState
         Vector3 directionToPlayer = (enemy.playerCharacter.transform.position - enemy.transform.position).normalized;
         Vector3 desiredTeleportPosition = enemy.playerCharacter.transform.position - directionToPlayer * enemy.AttackRange * currentTeleportMultiplier;
 
-        // Set a reasonable maximum distance to search for a valid NavMesh position
-        float maxNavMeshDistance = 2f; // Adjust based on the scale of your game
-
-        // Check if the desired position is on the NavMesh or find the closest valid point
-        if (NavMesh.SamplePosition(desiredTeleportPosition, out NavMeshHit hit, maxNavMeshDistance, NavMesh.AllAreas))
+        if (CheckPath(desiredTeleportPosition))
         {
-            teleportPosition = hit.position;
-            enemy.transform.position = teleportPosition;
+            enemy.transform.position = desiredTeleportPosition;
         }
         else
         {
-            Debug.LogWarning("Could not find a valid teleport position on the NavMesh.");
+            Debug.LogWarning("No valid path to the teleport position. Changing to Idle state.");
+            enemy.ChangeState(enemy.IdleState);
         }
     }
 
