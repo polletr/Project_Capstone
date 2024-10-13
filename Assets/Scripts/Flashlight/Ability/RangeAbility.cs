@@ -23,7 +23,7 @@ public class RangeAbility : FlashlightAbility
 
         _flashlight.Light.intensity = intensity;
         _flashlight.Light.color = Color.white;
-        _flashlight.ConsumeBattery(cost);
+        _flashlight.ConsumeBattery(Cost);
 
     }
 

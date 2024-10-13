@@ -13,8 +13,10 @@ public class FlashLight : MonoBehaviour
     [SerializeField] private float intensity;
 
     [SerializeField] private float cost;
+    [SerializeField] private float minBatteryAfterUse;
+
     [field: SerializeField] public float BatteryLife { get; private set; }
-    
+
     public float MaxBatteryLife { get; private set; } = 100;
 
 
@@ -34,9 +36,9 @@ public class FlashLight : MonoBehaviour
     private float flickerTimer;
 
     private int _extraBatteryPacks;
-    
+
     private PlayerController playerController;
-    
+
 
     bool isFlashlightOn;
     bool isFlickering;
@@ -83,22 +85,23 @@ public class FlashLight : MonoBehaviour
     private void OnDisable()
     {
         Event.OnPickupAbility -= CollectAbility;
-        Event.OnFinishRecharge -= Recharge; 
+        Event.OnFinishRecharge -= Recharge;
     }
 
     private void Update()
     {
-            // Decrease BatteryLife continuously over time based on Cost per second
-            if (isFlashlightOn && !IsBatteryDead())
-               Drain(cost * Time.deltaTime);
+        // Decrease BatteryLife continuously over time based on Cost per second
+        if (isFlashlightOn && !IsBatteryDead())
+            Drain(cost * Time.deltaTime);
 
-            if (IsBatteryDead())
-            {
+        if (IsBatteryDead())
+        {
+            if (CurrentAbility != null)
                 CurrentAbility.OnStopAbility();
-               // Turn off the flashlight
-                if (isFlashlightOn && !isFlickering)
-                    StartCoroutine(Flicker(3f, () => TurnOffLight()));
-            }
+            // Turn off the flashlight
+            if (isFlashlightOn && !isFlickering)
+                StartCoroutine(Flicker(3f, () => TurnOffLight()));
+        }
     }
 
     private void CollectAbility(FlashlightAbility ability)
@@ -112,7 +115,7 @@ public class FlashLight : MonoBehaviour
             ability.gameObject.transform.parent = transform;
             flashlightAbilities.Add(ability);
 
-            if(flashlightAbilities.Count == 1)
+            if (flashlightAbilities.Count == 1)
                 CurrentAbility = ability;
         }
     }
@@ -121,17 +124,17 @@ public class FlashLight : MonoBehaviour
     {
         if (flashlightAbilities.Contains(ability))
         {
-            if (flashlightAbilities.Count <=0)
-               CurrentAbility = null;
-            else 
-            CurrentAbility = flashlightAbilities[0];
+            if (flashlightAbilities.Count <= 0)
+                CurrentAbility = null;
+            else
+                CurrentAbility = flashlightAbilities[0];
 
             flashlightAbilities.Remove(ability);
             Destroy(ability.gameObject); // Destroy the ability
         }
     }
 
-    
+
     public void HandleSphereCast()
     {
         Ray ray = new Ray(transform.position, transform.forward * range);
@@ -143,7 +146,7 @@ public class FlashLight : MonoBehaviour
 
             if (obj.TryGetComponent(out IEffectable effectable))
             {
-                Debug.Log(obj.ToString());  
+                Debug.Log(obj.ToString());
                 effectedObjsThisFrame.Add(effectable);
                 if (!effectedObjs.Contains(effectable))
                 {
@@ -196,7 +199,7 @@ public class FlashLight : MonoBehaviour
 
     public void HandleFlashAblility()
     {
-        if (CurrentAbility != null && isFlashlightOn)
+        if (CurrentAbility != null && isFlashlightOn && (BatteryLife - CurrentAbility.Cost) >= minBatteryAfterUse)
             CurrentAbility.OnUseAbility();
         else
             playerController.currentState?.HandleMove();
@@ -343,7 +346,7 @@ public class FlashLight : MonoBehaviour
     {
         return BatteryLife <= 0;
     }
-    
+
     private void Drain(float cost)
     {
         BatteryLife -= cost;
@@ -352,10 +355,15 @@ public class FlashLight : MonoBehaviour
     {
         BatteryLife = MaxBatteryLife + _extraBatteryPacks;
     }
-    
+
     private void UpdateExtraBattery(int battery)
     {
         _extraBatteryPacks = battery;
+    }
+
+    public void ZeroOutBattery()
+    {
+        BatteryLife = 0;
     }
 
 }
