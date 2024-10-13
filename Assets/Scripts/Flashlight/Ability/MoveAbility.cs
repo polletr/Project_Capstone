@@ -41,7 +41,7 @@ public class MoveAbility : FlashlightAbility
 
             timer.Start();
 
-            _flashlight.ConsumeBattery(cost);
+            _flashlight.ConsumeBattery(Cost);
         }
         else
         {

@@ -34,7 +34,7 @@ public class StunAbility : FlashlightAbility
             if (obj.TryGetComponent(out IStunnable thing))
                 thing.ApplyStunEffect();
         }
-        _flashlight.ConsumeBattery(cost);
+        _flashlight.ConsumeBattery(Cost);
 
         StartCoroutine(RestoreLightOverTime());
 
