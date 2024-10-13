@@ -14,5 +14,10 @@ public class Key : MonoBehaviour ,IInteractable , ICollectable
     public void OnInteract()
     {
         Event.OnInteractItem?.Invoke(this);
+        if (TryGetComponent(out InteractTrigger trigger))
+        {
+            trigger.onPlayerInteract.Invoke();
+        }
+
     }
 }

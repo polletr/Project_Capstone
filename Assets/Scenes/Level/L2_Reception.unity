@@ -3732,6 +3732,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 138568373}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &138568380 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3330528363716557571, guid: c161c13877aafaf4f84046c57e2c26b0,
+    type: 3}
+  m_PrefabInstance: {fileID: 138568373}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 138568374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 679fb04ba36c7454882cef773305a7ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!43 &139852003
 Mesh:
   m_ObjectHideFlags: 0
@@ -7176,12 +7188,12 @@ PrefabInstance:
     - target: {fileID: 3673962620427888515, guid: 95328615bc0790946b2df2cd463f12ba,
         type: 3}
       propertyPath: isLocked
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3673962620427888515, guid: 95328615bc0790946b2df2cd463f12ba,
         type: 3}
       propertyPath: OnInteractLocked.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3673962620427888515, guid: 95328615bc0790946b2df2cd463f12ba,
         type: 3}
@@ -13604,22 +13616,22 @@ PrefabInstance:
     - target: {fileID: 301972552501302265, guid: 542bd3294fdb6534d881b4acb2108f17,
         type: 3}
       propertyPath: m_BoundingSphereOverride.w
-      value: 0
+      value: 7.095706e+22
       objectReference: {fileID: 0}
     - target: {fileID: 301972552501302265, guid: 542bd3294fdb6534d881b4acb2108f17,
         type: 3}
       propertyPath: m_BoundingSphereOverride.x
-      value: 0
+      value: 7.9316175e+34
       objectReference: {fileID: 0}
     - target: {fileID: 301972552501302265, guid: 542bd3294fdb6534d881b4acb2108f17,
         type: 3}
       propertyPath: m_BoundingSphereOverride.y
-      value: 3e-45
+      value: 1.7752526e+28
       objectReference: {fileID: 0}
     - target: {fileID: 301972552501302265, guid: 542bd3294fdb6534d881b4acb2108f17,
         type: 3}
       propertyPath: m_BoundingSphereOverride.z
-      value: 4.6e-44
+      value: 1.3778621e-11
       objectReference: {fileID: 0}
     - target: {fileID: 1975550098639467097, guid: 542bd3294fdb6534d881b4acb2108f17,
         type: 3}
@@ -14941,12 +14953,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 577697240}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &577697242 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 904477281664417906, guid: c161c13877aafaf4f84046c57e2c26b0,
+--- !u!114 &577697247 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3330528363716557571, guid: c161c13877aafaf4f84046c57e2c26b0,
     type: 3}
   m_PrefabInstance: {fileID: 577697240}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 679fb04ba36c7454882cef773305a7ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &577719763
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15257,7 +15275,7 @@ PrefabInstance:
     - target: {fileID: 3673962620427888515, guid: 95328615bc0790946b2df2cd463f12ba,
         type: 3}
       propertyPath: OnInteractLocked.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3673962620427888515, guid: 95328615bc0790946b2df2cd463f12ba,
         type: 3}
@@ -19166,7 +19184,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2293465678663127946, guid: e5ffd160c02c8084589301b19d6fa4cc,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 695358777}
+      addedObject: {fileID: 695358779}
     - targetCorrespondingSourceObject: {fileID: 2293465678663127946, guid: e5ffd160c02c8084589301b19d6fa4cc,
         type: 3}
       insertIndex: -1
@@ -19184,7 +19202,7 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 695358774}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &695358777
+--- !u!114 &695358778
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -19193,16 +19211,32 @@ MonoBehaviour:
   m_GameObject: {fileID: 695358776}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8214ab74778e58248a42cb516beb014a, type: 3}
+  m_Script: {fileID: 11500000, guid: 303802c182979a649b1eac130c503807, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnTriggerEvent:
+  appearObj:
+  - {fileID: 1582642572}
+  disappearObj:
+  - {fileID: 1582642571}
+--- !u!114 &695358779
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 695358776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d657709de4fc3e409de34edb1d40ed7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onPlayerInteract:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 577697242}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 577697247}
+        m_TargetAssemblyTypeName: EnemyClass, Assembly-CSharp
+        m_MethodName: DisableEnemy
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -19235,22 +19269,30 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &695358778
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 695358776}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 303802c182979a649b1eac130c503807, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  appearObj:
-  - {fileID: 1582642572}
-  disappearObj:
-  - {fileID: 1582642571}
+      - m_Target: {fileID: 138568380}
+        m_TargetAssemblyTypeName: EnemyClass, Assembly-CSharp
+        m_MethodName: DisableEnemy
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1064910533}
+        m_TargetAssemblyTypeName: EnemyClass, Assembly-CSharp
+        m_MethodName: DisableEnemy
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!4 &705457049 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2127201733085282043, guid: d740d5194ffd7f3479e6f5dc19228726,
@@ -31252,6 +31294,18 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1064910526}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1064910533 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3330528363716557571, guid: c161c13877aafaf4f84046c57e2c26b0,
+    type: 3}
+  m_PrefabInstance: {fileID: 1064910526}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1064910528}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 679fb04ba36c7454882cef773305a7ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1066185409
 GameObject:
   m_ObjectHideFlags: 0
@@ -32673,7 +32727,7 @@ PrefabInstance:
     - target: {fileID: 3673962620427888515, guid: 95328615bc0790946b2df2cd463f12ba,
         type: 3}
       propertyPath: OnInteractLocked.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3673962620427888515, guid: 95328615bc0790946b2df2cd463f12ba,
         type: 3}

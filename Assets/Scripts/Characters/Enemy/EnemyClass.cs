@@ -191,6 +191,15 @@ public class EnemyClass : MonoBehaviour, IStunnable
         }
     }
 
+    public void DisableEnemy()
+    {
+        if (playerCharacter != null)
+        {
+            playerCharacter.RemoveEnemyFromChaseList(this);
+        }
+        this.gameObject.SetActive(false);
+    }
+
 
     #region ChangeState
 
