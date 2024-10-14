@@ -74,7 +74,6 @@ public abstract class PlayerBaseState
 
     public virtual void HandlePushObj() 
     {
-        Debug.Log("input works");
         if (player.flashlight.CurrentAbility is MoveAbility)
             player.flashlight.HandlePush();
     }

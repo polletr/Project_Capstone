@@ -133,7 +133,6 @@ public class FlashLight : MonoBehaviour
 
     public void HandlePush()
     {
-        Debug.Log("push flashlight");
         var moveAbility = CurrentAbility as MoveAbility;
         moveAbility?.OnPushObj();
     }
