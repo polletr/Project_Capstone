@@ -20,7 +20,6 @@ public class EnemyAttackState : EnemyBaseState
 
         // Play anticipation animation or sound (optional)
         enemy.enemyAnimator.animator.Play(enemyAnimator.AnticipationHash);
-        Debug.Log("Enemy Anticipation");
 
         //enemy.currentAudio = AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.AttackAnticipation);
         //enemy.currentAudio.start();
@@ -49,7 +48,7 @@ public class EnemyAttackState : EnemyBaseState
 
                 // Check if player is within attack range
                 float distanceToPlayer = Vector3.Distance(enemy.transform.position, enemy.playerCharacter.transform.position);
-                if (distanceToPlayer <= enemy.AttackRange) // If player is still in range
+                if (distanceToPlayer <= enemy.AttackRange  && enemy.playerCharacter.IsAlive()) // If player is still in range
                 {
                     enemy.Attack();
                     // Proceed with attack
@@ -59,17 +58,14 @@ public class EnemyAttackState : EnemyBaseState
                     //enemy.currentAudio.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
                     //enemy.currentAudio = AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.Attack);
                     //enemy.currentAudio.start();
-                    Debug.Log("Enemy Attack");
 
                     enemy.ChangeState(enemy.IdleState);
 
                 }
                 else
                 {
-                    Debug.Log("Enemy Stop Attack");
-
                     // Player moved out of range, return to chase state
-                    enemy.ChangeState(enemy.ChaseState);
+                    enemy.ChangeState(enemy.IdleState);
                 }
             }
         }

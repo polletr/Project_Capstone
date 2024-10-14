@@ -105,7 +105,6 @@ public abstract class EnemyBaseState
                 {
                     if (CheckPath(target.transform.position))
                     {
-                        Debug.Log("Player Detected");
                         chasePos = target.transform.position;
                         enemy.playerCharacter = hit.collider.GetComponent<PlayerController>();
                         enemy.playerCharacter.AddEnemyToChaseList(enemy);

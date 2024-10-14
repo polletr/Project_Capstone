@@ -14,7 +14,6 @@ public class EnemyPatrolState : EnemyBaseState
 
     public override void EnterState()
     {
-        Debug.Log("Patrol");
         enemyAnimator.animator.CrossFade(enemyAnimator.WalkHash, enemyAnimator.animationCrossFade);
 
         enemy.Event.OnSoundEmitted += OnSoundDetected;

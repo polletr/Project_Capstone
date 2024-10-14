@@ -3,14 +3,12 @@ using UnityEngine;
 
 public class PlayerInventory : MonoBehaviour
 {
-    [SerializeField] private int maxBatteryCapacity;
-
-    [field: SerializeField] public int ExtraBatteryCount { get; private set; }
+    [field: SerializeField] public float ChargesCollected { get; private set; }
 
     private Stack<FlashlightAbility> _collectedAbilitys = new();
 
     private int numAbilityCollectedperCheckpoint;
-    private int numBatteryCollectedperCheckpoint;
+    private float numBatteryCollectedperCheckpoint;
 
     private Dictionary<Door, ICollectable> keys = new();
 
@@ -53,7 +51,8 @@ public class PlayerInventory : MonoBehaviour
         switch (item)
         {
             case Battery batteryItem:
-                AddBattery();
+                AddBattery(batteryItem.BatteryCharge);
+                batteryItem.Collect();
                 break;
             case AbilityPickup abilityPickup:
                 _collectedAbilitys.Push(abilityPickup.AbilityToPickup);
@@ -78,12 +77,18 @@ public class PlayerInventory : MonoBehaviour
         // Display item in inventory
     }
 
-    public void AddBattery()
+    public void AddBattery(float charge)
     {
         AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.PickUpBatteries, transform.position);
-        ExtraBatteryCount++;
-        numBatteryCollectedperCheckpoint++;
-        Event.OnBatteryAdded?.Invoke(ExtraBatteryCount);
+        ChargesCollected += charge;
+        numBatteryCollectedperCheckpoint += charge;
+        Event.OnBatteryAdded?.Invoke(ChargesCollected);
+    }
+
+    public void RemoveBattery()
+    {
+        ChargesCollected = ChargesCollected - numBatteryCollectedperCheckpoint;
+        Event.OnBatteryAdded?.Invoke(ChargesCollected);
     }
     
 

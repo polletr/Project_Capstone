@@ -2,13 +2,14 @@ using UnityEngine;
 
 public class IndicatorHandler : MonoBehaviour
 {
-    [Header("Settings")]
+    [Header("UI References")]
+    [SerializeField] private float radius = 5f;
     [SerializeField] private float minDistance = 2f;
     [SerializeField] private float circleUIDistance = 10f;
+    public Transform playerTarget { get; set; }
 
-    [Header("References")]
-    [SerializeField] private float radius = 5f;
-    [field: SerializeField] public Transform playerTarget { get; set; }
+    [Header("Optional UI References")]
+    [SerializeField] private bool _dummyUIReference = false;
     [field: SerializeField] public Transform TargetUIPos { get; set; }
     [field: SerializeField] public UIInteractableIndicator IndicatorUI { get; private set;}
 

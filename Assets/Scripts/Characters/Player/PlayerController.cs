@@ -1,6 +1,8 @@
 using FMOD.Studio;
 using FMODUnity;
 using System.Collections.Generic;
+using IEnumerator = System.Collections.IEnumerator;
+
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -18,6 +20,7 @@ public class PlayerController : MonoBehaviour
     public CharacterController characterController { get; set; }
     public FlashLight flashlight { get; set; }
     public Interactable interactableObj { get; set; }
+    public Transform CheckPoint { get; private set; }
 
     public float xRotation { get; set; }
     public float yRotation { get; set; }
@@ -32,7 +35,6 @@ public class PlayerController : MonoBehaviour
 
     public InputManager inputManager { get; private set; }
     public PlayerAnimator playerAnimator { get; private set; }
-    public PlayerHealth playerHealth { get; private set; }
 
     public EventInstance playerFootsteps { get; private set; }
     public EventInstance playerBreathing { get; private set; }
@@ -40,7 +42,6 @@ public class PlayerController : MonoBehaviour
 
     private float _minEnemyDistance;
     // private bool _canRegenHealth = true;
-    private Transform _checkPoint;
     private List<EnemyClass> _enemiesChasing = new();
     private float currentEnemyDistance;
 
@@ -54,7 +55,6 @@ public class PlayerController : MonoBehaviour
         playerAnimator = GetComponent<PlayerAnimator>();
         playerAnimator.GetAnimator();
         inputManager = GetComponent<InputManager>();
-        playerHealth = GetComponent<PlayerHealth>();
 
         flashlight = GetComponentInChildren<FlashLight>();
         characterController = GetComponent<CharacterController>();
@@ -72,12 +72,14 @@ public class PlayerController : MonoBehaviour
     {
         Event.OnPickupFlashlight += HandleFlashlightPickUp;
         Event.SetNewSpawn += SetSpawn;
+        Event.OnPlayerRespawn += Respawn;
     }
 
     private void OnDisable()
     {
         Event.OnPickupFlashlight -= HandleFlashlightPickUp;
         Event.SetNewSpawn -= SetSpawn;
+        Event.OnPlayerRespawn -= Respawn;
     }
 
     private void Update()
@@ -87,6 +89,7 @@ public class PlayerController : MonoBehaviour
         currentState?.StateUpdate();
 
         CheckEnemies();
+
     }
 
     private void FixedUpdate() => currentState?.StateFixedUpdate();
@@ -94,18 +97,15 @@ public class PlayerController : MonoBehaviour
     public void GetKilled(EnemyClass enemy, Transform face)
     {
         //Get Killed Logic Here
-
-        Debug.Log("Player Attacked");
-
         DeathState.EnemyFace = face;
         DeathState.EnemyKiller = enemy;
 
-        ChangeState(DeathState);
+        currentState?.HandleDeath();
     }
 
     public void GetKilled()
     {
-        ChangeState(DeathState);
+        currentState?.HandleDeath();
     }
 
     void SetupSoundEvents()
@@ -192,8 +192,7 @@ public class PlayerController : MonoBehaviour
 
     public void Respawn()
     {
-        playerAnimator.transform.position = _checkPoint.position;
-        ChangeState(MoveState);
+        StartCoroutine(WaitChangeState(MoveState, 0.5f));
     }
 
     public bool IsAlive()
@@ -203,7 +202,7 @@ public class PlayerController : MonoBehaviour
 
     private void SetSpawn(Transform pos)
     {
-        _checkPoint = pos;
+        CheckPoint = pos;
     }
 
 
@@ -246,6 +245,14 @@ public class PlayerController : MonoBehaviour
         InteractState = new PlayerInteractState(this);
         MoveState = new PlayerMoveState(this);
         RechargeState = new PlayerRechargeState(this);
+    }
+
+    public IEnumerator WaitChangeState(PlayerBaseState newState,float waitTime)
+    {
+        currentState?.ExitState();
+        yield return new WaitForSeconds(waitTime);
+        currentState = newState;
+        currentState.EnterState();
     }
 
     public void ChangeState(PlayerBaseState newState)

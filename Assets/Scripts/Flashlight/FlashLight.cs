@@ -35,7 +35,7 @@ public class FlashLight : MonoBehaviour
 
     private float flickerTimer;
 
-    private int _extraBatteryPacks;
+    private float _extraCharge;
 
     private PlayerController playerController;
 
@@ -79,7 +79,7 @@ public class FlashLight : MonoBehaviour
     {
         Event.OnPickupAbility += CollectAbility;
         Event.OnFinishRecharge += Recharge;
-        Event.OnBatteryAdded += UpdateExtraBattery;
+        Event.OnBatteryAdded += UpdateExtraCharge;
     }
 
     private void OnDisable()
@@ -137,6 +137,8 @@ public class FlashLight : MonoBehaviour
 
     public void HandleSphereCast()
     {
+        if (IsBatteryDead() || !isFlashlightOn) return;
+
         Ray ray = new Ray(transform.position, transform.forward * range);
         RaycastHit[] hits = Physics.SphereCastAll(ray, 1f, range);
         effectedObjsThisFrame.Clear();
@@ -353,12 +355,12 @@ public class FlashLight : MonoBehaviour
     }
     private void Recharge()
     {
-        BatteryLife = MaxBatteryLife + _extraBatteryPacks;
+        BatteryLife = MaxBatteryLife + _extraCharge;
     }
 
-    private void UpdateExtraBattery(int battery)
+    private void UpdateExtraCharge(float charge)
     {
-        _extraBatteryPacks = battery;
+        _extraCharge = charge;
     }
 
     public void ZeroOutBattery()

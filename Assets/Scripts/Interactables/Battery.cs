@@ -1,5 +1,9 @@
+using UnityEngine;
+
 public class Battery : Interactable , ICollectable
 {
+    [field: SerializeField] public float BatteryCharge { get; private set; } = 20f;
+
     public void Collect()
     {
         //pool manager handle collected 

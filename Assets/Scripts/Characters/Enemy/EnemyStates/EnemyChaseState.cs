@@ -12,7 +12,12 @@ public class EnemyChaseState : EnemyBaseState
 
     public override void EnterState()
     {
-        Debug.Log("Chasing (Teleport Mode)");
+
+        if (enemy.playerCharacter == null || !enemy.playerCharacter.IsAlive())
+        {
+            enemy.ChangeState(enemy.IdleState);
+        }
+
         enemy.agent.ResetPath();
         timeInChaseState = 0f;
         teleportTimer = 0;
@@ -112,7 +117,6 @@ public class EnemyChaseState : EnemyBaseState
                     {
                         if (hit.collider.CompareTag("Player") && enemy.playerCharacter == null)
                         {
-                            Debug.Log("See Player");
                             chasePos = target.transform.position;
                             enemy.playerCharacter = hit.collider.GetComponent<PlayerController>();
                             enemy.playerCharacter.AddEnemyToChaseList(enemy);

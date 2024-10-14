@@ -24,7 +24,7 @@ public class DebugAbilityUI : MonoBehaviour
             currentAbilityUI.text = "";
         }
 
-        batteryCountUI.text = playerInventory != null ? "BatteryPack Count: " + playerInventory.ExtraBatteryCount : "No inventory setup";
+        batteryCountUI.text = playerInventory != null ? "BatteryPack Count: " + playerInventory.ChargesCollected : "No inventory setup";
         //playerHealthUI.text = playerController != null ? "Player Health: " + playerController.Health : "";
 
     }
