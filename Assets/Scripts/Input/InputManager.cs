@@ -69,6 +69,9 @@ public class InputManager : MonoBehaviour
         _action.Player.Move.performed += (val) => _movement = val.ReadValue<Vector2>();
         _action.Player.PointerMove.performed += OnPointerMove;
         _action.Player.Attack.performed += (val) => _player.currentState?.HandleAttack(true);
+
+        _action.Player.PushObj.performed += (val) => _player.currentState?.HandlePushObj();
+
         _action.Player.Attack.canceled += (val) => _player.currentState?.HandleAttack(false);
         _action.Player.Interact.performed += (val) => _player.currentState?.HandleInteract();
         _action.Player.Run.performed += (val) => _player.currentState?.HandleRun(true);
@@ -103,6 +106,7 @@ public class InputManager : MonoBehaviour
 
         _action.Player.ChangeBattery.performed -= (val) => _player.HandleChangeBattery();
 
+        _action.Player.PushObj.performed -= (val) => _player.currentState?.HandlePushObj();
 
         _action.Player.Crouch.performed -= (val) => _player.currentState?.HandleCrouch(true);
         _action.Player.Crouch.canceled -= (val) => _player.currentState?.HandleCrouch(false);

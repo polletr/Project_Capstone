@@ -138,19 +138,17 @@ MonoBehaviour:
   range: 10
   lightColor: {r: 1, g: 0.9660924, b: 0.7075472, a: 1}
   intensity: 10
-  cost: 0.3
-  <battery>k__BackingField: {fileID: 0}
+  baseCost: 0.5
+  minBatteryAfterUse: 15
+  minFlickerTime: 0.05
+  maxFlickerTime: 0.2
+  <BatteryLife>k__BackingField: 100
+  <MoveHoldPos>k__BackingField: {fileID: 0}
   flashlightAbilities:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  <MoveHoldPos>k__BackingField: {fileID: 0}
-  minFlickerTime: 0.05
-  maxFlickerTime: 0.2
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 0
 --- !u!23 &3341116582347002850
 MeshRenderer:
   m_ObjectHideFlags: 0

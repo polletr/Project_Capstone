@@ -8,6 +8,8 @@ public class MoveAbility : FlashlightAbility
     [SerializeField] private float pickupRange = 10f;
     [SerializeField] private float maxHoldRange = 3f;
     [SerializeField] private float maxHoldTime = 15f;
+    [SerializeField] private float pushForce = 15f;
+    [SerializeField] private float pushCost = 10f;
 
 
     private MoveableObject pickup;
@@ -72,11 +74,6 @@ public class MoveAbility : FlashlightAbility
 
         float distance = Vector3.Distance(pickup.transform.position, moveHoldPos.position);
 
-        /*if (distance < 0.1f && !pickup.IsPicked)
-        {
-            StartCoroutine(pickup.Pickup());
-        }*/
-
         if (distance > 0.1f)
         {
             Vector3 direction = moveHoldPos.position - pickup.transform.position;
@@ -86,6 +83,28 @@ public class MoveAbility : FlashlightAbility
         if (distance > maxHoldRange || timer.IsFinished)
         {
             Drop();
+        }
+    }
+
+    public void OnPushObj()
+    {
+        if (pickup != null)
+        {
+            timer.Stop();
+            timer.Reset();
+
+            pickup.transform.parent = null;
+            pickup.Rb.useGravity = pickup.DefaultUseGravity;
+            pickup.Rb.drag = pickup.DefaultDrag;
+            pickup.Rb.constraints = pickup.DefaultConstraints;
+
+            Vector3 direction =  pickup.transform.position - _flashlight.Player.transform.position;
+
+            pickup.Rb.AddForce(direction.normalized * pushForce);
+
+            _flashlight.ConsumeBattery(pushCost);
+
+            pickup = null;
         }
     }
 

@@ -8,47 +8,42 @@ public class FlashLight : MonoBehaviour
 {
     public GameEvent Event;
 
+    [Header("Base Flashlight Settings")]
     [SerializeField] private float range;
     [SerializeField] private Color lightColor;
     [SerializeField] private float intensity;
 
-    [SerializeField] private float cost;
+    [SerializeField] private float baseCost;
     [SerializeField] private float minBatteryAfterUse;
+
+    [SerializeField] private float minFlickerTime = 0.1f;  // Minimum time between flickers
+    [SerializeField] private float maxFlickerTime = 0.5f;  // Maximum time between flickers
 
     [field: SerializeField] public float BatteryLife { get; private set; }
 
-    public float MaxBatteryLife { get; private set; } = 100;
-
+    [field: SerializeField] public Transform MoveHoldPos { get; private set; }
 
     [SerializeField] private List<FlashlightAbility> flashlightAbilities;
 
-    public FlashlightAbility CurrentAbility { get; private set; }
+    public float MaxBatteryLife { get; private set; } = 100;
 
-    [field: SerializeField] public Transform MoveHoldPos { get; private set; }
+    public PlayerController Player { get; private set;}
+
+    public FlashlightAbility CurrentAbility { get; private set; }
 
     public Light Light { get; set; }
 
-    [SerializeField]
-    private float minFlickerTime = 0.1f;  // Minimum time between flickers
-    [SerializeField]
-    public float maxFlickerTime = 0.5f;  // Maximum time between flickers
 
     private float flickerTimer;
-
     private float _extraCharge;
 
-    private PlayerController playerController;
+    private bool isFlashlightOn;
+    private bool isFlickering;
 
+    private List<IEffectable> effectedObjs = new();
+    private HashSet<IEffectable> effectedObjsThisFrame = new();
 
-    bool isFlashlightOn;
-    bool isFlickering;
-
-    List<IEffectable> effectedObjs = new();
-    HashSet<IEffectable> effectedObjsThisFrame = new();
-
-    
-
-    public LayerMask layerMask;
+    private LayerMask layerMask;
 
     private void Awake()
     {
@@ -61,7 +56,7 @@ public class FlashLight : MonoBehaviour
 
         layerMask = LayerMask.GetMask("Flashlight");
 
-        playerController = GetComponentInParent<PlayerController>();
+        Player = GetComponentInParent<PlayerController>();
 
 
         if (flashlightAbilities.Count > 0)
@@ -94,7 +89,7 @@ public class FlashLight : MonoBehaviour
     {
         // Decrease BatteryLife continuously over time based on Cost per second
         if (isFlashlightOn && !IsBatteryDead())
-            Drain(cost * Time.deltaTime);
+            Drain(baseCost * Time.deltaTime);
 
         if (IsBatteryDead())
         {
@@ -136,6 +131,12 @@ public class FlashLight : MonoBehaviour
         }
     }
 
+    public void HandlePush()
+    {
+        Debug.Log("push flashlight");
+        var moveAbility = CurrentAbility as MoveAbility;
+        moveAbility?.OnPushObj();
+    }
 
     public void HandleSphereCast()
     {
@@ -150,7 +151,6 @@ public class FlashLight : MonoBehaviour
 
             if (obj.TryGetComponent(out IEffectable effectable))
             {
-                Debug.Log(obj.ToString());
                 effectedObjsThisFrame.Add(effectable);
                 if (!effectedObjs.Contains(effectable))
                 {
@@ -206,7 +206,7 @@ public class FlashLight : MonoBehaviour
         if (CurrentAbility != null && isFlashlightOn && (BatteryLife - CurrentAbility.Cost) >= minBatteryAfterUse)
             CurrentAbility.OnUseAbility();
         else
-            playerController.currentState?.HandleMove();
+            Player.currentState?.HandleMove();
     }
 
     public void StopUsingFlashlight()
@@ -222,7 +222,7 @@ public class FlashLight : MonoBehaviour
         Light.range = range;
         Light.intensity = intensity;
         Light.color = lightColor;
-        playerController.currentState?.HandleMove();
+        Player.currentState?.HandleMove();
     }
 
     public void TurnOffLight()
@@ -316,6 +316,13 @@ public class FlashLight : MonoBehaviour
                 {
                     revealObj.ApplyEffect();
                     effectedObjs.Add(revealObj);
+                }
+                break;
+            case StunAbility stunAbility:
+                if (obj.TryGetComponent(out IStunnable stunObj))
+                {
+                    stunObj.ApplyEffect();
+                    effectedObjs.Add(stunObj);
                 }
                 break;
 

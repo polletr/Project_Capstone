@@ -107,6 +107,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PushObj"",
+                    ""type"": ""Button"",
+                    ""id"": ""951b2031-66bb-4038-aa16-fa0830666ed5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -340,6 +349,28 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""ChangeBattery"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ed2c48bd-8cc7-4931-ae4f-7ed33187287d"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PushObj"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fc503304-6e88-493b-8a0f-c280f372d02e"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PushObj"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -357,6 +388,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_Player_ChangeItem = m_Player.FindAction("ChangeItem", throwIfNotFound: true);
         m_Player_Crouch = m_Player.FindAction("Crouch", throwIfNotFound: true);
         m_Player_ChangeBattery = m_Player.FindAction("ChangeBattery", throwIfNotFound: true);
+        m_Player_PushObj = m_Player.FindAction("PushObj", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -427,6 +459,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_ChangeItem;
     private readonly InputAction m_Player_Crouch;
     private readonly InputAction m_Player_ChangeBattery;
+    private readonly InputAction m_Player_PushObj;
     public struct PlayerActions
     {
         private @PlayerInput m_Wrapper;
@@ -440,6 +473,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         public InputAction @ChangeItem => m_Wrapper.m_Player_ChangeItem;
         public InputAction @Crouch => m_Wrapper.m_Player_Crouch;
         public InputAction @ChangeBattery => m_Wrapper.m_Player_ChangeBattery;
+        public InputAction @PushObj => m_Wrapper.m_Player_PushObj;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -476,6 +510,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @ChangeBattery.started += instance.OnChangeBattery;
             @ChangeBattery.performed += instance.OnChangeBattery;
             @ChangeBattery.canceled += instance.OnChangeBattery;
+            @PushObj.started += instance.OnPushObj;
+            @PushObj.performed += instance.OnPushObj;
+            @PushObj.canceled += instance.OnPushObj;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -507,6 +544,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @ChangeBattery.started -= instance.OnChangeBattery;
             @ChangeBattery.performed -= instance.OnChangeBattery;
             @ChangeBattery.canceled -= instance.OnChangeBattery;
+            @PushObj.started -= instance.OnPushObj;
+            @PushObj.performed -= instance.OnPushObj;
+            @PushObj.canceled -= instance.OnPushObj;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -535,5 +575,6 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         void OnChangeItem(InputAction.CallbackContext context);
         void OnCrouch(InputAction.CallbackContext context);
         void OnChangeBattery(InputAction.CallbackContext context);
+        void OnPushObj(InputAction.CallbackContext context);
     }
 }
