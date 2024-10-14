@@ -13,7 +13,6 @@ public abstract class Interactable : MonoBehaviour
     {
         TargetUIPos = transform;
         indicatorHandler = GetComponent<IndicatorHandler>();
-        indicatorHandler.TargetUIPos = TargetUIPos;
     }
     public virtual void OnInteract()
     {
