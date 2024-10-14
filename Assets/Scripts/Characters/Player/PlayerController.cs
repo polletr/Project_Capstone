@@ -13,6 +13,9 @@ public class PlayerController : MonoBehaviour
     [field: SerializeField] public Transform CameraHolder { get; private set; }
     [field: SerializeField] public Transform DeathCamPos { get; private set; }
     [field: SerializeField] public Transform Hand { get; private set; }
+    [field: SerializeField] public Transform MoveHoldPos { get; private set; }
+
+
     public Camera PlayerCam { get; private set; }
     public Vector3 DefaultCameraLocalPosition { get; set; }
 
@@ -205,6 +208,12 @@ public class PlayerController : MonoBehaviour
         CheckPoint = pos;
     }
 
+
+    public void HandlePush()
+    {
+       // var moveAbility = CurrentAbility as MoveAbility;
+       // moveAbility?.OnPushObj();
+    }
 
     #region Character Actions
 
