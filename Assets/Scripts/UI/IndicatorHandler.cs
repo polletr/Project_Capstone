@@ -17,6 +17,7 @@ public class IndicatorHandler : MonoBehaviour
 
     private void Start()
     {
+        _dummyUIReference = true;
         cam = Camera.main;
         var UI = GetComponentInChildren<UIInteractableIndicator>();
         IndicatorUI = UI ? UI : IndicatorUI;

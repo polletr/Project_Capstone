@@ -21,8 +21,6 @@ public class FlashLight : MonoBehaviour
 
     [field: SerializeField] public float BatteryLife { get; private set; }
 
-    [field: SerializeField] public Transform MoveHoldPos { get; private set; }
-
     [SerializeField] private List<FlashlightAbility> flashlightAbilities;
 
     public float MaxBatteryLife { get; private set; } = 100;
