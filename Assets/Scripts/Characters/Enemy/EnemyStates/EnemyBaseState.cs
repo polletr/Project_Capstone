@@ -59,27 +59,6 @@ public abstract class EnemyBaseState
         }
     }
 
-    protected bool CheckPath(Vector3 targetPos)
-    {
-        // Check if the desired position is on the NavMesh or find the closest valid point
-        if (NavMesh.SamplePosition(targetPos, out NavMeshHit hit, 10f, NavMesh.AllAreas))
-        {
-            // Create a new path
-            NavMeshPath path = new NavMeshPath();
-
-            // Calculate the path from the enemy's current position to the desired teleport position
-            if (NavMesh.CalculatePath(enemy.transform.position, hit.position, NavMesh.AllAreas, path))
-            {
-                if (path.status == NavMeshPathStatus.PathComplete)
-                {
-                    return true;
-                }
-
-            }
-        }
-
-        return false;
-    }
     protected virtual void VisionDetection()
     {
         float detectionRadius = enemy.SightRange;
@@ -114,5 +93,28 @@ public abstract class EnemyBaseState
             }
         }
     }
+
+    protected bool CheckPath(Vector3 targetPos)
+    {
+        // Check if the desired position is on the NavMesh or find the closest valid point
+        if (NavMesh.SamplePosition(targetPos, out NavMeshHit hit, 10f, NavMesh.AllAreas))
+        {
+            // Create a new path
+            NavMeshPath path = new NavMeshPath();
+
+            // Calculate the path from the enemy's current position to the desired teleport position
+            if (NavMesh.CalculatePath(enemy.transform.position, hit.position, NavMesh.AllAreas, path))
+            {
+                if (path.status == NavMeshPathStatus.PathComplete)
+                {
+                    return true;
+                }
+
+            }
+        }
+
+        return false;
+    }
+
 
 }

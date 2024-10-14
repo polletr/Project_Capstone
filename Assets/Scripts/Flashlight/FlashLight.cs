@@ -46,6 +46,8 @@ public class FlashLight : MonoBehaviour
     List<IEffectable> effectedObjs = new();
     HashSet<IEffectable> effectedObjsThisFrame = new();
 
+    
+
     public LayerMask layerMask;
 
     private void Awake()

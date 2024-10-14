@@ -1,21 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Utilities;
 
 public class EnemyStunState : EnemyBaseState
 {
     public EnemyStunState(EnemyClass enemyClass, EnemyAnimator enemyAnim)
         : base(enemyClass, enemyAnim) { }
-    
+
+    CountdownTimer countdownTimer;
+
+
     public override void EnterState()
     {
         enemy.agent.ResetPath();
-        enemyAnimator.animator.CrossFade(enemyAnimator.StunHash, enemyAnimator.animationCrossFade);
+        enemyAnimator.animator.Play(enemyAnimator.StunHash);
 
+        countdownTimer = new CountdownTimer(enemy.StunTime);
+        countdownTimer.Start();
+
+        enemy.StartCoroutine(enemy.EnemyTransparency(0f));
+        enemy.SmokeParticle.Play();
+        enemy.EnemyCollider.enabled = false;
     }
     public override void ExitState()
     {
-
+        enemy.StartCoroutine(enemy.EnemyTransparency(0.9f));
+        enemy.SmokeParticle.Play();
+        enemy.EnemyCollider.enabled = true;
     }
 
     public override void StateFixedUpdate()
@@ -25,6 +37,12 @@ public class EnemyStunState : EnemyBaseState
 
     public override void StateUpdate()
     {
+        countdownTimer.Tick(Time.deltaTime);
+        if (countdownTimer.IsFinished)
+        {
+            Debug.Log("Back to Idle");
+            enemy.ChangeState(enemy.IdleState);
+        }
 
     }
 
@@ -37,6 +55,17 @@ public class EnemyStunState : EnemyBaseState
     {
 
     }
+
+    public override void HandleParalise()
+    {
+
+    }
+
+    public override void HandleChase()
+    {
+        
+    }
+
 
 
 }

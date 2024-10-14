@@ -67,8 +67,15 @@ MonoBehaviour:
   attackAntecipationTime: 2
   <TeleportCooldown>k__BackingField: 2
   <MaxChaseTime>k__BackingField: 5
+  <StunTime>k__BackingField: 15
+  <BodyMaterial>k__BackingField: {fileID: 2100000, guid: c3148a63354fa442abce19b1a40f9fef,
+    type: 2}
+  <EyeMaterial>k__BackingField: {fileID: 2100000, guid: 37ef587f6a5be4df0b4cb7317dca8b44,
+    type: 2}
+  <SmokeParticle>k__BackingField: {fileID: 6885992037475440784}
   <DoorAttackCooldown>k__BackingField: 2
   <DoorAttackDamage>k__BackingField: 2
+  changeTranspDuration: 1
   Event: {fileID: 11400000, guid: 821642c9ec9c5474b88bc1b575e70ddf, type: 2}
 --- !u!114 &7393242699462606258
 MonoBehaviour:
@@ -159,36 +166,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8049856286128354886, guid: 20c20b1e4b41b43909a24bd09f7554e7,
-        type: 3}
-      propertyPath: InitialModule.startColor.maxColor.b
-      value: 0.103773594
-      objectReference: {fileID: 0}
-    - target: {fileID: 8049856286128354886, guid: 20c20b1e4b41b43909a24bd09f7554e7,
-        type: 3}
-      propertyPath: InitialModule.startColor.maxColor.g
-      value: 0.103773594
-      objectReference: {fileID: 0}
-    - target: {fileID: 8049856286128354886, guid: 20c20b1e4b41b43909a24bd09f7554e7,
-        type: 3}
-      propertyPath: InitialModule.startColor.maxColor.r
-      value: 0.103773594
-      objectReference: {fileID: 0}
-    - target: {fileID: 8049856286128354886, guid: 20c20b1e4b41b43909a24bd09f7554e7,
-        type: 3}
-      propertyPath: InitialModule.startColor.minColor.b
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8049856286128354886, guid: 20c20b1e4b41b43909a24bd09f7554e7,
-        type: 3}
-      propertyPath: InitialModule.startColor.minColor.g
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8049856286128354886, guid: 20c20b1e4b41b43909a24bd09f7554e7,
-        type: 3}
-      propertyPath: InitialModule.startColor.minColor.r
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8583317467312896586, guid: 20c20b1e4b41b43909a24bd09f7554e7,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -247,6 +224,12 @@ PrefabInstance:
 --- !u!4 &5127120717343839388 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8583317467312896586, guid: 20c20b1e4b41b43909a24bd09f7554e7,
+    type: 3}
+  m_PrefabInstance: {fileID: 3474844743270428374}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &6885992037475440784 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 8049856286128354886, guid: 20c20b1e4b41b43909a24bd09f7554e7,
     type: 3}
   m_PrefabInstance: {fileID: 3474844743270428374}
   m_PrefabAsset: {fileID: 0}

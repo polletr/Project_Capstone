@@ -83,6 +83,8 @@ public class EnemyClass : MonoBehaviour, IStunnable
     public EnemyIdleState IdleState { get; private set; }
     public EnemyPatrolState PatrolState { get; private set; }
     public EnemyOpenDoorState OpenDoorState { get; private set; }
+    public Collider EnemyCollider { get; private set; }
+
 
 
     public EnemyBaseState currentState;
@@ -104,9 +106,14 @@ public class EnemyClass : MonoBehaviour, IStunnable
     [SerializeField] private float attackAntecipationTime = 1;
     [field: SerializeField] public float TeleportCooldown { get; private set; }
     [field: SerializeField] public float MaxChaseTime { get; private set; }
-
+    [field: SerializeField] public float StunTime { get; private set; }
+    [field: SerializeField] public Material BodyMaterial { get; private set; }
+    [field: SerializeField] public Material EyeMaterial { get; private set; }
+    [field: SerializeField] public ParticleSystem SmokeParticle { get; private set; }
     [field: SerializeField] public float DoorAttackCooldown { get; private set; }
     [field: SerializeField] public float DoorAttackDamage { get; private set; }
+    [SerializeField] private float changeTranspDuration;
+    public bool EnemyTeleporting { get; private set; }
 
     public GameEvent Event;
 
@@ -124,9 +131,14 @@ public class EnemyClass : MonoBehaviour, IStunnable
         IdleState = new EnemyIdleState(this, enemyAnimator);
         PatrolState = new EnemyPatrolState(this, enemyAnimator);
         OpenDoorState = new EnemyOpenDoorState(this, enemyAnimator);
-        
+
+        EnemyCollider = GetComponent<Collider>();
         agent = GetComponent<NavMeshAgent>();
         PatrolCenterPos = transform.position;
+
+        BodyMaterial.SetFloat("_Transparency", 0.9f);
+        EyeMaterial.SetFloat("_Transparency", 0.9f);
+
 
         Paralised = false;
 
@@ -201,6 +213,61 @@ public class EnemyClass : MonoBehaviour, IStunnable
         this.gameObject.SetActive(false);
     }
 
+    public IEnumerator EnemyTransparency(float targetTransp)
+    {
+        // Get current transparency (alpha) values from the body and eye materials
+        float bodyCurrentTransparency = BodyMaterial.GetFloat("_Transparency");
+        float eyeCurrentTransparency = EyeMaterial.GetFloat("_Transparency");
+
+        // Store the starting values for interpolation
+        float startBodyTransparency = bodyCurrentTransparency;
+        float startEyeTransparency = eyeCurrentTransparency;
+
+        float elapsedTime = 0f;
+
+        // Gradually change transparency over the duration
+        while (elapsedTime < changeTranspDuration)
+        {
+            // Calculate the new transparency using Lerp
+            float newBodyTransparency = Mathf.Lerp(startBodyTransparency, targetTransp, elapsedTime / changeTranspDuration);
+            float newEyeTransparency = Mathf.Lerp(startEyeTransparency, targetTransp, elapsedTime / changeTranspDuration);
+
+            // Set the new transparency values back to the materials
+            BodyMaterial.SetFloat("_Transparency", newBodyTransparency);
+            EyeMaterial.SetFloat("_Transparency", newEyeTransparency);
+
+            // Increase the elapsed time
+            elapsedTime += Time.deltaTime;
+
+            // Yield until the next frame
+            yield return null;
+        }
+
+        // Ensure the transparency is set to the target value at the end
+        BodyMaterial.SetFloat("_Transparency", targetTransp);
+        EyeMaterial.SetFloat("_Transparency", targetTransp);
+    }
+
+    public IEnumerator TeleportEnemyWithDelay(Vector3 desiredTeleportPosition)
+    {
+        EnemyTeleporting = true;
+        // Play the smoke particle effect
+        //SmokeParticle.Play();
+
+        // Start fading the enemy out to 0 transparency
+        yield return StartCoroutine(EnemyTransparency(0f));
+
+        // Wait for the specified time before teleporting
+        yield return new WaitForSeconds(changeTranspDuration);
+
+        // Teleport the enemy to the desired position
+        transform.position = desiredTeleportPosition;
+
+        // Start fading the enemy back to the desired transparency (e.g., 0.9f)
+        yield return StartCoroutine(EnemyTransparency(0.9f));
+        EnemyTeleporting = false;
+
+    }
 
     #region ChangeState
 
