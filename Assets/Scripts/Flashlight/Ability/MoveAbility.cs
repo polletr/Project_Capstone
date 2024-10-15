@@ -11,7 +11,6 @@ public class MoveAbility : FlashlightAbility
     [SerializeField] private float pushForce = 15f;
     [SerializeField] private float pushCost = 10f;
 
-
     private MoveableObject pickup;
 
     private CountdownTimer timer;
@@ -24,7 +23,7 @@ public class MoveAbility : FlashlightAbility
     public override void Initialize(FlashLight flashlight)
     {
         base.Initialize(flashlight);
-        moveHoldPos = flashlight.MoveHoldPos;
+        //moveHoldPos = flashlight.MoveHoldPos;
     }
 
 

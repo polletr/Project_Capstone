@@ -654,8 +654,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6aa1e108ecabefa4ab6f727f7f92e4e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnMaterial: {fileID: 2100000, guid: 4eb72cd0f39119f4498569a2564eec8f, type: 2}
-  OffMaterial: {fileID: 2100000, guid: ff778cec32baf5644b5bdb50d0dda5eb, type: 2}
+  revealTime: 5
+  unRevealTime: 2
 --- !u!65 &274101163
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -697,7 +697,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ff778cec32baf5644b5bdb50d0dda5eb, type: 2}
+  - {fileID: 2100000, guid: c3148a63354fa442abce19b1a40f9fef, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -736,7 +736,7 @@ Transform:
   m_GameObject: {fileID: 274101161}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2, y: 0, z: 0}
+  m_LocalPosition: {x: 2, y: 0.42, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1578,6 +1578,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2100882181092055175, guid: f8322ff5aa74b5c48be5453fe90845d0,
+        type: 3}
+      propertyPath: revealRange
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 4434527108190119222, guid: f8322ff5aa74b5c48be5453fe90845d0,
         type: 3}
       propertyPath: m_Name
@@ -1632,6 +1637,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8342940260368606643, guid: f8322ff5aa74b5c48be5453fe90845d0,
+        type: 3}
+      propertyPath: <AbilityToPickup>k__BackingField
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

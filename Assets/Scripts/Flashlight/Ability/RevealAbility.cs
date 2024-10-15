@@ -1,13 +1,103 @@
+using System.Collections;
+using UnityEngine;
+
 public class RevealAbility : FlashlightAbility
 {
+    [SerializeField] private float revealRange = 3f;
+    private RevealableObject currentObj;
+    private float originalIntesity;
+    private Color originalColor;
+    private Coroutine visualReveal;
+    private Coroutine revealCoroutine;
+
+    [SerializeField] private float noObjectinViewTime;
+    [SerializeField] private float maxIntensity;
+    [SerializeField] private float timeToMaxIntensity;
+    [SerializeField] Color targetColor;
+
     public override void OnStopAbility()
     {
-      _flashlight.ResetLight();
+        if (visualReveal != null)
+            StopCoroutine(visualReveal);
+
+        if (revealCoroutine != null)
+        {
+            StopCoroutine(revealCoroutine);
+            if (currentObj != null)
+            {
+                if (!currentObj.isRevealed)
+                {
+                    currentObj.UnrevealObj();
+                    currentObj = null;
+                }
+            }
+        }
+
+        _flashlight.ConsumeBattery(Cost);
+
+        _flashlight.ResetLight();
     }
 
     public override void OnUseAbility()
     {
-         OnStopAbility();
+        visualReveal = StartCoroutine(VisualReveal());
+        revealCoroutine = StartCoroutine(UseRevealAbility());
     }
+    private IEnumerator UseRevealAbility()
+    {
+        bool check = false;
+        while (!check)
+        {
+            if (Physics.Raycast(_flashlight.transform.position, _flashlight.transform.forward, out RaycastHit hit, revealRange))
+            {
+
+                if (hit.collider.TryGetComponent(out RevealableObject obj))
+                {
+
+                    if (currentObj == null)
+                    {
+                        currentObj = obj;
+                    }
+                    else if (currentObj != obj)
+                    {
+                        currentObj.UnrevealObj();
+                        currentObj = null;
+                        OnStopAbility();
+                        break;
+                    }
+                    currentObj.RevealObj(out check);
+                    
+                }
+                else
+                {
+                    if (currentObj != null)
+                    {
+                        currentObj.UnrevealObj();
+                        currentObj = null;
+                    }
+                    OnStopAbility();
+                    break;
+                }
+            }
+            yield return null;
+        }
+
+        currentObj = null;
+        OnStopAbility();
+
+    }
+
+    private IEnumerator VisualReveal()
+    {
+        float timer = 0f;
+        while (_flashlight.Light.intensity < maxIntensity)
+        {
+            timer += Time.deltaTime;
+            _flashlight.Light.intensity = Mathf.Lerp(originalIntesity, maxIntensity, timer / timeToMaxIntensity);
+            _flashlight.Light.color = Color.Lerp(originalColor, targetColor, timer / timeToMaxIntensity);
+            yield return null;
+        }
+    }
+
 
 }
