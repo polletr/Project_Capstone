@@ -21,8 +21,8 @@ public class IndicatorHandler : MonoBehaviour
         cam = Camera.main;
         var UI = GetComponentInChildren<UIInteractableIndicator>();
         IndicatorUI = UI ? UI : IndicatorUI;
-        
-        IndicatorUI.SetIndicatorPosition(TargetUIPos? TargetUIPos.position : transform.position);
+
+        IndicatorUI.SetIndicatorPosition(TargetUIPos != null ? TargetUIPos.position : transform.position);
 
         IndicatorUI.SetCircleIndicator(0);
         IndicatorUI.TriggerTextIndicator(false);
