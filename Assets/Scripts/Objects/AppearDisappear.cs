@@ -8,7 +8,8 @@ public class AppearDisappear : MonoBehaviour
     [SerializeField] List<GameObject> disappearObj = new();
     public void Appear()
     {
-        AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.SuddenAppear, this.transform.position);
+        if (!appearObj[0].activeSelf)
+            AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.SuddenAppear, this.transform.position);
 
         foreach (GameObject obj in appearObj)
         {

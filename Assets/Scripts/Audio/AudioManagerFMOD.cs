@@ -64,6 +64,19 @@ public class AudioManagerFMOD : Singleton<AudioManagerFMOD>
         bgMusicInstances.Clear();
     }
 
+    public void PauseAllAudio(bool isPaused)
+    {
+        foreach (var bgMusicInstance in bgMusicInstances.Values)
+        {
+            bgMusicInstance.setPaused(isPaused);
+        }
+        foreach (var eventInstance in eventInstances)
+        {
+            eventInstance.setPaused(isPaused);
+        }
+
+    }
+
 
     private void OnDestroy()
     {
