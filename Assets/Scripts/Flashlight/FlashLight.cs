@@ -228,7 +228,10 @@ public class FlashLight : MonoBehaviour
         if (!IsBatteryDead())
             Drain(cost);
         else
+        {
+            Event.SetTutorialText("Battery is Dead Press Q to recharge");//Ui to change battery
             Debug.Log("Battery is Dead recharge B***H");//Ui to change battery
+        }
     }
 
     public void TurnOnLight()
@@ -342,6 +345,7 @@ public class FlashLight : MonoBehaviour
     private void Recharge()
     {
         BatteryLife = MaxBatteryLife + _extraCharge;
+        Event.SetTutorialTextTimer("Battery Recharged");
     }
 
     private void UpdateExtraCharge(float charge)

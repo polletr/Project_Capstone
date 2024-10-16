@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 [CreateAssetMenu(fileName = "GameEvent", menuName = "GameSO/GameEvent", order = 0)]
@@ -15,7 +14,7 @@ public class GameEvent : ScriptableObject
 
     public UnityAction<Door> OnTryToUnlockDoor;
     public UnityAction<ICollectable> OnInteractItem;
-    
+
     public UnityAction<float> OnBatteryAdded;
     public UnityAction OnFinishRecharge;
 
@@ -23,6 +22,10 @@ public class GameEvent : ScriptableObject
     public UnityAction OnLoadStarterScene;
 
     public UnityAction<Transform> SetNewSpawn;
+
+    public UnityAction<string> SetTutorialText;
+    public UnityAction<string> SetTutorialTextTimer;
+
 }
 
 
