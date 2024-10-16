@@ -61,7 +61,7 @@ public class PlayerInventory : MonoBehaviour
                 abilityPickup.Collect();
                 break;
             case Key key:
-                Debug.Log("PICKED UP ITEM");
+                if(!_openDoorIDs.Contains(key.OpenID))
                 _openDoorIDs.Add(key.OpenID);
                 item.Collect();
                 break;

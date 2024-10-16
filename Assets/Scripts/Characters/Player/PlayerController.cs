@@ -229,7 +229,7 @@ public class PlayerController : MonoBehaviour
 
     public void HandleChangeBattery()
     {
-        if (currentState != RechargeState)
+        if (currentState != RechargeState && HasFlashlight)
         {
             flashlight.ZeroOutBattery();
             ChangeState(RechargeState);
