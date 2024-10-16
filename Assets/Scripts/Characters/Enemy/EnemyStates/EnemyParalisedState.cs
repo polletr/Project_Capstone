@@ -7,15 +7,19 @@ public class EnemyParalisedState : EnemyBaseState
 
     public override void EnterState()
     {
-        Debug.Log("Paralised");
         enemy.agent.ResetPath();
 
         enemy.agent.speed = enemy.ParalisedSpeed;
 
         enemyAnimator.animator.CrossFade(enemyAnimator.IdleHash, enemyAnimator.animationCrossFade);
+
+        enemy.currentAudio = AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.ShadowIdle);
+        enemy.currentAudio.start();
+
     }
     public override void ExitState()
     {
+        enemy.currentAudio.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
 
     }
 

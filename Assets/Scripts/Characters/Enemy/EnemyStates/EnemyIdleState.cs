@@ -23,7 +23,7 @@ public class EnemyIdleState : EnemyBaseState
             enemy.playerCharacter = null;
         }
 
-        enemy.currentAudio = AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.Cry);
+        enemy.currentAudio = AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.ShadowIdle);
         enemy.currentAudio.start();
 
     }
