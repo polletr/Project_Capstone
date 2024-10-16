@@ -227,10 +227,7 @@ public class FlashLight : MonoBehaviour
         if (!IsBatteryDead())
             Drain(cost);
         else
-        {
-            Event.SetTutorialText("Battery is Dead Press Q to recharge");//Ui to change battery
-            Debug.Log("Battery is Dead recharge B***H");//Ui to change battery
-        }
+            Event.SetTutorialText.Invoke("Battery is Dead Press Q to recharge");//Ui to change battery
     }
 
     public void TurnOnLight()
