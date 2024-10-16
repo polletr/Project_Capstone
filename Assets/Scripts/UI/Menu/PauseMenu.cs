@@ -28,8 +28,10 @@ public class PauseMenu : Menu
     public void OnTogglePauseMenu()
     {
         _isPaused = !_isPaused;
-        _currentMenu.gameObject.SetActive(_isPaused); 
-        
+        _currentMenu.gameObject.SetActive(_isPaused);
+
+        AudioManagerFMOD.Instance.PauseAllAudio(_isPaused);
+
 
         //AudioManager.Instance.PlayAudio(pauseClip);
 
