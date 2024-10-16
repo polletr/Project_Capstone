@@ -10,6 +10,7 @@ public class TutorialManager : MonoBehaviour
 
     public GameEvent Event;
     public GlobalEventSO stunTutorial;
+    public GlobalEventSO flashlightOnTutorial;
     private CountdownTimer _countdownTimer;
 
     private void Awake()
@@ -20,14 +21,17 @@ public class TutorialManager : MonoBehaviour
     private void OnEnable()
     {
         stunTutorial.OnTriggerGlobalEvent += StunText;
+        flashlightOnTutorial.OnTriggerGlobalEvent += FlashlightText;
         Event.SetTutorialText += SetText;
         Event.SetTutorialTextTimer += SetTextTimer;
+
 
     }
 
     private void OnDisable()
     {
         stunTutorial.OnTriggerGlobalEvent -= StunText;
+        flashlightOnTutorial.OnTriggerGlobalEvent -= FlashlightText;
         Event.SetTutorialText -= SetText;
         Event.SetTutorialTextTimer -= SetTextTimer;
     }
@@ -55,6 +59,10 @@ public class TutorialManager : MonoBehaviour
     public void StunText()
     {
         SetTextTimer("Left click to stun");
+    }
+    public void FlashlightText()
+    {
+        SetTextTimer("Press F to turn on flashlight");
     }
 
 }
