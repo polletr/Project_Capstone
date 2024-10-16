@@ -23,8 +23,14 @@ public class EnemyIdleState : EnemyBaseState
             enemy.playerCharacter = null;
         }
 
-        enemy.currentAudio = AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.ShadowIdle);
-        enemy.currentAudio.start();
+        PLAYBACK_STATE playbackState;
+        enemy.currentAudio.getPlaybackState(out playbackState);
+
+        if (playbackState == PLAYBACK_STATE.STOPPED)
+        {
+            enemy.currentAudio = AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.ShadowIdle);
+            enemy.currentAudio.start();
+        }
 
     }
     public override void ExitState()
@@ -48,8 +54,6 @@ public class EnemyIdleState : EnemyBaseState
             enemy.ChangeState(enemy.PatrolState);
         }
 
-        PLAYBACK_STATE playbackState;
-        enemy.currentAudio.getPlaybackState(out playbackState);
     }
 
 }
