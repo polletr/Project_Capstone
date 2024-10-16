@@ -46,8 +46,7 @@ public class FlashLight : MonoBehaviour
     private void Awake()
     {
         Light = GetComponent<Light>();
-        Light.enabled = true;
-        isFlashlightOn = true;
+        isFlashlightOn = false;
         Light.range = range;
         Light.intensity = intensity;
         Light.color = lightColor;
