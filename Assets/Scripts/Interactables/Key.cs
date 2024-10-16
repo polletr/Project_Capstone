@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Key : Interactable , ICollectable
 {
-    [field: SerializeField] public Door doorToOpen { get; private set;}
+    [field: SerializeField] public int OpenID { get; private set;}
     
     public void Collect()
     {

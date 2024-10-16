@@ -5,6 +5,7 @@ using UnityEngine.Events;
 
 public class Door : Interactable
 {
+    [field: SerializeField] public int OpenID { get; private set; }
     public bool IsOpen { get; private set; }
     [SerializeField] private bool isLocked;
     [SerializeField] private UnityEvent OnOpen;
@@ -152,7 +153,7 @@ public class Door : Interactable
         OnInteractLocked.Invoke();
     }
 
-    public void UnlockDoor()
+    public void OpenDoor()
     {
         AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.UnlockDoor, transform.position);
         OnUnlock.Invoke();
@@ -209,7 +210,7 @@ public class Door : Interactable
 
     }
 
-    public void LockOrUnlockDoor(bool islockedDoor)
+    public void OnLockOrUnlockDoor(bool islockedDoor)
     {
         isLocked = islockedDoor;
         AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.UnlockDoor, transform.position);
