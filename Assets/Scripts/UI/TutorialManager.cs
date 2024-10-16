@@ -15,7 +15,6 @@ public class TutorialManager : MonoBehaviour
     private void Awake()
     {
         _countdownTimer = new CountdownTimer(_tutorialTime);
-        _countdownTimer = GetComponent<CountdownTimer>();
     }
 
     private void OnEnable()
