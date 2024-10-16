@@ -22,6 +22,8 @@ public class EnemyStunState : EnemyBaseState
         enemy.StartCoroutine(enemy.EnemyTransparency(0f));
         enemy.SmokeParticle.Play();
         enemy.EnemyCollider.enabled = false;
+        enemy.currentAudio.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+
     }
     public override void ExitState()
     {
