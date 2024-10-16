@@ -49,7 +49,7 @@ public class PlayerRechargeState : PlayerBaseState
         while (true)
         {
             yield return new WaitForSeconds(0.1f);
-            player.Event.SetTutorialText(reloadText =
+            player.Event.SetTutorialText?.Invoke(reloadText =
                 (reloadText == "Recharging . . .") ? "Recharging" : (reloadText + " ."));
         }
     }

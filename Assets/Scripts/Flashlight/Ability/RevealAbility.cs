@@ -33,9 +33,9 @@ public class RevealAbility : FlashlightAbility
             }
         }
 
-        _flashlight.ConsumeBattery(Cost);
+        Flashlight.ConsumeBattery(Cost);
 
-        _flashlight.ResetLight();
+        Flashlight.ResetLight();
     }
 
     public override void OnUseAbility()
@@ -48,7 +48,7 @@ public class RevealAbility : FlashlightAbility
         bool check = false;
         while (!check)
         {
-            if (Physics.Raycast(_flashlight.transform.position, _flashlight.transform.forward, out RaycastHit hit, revealRange))
+            if (Physics.Raycast(Flashlight.transform.position, Flashlight.transform.forward, out RaycastHit hit, revealRange))
             {
 
                 if (hit.collider.TryGetComponent(out RevealableObject obj))
@@ -90,11 +90,11 @@ public class RevealAbility : FlashlightAbility
     private IEnumerator VisualReveal()
     {
         float timer = 0f;
-        while (_flashlight.Light.intensity < maxIntensity)
+        while (Flashlight.Light.intensity < maxIntensity)
         {
             timer += Time.deltaTime;
-            _flashlight.Light.intensity = Mathf.Lerp(originalIntesity, maxIntensity, timer / timeToMaxIntensity);
-            _flashlight.Light.color = Color.Lerp(originalColor, targetColor, timer / timeToMaxIntensity);
+            Flashlight.Light.intensity = Mathf.Lerp(originalIntesity, maxIntensity, timer / timeToMaxIntensity);
+            Flashlight.Light.color = Color.Lerp(originalColor, targetColor, timer / timeToMaxIntensity);
             yield return null;
         }
     }

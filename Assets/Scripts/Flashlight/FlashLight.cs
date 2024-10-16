@@ -24,6 +24,9 @@ public class FlashLight : MonoBehaviour
     [field: SerializeField] public float BatteryLife { get; private set; }
 
     [SerializeField] private List<FlashlightAbility> flashlightAbilities;
+    
+    
+    [field: SerializeField] public Transform MoveHoldPos { get; private set; }
 
     public float MaxBatteryLife { get; private set; } = 100;
 
@@ -345,7 +348,7 @@ public class FlashLight : MonoBehaviour
     private void Recharge()
     {
         BatteryLife = MaxBatteryLife + _extraCharge;
-        Event.SetTutorialTextTimer("Battery Recharged");
+        Event.SetTutorialTextTimer?.Invoke("Battery Recharged");
     }
 
     private void UpdateExtraCharge(float charge)

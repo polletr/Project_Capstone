@@ -1,352 +1,100 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 public class InputManager : MonoBehaviour
 {
-    PlayerInput _action;
-    PlayerController _player;
-    CameraController _cameraController;
+    private PlayerInput action;
+    private PlayerController player;
+    private CameraController cameraController;
 
-    Vector2 _movement;
-    public Vector2 Movement
+    public Vector2 Movement { get; private set; }
+
+    public Vector2 LookAround { get; private set; }
+
+    public InputDevice Device { get; private set; }
+
+    [SerializeField] private PauseMenu pauseMenu;
+
+    private void Awake()
     {
-        get
-        {
-            return _movement;
-        }
-        private set
-        {
-            _movement = value;
-        }
+        player = GetComponent<PlayerController>();
+        cameraController = GetComponentInChildren<CameraController>();
+        action = new PlayerInput();
     }
 
-    Vector2 _lookAround;
-    public Vector2 LookAround
-    {
-        get
-        {
-            return _lookAround;
-        }
-        private set
-        {
-            _lookAround = value;
-        }
-    }
-
-    InputDevice _device;
-    public InputDevice Device
-    {
-        get
-        {
-            return _device;
-        }
-        private set
-        {
-            _device = value;
-        }
-    }
-
-    [SerializeField] private PauseMenu PauseMenu;
-
-    void Awake()
-    {
-        _player = GetComponent<PlayerController>();
-        _cameraController = GetComponentInChildren<CameraController>();
-        _action = new PlayerInput();
-    }
-
-    private void OnEnable()  => EnableInput();
+    private void OnEnable() => EnableInput();
 
     private void OnDisable() => DisableInput();
 
-    public void EnableInput()
+    private void EnableInput()
     {
-        _action.Player.Move.performed += (val) => Movement = val.ReadValue<Vector2>();
+        action.Player.Move.performed += (val) => Movement = val.ReadValue<Vector2>();
 
-        _action.Player.PointerMove.performed += OnPointerMove;
+        action.Player.PointerMove.performed += OnPointerMove;
 
-        _action.Player.Attack.performed += (val) => _player.currentState?.HandleAttack(true);
-        _action.Player.Attack.canceled += (val) => _player.currentState?.HandleAttack(false);
+        action.Player.Attack.performed += (val) => player.currentState?.HandleAttack(true);
+        action.Player.Attack.canceled += (val) => player.currentState?.HandleAttack(false);
 
-        _action.Player.Crouch.performed += (val) => _player.currentState?.HandleCrouch(true);
-        _action.Player.Crouch.canceled += (val) => _player.currentState?.HandleCrouch(false);
+        action.Player.Crouch.performed += (val) => player.currentState?.HandleCrouch(true);
+        action.Player.Crouch.canceled += (val) => player.currentState?.HandleCrouch(false);
 
-        _action.Player.Run.performed += (val) => _player.currentState?.HandleRun(true);
-        _action.Player.Run.canceled += (val) => _player.currentState?.HandleRun(false);
+        action.Player.Run.performed += (val) => player.currentState?.HandleRun(true);
+        action.Player.Run.canceled += (val) => player.currentState?.HandleRun(false);
 
-        _action.Player.Interact.performed += (val) => _player.currentState?.HandleInteract();
+        action.Player.Interact.performed += (val) => player.currentState?.HandleInteract();
 
-        _action.Player.Flashlight.performed += (val) => _player.currentState?.HandleFlashlightPower();
+        action.Player.Flashlight.performed += (val) => player.currentState?.HandleFlashlightPower();
 
-        _action.Player.ChangeItem.performed += (val) => HandleScrollAbility(val.ReadValue<Vector2>());
+        action.Player.ChangeItem.performed += (val) => HandleScrollAbility(val.ReadValue<Vector2>());
 
-        _action.Player.ChangeBattery.performed += (val) => _player.HandleChangeBattery();
+        action.Player.ChangeBattery.performed += (val) => player.HandleChangeBattery();
+        if (pauseMenu != null)
+            action.Menu.Pause.performed += (val) => pauseMenu.OnTogglePauseMenu();
 
-        _action.Menu.Pause.performed += (val) => PauseMenu.OnTogglePauseMenu();
-
-        _action.Enable();
+        action.Enable();
     }
-    public void DisableInput()
+
+    private void DisableInput()
     {
-        _action.Player.Move.performed -= (val) => Movement = val.ReadValue<Vector2>();
+        action.Player.Move.performed -= (val) => Movement = val.ReadValue<Vector2>();
 
-        _action.Player.PointerMove.performed -= OnPointerMove;
+        action.Player.PointerMove.performed -= OnPointerMove;
 
-        _action.Player.Attack.performed -= (val) => _player.currentState?.HandleAttack(true);
-        _action.Player.Attack.canceled -= (val) => _player.currentState?.HandleAttack(false);
+        action.Player.Attack.performed -= (val) => player.currentState?.HandleAttack(true);
+        action.Player.Attack.canceled -= (val) => player.currentState?.HandleAttack(false);
 
-        _action.Player.Crouch.performed -= (val) => _player.currentState?.HandleCrouch(true);
-        _action.Player.Crouch.canceled -= (val) => _player.currentState?.HandleCrouch(false);
+        action.Player.Crouch.performed -= (val) => player.currentState?.HandleCrouch(true);
+        action.Player.Crouch.canceled -= (val) => player.currentState?.HandleCrouch(false);
 
-        _action.Player.Run.performed -= (val) => _player.currentState?.HandleRun(true);
-        _action.Player.Run.canceled -= (val) => _player.currentState?.HandleRun(false);
+        action.Player.Run.performed -= (val) => player.currentState?.HandleRun(true);
+        action.Player.Run.canceled -= (val) => player.currentState?.HandleRun(false);
 
-        _action.Player.Interact.performed -= (val) => _player.currentState?.HandleInteract();
+        action.Player.Interact.performed -= (val) => player.currentState?.HandleInteract();
 
-        _action.Player.Flashlight.performed -= (val) => _player.currentState?.HandleFlashlightPower();
+        action.Player.Flashlight.performed -= (val) => player.currentState?.HandleFlashlightPower();
 
-        _action.Player.ChangeItem.performed -= (val) => HandleScrollAbility(val.ReadValue<Vector2>());
+        action.Player.ChangeItem.performed -= (val) => HandleScrollAbility(val.ReadValue<Vector2>());
 
-        _action.Player.ChangeBattery.performed -= (val) => _player.HandleChangeBattery();
+        action.Player.ChangeBattery.performed -= (val) => player.HandleChangeBattery();
+        if (pauseMenu != null)
+        action.Menu.Pause.performed -= (val) => pauseMenu.OnTogglePauseMenu();
 
-        _action.Menu.Pause.performed -= (val) => PauseMenu.OnTogglePauseMenu();
-
-        _action.Disable();
+        action.Disable();
     }
 
     private void HandleScrollAbility(Vector2 scrollValue)
     {
         if (scrollValue.y > 0 || scrollValue.x > 0)
-            _player.currentState?.HandleChangeAbility(1);
+            player.currentState?.HandleChangeAbility(1);
         else if (scrollValue.y < 0 || scrollValue.x < 0)
-            _player.currentState?.HandleChangeAbility(-1);
+            player.currentState?.HandleChangeAbility(-1);
     }
 
     private void OnPointerMove(InputAction.CallbackContext context)
     {
         Vector2 input = context.ReadValue<Vector2>();
-        _device = context.control.device;
-        _lookAround = input;
+        Device = context.control.device;
+        LookAround = input;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

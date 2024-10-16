@@ -10,7 +10,7 @@ public class MoveAbility : FlashlightAbility
     [SerializeField] private float maxHoldTime = 15f;
     [SerializeField] private float pushForce = 15f;
     [SerializeField] private float pushCost = 10f;
-
+    
     private MoveableObject pickup;
 
     private CountdownTimer timer;
@@ -23,13 +23,13 @@ public class MoveAbility : FlashlightAbility
     public override void Initialize(FlashLight flashlight)
     {
         base.Initialize(flashlight);
-        //moveHoldPos = flashlight.MoveHoldPos;
+        moveHoldPos = flashlight.MoveHoldPos;
     }
 
 
     private void Pickup()
     {
-        if (Physics.Raycast(_flashlight.transform.position, _flashlight.transform.forward, out RaycastHit hit, pickupRange) && hit.collider.TryGetComponent(out MoveableObject obj))
+        if (Physics.Raycast(Flashlight.transform.position, Flashlight.transform.forward, out RaycastHit hit, pickupRange) && hit.collider.TryGetComponent(out MoveableObject obj))
         {
             pickup = obj;
 
@@ -42,11 +42,11 @@ public class MoveAbility : FlashlightAbility
 
             timer.Start();
 
-            _flashlight.ConsumeBattery(Cost);
+            Flashlight.ConsumeBattery(Cost);
         }
         else
         {
-            _flashlight.ResetLight();
+            Flashlight.ResetLight();
             Debug.Log("No valid object to pick up.");
         }
     }
@@ -97,11 +97,11 @@ public class MoveAbility : FlashlightAbility
             pickup.Rb.drag = pickup.DefaultDrag;
             pickup.Rb.constraints = pickup.DefaultConstraints;
 
-            Vector3 direction =  pickup.transform.position - _flashlight.Player.transform.position;
+            Vector3 direction =  pickup.transform.position - Flashlight.Player.transform.position;
 
             pickup.Rb.AddForce(direction.normalized * pushForce);
 
-            _flashlight.ConsumeBattery(pushCost);
+            Flashlight.ConsumeBattery(pushCost);
 
             pickup = null;
         }
@@ -124,7 +124,7 @@ public class MoveAbility : FlashlightAbility
     {
         Drop();
 
-        _flashlight.ResetLight();
+        Flashlight.ResetLight();
     }
 
 }

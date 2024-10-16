@@ -22,11 +22,11 @@ public class StunAbility : FlashlightAbility
         timer = new CountdownTimer(cooldown);
         timer.Start();
 
-        _flashlight.Light.intensity = lightIntensity;
-        _flashlight.Light.color = flashColor;
+        Flashlight.Light.intensity = lightIntensity;
+        Flashlight.Light.color = flashColor;
 
-        Ray ray = new Ray(transform.position, transform.forward * _flashlight.Light.range);
-        RaycastHit[] hits = Physics.SphereCastAll(ray, effectRadius, _flashlight.Light.range);
+        Ray ray = new Ray(transform.position, transform.forward * Flashlight.Light.range);
+        RaycastHit[] hits = Physics.SphereCastAll(ray, effectRadius, Flashlight.Light.range);
         foreach (RaycastHit hit in hits)
         {
             var obj = hit.collider.gameObject;
@@ -34,7 +34,7 @@ public class StunAbility : FlashlightAbility
             if (obj.TryGetComponent(out IStunnable thing))
                 thing.ApplyStunEffect();
         }
-        _flashlight.ConsumeBattery(Cost);
+        Flashlight.ConsumeBattery(Cost);
 
         StartCoroutine(RestoreLightOverTime());
 
@@ -51,10 +51,10 @@ public class StunAbility : FlashlightAbility
         {
             timer.Tick(Time.deltaTime);
             // Gradually decrease intensity
-            _flashlight.Light.intensity = Mathf.Lerp(_flashlight.Light.intensity, cooldownIntensity, decreaseRate * Time.deltaTime);
+            Flashlight.Light.intensity = Mathf.Lerp(Flashlight.Light.intensity, cooldownIntensity, decreaseRate * Time.deltaTime);
 
             // Gradually return color
-            _flashlight.Light.color = Color.Lerp(_flashlight.Light.color, cooldownColor, decreaseRate * Time.deltaTime);
+            Flashlight.Light.color = Color.Lerp(Flashlight.Light.color, cooldownColor, decreaseRate * Time.deltaTime);
 
             // Wait for the next frame
             yield return null;
@@ -63,7 +63,7 @@ public class StunAbility : FlashlightAbility
         // Reset the flashlight when the timer finishes
         if (timer != null && timer.IsFinished)
         {
-            _flashlight.ResetLight();
+            Flashlight.ResetLight();
             timer = null;
         }
     }
