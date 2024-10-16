@@ -210,6 +210,7 @@ public class EnemyClass : MonoBehaviour, IStunnable
         {
             playerCharacter.RemoveEnemyFromChaseList(this);
         }
+        currentAudio.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
         this.gameObject.SetActive(false);
     }
 
