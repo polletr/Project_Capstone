@@ -4,20 +4,22 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
+
 public class FlashLight : MonoBehaviour
 {
     public GameEvent Event;
 
-    [Header("Base Flashlight Settings")]
-    [SerializeField] private float range;
+    [Header("Base Flashlight Settings")] [SerializeField]
+    private float range;
+
     [SerializeField] private Color lightColor;
     [SerializeField] private float intensity;
 
     [SerializeField] private float baseCost;
     [SerializeField] private float minBatteryAfterUse;
 
-    [SerializeField] private float minFlickerTime = 0.1f;  // Minimum time between flickers
-    [SerializeField] private float maxFlickerTime = 0.5f;  // Maximum time between flickers
+    [SerializeField] private float minFlickerTime = 0.1f; // Minimum time between flickers
+    [SerializeField] private float maxFlickerTime = 0.5f; // Maximum time between flickers
 
     [field: SerializeField] public float BatteryLife { get; private set; }
 
@@ -66,7 +68,6 @@ public class FlashLight : MonoBehaviour
                     ability.Initialize(this);
             }
         }
-
     }
 
     private void OnEnable()
@@ -93,16 +94,17 @@ public class FlashLight : MonoBehaviour
             if (CurrentAbility != null)
                 CurrentAbility.OnStopAbility();
 
-            Event.SetTutorialText?.Invoke("Battery is Dead Press Q to recharge");//Ui to change battery
-            // Turn off the flashlight
             if (isFlashlightOn && !isFlickering)
+            {
+                Event.SetTutorialText?.Invoke("Battery is Dead Press Q to recharge"); //Ui to change battery
+                // Turn off the flashlight
                 StartCoroutine(Flicker(3f, () => TurnOffLight()));
+            }
         }
     }
 
     private void CollectAbility(FlashlightAbility ability)
     {
-
         // check if its in flashlightAbilities
         // add and enable it
         if (!flashlightAbilities.Contains(ability))
@@ -160,8 +162,8 @@ public class FlashLight : MonoBehaviour
                 effectedObjs.Remove(effectedObjs[i]);
             }
         }
-
     }
+
     private void OnDrawGizmos()
     {
         if (!Application.isPlaying) return;
@@ -190,7 +192,6 @@ public class FlashLight : MonoBehaviour
     {
         if (this.gameObject.activeSelf)
             StartCoroutine(Flicker(1f, () => ResetLightState()));
-
     }
 
     public void HandleFlashAblility()
@@ -219,7 +220,6 @@ public class FlashLight : MonoBehaviour
 
     public void TurnOffLight()
     {
-
         Light.enabled = false;
         isFlashlightOn = false;
     }
@@ -229,7 +229,7 @@ public class FlashLight : MonoBehaviour
         if (!IsBatteryDead())
             Drain(cost);
         else
-            Event.SetTutorialText?.Invoke("Battery is Dead Press Q to recharge");//Ui to change battery
+            Event.SetTutorialText?.Invoke("Battery is Dead Press Q to recharge"); //Ui to change battery
     }
 
     public void TurnOnLight()
@@ -295,6 +295,7 @@ public class FlashLight : MonoBehaviour
                     revealObj.ApplyEffect();
                     effectedObjs.Add(revealObj);
                 }
+
                 break;
             case StunAbility stunAbility:
                 if (obj.TryGetComponent(out IStunnable stunObj))
@@ -302,8 +303,8 @@ public class FlashLight : MonoBehaviour
                     stunObj.ApplyEffect();
                     effectedObjs.Add(stunObj);
                 }
-                break;
 
+                break;
         }
     }
 
@@ -340,6 +341,7 @@ public class FlashLight : MonoBehaviour
     {
         BatteryLife -= cost;
     }
+
     private void Recharge()
     {
         BatteryLife = MaxBatteryLife + _extraCharge;
@@ -355,5 +357,4 @@ public class FlashLight : MonoBehaviour
     {
         BatteryLife = 0;
     }
-
 }

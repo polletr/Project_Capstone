@@ -56,7 +56,6 @@ public class TutorialManager : MonoBehaviour
 
     public void SetText(string text)
     {
-        Debug.Log("Setting text to regrarge");
         _tutorialtext.text = text;
     }
 

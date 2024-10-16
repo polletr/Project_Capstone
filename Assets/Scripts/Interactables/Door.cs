@@ -50,6 +50,8 @@ public class Door : Interactable
 
     private void Update()
     {
+        if (playerCamera == null) return;
+        
         var distanceToPlayer = Vector3.Distance(playerCamera.transform.position, transform.position);
         if (distanceToPlayer < distanceToCheckUIPos)
         {

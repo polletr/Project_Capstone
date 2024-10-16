@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Utilities;
@@ -7,23 +8,23 @@ public class PlayerRechargeState : PlayerBaseState
     public PlayerRechargeState
         (PlayerController playerController) : base(playerController) { }
     
-    CountdownTimer timer;
-
+    private CountdownTimer timer;
+    private string reloadText = "Recharging";
+    
     public override void EnterState()
     {
         // playerAnimator.animator.Play(playerAnimator.DieHash);
-
+        player.ReloadAnimation = player.StartCoroutine(ReloadAnimation());
+        
         timer = new CountdownTimer(player.Settings.FlashlightReloadTime);
         timer.Start();
-        
-        Debug.Log("Recharging");
-        
+  
     }
     public override void ExitState()
     {
+        player.StopCoroutine(player.ReloadAnimation);
         // player.PlayerCam.transform.parent = player.CameraHolder;
         player.Event.OnFinishRecharge?.Invoke();
-
     }
 
     public override void StateFixedUpdate()
@@ -38,6 +39,18 @@ public class PlayerRechargeState : PlayerBaseState
         {
             //animation stuff here
             player.ChangeState(player.MoveState);
+        }
+
+       
+    }
+    
+    private IEnumerator ReloadAnimation()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(0.1f);
+            player.Event.SetTutorialText(reloadText =
+                (reloadText == "Recharging . . .") ? "Recharging" : (reloadText + " ."));
         }
     }
 

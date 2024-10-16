@@ -24,6 +24,8 @@ public class PlayerController : MonoBehaviour
     public FlashLight flashlight { get; set; }
     public Interactable interactableObj { get; set; }
     public Transform CheckPoint { get; private set; }
+    
+    public Coroutine ReloadAnimation { get; set; }
 
     public float xRotation { get; set; }
     public float yRotation { get; set; }
