@@ -46,6 +46,7 @@ public class InputManager : MonoBehaviour
         }
     }
 
+    [SerializeField] private PauseMenu PauseMenu;
 
     void Awake()
     {
@@ -81,6 +82,8 @@ public class InputManager : MonoBehaviour
 
         _action.Player.ChangeBattery.performed += (val) => _player.HandleChangeBattery();
 
+        _action.Menu.Pause.performed += (val) => PauseMenu.OnTogglePauseMenu();
+
         _action.Enable();
     }
     public void DisableInput()
@@ -106,6 +109,8 @@ public class InputManager : MonoBehaviour
 
         _action.Player.ChangeBattery.performed -= (val) => _player.HandleChangeBattery();
 
+        _action.Menu.Pause.performed -= (val) => PauseMenu.OnTogglePauseMenu();
+
         _action.Disable();
     }
 
@@ -123,7 +128,6 @@ public class InputManager : MonoBehaviour
         _device = context.control.device;
         _lookAround = input;
     }
-
 }
 
 

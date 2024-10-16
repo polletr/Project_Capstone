@@ -15,7 +15,7 @@ public class PauseMenu : Menu
     private void Awake()
     {
         _isPaused = false;
-       _startActive = false;
+        _currentMenu.gameObject.SetActive(_isPaused);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
@@ -56,6 +56,8 @@ public class PauseMenu : Menu
     public void OnLoadMainMenu()
     {
         Time.timeScale = 1f;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
         SceneManager.LoadScene(0);
     }
 }

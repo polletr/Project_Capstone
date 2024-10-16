@@ -35,10 +35,13 @@ public class Door : Interactable
 
     private bool rotating;
 
+    private IndicatorHandler _indicatorHandler;
+
     private void Start()
     {
         shakeEffect = GetComponent<ShakeEffect>();
         // Save the door's closed rotation
+        _indicatorHandler = GetComponent<IndicatorHandler>();
         doorObstacle = GetComponent<NavMeshObstacle>();
         closedRotation = transform.localRotation;
         playerCamera = Camera.main.gameObject;
@@ -151,6 +154,8 @@ public class Door : Interactable
         AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.EasyLockedDoor, transform.position);
         shakeEffect.ShakeObject();
         OnInteractLocked.Invoke();
+        _indicatorHandler.IndicatorUI.SetIndicatorSprite(true);
+
     }
 
     public void OpenDoor()
@@ -213,6 +218,7 @@ public class Door : Interactable
     public void OnLockOrUnlockDoor(bool islockedDoor)
     {
         isLocked = islockedDoor;
+        _indicatorHandler.IndicatorUI.SetIndicatorSprite(islockedDoor);
         AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.UnlockDoor, transform.position);
     }
 
