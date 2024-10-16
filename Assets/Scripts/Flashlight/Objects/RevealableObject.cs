@@ -33,6 +33,12 @@ public class RevealableObject : MonoBehaviour  , IRevealable
 
     }
 
+    public void SuddenReveal()
+    {
+        gameObject.SetActive(true);
+        AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.SuddenAppear, this.transform.position);
+    }
+
     public void RevealObj(out bool revealed)
     {
         StopAllCoroutines();

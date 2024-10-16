@@ -39,6 +39,7 @@ public class SFXEvents : ScriptableObject
     [field: SerializeField] public EventReference Chase { get; private set; }
     [field: SerializeField] public EventReference Attack { get; private set; }
 
-
+    [field: Header("Objects")]
+    [field: SerializeField] public EventReference SuddenAppear { get; private set; }
 
 }
