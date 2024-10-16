@@ -30,7 +30,6 @@ public class EnemyIdleState : EnemyBaseState
     public override void ExitState()
     {
         enemy.Event.OnSoundEmitted -= OnSoundDetected;
-        enemy.currentAudio.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
     }
 
     public override void StateFixedUpdate()

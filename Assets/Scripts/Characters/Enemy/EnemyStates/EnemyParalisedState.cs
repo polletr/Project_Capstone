@@ -13,13 +13,9 @@ public class EnemyParalisedState : EnemyBaseState
 
         enemyAnimator.animator.CrossFade(enemyAnimator.IdleHash, enemyAnimator.animationCrossFade);
 
-        enemy.currentAudio = AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.ShadowIdle);
-        enemy.currentAudio.start();
-
     }
     public override void ExitState()
     {
-        enemy.currentAudio.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
 
     }
 

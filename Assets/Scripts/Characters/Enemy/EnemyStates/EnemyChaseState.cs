@@ -24,8 +24,6 @@ public class EnemyChaseState : EnemyBaseState
         timeInChaseState = 0f;
         teleportTimer = 0;
 
-        enemy.currentAudio = AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.ShadowIdle);
-        enemy.currentAudio.start();
 
     }
 
@@ -35,7 +33,6 @@ public class EnemyChaseState : EnemyBaseState
         teleportTimer = 0;
         enemy.BodyMaterial.SetFloat("_Transparency", 0.9f);
         enemy.EyeMaterial.SetFloat("_Transparency", 0.9f);
-        enemy.currentAudio.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
 
     }
     public override void StateFixedUpdate()
