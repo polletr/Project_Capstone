@@ -42,6 +42,9 @@ public class TutorialManager : MonoBehaviour
         if (_countdownTimer.IsFinished)
         {
             _tutorialtext.text = "";
+            _countdownTimer.Stop();
+            _countdownTimer.Reset();
+
         }
     }
     public void SetTextTimer(string text)
@@ -53,6 +56,7 @@ public class TutorialManager : MonoBehaviour
 
     public void SetText(string text)
     {
+        Debug.Log("Setting text to regrarge");
         _tutorialtext.text = text;
     }
 

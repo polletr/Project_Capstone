@@ -92,6 +92,8 @@ public class FlashLight : MonoBehaviour
         {
             if (CurrentAbility != null)
                 CurrentAbility.OnStopAbility();
+
+            Event.SetTutorialText?.Invoke("Battery is Dead Press Q to recharge");//Ui to change battery
             // Turn off the flashlight
             if (isFlashlightOn && !isFlickering)
                 StartCoroutine(Flicker(3f, () => TurnOffLight()));
@@ -227,7 +229,7 @@ public class FlashLight : MonoBehaviour
         if (!IsBatteryDead())
             Drain(cost);
         else
-            Event.SetTutorialText.Invoke("Battery is Dead Press Q to recharge");//Ui to change battery
+            Event.SetTutorialText?.Invoke("Battery is Dead Press Q to recharge");//Ui to change battery
     }
 
     public void TurnOnLight()
