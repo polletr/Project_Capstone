@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -14,6 +15,14 @@ public class RevealAbility : FlashlightAbility
     [SerializeField] private float maxIntensity;
     [SerializeField] private float timeToMaxIntensity;
     [SerializeField] Color targetColor;
+    
+    private MoveableObject moveableObject;
+
+    private void Awake()
+    {
+        if(TryGetComponent( out moveableObject))
+            moveableObject.enabled = false;
+    }
 
     public override void OnStopAbility()
     {

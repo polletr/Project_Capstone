@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using System.Collections;
 
@@ -24,7 +25,10 @@ public class MoveableObject : MonoBehaviour, IMovable
         DefaultConstraints = Rb.constraints;
     }
 
-
+    private void Start()
+    {
+        Debug.Log("MoveableObject is ready to be picked up.");
+    }
 
     public void ApplyEffect()
     {

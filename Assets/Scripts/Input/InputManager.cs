@@ -46,8 +46,6 @@ public class InputManager : MonoBehaviour
 
         action.Player.Flashlight.performed += (val) => player.currentState?.HandleFlashlightPower();
 
-        action.Player.ChangeItem.performed += (val) => HandleScrollAbility(val.ReadValue<Vector2>());
-
         action.Player.ChangeBattery.performed += (val) => player.HandleChangeBattery();
         if (pauseMenu != null)
             action.Menu.Pause.performed += (val) => pauseMenu.OnTogglePauseMenu();
@@ -74,21 +72,11 @@ public class InputManager : MonoBehaviour
 
         action.Player.Flashlight.performed -= (val) => player.currentState?.HandleFlashlightPower();
 
-        action.Player.ChangeItem.performed -= (val) => HandleScrollAbility(val.ReadValue<Vector2>());
-
         action.Player.ChangeBattery.performed -= (val) => player.HandleChangeBattery();
         if (pauseMenu != null)
         action.Menu.Pause.performed -= (val) => pauseMenu.OnTogglePauseMenu();
 
         action.Disable();
-    }
-
-    private void HandleScrollAbility(Vector2 scrollValue)
-    {
-        if (scrollValue.y > 0 || scrollValue.x > 0)
-            player.currentState?.HandleChangeAbility(1);
-        else if (scrollValue.y < 0 || scrollValue.x < 0)
-            player.currentState?.HandleChangeAbility(-1);
     }
 
     private void OnPointerMove(InputAction.CallbackContext context)

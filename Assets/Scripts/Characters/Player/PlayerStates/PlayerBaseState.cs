@@ -78,9 +78,7 @@ public abstract class PlayerBaseState
     {
 
     }
-
-    public virtual void HandleChangeAbility(int direction) { }
-
+    
     public virtual void HandleRun(bool check)
     {
         if (!isCrouching)

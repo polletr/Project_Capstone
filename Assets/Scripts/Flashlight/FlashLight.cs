@@ -24,8 +24,8 @@ public class FlashLight : MonoBehaviour
     [field: SerializeField] public float BatteryLife { get; private set; }
 
     [SerializeField] private List<FlashlightAbility> flashlightAbilities;
-    
-    
+
+
     [field: SerializeField] public Transform MoveHoldPos { get; private set; }
 
     public float MaxBatteryLife { get; private set; } = 100;
@@ -60,16 +60,13 @@ public class FlashLight : MonoBehaviour
 
         Player = GetComponentInParent<PlayerController>();
 
+        MoveHoldPos = MoveHoldPos == null ? transform : MoveHoldPos;
 
-        if (flashlightAbilities.Count > 0)
+        if (flashlightAbilities.Count <= 0) return;
+
+        foreach (var ability in flashlightAbilities.Where(ability => ability != null))
         {
-            CurrentAbility = flashlightAbilities[0];
-
-            foreach (FlashlightAbility ability in flashlightAbilities)
-            {
-                if (ability != null)
-                    ability.Initialize(this);
-            }
+            ability.Initialize(this);
         }
     }
 
@@ -110,29 +107,19 @@ public class FlashLight : MonoBehaviour
     {
         // check if its in flashlightAbilities
         // add and enable it
-        if (!flashlightAbilities.Contains(ability))
-        {
-            ability.Initialize(this);
-            ability.gameObject.transform.parent = transform;
-            flashlightAbilities.Add(ability);
+        if (flashlightAbilities.Contains(ability)) return;
 
-            if (flashlightAbilities.Count == 1)
-                CurrentAbility = ability;
-        }
+        ability.Initialize(this);
+        ability.gameObject.transform.parent = transform;
+        flashlightAbilities.Add(ability);
     }
 
     private void RemoveAbility(FlashlightAbility ability)
     {
-        if (flashlightAbilities.Contains(ability))
-        {
-            if (flashlightAbilities.Count <= 0)
-                CurrentAbility = null;
-            else
-                CurrentAbility = flashlightAbilities[0];
+        if (!flashlightAbilities.Contains(ability)) return;
 
-            flashlightAbilities.Remove(ability);
-            Destroy(ability.gameObject); // Destroy the ability
-        }
+        flashlightAbilities.Remove(ability);
+        Destroy(ability.gameObject); // Destroy the ability
     }
 
     public void HandleSphereCast()
@@ -199,6 +186,11 @@ public class FlashLight : MonoBehaviour
 
     public void HandleFlashAblility()
     {
+        
+        
+        
+        
+        
         if (CurrentAbility != null && isFlashlightOn && (BatteryLife - CurrentAbility.Cost) >= minBatteryAfterUse)
             CurrentAbility.OnUseAbility();
         else
@@ -259,22 +251,6 @@ public class FlashLight : MonoBehaviour
             TurnOffLight();
     }
 
-
-    public void ChangeSelectedAbility(int direction) // swap between abilities with mouse wheel
-    {
-        if (flashlightAbilities.Count() > 1)
-        {
-            int currentIndex = flashlightAbilities.IndexOf(CurrentAbility);
-
-            currentIndex += direction;
-            if (currentIndex >= flashlightAbilities.Count)
-                currentIndex = 0;
-            else if (currentIndex < 0)
-                currentIndex = flashlightAbilities.Count - 1;
-
-            CurrentAbility = flashlightAbilities[currentIndex];
-        }
-    }
 
     private void ApplyCurrentAbilityEffect(GameObject obj)
     {
