@@ -72,12 +72,6 @@ public abstract class PlayerBaseState
             player.ChangeState(player.AttackState);
     }
 
-    public virtual void HandlePushObj() 
-    {
-        if (player.flashlight.CurrentAbility is MoveAbility)
-            player.flashlight.HandlePush();
-    }
-
     public virtual void HandleMove() { }
 
     public virtual void HandleInteract()

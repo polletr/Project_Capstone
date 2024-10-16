@@ -10,7 +10,7 @@ public class PlayerInventory : MonoBehaviour
     private int numAbilityCollectedperCheckpoint;
     private float numBatteryCollectedperCheckpoint;
 
-    private Dictionary<Door, ICollectable> keys = new();
+    private List<int> _openDoorIDs = new();
 
     public GameEvent Event;
 
@@ -35,10 +35,10 @@ public class PlayerInventory : MonoBehaviour
 
     private void TryToOpenDoor(Door door)
     {
-        if (HasKey(door))
+        if (_openDoorIDs.Contains(door.OpenID))
         {
-            door.UnlockDoor();
-            keys.Remove(door);
+            door.OpenDoor();
+            _openDoorIDs.Remove(door.OpenID);
         }
         else
         {
@@ -62,7 +62,7 @@ public class PlayerInventory : MonoBehaviour
                 break;
             case Key key:
                 Debug.Log("PICKED UP ITEM");
-                keys.Add(key.doorToOpen, key);
+                _openDoorIDs.Add(key.OpenID);
                 item.Collect();
                 break;
             case FlashlightPickup flashlightPickup:
@@ -94,12 +94,12 @@ public class PlayerInventory : MonoBehaviour
 
     public void RemoveAllKeys(LevelData data)
     {
-        keys.Clear();
+        _openDoorIDs.Clear();
     }
 
-    public bool HasKey(Door item) // musse wtf change this later
+    public bool HasKey(Door item)
     {
-        return keys.ContainsKey(item);
+        return _openDoorIDs.Contains(item.OpenID);
     }
 
     private void PlayerDiedRemoveAbility()

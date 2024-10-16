@@ -25,7 +25,7 @@ public class FlashLight : MonoBehaviour
 
     public float MaxBatteryLife { get; private set; } = 100;
 
-    public PlayerController Player { get; private set;}
+    public PlayerController Player { get; private set; }
 
     public FlashlightAbility CurrentAbility { get; private set; }
 
@@ -127,12 +127,6 @@ public class FlashLight : MonoBehaviour
             flashlightAbilities.Remove(ability);
             Destroy(ability.gameObject); // Destroy the ability
         }
-    }
-
-    public void HandlePush()
-    {
-        var moveAbility = CurrentAbility as MoveAbility;
-        moveAbility?.OnPushObj();
     }
 
     public void HandleSphereCast()
@@ -256,39 +250,26 @@ public class FlashLight : MonoBehaviour
 
         isFlashlightOn = !isFlashlightOn;
         if (isFlashlightOn)
-        {
             TurnOnLight();
-        }
         else
-        {
             TurnOffLight();
-        }
     }
 
 
-    public void ChangeSelectedAbility(int direction) // Fixed typo in method name
+    public void ChangeSelectedAbility(int direction) // swap between abilities with mouse wheel
     {
         if (flashlightAbilities.Count() > 1)
         {
             int currentIndex = flashlightAbilities.IndexOf(CurrentAbility);
 
-            // Update index based on direction (circular switching)
             currentIndex += direction;
-
-            // Circular switching
             if (currentIndex >= flashlightAbilities.Count)
-            {
                 currentIndex = 0;
-            }
             else if (currentIndex < 0)
-            {
                 currentIndex = flashlightAbilities.Count - 1;
-            }
 
-            // Update currentAbility to the new selected ability
             CurrentAbility = flashlightAbilities[currentIndex];
         }
-
     }
 
     private void ApplyCurrentAbilityEffect(GameObject obj)
@@ -299,15 +280,14 @@ public class FlashLight : MonoBehaviour
             effectedObjs.Add(enemy);
         }
 
+        if (obj.TryGetComponent(out IMovable moveObj))
+        {
+            moveObj.ApplyEffect();
+            effectedObjs.Add(moveObj);
+        }
+
         switch (CurrentAbility)
         {
-            case MoveAbility moveAbility:
-                if (obj.TryGetComponent(out IMovable moveObj))
-                {
-                    moveObj.ApplyEffect();
-                    effectedObjs.Add(moveObj);
-                }
-                break;
             case RevealAbility revealAbility:
                 if (obj.TryGetComponent(out IRevealable revealObj))
                 {

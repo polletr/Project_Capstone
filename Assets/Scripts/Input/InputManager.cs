@@ -5,7 +5,7 @@ public class InputManager : MonoBehaviour
 {
     PlayerInput _action;
     PlayerController _player;
-    CameraController _cameraController;                                          
+    CameraController _cameraController;
 
     Vector2 _movement;
     public Vector2 Movement
@@ -54,77 +54,67 @@ public class InputManager : MonoBehaviour
         _action = new PlayerInput();
     }
 
-    private void OnEnable()
-    {
-        EnableInput();
-    }
+    private void OnEnable()  => EnableInput();
 
-    private void OnDisable()
-    {
-        DisableInput();
-    }
+    private void OnDisable() => DisableInput();
 
     public void EnableInput()
     {
-        _action.Player.Move.performed += (val) => _movement = val.ReadValue<Vector2>();
+        _action.Player.Move.performed += (val) => Movement = val.ReadValue<Vector2>();
+
         _action.Player.PointerMove.performed += OnPointerMove;
+
         _action.Player.Attack.performed += (val) => _player.currentState?.HandleAttack(true);
-
-        _action.Player.PushObj.performed += (val) => _player.currentState?.HandlePushObj();
-
         _action.Player.Attack.canceled += (val) => _player.currentState?.HandleAttack(false);
-        _action.Player.Interact.performed += (val) => _player.currentState?.HandleInteract();
-        _action.Player.Run.performed += (val) => _player.currentState?.HandleRun(true);
-        _action.Player.Run.canceled += (val) => _player.currentState?.HandleRun(false);
-        _action.Player.Flashlight.performed += (val) => _player.currentState?.HandleFlashlightPower();
-
-        _action.Player.ChangeItem.performed += (val) => HandleScrollAbility(val.ReadValue<Vector2>());
-
-
-        _action.Player.ChangeBattery.performed += (val) => _player.HandleChangeBattery();
-
 
         _action.Player.Crouch.performed += (val) => _player.currentState?.HandleCrouch(true);
         _action.Player.Crouch.canceled += (val) => _player.currentState?.HandleCrouch(false);
 
+        _action.Player.Run.performed += (val) => _player.currentState?.HandleRun(true);
+        _action.Player.Run.canceled += (val) => _player.currentState?.HandleRun(false);
+
+        _action.Player.Interact.performed += (val) => _player.currentState?.HandleInteract();
+
+        _action.Player.Flashlight.performed += (val) => _player.currentState?.HandleFlashlightPower();
+
+        _action.Player.ChangeItem.performed += (val) => HandleScrollAbility(val.ReadValue<Vector2>());
+
+        _action.Player.ChangeBattery.performed += (val) => _player.HandleChangeBattery();
 
         _action.Enable();
-
     }
     public void DisableInput()
     {
         _action.Player.Move.performed -= (val) => Movement = val.ReadValue<Vector2>();
+
         _action.Player.PointerMove.performed -= OnPointerMove;
+
         _action.Player.Attack.performed -= (val) => _player.currentState?.HandleAttack(true);
         _action.Player.Attack.canceled -= (val) => _player.currentState?.HandleAttack(false);
-        _action.Player.Interact.performed -= (val) => _player.currentState?.HandleInteract();
+
+        _action.Player.Crouch.performed -= (val) => _player.currentState?.HandleCrouch(true);
+        _action.Player.Crouch.canceled -= (val) => _player.currentState?.HandleCrouch(false);
+
         _action.Player.Run.performed -= (val) => _player.currentState?.HandleRun(true);
         _action.Player.Run.canceled -= (val) => _player.currentState?.HandleRun(false);
+
+        _action.Player.Interact.performed -= (val) => _player.currentState?.HandleInteract();
+
         _action.Player.Flashlight.performed -= (val) => _player.currentState?.HandleFlashlightPower();
 
         _action.Player.ChangeItem.performed -= (val) => HandleScrollAbility(val.ReadValue<Vector2>());
 
         _action.Player.ChangeBattery.performed -= (val) => _player.HandleChangeBattery();
 
-        _action.Player.PushObj.performed -= (val) => _player.currentState?.HandlePushObj();
-
-        _action.Player.Crouch.performed -= (val) => _player.currentState?.HandleCrouch(true);
-        _action.Player.Crouch.canceled -= (val) => _player.currentState?.HandleCrouch(false);
-
-
         _action.Disable();
-
     }
+
     private void HandleScrollAbility(Vector2 scrollValue)
     {
         if (scrollValue.y > 0 || scrollValue.x > 0)
-        {
             _player.currentState?.HandleChangeAbility(1);
-        }
         else if (scrollValue.y < 0 || scrollValue.x < 0)
-        {
             _player.currentState?.HandleChangeAbility(-1);
-        }
     }
 
     private void OnPointerMove(InputAction.CallbackContext context)
