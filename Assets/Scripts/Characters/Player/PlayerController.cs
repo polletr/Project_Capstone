@@ -17,11 +17,11 @@ public class PlayerController : MonoBehaviour
 
 
     public Camera PlayerCam { get; private set; }
-    public Vector3 DefaultCameraLocalPosition { get; set; }
+    public Vector3 DefaultCameraLocalPosition { get; private set; }
 
     [field: SerializeField] public bool HasFlashlight { get; set; }
-    public CharacterController characterController { get; set; }
-    public FlashLight flashlight { get; set; }
+    public CharacterController characterController { get; private set; }
+    public FlashLight flashlight { get; private set; }
     public Interactable interactableObj { get; set; }
     public Transform CheckPoint { get; private set; }
     
@@ -94,7 +94,6 @@ public class PlayerController : MonoBehaviour
         currentState?.StateUpdate();
 
         CheckEnemies();
-
     }
 
     private void FixedUpdate() => currentState?.StateFixedUpdate();
@@ -113,7 +112,7 @@ public class PlayerController : MonoBehaviour
         currentState?.HandleDeath();
     }
 
-    void SetupSoundEvents()
+    private void SetupSoundEvents()
     {
         playerFootsteps = AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.PlayerSteps);
         playerBreathing = AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.HeavyToLowBreathing);
@@ -123,10 +122,9 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    void PlayBreathing()
+    private void PlayBreathing()
     {
-        PLAYBACK_STATE playbackState;
-        playerBreathing.getPlaybackState(out playbackState);
+        playerBreathing.getPlaybackState(out var playbackState);
 
         if (playbackState.Equals(PLAYBACK_STATE.STOPPED))
         {
@@ -195,7 +193,7 @@ public class PlayerController : MonoBehaviour
         RuntimeManager.StudioSystem.setParameterByName("EnemyDistance", currentEnemyDistance);
     }
 
-    public void Respawn()
+    private void Respawn()
     {
         StartCoroutine(WaitChangeState(MoveState, 0.5f));
     }
@@ -208,13 +206,6 @@ public class PlayerController : MonoBehaviour
     private void SetSpawn(Transform pos)
     {
         CheckPoint = pos;
-    }
-
-
-    public void HandlePush()
-    {
-       // var moveAbility = CurrentAbility as MoveAbility;
-       // moveAbility?.OnPushObj();
     }
 
     #region Character Actions
@@ -238,7 +229,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void HandleFlashlightPickUp()
+    private void HandleFlashlightPickUp()
     {
         HasFlashlight = true;
         UpdateFlashlight();
@@ -258,7 +249,7 @@ public class PlayerController : MonoBehaviour
         RechargeState = new PlayerRechargeState(this);
     }
 
-    public IEnumerator WaitChangeState(PlayerBaseState newState,float waitTime)
+    private IEnumerator WaitChangeState(PlayerBaseState newState,float waitTime)
     {
         currentState?.ExitState();
         yield return new WaitForSeconds(waitTime);
@@ -272,20 +263,5 @@ public class PlayerController : MonoBehaviour
         currentState = newState;
         currentState.EnterState();
     }
-
-    /*    private IEnumerator WaitFixedFrame(PlayerBaseState newState)
-        {
-
-            yield return new WaitForFixedUpdate();
-
-        }
-    */
     #endregion
-
-    private void OnDrawGizmos()
-    {
-        Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward * Settings.InteractionRange);
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawRay(ray);
-    }
 }

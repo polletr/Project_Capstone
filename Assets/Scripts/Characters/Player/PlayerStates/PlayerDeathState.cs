@@ -90,7 +90,7 @@ public class PlayerDeathState : PlayerBaseState
 
     }
 
-    public override void HandleFlashlightSphereCast()
+    protected override void HandleFlashlightSphereCast()
     {
 
     }

@@ -70,7 +70,7 @@ public class PlayerRechargeState : PlayerBaseState
 
     }
 
-    public override void HandleFlashlightSphereCast()
+    protected override void HandleFlashlightSphereCast()
     {
 
     }

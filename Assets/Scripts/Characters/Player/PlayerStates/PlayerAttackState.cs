@@ -11,15 +11,6 @@ public class PlayerAttackState : PlayerBaseState
     {
         timer = new StopwatchTimer();
         timer.Start();
-        //Use current Flashlight ability Attack
-        if (player.HasFlashlight)
-        {
-            player.flashlight.HandleFlashAblility();
-        }
-        else
-        {
-            player.ChangeState(player.MoveState);
-        }
     }
     public override void ExitState()
     {
@@ -39,8 +30,8 @@ public class PlayerAttackState : PlayerBaseState
         if (timer.GetTime() > 0.1f && !usingAbility)
         {
             usingAbility = true;
-           // HOLD!
-            //player.ChangeState(player.MoveState);
+           
+            player.flashlight.HandleFlashAbility();
         }
     }
 
@@ -51,6 +42,7 @@ public class PlayerAttackState : PlayerBaseState
             if (timer.GetTime() < 0.1f)
             {
                // stun!
+               player.flashlight.HandleStunAbility();
             }
             player.ChangeState(player.MoveState);
         }
@@ -60,7 +52,7 @@ public class PlayerAttackState : PlayerBaseState
         }
     }
 
-    public override void HandleFlashlightSphereCast()
+    protected override void HandleFlashlightSphereCast()
     {
 
     }

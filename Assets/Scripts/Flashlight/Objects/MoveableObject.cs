@@ -36,17 +36,17 @@ public class MoveableObject : MonoBehaviour, IMovable
     }
 
     #region CollisonDrop
-  /*  private void OnCollisionEnter(Collision collision)
-    {
-        if (IsPicked && collision.relativeVelocity.magnitude > breakForce)
-            IsPicked = false;
-    }
+    /*  private void OnCollisionEnter(Collision collision)
+      {
+          if (IsPicked && collision.relativeVelocity.magnitude > breakForce)
+              IsPicked = false;
+      }
 
-    public IEnumerator Pickup()
-    {
-        yield return new WaitForSecondsRealtime(5f);
+      public IEnumerator Pickup()
+      {
+          yield return new WaitForSecondsRealtime(5f);
 
-        IsPicked = true;
-    }*/
+          IsPicked = true;
+      }*/
     #endregion
 }

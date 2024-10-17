@@ -8,11 +8,11 @@ public class RevealableObject : MonoBehaviour  , IRevealable
     [SerializeField] private float revealTime;
     [SerializeField] private float unRevealTime;
 
-    float revealTimer;
+    public bool IsRevealed { get; set; }
+
+    private float revealTimer;
     private float currentObjTransp;
     private float origObjTransp;
-
-    public bool isRevealed {  get; private set; }
 
     void Awake()
     {
@@ -49,7 +49,7 @@ public class RevealableObject : MonoBehaviour  , IRevealable
         if (revealTimer >= revealTime)
         {
             revealTimer = 0f;
-            isRevealed = true;
+            IsRevealed = true;
         }
         revealed = currentObjTransp >= 1f;
     }
@@ -75,5 +75,4 @@ public class RevealableObject : MonoBehaviour  , IRevealable
             yield return null;
         }
     }
-
 }

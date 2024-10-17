@@ -7,7 +7,10 @@ public interface IEffectable
 
 public interface IMovable : IEffectable { }
 
-public interface IRevealable : IEffectable { }
+public interface IRevealable : IEffectable
+{
+    bool IsRevealed { get; set; }
+}
 
 public interface IStunnable : IEffectable 
 { 

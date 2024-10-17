@@ -16,14 +16,6 @@ public class RevealAbility : FlashlightAbility
     [SerializeField] private float timeToMaxIntensity;
     [SerializeField] Color targetColor;
     
-    private MoveableObject moveableObject;
-
-    private void Awake()
-    {
-        if(TryGetComponent( out moveableObject))
-            moveableObject.enabled = false;
-    }
-
     public override void OnStopAbility()
     {
         if (visualReveal != null)
@@ -34,7 +26,7 @@ public class RevealAbility : FlashlightAbility
             StopCoroutine(revealCoroutine);
             if (currentObj != null)
             {
-                if (!currentObj.isRevealed)
+                if (!currentObj.IsRevealed)
                 {
                     currentObj.UnrevealObj();
                     currentObj = null;

@@ -5,19 +5,18 @@ using UnityEngine.InputSystem;
 
 public abstract class PlayerBaseState
 {
-    protected Vector3 _direction;
-
     protected bool isRunning;
     protected bool isCrouching;
 
-    public PlayerController player { get; set; }
-    public PlayerAnimator playerAnimator { get; set; }
+    protected PlayerController player { get; set; }
+    protected PlayerAnimator playerAnimator { get; set; }
     public InputManager inputManager { get; set; }
 
     protected float _bobTimer;
 
+    private Vector3 _direction;
 
-    public PlayerBaseState(PlayerController playerController)
+    protected PlayerBaseState(PlayerController playerController)
     {
         player = playerController;
         playerAnimator = player.playerAnimator;
@@ -74,10 +73,7 @@ public abstract class PlayerBaseState
 
     public virtual void HandleMove() { }
 
-    public virtual void HandleInteract()
-    {
-
-    }
+    public virtual void HandleInteract() { }
     
     public virtual void HandleRun(bool check)
     {
@@ -94,7 +90,7 @@ public abstract class PlayerBaseState
             isRunning = false;
     }
 
-    public virtual void HandleFlashlightSphereCast()
+    protected virtual void HandleFlashlightSphereCast()
     {
         if (player.HasFlashlight)
             player.flashlight.HandleSphereCast();
@@ -109,19 +105,19 @@ public abstract class PlayerBaseState
 
     public virtual void HandleLookAround(Vector2 dir, InputDevice device)
     {
-        float sensitivityMult = player.Settings.cameraSensitivityMouse;
+        var sensitivityMultilayer = player.Settings.cameraSensitivityMouse;
 
         if (device is Gamepad)
         {
-            sensitivityMult = player.Settings.cameraSensitivityGamepad;
+            sensitivityMultilayer = player.Settings.cameraSensitivityGamepad;
         }
 
         // Calculate player's body (y-axis) rotation
-        player.yRotation += dir.x * sensitivityMult * Time.deltaTime;
+        player.yRotation += dir.x * sensitivityMultilayer * Time.deltaTime;
         player.CameraHolder.localRotation = Quaternion.Euler(0, player.yRotation, 0);  // Rotate body horizontally
 
         // Calculate camera pitch (x-axis) rotation
-        player.xRotation += dir.y * sensitivityMult * Time.deltaTime;
+        player.xRotation += dir.y * sensitivityMultilayer * Time.deltaTime;
         player.xRotation = Mathf.Clamp(player.xRotation, player.Settings.ClampAngleUp, player.Settings.ClampAngleDown);
         player.PlayerCam.transform.localRotation = Quaternion.Euler(-player.xRotation, 0, 0);  // Rotate camera vertically
 
@@ -129,11 +125,11 @@ public abstract class PlayerBaseState
         if (player.HasFlashlight && player.xRotation > player.Settings.FlashlightAngleDown)
         {
             // Get current rotation and target rotation in Euler angles
-            Vector3 currentRotation = player.Hand.localRotation.eulerAngles;
-            Vector3 targetRotation = player.PlayerCam.transform.rotation.eulerAngles;
+            var currentRotation = player.Hand.localRotation.eulerAngles;
+            var targetRotation = player.PlayerCam.transform.rotation.eulerAngles;
 
-            // Slerp only the z-axis, while keeping the x and y axes unchanged
-            float zRotation = Mathf.LerpAngle(currentRotation.z, targetRotation.x, player.Settings.FlashlightRotateSpeed * Time.deltaTime);
+            // Slurp only the z-axis, while keeping the x and y axes unchanged
+            var zRotation = Mathf.LerpAngle(currentRotation.z, targetRotation.x, player.Settings.FlashlightRotateSpeed * Time.deltaTime);
 
             // Apply the new rotation, only modifying the z-axis
             player.Hand.localRotation = Quaternion.Euler(currentRotation.x, currentRotation.y, zRotation);
@@ -143,8 +139,7 @@ public abstract class PlayerBaseState
 
     protected virtual void StepsSound()
     {
-        PLAYBACK_STATE playbackState;
-        player.playerFootsteps.getPlaybackState(out playbackState);
+        player.playerFootsteps.getPlaybackState(out var playbackState);
 
         if (_direction.sqrMagnitude > 0f)
         {
