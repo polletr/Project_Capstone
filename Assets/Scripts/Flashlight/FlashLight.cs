@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Linq;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -123,9 +124,9 @@ public class FlashLight : MonoBehaviour
     {
         if (IsBatteryDead() || !isFlashlightOn) return;
 
-        var hits = new RaycastHit[10];
+        var hits = new RaycastHit[1];
         var flashlightPos = transform;
-        var numHits = Physics.SphereCastNonAlloc(flashlightPos.position, 1f, flashlightPos.forward, hits, range, layerMask);
+        var numHits = Physics.SphereCastNonAlloc(flashlightPos.position, 0.1f, flashlightPos.forward, hits, range, layerMask);
 
         effectedObjsThisFrame.Clear();
         
@@ -214,7 +215,12 @@ public class FlashLight : MonoBehaviour
 
     public void HandleFlashAbility()
     {
-      //check object in front of player to see which ability it is switch to reveal  
+        Debug.Log("Flash Ability Move/Reveal");
+        if(Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, range))
+            CurrentAbility = hit.collider.TryGetComponent(out RevealableObject obj) ? 
+                flashlightAbilities.Find(ability => ability is RevealAbility) : 
+                flashlightAbilities.Find(ability => ability is MoveAbility);
+        
         if (CurrentAbility != null && isFlashlightOn && (BatteryLife - CurrentAbility.Cost) >= minBatteryAfterUse)
             CurrentAbility.OnUseAbility();
         else
@@ -222,6 +228,7 @@ public class FlashLight : MonoBehaviour
     }   
     public void HandleStunAbility()
     {
+        Debug.Log("Flash Ability stun");
         CurrentAbility = flashlightAbilities.Find(ability => ability is StunAbility);
         if (CurrentAbility != null && isFlashlightOn && (BatteryLife - CurrentAbility.Cost) >= minBatteryAfterUse)
             CurrentAbility.OnUseAbility();
