@@ -191,14 +191,14 @@ public class FlashLight : MonoBehaviour
         Gizmos.color = Color.red;
 
         // Ray and range definition
-        Vector3 origin = transform.position;
-        Vector3 direction = transform.forward * range;
+        var origin = transform.position;
+        var direction = transform.forward * range;
 
         // Draw the sphere at the origin point
         Gizmos.DrawWireSphere(origin, 2f);
 
         // Calculate the end point of the SphereCast
-        Vector3 endPoint = origin + direction;
+        var endPoint = origin + direction;
 
         // Draw the line representing the ray of the SphereCast
         Gizmos.DrawLine(origin, endPoint);
@@ -216,10 +216,11 @@ public class FlashLight : MonoBehaviour
     public void HandleFlashAbility()
     {
         Debug.Log("Flash Ability Move/Reveal");
-        if(Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, range))
-            CurrentAbility = hit.collider.TryGetComponent(out RevealableObject obj) ? 
+        if(Physics.Raycast(transform.position, transform.forward, out var hit, range))
+            CurrentAbility = hit.collider.TryGetComponent(out RevealableObject obj) && !obj.IsRevealed ? 
                 flashlightAbilities.Find(ability => ability is RevealAbility) : 
                 flashlightAbilities.Find(ability => ability is MoveAbility);
+        
         
         if (CurrentAbility != null && isFlashlightOn && (BatteryLife - CurrentAbility.Cost) >= minBatteryAfterUse)
             CurrentAbility.OnUseAbility();
