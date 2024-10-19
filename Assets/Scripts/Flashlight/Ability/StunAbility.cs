@@ -35,6 +35,7 @@ public class StunAbility : FlashlightAbility
                 thing.ApplyStunEffect();
         }
         Flashlight.ConsumeBattery(Cost);
+        AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.StunSound);
 
         StartCoroutine(RestoreLightOverTime());
 
