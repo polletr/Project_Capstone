@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,7 +9,11 @@ public class RevealableObject : MonoBehaviour  , IRevealable
     [SerializeField] private float revealTime;
     [SerializeField] private float unRevealTime;
 
-    public bool IsRevealed { get; set; }
+    public bool IsRevealed
+    {
+        get => currentObjTransp >= 1f;
+        set => currentObjTransp = value ? 1f : origObjTransp;
+    }
 
     private float revealTimer;
     private float currentObjTransp;
@@ -36,6 +41,7 @@ public class RevealableObject : MonoBehaviour  , IRevealable
     public void SuddenReveal()
     {
         gameObject.SetActive(true);
+        objMaterial.SetFloat("_Transparency", 1f);
         AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.SuddenAppear, this.transform.position);
     }
 
@@ -44,28 +50,27 @@ public class RevealableObject : MonoBehaviour  , IRevealable
         StopAllCoroutines();
         revealTimer += Time.deltaTime;
         currentObjTransp = Mathf.Lerp(origObjTransp, 1f, revealTimer / revealTime);
-        Debug.Log(revealTimer);
         objMaterial.SetFloat("_Transparency", currentObjTransp);
         if (revealTimer >= revealTime)
         {
             revealTimer = 0f;
-            IsRevealed = true;
         }
+
         revealed = currentObjTransp >= 1f;
-    }
+   }
 
-    public void UnrevealObj()
+    public void UnRevealObj()
     {
-        StartCoroutine(Unreveal());
+        StartCoroutine(UnReveal());
     }
 
 
-    private IEnumerator Unreveal()
+    private IEnumerator UnReveal()
     {
         revealTimer = 0f;
 
-        float currentFloat = currentObjTransp;
-        float timer = 0f;
+        var currentFloat = currentObjTransp;
+        var timer = 0f;
         while (currentObjTransp > origObjTransp)
         {
             timer += Time.deltaTime;
@@ -75,4 +80,5 @@ public class RevealableObject : MonoBehaviour  , IRevealable
             yield return null;
         }
     }
+
 }

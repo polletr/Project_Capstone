@@ -5,9 +5,7 @@ using System.Collections;
 [RequireComponent(typeof(Rigidbody))]
 public class MoveableObject : MonoBehaviour, IMovable
 {
-
     //[SerializeField] private float breakForce = 4f;
-    [field: SerializeField] public bool IsPicked { get; set; }
 
     public bool DefaultUseGravity { get; private set; }
     public float DefaultDrag { get; private set; }
@@ -17,7 +15,6 @@ public class MoveableObject : MonoBehaviour, IMovable
 
     private void Awake()
     {
-        IsPicked = false;
         Rb = GetComponent<Rigidbody>();
 
         DefaultUseGravity = Rb.useGravity;
@@ -31,6 +28,7 @@ public class MoveableObject : MonoBehaviour, IMovable
     }
 
     #region CollisonDrop
+
     /*  private void OnCollisionEnter(Collision collision)
       {
           if (IsPicked && collision.relativeVelocity.magnitude > breakForce)
@@ -43,5 +41,6 @@ public class MoveableObject : MonoBehaviour, IMovable
 
           IsPicked = true;
       }*/
+
     #endregion
 }
