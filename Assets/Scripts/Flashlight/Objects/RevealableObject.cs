@@ -2,17 +2,25 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class RevealableObject : MonoBehaviour  , IRevealable
 {
+    private MeshRenderer m_Renderer;
     private Material objMaterial;
+
+    private Material originalMaterial;
+    [SerializeField] private Material revealMaterial;
+    [SerializeField] private Material dissolveMaterial;
     [SerializeField] private float revealTime;
     [SerializeField] private float unRevealTime;
 
+    [SerializeField] private UnityEvent objectRevealed;
+
     public bool IsRevealed
     {
-        get => currentObjTransp >= 1f;
-        set => currentObjTransp = value ? 1f : origObjTransp;
+        get;
+        set;
     }
 
     private float revealTimer;
@@ -21,16 +29,18 @@ public class RevealableObject : MonoBehaviour  , IRevealable
 
     void Awake()
     {
-        objMaterial = GetComponent<MeshRenderer>().material;
-        origObjTransp = objMaterial.GetFloat("_Transparency");
-        revealTimer = 0f;
-
-        currentObjTransp = origObjTransp;
+        m_Renderer = GetComponent<MeshRenderer>();
+        m_Renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+        
+        originalMaterial = m_Renderer.material;
+        m_Renderer.material = revealMaterial;
+        objMaterial = revealMaterial;
+            revealTimer = 0f;
     }
 
     public void ApplyEffect()
     {
-        GetComponent<MeshRenderer>().material = objMaterial;
+        
     }
 
     public void RemoveEffect()
@@ -41,7 +51,6 @@ public class RevealableObject : MonoBehaviour  , IRevealable
     public void SuddenReveal()
     {
         gameObject.SetActive(true);
-        objMaterial.SetFloat("_Transparency", 1f);
         AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.SuddenAppear, this.transform.position);
     }
 
@@ -49,14 +58,21 @@ public class RevealableObject : MonoBehaviour  , IRevealable
     {
         StopAllCoroutines();
         revealTimer += Time.deltaTime;
-        currentObjTransp = Mathf.Lerp(origObjTransp, 1f, revealTimer / revealTime);
-        objMaterial.SetFloat("_Transparency", currentObjTransp);
+        m_Renderer.material = revealMaterial;
+        currentObjTransp = Mathf.Lerp(1f, 0f, revealTimer / revealTime);
+        m_Renderer.material.SetFloat("_DissolveAmount", currentObjTransp);
         if (revealTimer >= revealTime)
         {
             revealTimer = 0f;
         }
 
-        revealed = currentObjTransp >= 1f;
+        if (currentObjTransp <= 0f)
+        {
+            IsRevealed = true;
+            m_Renderer.material = originalMaterial;
+            objectRevealed.Invoke();
+        }
+        revealed = currentObjTransp <= 0f;
    }
 
     public void UnRevealObj()
@@ -71,14 +87,15 @@ public class RevealableObject : MonoBehaviour  , IRevealable
 
         var currentFloat = currentObjTransp;
         var timer = 0f;
-        while (currentObjTransp > origObjTransp)
+        while (currentObjTransp < 1f)
         {
             timer += Time.deltaTime;
-            currentObjTransp = Mathf.Lerp(currentFloat, origObjTransp, timer / unRevealTime);
-            objMaterial.SetFloat("_Transparency", currentObjTransp);
+            currentObjTransp = Mathf.Lerp(currentFloat, 1f, timer / unRevealTime);
+            m_Renderer.material.SetFloat("_DissolveAmount", currentObjTransp);
 
             yield return null;
         }
+        m_Renderer.material = revealMaterial;
     }
 
 }
