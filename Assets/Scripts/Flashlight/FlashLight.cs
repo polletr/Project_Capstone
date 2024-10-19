@@ -61,6 +61,15 @@ public class FlashLight : MonoBehaviour
 
         MoveHoldPos = MoveHoldPos == null ? transform : MoveHoldPos;
 
+        for (var i = 0; i < transform.childCount; i++)
+        {
+            if (transform.GetChild(i).TryGetComponent(out FlashlightAbility ability))
+            {
+                flashlightAbilities.Add(ability);
+            }
+        } 
+       
+
         if (flashlightAbilities.Count <= 0) return;
 
         foreach (var ability in flashlightAbilities.Where(ability => ability != null))

@@ -3,7 +3,6 @@ using Utilities;
 
 public class MoveAbility : FlashlightAbility
 {
-    [SerializeField] private Transform moveHoldPos;
     [SerializeField] private float pickupForce = 150f;
     [SerializeField] private float pickupRange = 10f;
     [SerializeField] private float maxHoldRange = 3f;
@@ -12,8 +11,8 @@ public class MoveAbility : FlashlightAbility
     [SerializeField] private float pushCost = 10f;
     
     private MoveableObject pickup;
-
     private CountdownTimer timer;
+    private Transform moveHoldPos;
 
     private void Awake()
     {

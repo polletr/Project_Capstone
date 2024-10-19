@@ -400,7 +400,6 @@ MonoBehaviour:
   <CameraHolder>k__BackingField: {fileID: 374780903426527307}
   <DeathCamPos>k__BackingField: {fileID: 4305060475247953842}
   <Hand>k__BackingField: {fileID: 3487170313813255961}
-  <MoveHoldPos>k__BackingField: {fileID: 0}
   <HasFlashlight>k__BackingField: 1
 --- !u!114 &5010322365349921180
 MonoBehaviour:
@@ -426,7 +425,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b70738de05e7e74bae2edaa2edfd270, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PauseMenu: {fileID: 0}
+  pauseMenu: {fileID: 0}
 --- !u!114 &8839245004111330457
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -573,6 +572,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Flashlight
       objectReference: {fileID: 0}
+    - target: {fileID: 6191043455370362153, guid: 496e78c0edf97f547bf9faf26f2fd312,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 6200629911387668132, guid: 496e78c0edf97f547bf9faf26f2fd312,
         type: 3}
       propertyPath: m_Range
@@ -593,11 +597,6 @@ PrefabInstance:
       propertyPath: <MoveHoldPos>k__BackingField
       value: 
       objectReference: {fileID: 4951786870922293375}
-    - target: {fileID: 7975032335739277217, guid: 496e78c0edf97f547bf9faf26f2fd312,
-        type: 3}
-      propertyPath: flashlightAbilities.Array.size
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
