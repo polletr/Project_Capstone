@@ -58,7 +58,7 @@ public class RevealableObject : MonoBehaviour  , IRevealable
     {
         StopAllCoroutines();
         revealTimer += Time.deltaTime;
-        m_Renderer.material = revealMaterial;
+        m_Renderer.material = dissolveMaterial;
         currentObjTransp = Mathf.Lerp(1f, 0f, revealTimer / revealTime);
         m_Renderer.material.SetFloat("_DissolveAmount", currentObjTransp);
         if (revealTimer >= revealTime)
