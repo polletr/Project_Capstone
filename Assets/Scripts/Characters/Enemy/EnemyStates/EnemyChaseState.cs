@@ -93,7 +93,7 @@ public class EnemyChaseState : EnemyBaseState
 
         // Calculate teleport position based on the lerped multiplier
         Vector3 directionToPlayer = (enemy.playerCharacter.transform.position - enemy.transform.position).normalized;
-        Vector3 desiredTeleportPosition = enemy.playerCharacter.transform.position - directionToPlayer * enemy.AttackRange * currentTeleportMultiplier;
+        Vector3 desiredTeleportPosition = enemy.playerCharacter.transform.position - directionToPlayer * enemy.AttackRange * 0.9f;
 
         if (CheckPath(desiredTeleportPosition))
         {

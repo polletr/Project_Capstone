@@ -97,7 +97,6 @@ public class EnemyClass : MonoBehaviour, IStunnable
     [SerializeField] private float minIdleTime;
     [SerializeField] private float patrolSpeed;
     [SerializeField] private float paralisedSpeed;
-    [SerializeField] private float stunTime;
     [SerializeField] private float rotationSpeed;
     [SerializeField, Range(0f, 2f)] private float hearingMultiplier = 1f;
     [SerializeField, Range(0.2f, 15f)] private float sightRange = 5f;
