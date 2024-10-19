@@ -27,6 +27,8 @@ public class SFXEvents : ScriptableObject
     [field: SerializeField] public EventReference FlashlightOnOff { get; private set; }
     [field: SerializeField] public EventReference FlashlightReload { get; private set; }
     [field: SerializeField] public EventReference FlashlightStun { get; private set; }
+    [field: SerializeField] public EventReference FlashlightRevealing { get; private set; }
+    [field: SerializeField] public EventReference FlashlightReveal { get; private set; }
 
 
     [field: Header("Environment Lights SFX")]
