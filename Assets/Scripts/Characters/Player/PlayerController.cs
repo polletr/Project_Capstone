@@ -170,6 +170,9 @@ public class PlayerController : MonoBehaviour
 
             foreach (EnemyClass enemy in _enemiesChasing)
             {
+                if (_enemiesChasing.Count == 0)
+                    break;
+
                 if (Vector3.Distance(enemy.transform.position, transform.position) < _minEnemyDistance)
                 {
                     _minEnemyDistance = Vector3.Distance(enemy.transform.position, transform.position);
