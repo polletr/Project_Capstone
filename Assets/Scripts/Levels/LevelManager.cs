@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
 public class LevelManager : Singleton<LevelManager>
@@ -15,6 +16,8 @@ public class LevelManager : Singleton<LevelManager>
     private string _currentScene;
     private List<string> _currentLoadedScenes = new();
 
+    private EventSystem _eventSystem;
+
     private void OnEnable()
     {
         Event.OnLevelChange += StartLevelLoading;
@@ -27,6 +30,7 @@ public class LevelManager : Singleton<LevelManager>
 
     private void Start()
     {
+        _eventSystem = FindObjectOfType<EventSystem>();
         _currentScene = StartingScene;
         LoadStartScene();
     }
@@ -57,6 +61,17 @@ public class LevelManager : Singleton<LevelManager>
             }
         }
 
+      var allEventSystems =  FindObjectsOfType<EventSystem>();
+        foreach (var system in allEventSystems)
+        {
+            if (system != _eventSystem)
+            {
+                Debug.Log("Destroying Event System" + system.name);
+                system.transform.parent = null;    
+                Destroy(system.gameObject);
+            }
+        }
+
     }
 
     public void LoadOnlyScene(string sceneName)
@@ -80,6 +95,8 @@ public class LevelManager : Singleton<LevelManager>
 
         return _currentLoadedScenes;
     }
+
+
 
     #region    Extra Methods
 

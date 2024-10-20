@@ -1,6 +1,3 @@
-using FMODUnity;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -12,8 +9,8 @@ public class Trigger : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             OnTriggerEvent.Invoke();
+            Destroy(gameObject);
         }
-        Destroy(gameObject);
     }
 
 }
