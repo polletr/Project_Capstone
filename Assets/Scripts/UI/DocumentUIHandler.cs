@@ -12,9 +12,9 @@ public class DocumentUIHandler : Singleton<DocumentUIHandler>
         uiAnimator = GetComponentInChildren<UIAnimator>();
     }
 
-    public void MoveDocumentUI(Sprite sprite)
+    public void MoveDocumentUI(Sprite sprite, bool isOpen)
     {
         documentImage.sprite = sprite;
-        uiAnimator.MoveAnimate();
+        uiAnimator.MoveInAnimate(isOpen);
     }
 }

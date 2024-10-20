@@ -44,6 +44,12 @@ public class PlayerMoveState : PlayerBaseState
             player.ChangeState(player.InteractState);
     }
 
+    public override void HandleRecharge()
+    {
+        player.flashlight.ZeroOutBattery();
+        player.ChangeState(player.RechargeState);
+    }
+    
     private void HandleBobing()
     {
         // Check if the player is moving

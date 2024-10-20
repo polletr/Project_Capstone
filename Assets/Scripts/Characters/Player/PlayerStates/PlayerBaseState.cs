@@ -64,6 +64,11 @@ public abstract class PlayerBaseState
         // Calculate the movement direction based on the input (dir) and camera orientation
         _direction = (cameraForward * dir.y + cameraRight * dir.x);
     }
+    
+    public virtual void HandleRecharge()
+    {
+        
+    }
 
     public virtual void HandleAttack(bool isHeld)
     {
