@@ -7,7 +7,7 @@ using UnityEngine.Timeline;
 public class CinematicHandler : MonoBehaviour
 {
 
-    [SerializeField] private List<TimelineAsset> cinematics = new();
+    [SerializeField] private List<TimelineAsset> deathCinematics = new();
 
     private PlayableDirector director;
 
@@ -17,12 +17,12 @@ public class CinematicHandler : MonoBehaviour
     }
     public void PlayDeathCinematic()
     {
-        if (cinematics.Count == 0) return;
+        if (deathCinematics.Count == 0) return;
 
         // Get a random index from the list
-        int randomIndex = Random.Range(0, cinematics.Count);
+        int randomIndex = Random.Range(0, deathCinematics.Count);
 
-        director.playableAsset = cinematics[randomIndex];
+        director.playableAsset = deathCinematics[randomIndex];
         director.Play();
 
     }
