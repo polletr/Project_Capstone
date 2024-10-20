@@ -1,9 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
-using UnityEngine.Video;
 
 public class CinematicHandler : MonoBehaviour
 {
@@ -19,9 +17,9 @@ public class CinematicHandler : MonoBehaviour
     public void PlayDeathCinematic()
     {
         if (deathCinematics.Count == 0) return;
-
+        Debug.Log("Playing Death Cinematic");
         // Get a random index from the list
-        int randomIndex = Random.Range(-1, deathCinematics.Count);
+        int randomIndex = Random.Range(0, deathCinematics.Count);
 
         director.playableAsset = deathCinematics[randomIndex];
         director.Play();
