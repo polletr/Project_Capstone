@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
+using UnityEngine.Video;
 
 public class CinematicHandler : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class CinematicHandler : MonoBehaviour
     [SerializeField] private List<TimelineAsset> deathCinematics = new();
 
     private PlayableDirector director;
+
+    [SerializeField] VideoPlayer videoPlayer;
 
     private void Awake()
     {
@@ -24,7 +27,7 @@ public class CinematicHandler : MonoBehaviour
 
         director.playableAsset = deathCinematics[randomIndex];
         director.Play();
-
+        videoPlayer.Play();
     }
 
 }
