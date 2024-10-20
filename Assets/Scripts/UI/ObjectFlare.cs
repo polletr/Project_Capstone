@@ -28,7 +28,7 @@ public class ObjectFlare : MonoBehaviour
         scaleSequence = DOTween.Sequence();
         scaleSequence.Append(rectTransform.DOScale(new Vector3(0.2f,0.2f), duration).SetEase(ease))
             .AppendInterval(delay)
-            .Append(rectTransform.DOScale(new Vector3(1f, 1f), duration))
+            .Append(rectTransform.DOScale(new Vector3(0.3f, 0.3f), duration))
             .AppendInterval(0.5f).SetLoops(-1, LoopType.Yoyo);
         
         fadeSequence = DOTween.Sequence();
