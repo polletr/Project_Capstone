@@ -21,7 +21,7 @@ public class CinematicHandler : MonoBehaviour
         if (deathCinematics.Count == 0) return;
 
         // Get a random index from the list
-        int randomIndex = Random.Range(0, deathCinematics.Count);
+        int randomIndex = Random.Range(-1, deathCinematics.Count);
 
         director.playableAsset = deathCinematics[randomIndex];
         director.Play();

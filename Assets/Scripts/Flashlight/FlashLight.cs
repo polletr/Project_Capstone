@@ -266,6 +266,13 @@ public class FlashLight : MonoBehaviour
     {
         Light.enabled = false;
         isFlashlightOn = false;
+        //Remove effect on things
+        for (int i = 0; i < effectedObjs.Count; i++)
+        {
+            effectedObjs[i].RemoveEffect();
+            effectedObjs.Remove(effectedObjs[i]);
+        }
+
     }
 
     public void ConsumeBattery(float cost)

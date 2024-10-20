@@ -6,6 +6,7 @@ public class GameEvent : ScriptableObject
     public UnityAction<Vector3, float> OnSoundEmitted;
 
     public UnityAction OnPlayerDeath;
+    public UnityAction OnFadeBlackScreen;
     public UnityAction OnPlayerRespawn;
 
     public UnityAction OnPickupFlashlight;
@@ -19,6 +20,7 @@ public class GameEvent : ScriptableObject
     public UnityAction OnFinishRecharge;
 
     public UnityAction<LevelData> OnLevelChange;
+    public UnityAction OnReloadScenes;
     public UnityAction OnLoadStarterScene;
 
     public UnityAction<Transform> SetNewSpawn;
@@ -32,11 +34,10 @@ public class GameEvent : ScriptableObject
         if (timer == 0)
         {
             OnSoundEmitted?.Invoke(position, range);
-            Debug.Log("Player Footsteps");
         }
 
         timer++;
-        timer %= 30;
+        timer %= 5;
 
     }
 }
