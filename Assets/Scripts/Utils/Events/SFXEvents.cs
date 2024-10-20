@@ -48,5 +48,6 @@ public class SFXEvents : ScriptableObject
     [field: SerializeField] public EventReference DocumentsOpen { get; private set; }
     [field: SerializeField] public EventReference DocumentsClose { get; private set; }
 
+    [field: SerializeField] public EventReference DragObjects { get; private set; }
 
 }

@@ -9,7 +9,8 @@ public class MoveObjectsController : MonoBehaviour
     [SerializeField] private Vector3 direction;
     [SerializeField] private float duration;
 
-    [SerializeField] private bool isMoving;
+    private bool isMoving;
+    [SerializeField] private bool dragSound;
 
     private void Awake()
     {
@@ -19,6 +20,9 @@ public class MoveObjectsController : MonoBehaviour
     // Move the object in the specified direction
     public void MoveObject()
     {
+        if (dragSound)
+            AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.DragObjects, transform.position);
+
         targetPos += direction;
 
         if (!isMoving)

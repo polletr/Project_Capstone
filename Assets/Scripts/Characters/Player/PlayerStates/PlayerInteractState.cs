@@ -45,6 +45,11 @@ public class PlayerInteractState : PlayerBaseState
         
     }
 
+    public override void HandleFlashlightPower()
+    {
+      
+    }
+
     public override void HandleInteract()
     {
         if (player.interactableObj is not Documentation) return;

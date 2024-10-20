@@ -253,16 +253,14 @@ public class EnemyClass : MonoBehaviour, IStunnable
         EnemyTeleporting = true;
         // Play the smoke particle effect
         //SmokeParticle.Play();
-
         // Start fading the enemy out to 0 transparency
         yield return StartCoroutine(EnemyTransparency(0f));
 
-        // Wait for the specified time before teleporting
+/*        // Wait for the specified time before teleporting
         yield return new WaitForSeconds(changeTranspDuration);
-
+*/
         // Teleport the enemy to the desired position
         transform.position = desiredTeleportPosition;
-
         // Start fading the enemy back to the desired transparency (e.g., 0.9f)
         yield return StartCoroutine(EnemyTransparency(0.9f));
         EnemyTeleporting = false;
