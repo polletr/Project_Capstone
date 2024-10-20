@@ -45,5 +45,8 @@ public class SFXEvents : ScriptableObject
 
     [field: Header("Objects")]
     [field: SerializeField] public EventReference SuddenAppear { get; private set; }
+    [field: SerializeField] public EventReference DocumentsOpen { get; private set; }
+    [field: SerializeField] public EventReference DocumentsClose { get; private set; }
+
 
 }
