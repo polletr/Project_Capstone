@@ -23,8 +23,9 @@ public class AudioManager : Singleton<AudioManager>
 
     private List<AudioSource> _audioSources = new();
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         foreach (AudioSource source in GetComponentsInChildren<AudioSource>())
         {
             _audioSources.Add(source);
