@@ -156,7 +156,7 @@ public class Door : Interactable
         AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.EasyLockedDoor, transform.position);
         shakeEffect.ShakeObject();
         OnInteractLocked.Invoke();
-        _indicatorHandler.IndicatorUI.SetIndicatorSprite(true);
+        _indicatorHandler.IndicatorUI.SetLockedIndicator(true);
 
     }
 
@@ -220,7 +220,7 @@ public class Door : Interactable
     public void OnLockOrUnlockDoor(bool islockedDoor)
     {
         isLocked = islockedDoor;
-        _indicatorHandler.IndicatorUI.SetIndicatorSprite(islockedDoor);
+        _indicatorHandler.IndicatorUI.SetLockedIndicator(islockedDoor);
         AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.UnlockDoor, transform.position);
     }
 

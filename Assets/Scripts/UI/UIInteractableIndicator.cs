@@ -5,43 +5,53 @@ public class UIInteractableIndicator : MonoBehaviour
 {
 
     [Header("References")]
-    [SerializeField] private UIAnimator animator;
-    [SerializeField] private CanvasGroup canvasGroup;
+    [SerializeField] private UIAnimator eHolderAnimator;
+    [SerializeField] private CanvasGroup circleImageCanvasGroup;
     [SerializeField] private Image lockedImage;
 
+    private Vector3 targetPos;
     private Camera cam;
 
     private void Start()
     {
-        if(lockedImage == null) { Debug.LogError("Missing reference: " + nameof(lockedImage)); }
-        SetIndicatorSprite(false);
+        if (lockedImage == null) { Debug.LogError("Missing reference: " + nameof(lockedImage)); }
+        if (eHolderAnimator == null) { Debug.LogError("Missing reference: " + nameof(eHolderAnimator)); }
+        if (circleImageCanvasGroup == null) { Debug.LogError("Missing reference: " + nameof(circleImageCanvasGroup)); }
+
         cam = Camera.main;
+
+        SetLockedIndicator(false);
     }
 
     private void Update()
     {
-        transform.LookAt(cam.transform.position);
+        if (targetPos == null) { Debug.LogError("Missing Target set in IndicatorHandler"); return; }
+
+        Vector3 screenPosition = cam.WorldToScreenPoint(targetPos);
+
+        if (screenPosition.z > 0 && transform.position != screenPosition)
+            transform.position = screenPosition;
     }
 
     public void SetCircleIndicator(float value)
     {
-        if (animator == null || canvasGroup == null) return;
+        if (eHolderAnimator == null || circleImageCanvasGroup == null) return;
 
-        canvasGroup.alpha = value;
+        circleImageCanvasGroup.alpha = value;
     }
 
     public void TriggerTextIndicator(bool grow)
     {
-        if (animator == null) return;
-        animator.GrowInAnimate(grow);
+        if (eHolderAnimator == null) return;
+        eHolderAnimator.GrowInAnimate(grow);
     }
 
     public void SetIndicatorPosition(Vector3 position)
     {
-        transform.position = position;
+        targetPos = position;
     }
 
-    public void SetIndicatorSprite(bool isLocked)
+    public void SetLockedIndicator(bool isLocked)
     {
         lockedImage.gameObject.SetActive(isLocked);
     }
