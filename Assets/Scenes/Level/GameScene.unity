@@ -1474,6 +1474,7 @@ GameObject:
   - component: {fileID: 864876161}
   - component: {fileID: 864876160}
   - component: {fileID: 864876162}
+  - component: {fileID: 864876163}
   m_Layer: 0
   m_Name: CinematicsHandler
   m_TagString: Untagged
@@ -1491,25 +1492,27 @@ PlayableDirector:
   m_Enabled: 1
   serializedVersion: 3
   m_PlayableAsset: {fileID: 11400000, guid: 8b9ac9adaf728f04fb2456ca2c8233c1, type: 2}
-  m_InitialState: 1
+  m_InitialState: 0
   m_WrapMode: 2
   m_DirectorUpdateMode: 1
   m_InitialTime: 0
   m_SceneBindings:
   - key: {fileID: 2997428313439948660, guid: 8b9ac9adaf728f04fb2456ca2c8233c1, type: 2}
-    value: {fileID: 0}
+    value: {fileID: 1945436347}
   - key: {fileID: 3474533778092378504, guid: 8b9ac9adaf728f04fb2456ca2c8233c1, type: 2}
     value: {fileID: 126723336}
   - key: {fileID: -4034926907704401514, guid: 8b9ac9adaf728f04fb2456ca2c8233c1, type: 2}
     value: {fileID: 1681500210}
   - key: {fileID: -7309961664214385810, guid: 8b9ac9adaf728f04fb2456ca2c8233c1, type: 2}
-    value: {fileID: 0}
+    value: {fileID: 1945436347}
   - key: {fileID: 6260270627114294960, guid: 8b9ac9adaf728f04fb2456ca2c8233c1, type: 2}
     value: {fileID: 0}
   - key: {fileID: 2811246197965950509, guid: 8b9ac9adaf728f04fb2456ca2c8233c1, type: 2}
     value: {fileID: 886818446}
   - key: {fileID: 7118296632197492398, guid: 8b9ac9adaf728f04fb2456ca2c8233c1, type: 2}
     value: {fileID: 46502965}
+  - key: {fileID: -8836369691684101152, guid: 8b9ac9adaf728f04fb2456ca2c8233c1, type: 2}
+    value: {fileID: 1945436347}
   m_ExposedReferences:
     m_References: []
 --- !u!4 &864876161
@@ -1572,6 +1575,20 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!114 &864876163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 864876159}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a96e8b0c5982aef4d8cd1d9a07eab0d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deathCinematics:
+  - {fileID: 11400000, guid: 8b9ac9adaf728f04fb2456ca2c8233c1, type: 2}
 --- !u!1 &886818446
 GameObject:
   m_ObjectHideFlags: 0
@@ -3290,6 +3307,12 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 2f5407776d1ced141beeadcd86eab17e, type: 3}
   - {fileID: 2800000, guid: bcfd57da99489cd44be4c6c3025859e4, type: 3}
   changeInterval: 0.1
+--- !u!1 &1945436347 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3210734550747332603, guid: bedc4c315612c0d429f32fda2e727742,
+    type: 3}
+  m_PrefabInstance: {fileID: 29968016}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2004632106
 GameObject:
   m_ObjectHideFlags: 0

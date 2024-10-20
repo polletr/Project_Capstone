@@ -12,8 +12,6 @@ public class CinematicHandler : MonoBehaviour
 
     private PlayableDirector director;
 
-    [SerializeField] VideoPlayer videoPlayer;
-
     private void Awake()
     {
         director = GetComponent<PlayableDirector>();
@@ -27,7 +25,6 @@ public class CinematicHandler : MonoBehaviour
 
         director.playableAsset = deathCinematics[randomIndex];
         director.Play();
-        videoPlayer.Play();
     }
 
 }
