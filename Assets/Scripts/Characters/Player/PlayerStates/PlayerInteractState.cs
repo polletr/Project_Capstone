@@ -1,13 +1,16 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerInteractState : PlayerBaseState
 {
-    public PlayerInteractState(PlayerController playerController) : base(playerController) {}
+    public PlayerInteractState(PlayerController playerController) : base(playerController) { }
 
     public override void EnterState()
     {
         player.interactableObj.OnInteract();
-        player.ChangeState(player.MoveState);
+
+        if (player.interactableObj is not Documentation)
+            player.ChangeState(player.MoveState);
     }
     public override void ExitState()
     {
@@ -21,13 +24,28 @@ public class PlayerInteractState : PlayerBaseState
 
     public override void StateUpdate()
     {
-        StepsSound();
-        CheckInteractionUI();
+
     }
 
     public override void HandleMovement(Vector2 dir)
     {
 
     }
+
+    public override void HandleLookAround(Vector2 dir, InputDevice device)
+    {
+
+    }
+
+    public override void HandleInteract()
+    {
+        if (player.interactableObj is Documentation)
+        {
+            player.interactableObj.OnInteract();
+            player.ChangeState(player.MoveState);
+        }
+    }
+
+
 
 }

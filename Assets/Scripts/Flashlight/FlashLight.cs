@@ -238,7 +238,6 @@ public class FlashLight : MonoBehaviour
     }   
     public void HandleStunAbility()
     {
-        Debug.Log("Flash Ability stun");
         CurrentAbility = flashlightAbilities.Find(ability => ability is StunAbility);
         if (CurrentAbility != null && isFlashlightOn && (BatteryLife - CurrentAbility.Cost) >= minBatteryAfterUse)
             CurrentAbility.OnUseAbility();
