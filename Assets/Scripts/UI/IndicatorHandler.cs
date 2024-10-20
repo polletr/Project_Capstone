@@ -44,7 +44,7 @@ public class IndicatorHandler : MonoBehaviour
 
     private void Update()
     {
-        if (playerTarget is null) return;
+        if (playerTarget == null) return;
 
         UpdateIndicators();
     }

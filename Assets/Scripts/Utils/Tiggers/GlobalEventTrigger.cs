@@ -6,8 +6,11 @@ public class GlobalTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        GlobalEvent.OnTriggerGlobalEvent?.Invoke();
-        Destroy(gameObject);
+        if (other.CompareTag("Player"))
+        {
+            GlobalEvent.OnTriggerGlobalEvent?.Invoke();
+            Destroy(gameObject);
+        }
     }
 
     public void OnTriggerGlobalEvent()

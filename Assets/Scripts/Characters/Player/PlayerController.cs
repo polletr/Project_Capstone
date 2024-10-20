@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
     [field: SerializeField] public Transform CameraHolder { get; private set; }
     [field: SerializeField] public Transform DeathCamPos { get; private set; }
     [field: SerializeField] public Transform Hand { get; private set; }
- 
+
     public Camera PlayerCam { get; private set; }
     public Vector3 DefaultCameraLocalPosition { get; private set; }
 
@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
     public FlashLight flashlight { get; private set; }
     public Interactable interactableObj { get; set; }
     public Transform CheckPoint { get; private set; }
-    
+
     public Coroutine ReloadAnimation { get; set; }
 
     public float xRotation { get; set; }
@@ -76,6 +76,7 @@ public class PlayerController : MonoBehaviour
         Event.OnPickupFlashlight += HandleFlashlightPickUp;
         Event.SetNewSpawn += SetSpawn;
         Event.OnPlayerRespawn += Respawn;
+        Event.OnLevelChange += WipeEnemyList;
     }
 
     private void OnDisable()
@@ -83,6 +84,7 @@ public class PlayerController : MonoBehaviour
         Event.OnPickupFlashlight -= HandleFlashlightPickUp;
         Event.SetNewSpawn -= SetSpawn;
         Event.OnPlayerRespawn -= Respawn;
+        Event.OnLevelChange -= WipeEnemyList;
     }
 
     private void Update()
@@ -194,6 +196,11 @@ public class PlayerController : MonoBehaviour
         RuntimeManager.StudioSystem.setParameterByName("EnemyDistance", currentEnemyDistance);
     }
 
+    private void WipeEnemyList(LevelData l)
+    {
+        _enemiesChasing.Clear();
+    }
+
     private void Respawn()
     {
         StartCoroutine(WaitChangeState(MoveState, 0.5f));
@@ -250,7 +257,7 @@ public class PlayerController : MonoBehaviour
         RechargeState = new PlayerRechargeState(this);
     }
 
-    private IEnumerator WaitChangeState(PlayerBaseState newState,float waitTime)
+    private IEnumerator WaitChangeState(PlayerBaseState newState, float waitTime)
     {
         currentState?.ExitState();
         yield return new WaitForSeconds(waitTime);

@@ -26,6 +26,19 @@ public class GameEvent : ScriptableObject
     public UnityAction<string> SetTutorialText;
     public UnityAction<string> SetTutorialTextTimer;
 
+    int timer = 0;
+    public void HandlePlayerFootSteps(Vector3 position, float range)
+    {
+        if (timer == 0)
+        {
+            OnSoundEmitted?.Invoke(position, range);
+            Debug.Log("Player Footsteps");
+        }
+
+        timer++;
+        timer %= 30;
+
+    }
 }
 
 

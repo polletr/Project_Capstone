@@ -144,7 +144,8 @@ public abstract class PlayerBaseState
         if (_direction.sqrMagnitude > 0f)
         {
             if (player.Event.OnSoundEmitted != null)
-                player.Event.OnSoundEmitted.Invoke(player.transform.position, GetSoundEmitted());
+                player.Event.HandlePlayerFootSteps(player.transform.position, GetSoundEmitted());
+
             //Actual sound
             if (playbackState.Equals(PLAYBACK_STATE.STOPPED))
             {

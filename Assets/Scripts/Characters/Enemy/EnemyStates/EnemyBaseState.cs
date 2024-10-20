@@ -38,7 +38,6 @@ public abstract class EnemyBaseState
             enemy.Paralised = true;
             enemy.ChangeState(enemy.ParalisedState);
         }
-
     }
 
     public virtual void HandleChase()
@@ -48,7 +47,8 @@ public abstract class EnemyBaseState
 
     protected virtual void OnSoundDetected(Vector3 soundPosition, float soundRange)
     {
-        float distance = Vector3.Distance(enemy.transform.position, soundPosition);
+          if(enemy == null) return;
+        var distance = Vector3.Distance(enemy.transform.position, soundPosition);
         if (distance <= soundRange * enemy.HearingMultiplier)
         {
             if (CheckPath(soundPosition))
