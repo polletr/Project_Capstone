@@ -92,8 +92,9 @@ public class PlayerController : MonoBehaviour
         currentState?.HandleMovement(inputManager.Movement);
         currentState?.HandleLookAround(inputManager.LookAround, inputManager.Device);
         currentState?.StateUpdate();
-
-        CheckEnemies();
+        Debug.Log("Player is Alive:" + IsAlive());
+        if (IsAlive())
+            CheckEnemies();
     }
 
     private void FixedUpdate() => currentState?.StateFixedUpdate();
@@ -160,6 +161,7 @@ public class PlayerController : MonoBehaviour
 
     private void CheckEnemies()
     {
+
         if (_enemiesChasing.Count > 0)
         {
             // Calculate the normalized distance based on the nearest enemy

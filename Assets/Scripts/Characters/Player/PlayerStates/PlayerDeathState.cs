@@ -13,16 +13,14 @@ public class PlayerDeathState : PlayerBaseState
 
     CountdownTimer timer;
     float FOV;
-
+    bool hasFaded;
     public override void EnterState()
     {
         FOV = player.PlayerCam.fieldOfView;
         player.Event.OnPlayerDeath?.Invoke();
         //playerAnimator.animator.Play(playerAnimator.DieHash);
 
-        Debug.Log("Player is dead");
-
-        timer = new CountdownTimer(player.Settings.RespawnTime);
+        timer = new CountdownTimer(3f);
         timer.Start();
 
     }
@@ -33,7 +31,7 @@ public class PlayerDeathState : PlayerBaseState
         player.transform.position = player.CheckPoint.position;
         EnemyFace = null;
         EnemyKiller = null;
-
+        hasFaded = false;
         Debug.Log("Player is alive");
     }
 
@@ -45,12 +43,17 @@ public class PlayerDeathState : PlayerBaseState
     public override void StateUpdate()
     {
         timer.Tick(Time.deltaTime);
+
+        if (hasFaded) return;
+
+
+  
         if (timer.IsFinished)
         {
-            //animation stuff here
-            player.Event.OnPlayerRespawn?.Invoke();
+            player.Event.OnFadeBlackScreen?.Invoke();
+            Debug.Log("Blackscreen start");
+            hasFaded = true;
         }
-
 
         if (IsKilledByEnemy())
         {
@@ -60,13 +63,13 @@ public class PlayerDeathState : PlayerBaseState
             player.PlayerCam.transform.rotation = Quaternion.Slerp(player.PlayerCam.transform.rotation, lookRotation, 7 * Time.deltaTime);
 
             player.PlayerCam.fieldOfView = Mathf.Lerp(player.PlayerCam.fieldOfView, 25, 7 * Time.deltaTime);
-
-            // Trigger UI fade or effect here      
-            //UI fade black or something
         }
         else
         {
             //UI fade black or something
+            player.Event.OnFadeBlackScreen?.Invoke();
+            hasFaded = true;
+
         }
     }
 
