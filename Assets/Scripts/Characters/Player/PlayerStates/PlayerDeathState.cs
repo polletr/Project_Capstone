@@ -22,17 +22,16 @@ public class PlayerDeathState : PlayerBaseState
 
         timer = new CountdownTimer(3f);
         timer.Start();
-
+        hasFaded = false;
     }
     public override void ExitState()
     {
         // player.PlayerCam.transform.parent = player.CameraHolder;
         player.PlayerCam.fieldOfView = FOV;
-        player.transform.position = player.CheckPoint.position;
         EnemyFace = null;
         EnemyKiller = null;
         hasFaded = false;
-        Debug.Log("Player is alive");
+        Debug.Log("Exit DeathState");
     }
 
     public override void StateFixedUpdate()
@@ -46,15 +45,6 @@ public class PlayerDeathState : PlayerBaseState
 
         if (hasFaded) return;
 
-
-  
-        if (timer.IsFinished)
-        {
-            player.Event.OnFadeBlackScreen?.Invoke();
-            Debug.Log("Blackscreen start");
-            hasFaded = true;
-        }
-
         if (IsKilledByEnemy())
         {
             // Smoothly rotate the camera to look at the enemy's face
@@ -63,14 +53,13 @@ public class PlayerDeathState : PlayerBaseState
             player.PlayerCam.transform.rotation = Quaternion.Slerp(player.PlayerCam.transform.rotation, lookRotation, 7 * Time.deltaTime);
 
             player.PlayerCam.fieldOfView = Mathf.Lerp(player.PlayerCam.fieldOfView, 25, 7 * Time.deltaTime);
-        }
-        else
-        {
-            //UI fade black or something
-            player.Event.OnFadeBlackScreen?.Invoke();
-            hasFaded = true;
-
-        }
+            if (timer.IsFinished)
+            {
+                player.Event.OnFadeBlackScreen?.Invoke();
+                Debug.Log("Blackscreen start");
+                hasFaded = true;
+            }
+        }      
     }
 
     public override void HandleMovement(Vector2 dir)

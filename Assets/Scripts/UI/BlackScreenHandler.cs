@@ -17,7 +17,7 @@ public class BlackScreenHandler : MonoBehaviour
 
     private void Awake()
     {
-        canvasGroup = GetComponent<CanvasGroup>();
+        canvasGroup = GetComponentInChildren<CanvasGroup>();
         canvasGroup.alpha = 0;
     }
 
@@ -34,25 +34,20 @@ public class BlackScreenHandler : MonoBehaviour
     private void FadeIn()
     {
         //fade in
-
-        canvasGroup.DOFade(1, duration).SetEase(ease).OnComplete(() =>
-        {
-            Event.OnReloadScenes?.Invoke();
-            Event.OnPlayerRespawn?.Invoke();
-            OnFadeInComplete?.Invoke();
-            canvasGroup.alpha = 0;
+        canvasGroup.DOFade(1, duration).SetEase(ease).OnComplete(() => 
+        { 
+            Debug.Log("Inkoing fade in complete"); 
+            OnFadeInComplete?.Invoke(); 
+            Event.OnPlayerRespawn?.Invoke(); 
         });
-
     }
 
     public void FadeOut()
     {
-        canvasGroup.alpha = 1;
+            Event.OnReloadScenes?.Invoke(); 
         //fade out
-        canvasGroup.DOFade(0, duration).SetEase(ease).OnComplete(() =>
-        {
-            OnFadeOutComplete?.Invoke(); 
-        });
+
+        canvasGroup.DOFade(0, duration).SetEase(ease).OnComplete(() => { Debug.Log("Inkoing fade out complete"); OnFadeOutComplete?.Invoke(); });
 
     }
 

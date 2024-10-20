@@ -92,7 +92,6 @@ public class PlayerController : MonoBehaviour
         currentState?.HandleMovement(inputManager.Movement);
         currentState?.HandleLookAround(inputManager.LookAround, inputManager.Device);
         currentState?.StateUpdate();
-        Debug.Log("Player is Alive:" + IsAlive());
         if (IsAlive())
             CheckEnemies();
     }
@@ -205,8 +204,15 @@ public class PlayerController : MonoBehaviour
 
     private void Respawn()
     {
-        StartCoroutine(WaitChangeState(MoveState, 0.5f));
+        transform.position = CheckPoint.position;
     }
+
+    public void MoveAgainAfterRespawn()
+    {
+        ChangeState(MoveState);
+    }
+
+
 
     public bool IsAlive()
     {
