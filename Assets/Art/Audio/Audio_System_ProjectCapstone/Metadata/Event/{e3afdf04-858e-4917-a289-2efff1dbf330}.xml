@@ -101,7 +101,7 @@
 	</object>
 	<object class="EventMixerGroup" id="{f10835fd-bcb7-482e-921c-8ddbaa1b99b9}">
 		<property name="volume">
-			<value>-25</value>
+			<value>-26</value>
 		</property>
 		<property name="name">
 			<value>Audio 1</value>
@@ -146,11 +146,24 @@
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{d58a5ae7-ea2d-431c-b8bc-090a598854e2}" />
-	<object class="SFXReverbEffect" id="{3bb415bf-5182-4c0a-82bd-8b531de2ac28}" />
+	<object class="SFXReverbEffect" id="{3bb415bf-5182-4c0a-82bd-8b531de2ac28}">
+		<property name="wetLevel">
+			<value>-4</value>
+		</property>
+		<property name="dryLevel">
+			<value>-3.5</value>
+		</property>
+	</object>
 	<object class="MixerBusFader" id="{864e3299-3052-40fd-980a-d588699d2e4d}" />
 	<object class="SpatialiserEffect" id="{bcca413b-c4b8-413d-9b8b-672162de38ba}">
+		<property name="distanceRolloffType">
+			<value>1</value>
+		</property>
+		<property name="minimumDistance">
+			<value>0</value>
+		</property>
 		<property name="maximumDistance">
-			<value>10</value>
+			<value>2</value>
 		</property>
 		<property name="overrideRange">
 			<value>true</value>
