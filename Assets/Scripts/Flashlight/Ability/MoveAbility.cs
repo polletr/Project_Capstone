@@ -3,10 +3,10 @@ using Utilities;
 
 public class MoveAbility : FlashlightAbility
 {
-    [SerializeField] private float pickupForce = 150f;
-    [SerializeField] private float pickupRange = 10f;
     [SerializeField] private float maxHoldRange = 3f;
     [SerializeField] private float maxHoldTime = 15f;
+    [SerializeField] private float pickupForce = 150f;
+    [field: SerializeField] public float PickupRange { get; private set; } = 10f;
 
     private MoveableObject pickup;
     private CountdownTimer timer;
@@ -26,7 +26,7 @@ public class MoveAbility : FlashlightAbility
 
     private void Pickup()
     {
-        if (Physics.Raycast(Flashlight.RayCastOrigin.position, Flashlight.RayCastOrigin.forward, out var hit, pickupRange) &&
+        if (Physics.Raycast(Flashlight.RayCastOrigin.position, Flashlight.RayCastOrigin.forward, out var hit, PickupRange) &&
             hit.collider.TryGetComponent(out MoveableObject obj))
         {
             pickup = obj;

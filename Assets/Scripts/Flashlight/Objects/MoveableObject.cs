@@ -3,9 +3,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody), typeof(Outline))]
 public class MoveableObject : MonoBehaviour, IMovable
 {
-    //[SerializeField] private float breakForce = 4f;
-    [SerializeField] private Material outlineMaterial;
-    public bool DefaultUseGravity { get; private set; }
+   public bool DefaultUseGravity { get; private set; }
     public float DefaultDrag { get; private set; }
     public RigidbodyConstraints DefaultConstraints { get; private set; }
     
@@ -17,7 +15,6 @@ public class MoveableObject : MonoBehaviour, IMovable
         Rb = GetComponent<Rigidbody>();
         BoxOutline = GetComponent<Outline>();
         BoxOutline.enabled = false;
-       // GetComponent<Renderer>().material += outlineMaterial;
         DefaultUseGravity = Rb.useGravity;
         DefaultDrag = Rb.drag;
         DefaultConstraints = Rb.constraints;
@@ -33,20 +30,4 @@ public class MoveableObject : MonoBehaviour, IMovable
         BoxOutline.enabled = false;
     }
 
-    #region CollisonDrop
-
-    /*  private void OnCollisionEnter(Collision collision)
-      {
-          if (IsPicked && collision.relativeVelocity.magnitude > breakForce)
-              IsPicked = false;
-      }
-
-      public IEnumerator Pickup()
-      {
-          yield return new WaitForSecondsRealtime(5f);
-
-          IsPicked = true;
-      }*/
-
-    #endregion
 }

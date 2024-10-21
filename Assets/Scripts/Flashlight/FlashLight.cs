@@ -107,7 +107,7 @@ public class FlashLight : MonoBehaviour
         {
             Event.SetTutorialText?.Invoke("Battery is Dead Press Q to recharge"); //Ui to change battery
             // Turn off the flashlight
-            StartCoroutine(Flicker(3f, TurnOffLight));
+            StartCoroutine(Flicker(2f, TurnOffLight));
         }
     }
 
@@ -156,11 +156,7 @@ public class FlashLight : MonoBehaviour
         var hasRevealable = obj.TryGetComponent(out IRevealable revealObj);
         var hasMovable = obj.TryGetComponent(out IMovable movableObj);
         
-        var isCloseEnough = (hasMovable || hasRevealable ) && Vector3.Distance(RayCastOrigin.position, obj.transform.position) <= 10f;
-
-        if(!isCloseEnough) return;
-        
-        // Apply the reveal effect if not revealed && check if it has a movable component
+     // Apply the reveal effect if not revealed && check if it has a movable component
         if (hasRevealable)
         {
             if (!revealObj.IsRevealed)
@@ -171,6 +167,10 @@ public class FlashLight : MonoBehaviour
             }
             else if (hasMovable)
             {
+                var distance =((MoveAbility)flashlightAbilities.Find(ability => ability is MoveAbility)).PickupRange;
+
+                if (!(Vector3.Distance(RayCastOrigin.position, obj.transform.position) <= distance)) return;
+                
                 movableObj.ApplyEffect();
                 effectedObjs.Add(movableObj);
                 effectedObjsThisFrame.Add(movableObj);
@@ -207,8 +207,7 @@ public class FlashLight : MonoBehaviour
 
     public void ResetLight()
     {
-        if (this.gameObject.activeSelf)
-            StartCoroutine(Flicker(1f, ResetLightState));
+        ResetLightState();
     }
 
     public void HandleFlashAbility()
@@ -281,7 +280,7 @@ public class FlashLight : MonoBehaviour
         else
         {
             ResetLightState();
-            StartCoroutine(Flicker(1f, TurnOffLight));
+            TurnOffLight();
         }
     }
 
