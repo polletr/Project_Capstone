@@ -105,9 +105,10 @@ public class FlashLight : MonoBehaviour
 
         if (isFlashlightOn && !isFlickering)
         {
-            Event.SetTutorialText?.Invoke("Battery is Dead Press Q to recharge"); //Ui to change battery
             // Turn off the flashlight
             StartCoroutine(Flicker(1f, TurnOffLight));
+            Event.SetTutorialText?.Invoke("Battery is Dead Press Q to recharge"); //Ui to change battery
+
         }
     }
 
@@ -311,6 +312,7 @@ public class FlashLight : MonoBehaviour
         var timer = 0f;
         while (timer < maxTime)
         {
+            Debug.Log("Flickering");
             // Randomize the intensity
             Light.intensity = Random.Range(0.2f, intensity);
 
@@ -324,9 +326,9 @@ public class FlashLight : MonoBehaviour
             // Wait for the next flicker
             yield return new WaitForSeconds(flickerTimer);
         }
+        isFlickering = false;
 
         onFlickerEnd?.Invoke();
-        isFlickering = false;
     }
 
     private bool IsBatteryDead()
