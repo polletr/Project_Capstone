@@ -8,7 +8,7 @@ public class Documentation : Interactable
 
     private readonly int openHash = Animator.StringToHash("Open");
     private readonly int closeHash = Animator.StringToHash("Close");
-    
+
     private bool isOpen;
 
     protected override void Awake()
@@ -21,7 +21,19 @@ public class Documentation : Interactable
     {
         base.OnInteract();
         isOpen = !isOpen;
-        DocumentUIHandler.Instance.MoveDocumentUI(document,isOpen);
+        if (DocumentUIHandler.Instance == null)
+        {
+            Debug.LogWarning("DocumentUIHandler is null");
+            return;
+        }
+
+        if (AudioManagerFMOD.Instance == null)
+        {
+            Debug.LogWarning("AudioManagerFMOD is null");
+            return;
+        }
+
+        DocumentUIHandler.Instance.MoveDocumentUI(document, isOpen);
         animator.Play(isOpen ? openHash : closeHash);
         var eventID = isOpen
             ? AudioManagerFMOD.Instance.SFXEvents.DocumentsOpen

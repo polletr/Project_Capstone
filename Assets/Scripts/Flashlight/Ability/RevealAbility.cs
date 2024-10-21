@@ -46,7 +46,7 @@ public class RevealAbility : FlashlightAbility
         var check = false;
         while (!check)
         {
-            if (Physics.Raycast(Flashlight.transform.position, Flashlight.transform.forward, out RaycastHit hit,
+            if (Physics.Raycast(Flashlight.RayCastOrigin.position, Flashlight.RayCastOrigin.forward, out var hit,
                     revealRange))
             {
                 if (hit.collider.TryGetComponent(out RevealableObject obj))
@@ -87,7 +87,7 @@ public class RevealAbility : FlashlightAbility
 
     private IEnumerator VisualReveal()
     {
-        float timer = 0f;
+        var timer = 0f;
         while (Flashlight.Light.intensity < maxIntensity)
         {
             timer += Time.deltaTime;

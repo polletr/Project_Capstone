@@ -485,7 +485,8 @@ MonoBehaviour:
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_fontSharedMaterials: []
+  m_fontSharedMaterials:
+  - {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
@@ -666,6 +667,7 @@ GameObject:
   - component: {fileID: 175469300}
   - component: {fileID: 175469299}
   - component: {fileID: 175469298}
+  - component: {fileID: 175469301}
   m_Layer: 0
   m_Name: Battery_1
   m_TagString: Untagged
@@ -685,8 +687,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1abe28c4853a2344a65cb9c83a977c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  batteryLife: 100
   Event: {fileID: 11400000, guid: 821642c9ec9c5474b88bc1b575e70ddf, type: 2}
+  <BatteryCharge>k__BackingField: 20
 --- !u!65 &175469299
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -727,6 +729,25 @@ Transform:
   - {fileID: 855246277}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &175469301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 175469297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cc439e4caf02ae4486689bd41401d0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  checkRadius: 5
+  circleUIMinDistance: 2
+  circleUIMaxDistance: 10
+  triggerCol: {fileID: 0}
+  objectFlare: {fileID: 0}
+  <TargetUIPos>k__BackingField: {fileID: 0}
+  <IndicatorUI>k__BackingField: {fileID: 0}
 --- !u!4 &188141800 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 5eec878837e4a4a02be127232ea83920,
@@ -1239,6 +1260,7 @@ GameObject:
   - component: {fileID: 357447485}
   - component: {fileID: 357447484}
   - component: {fileID: 357447483}
+  - component: {fileID: 357447486}
   m_Layer: 0
   m_Name: Battery_3
   m_TagString: Untagged
@@ -1258,8 +1280,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1abe28c4853a2344a65cb9c83a977c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  batteryLife: 100
   Event: {fileID: 11400000, guid: 821642c9ec9c5474b88bc1b575e70ddf, type: 2}
+  <BatteryCharge>k__BackingField: 20
 --- !u!65 &357447484
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1300,6 +1322,25 @@ Transform:
   - {fileID: 1270170214}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &357447486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 357447482}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cc439e4caf02ae4486689bd41401d0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  checkRadius: 5
+  circleUIMinDistance: 2
+  circleUIMaxDistance: 10
+  triggerCol: {fileID: 0}
+  objectFlare: {fileID: 0}
+  <TargetUIPos>k__BackingField: {fileID: 0}
+  <IndicatorUI>k__BackingField: {fileID: 0}
 --- !u!1001 &374777054
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1844,6 +1885,7 @@ GameObject:
   - component: {fileID: 611251395}
   - component: {fileID: 611251394}
   - component: {fileID: 611251393}
+  - component: {fileID: 611251396}
   m_Layer: 0
   m_Name: Battery_5
   m_TagString: Untagged
@@ -1863,8 +1905,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1abe28c4853a2344a65cb9c83a977c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  batteryLife: 100
   Event: {fileID: 11400000, guid: 821642c9ec9c5474b88bc1b575e70ddf, type: 2}
+  <BatteryCharge>k__BackingField: 20
 --- !u!65 &611251394
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1905,6 +1947,25 @@ Transform:
   - {fileID: 1350237752}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &611251396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 611251392}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cc439e4caf02ae4486689bd41401d0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  checkRadius: 5
+  circleUIMinDistance: 2
+  circleUIMaxDistance: 10
+  triggerCol: {fileID: 0}
+  objectFlare: {fileID: 0}
+  <TargetUIPos>k__BackingField: {fileID: 0}
+  <IndicatorUI>k__BackingField: {fileID: 0}
 --- !u!1001 &640007419
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3862,6 +3923,7 @@ GameObject:
   - component: {fileID: 1514360647}
   - component: {fileID: 1514360646}
   - component: {fileID: 1514360645}
+  - component: {fileID: 1514360648}
   m_Layer: 0
   m_Name: Battery_2
   m_TagString: Untagged
@@ -3881,8 +3943,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1abe28c4853a2344a65cb9c83a977c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  batteryLife: 100
   Event: {fileID: 11400000, guid: 821642c9ec9c5474b88bc1b575e70ddf, type: 2}
+  <BatteryCharge>k__BackingField: 20
 --- !u!65 &1514360646
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3923,6 +3985,25 @@ Transform:
   - {fileID: 188141800}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1514360648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1514360644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cc439e4caf02ae4486689bd41401d0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  checkRadius: 5
+  circleUIMinDistance: 2
+  circleUIMaxDistance: 10
+  triggerCol: {fileID: 0}
+  objectFlare: {fileID: 0}
+  <TargetUIPos>k__BackingField: {fileID: 0}
+  <IndicatorUI>k__BackingField: {fileID: 0}
 --- !u!1001 &1520395968
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4049,7 +4130,8 @@ MonoBehaviour:
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_fontSharedMaterials: []
+  m_fontSharedMaterials:
+  - {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
@@ -4287,6 +4369,8 @@ GameObject:
   - component: {fileID: 1606562019}
   - component: {fileID: 1606562018}
   - component: {fileID: 1606562017}
+  - component: {fileID: 1606562022}
+  - component: {fileID: 1606562021}
   m_Layer: 0
   m_Name: LightTest
   m_TagString: Untagged
@@ -4310,6 +4394,7 @@ MonoBehaviour:
   maxFlickerDuration: 5
   flickerFrequency: 0.1
   constantFlickering: 0
+  guidingLight: 0
 --- !u!114 &1606562018
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4410,6 +4495,54 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &1606562021
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1606562016}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &1606562022
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1606562016}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1001 &1612042955
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4719,6 +4852,7 @@ GameObject:
   - component: {fileID: 1695142074}
   - component: {fileID: 1695142073}
   - component: {fileID: 1695142072}
+  - component: {fileID: 1695142075}
   m_Layer: 0
   m_Name: Battery_4
   m_TagString: Untagged
@@ -4738,8 +4872,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1abe28c4853a2344a65cb9c83a977c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  batteryLife: 100
   Event: {fileID: 11400000, guid: 821642c9ec9c5474b88bc1b575e70ddf, type: 2}
+  <BatteryCharge>k__BackingField: 20
 --- !u!65 &1695142073
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4780,6 +4914,25 @@ Transform:
   - {fileID: 1035371553}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1695142075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1695142071}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cc439e4caf02ae4486689bd41401d0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  checkRadius: 5
+  circleUIMinDistance: 2
+  circleUIMaxDistance: 10
+  triggerCol: {fileID: 0}
+  objectFlare: {fileID: 0}
+  <TargetUIPos>k__BackingField: {fileID: 0}
+  <IndicatorUI>k__BackingField: {fileID: 0}
 --- !u!43 &1697452515
 Mesh:
   m_ObjectHideFlags: 0
@@ -4977,7 +5130,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   direction: {x: 0, y: 0, z: 4}
   duration: 5
-  isMoving: 0
+  dragSound: 0
 --- !u!4 &1748636091 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 5eec878837e4a4a02be127232ea83920,
@@ -5575,7 +5728,7 @@ PrefabInstance:
     - target: {fileID: 7860641321513475736, guid: 95328615bc0790946b2df2cd463f12ba,
         type: 3}
       propertyPath: m_VersionIndex
-      value: 2061
+      value: 2064
       objectReference: {fileID: 0}
     - target: {fileID: 8248496057408414015, guid: 95328615bc0790946b2df2cd463f12ba,
         type: 3}
@@ -6259,8 +6412,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1c70645afa08184c84fcb953202cfbc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  breakForce: 10
-  <IsPicked>k__BackingField: 0
+  outlineMaterial: {fileID: 0}
 --- !u!114 &2010935002
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6356,6 +6508,7 @@ GameObject:
   - component: {fileID: 2075806153}
   - component: {fileID: 2075806152}
   - component: {fileID: 2075806151}
+  - component: {fileID: 2075806154}
   m_Layer: 0
   m_Name: Battery
   m_TagString: Untagged
@@ -6375,8 +6528,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1abe28c4853a2344a65cb9c83a977c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  batteryLife: 100
   Event: {fileID: 11400000, guid: 821642c9ec9c5474b88bc1b575e70ddf, type: 2}
+  <BatteryCharge>k__BackingField: 20
 --- !u!65 &2075806152
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6417,6 +6570,25 @@ Transform:
   - {fileID: 958078318}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2075806154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2075806150}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cc439e4caf02ae4486689bd41401d0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  checkRadius: 5
+  circleUIMinDistance: 2
+  circleUIMaxDistance: 10
+  triggerCol: {fileID: 0}
+  objectFlare: {fileID: 0}
+  <TargetUIPos>k__BackingField: {fileID: 0}
+  <IndicatorUI>k__BackingField: {fileID: 0}
 --- !u!4 &2083643871 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 5eec878837e4a4a02be127232ea83920,
@@ -6455,10 +6627,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0936c340e8b99744ad726a031eb565d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  batteryLife: {fileID: 1541650049}
-  currentAbility: {fileID: 71098269}
+  batteryLifeUI: {fileID: 0}
+  batteryCountUI: {fileID: 0}
+  currentAbilityUI: {fileID: 0}
+  playerHealthUI: {fileID: 0}
   flashLight: {fileID: 1942961499}
   playerInventory: {fileID: 326885463}
+  playerController: {fileID: 0}
 --- !u!114 &2089561848
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -10,8 +10,8 @@ public class FlashLight : MonoBehaviour
 {
     public GameEvent Event;
 
-    [Header("Base Flashlight Settings")] 
-    [SerializeField] private float range;
+    [Header("Base Flashlight Settings")] [SerializeField]
+    private float range;
 
     [SerializeField] private Color lightColor;
     [SerializeField] private float intensity;
@@ -32,10 +32,11 @@ public class FlashLight : MonoBehaviour
 
 
     public PlayerController Player { get; private set; }
-
+    
+    public Transform RayCastOrigin => Player.PlayerCam.transform;
     public FlashlightAbility CurrentAbility { get; private set; }
 
-    public Light Light { get; set; }
+    public Light Light { get; private set; }
 
     [SerializeField] private LayerMask layerMask;
 
@@ -56,7 +57,7 @@ public class FlashLight : MonoBehaviour
         Light.range = range;
         Light.intensity = intensity;
         Light.color = lightColor;
-        
+
         Player = GetComponentInParent<PlayerController>();
 
         MoveHoldPos = MoveHoldPos == null ? transform : MoveHoldPos;
@@ -67,8 +68,8 @@ public class FlashLight : MonoBehaviour
             {
                 flashlightAbilities.Add(ability);
             }
-        } 
-       
+        }
+
 
         if (flashlightAbilities.Count <= 0) return;
 
@@ -98,7 +99,7 @@ public class FlashLight : MonoBehaviour
             Drain(baseCost * Time.deltaTime);
 
         if (!IsBatteryDead()) return;
-        
+
         if (CurrentAbility != null)
             CurrentAbility.OnStopAbility();
 
@@ -129,65 +130,59 @@ public class FlashLight : MonoBehaviour
         Destroy(ability.gameObject); // Destroy the ability
     }
 
-    public void HandleSphereCast()
+    public void HandleRayCast()
     {
-        if (IsBatteryDead() || !isFlashlightOn) return;
-
-        var hits = new RaycastHit[1];
-        var flashlightPos = transform;
-        var numHits = Physics.SphereCastNonAlloc(flashlightPos.position, 0.1f, flashlightPos.forward, hits, range, layerMask);
-
-        effectedObjsThisFrame.Clear();
         
-        foreach (var hit in hits)
+        // Remove effects from objects that were affected in the last frame but are not in this frame
+        for (var i = 0; i < effectedObjs.Count; i++)
         {
-            var hitObj = hit.collider;
-            if (hitObj == null) continue;
+            if (effectedObjsThisFrame.Contains(effectedObjs[i])) continue;
 
-            var obj = hitObj.gameObject;
+            effectedObjs[i].RemoveEffect();
+            effectedObjs.Remove(effectedObjs[i]);
+        }
+        
+        if (IsBatteryDead() || !isFlashlightOn) return;
+      
+        effectedObjsThisFrame.Clear();
 
-          
-            if (!obj.TryGetComponent(out IEffectable effectable)) continue;
+        if (!Physics.Raycast(RayCastOrigin.position, RayCastOrigin.forward, out var hit, range)) return;
+        
+        var obj = hit.collider.gameObject;
 
-            // Try to get both IRevealable and IMovable components
-            var hasRevealable = obj.TryGetComponent(out IRevealable revealObj);
-            var hasMovable = obj.TryGetComponent(out IMovable movableObj);
+        if (!obj.TryGetComponent(out IEffectable effectable)) return;
 
-            // Apply the reveal effect if not revealed && check if it has a movable component
-            if (hasRevealable)
+        // Try to get both IRevealable and IMovable components
+        var hasRevealable = obj.TryGetComponent(out IRevealable revealObj);
+        var hasMovable = obj.TryGetComponent(out IMovable movableObj);
+        
+        var isCloseEnough = (hasMovable || hasRevealable ) && Vector3.Distance(RayCastOrigin.position, obj.transform.position) <= 10f;
+
+        if(!isCloseEnough) return;
+        
+        // Apply the reveal effect if not revealed && check if it has a movable component
+        if (hasRevealable)
+        {
+            if (!revealObj.IsRevealed)
             {
-                if (!revealObj.IsRevealed)
-                {
-                    revealObj.ApplyEffect();
-                    effectedObjs.Add(revealObj);
-                    effectedObjsThisFrame.Add(revealObj);
-                    continue; 
-                }
-                else if (hasMovable) 
-                {
-                    movableObj.ApplyEffect();
-                    effectedObjs.Add(movableObj);
-                    effectedObjsThisFrame.Add(movableObj);
-                    continue; 
-                }
+                revealObj.ApplyEffect();
+                effectedObjs.Add(revealObj);
+                effectedObjsThisFrame.Add(revealObj);
             }
-
+            else if (hasMovable)
+            {
+                movableObj.ApplyEffect();
+                effectedObjs.Add(movableObj);
+                effectedObjsThisFrame.Add(movableObj);
+            }
+        }
+        else
+        {
             // If it's IEffectable and hasn't been affected yet, apply its effect
             effectedObjsThisFrame.Add(effectable);
             if (!effectedObjs.Contains(effectable))
             {
                 ApplyCurrentAbilityEffect(obj);
-            }
-        }
-
-
-        // Remove effects from objects that were affected in the last frame but are not in this frame
-        for (int i = 0; i < effectedObjs.Count; i++)
-        {
-            if (!effectedObjsThisFrame.Contains(effectedObjs[i]))
-            {
-                effectedObjs[i].RemoveEffect();
-                effectedObjs.Remove(effectedObjs[i]);
             }
         }
     }
@@ -200,20 +195,14 @@ public class FlashLight : MonoBehaviour
         Gizmos.color = Color.red;
 
         // Ray and range definition
-        var origin = transform.position;
-        var direction = transform.forward * range;
-
-        // Draw the sphere at the origin point
-        Gizmos.DrawWireSphere(origin, 2f);
+        var origin = Player.PlayerCam.transform.position;
+        var direction = Player.PlayerCam.transform.forward * range;
 
         // Calculate the end point of the SphereCast
         var endPoint = origin + direction;
 
         // Draw the line representing the ray of the SphereCast
         Gizmos.DrawLine(origin, endPoint);
-
-        // Draw the sphere at the end point
-        Gizmos.DrawWireSphere(endPoint, 2f);
     }
 
     public void ResetLight()
@@ -224,18 +213,19 @@ public class FlashLight : MonoBehaviour
 
     public void HandleFlashAbility()
     {
-        Debug.Log("Flash Ability Move/Reveal");
-        if(Physics.Raycast(transform.position, transform.forward, out var hit, range))
-            CurrentAbility = hit.collider.TryGetComponent(out RevealableObject obj) && !obj.IsRevealed ? 
-                flashlightAbilities.Find(ability => ability is RevealAbility) : 
-                flashlightAbilities.Find(ability => ability is MoveAbility);
-        
-        
+        if (Physics.Raycast(Player.PlayerCam.transform.position, Player.PlayerCam.transform.forward, out var hit,
+                range))
+            CurrentAbility = hit.collider.TryGetComponent(out RevealableObject obj) && !obj.IsRevealed
+                ? flashlightAbilities.Find(ability => ability is RevealAbility)
+                : flashlightAbilities.Find(ability => ability is MoveAbility);
+
+
         if (CurrentAbility != null && isFlashlightOn && (BatteryLife - CurrentAbility.Cost) >= minBatteryAfterUse)
             CurrentAbility.OnUseAbility();
         else
             Player.currentState?.HandleMove();
-    }   
+    }
+
     public void HandleStunAbility()
     {
         CurrentAbility = flashlightAbilities.Find(ability => ability is StunAbility);
@@ -244,7 +234,7 @@ public class FlashLight : MonoBehaviour
         else
             Player.currentState?.HandleMove();
     }
- 
+
 
     public void StopUsingFlashlight()
     {
@@ -267,12 +257,11 @@ public class FlashLight : MonoBehaviour
         Light.enabled = false;
         isFlashlightOn = false;
         //Remove effect on things
-        for (int i = 0; i < effectedObjs.Count; i++)
+        for (var i = 0; i < effectedObjs.Count; i++)
         {
             effectedObjs[i].RemoveEffect();
             effectedObjs.Remove(effectedObjs[i]);
         }
-
     }
 
     public void ConsumeBattery(float cost)
@@ -310,29 +299,11 @@ public class FlashLight : MonoBehaviour
 
     private void ApplyCurrentAbilityEffect(GameObject obj)
     {
-        if (obj.TryGetComponent(out IStunnable enemy))
-        {
-            enemy.ApplyEffect();
-            effectedObjs.Add(enemy);
-        }
-
-        if (obj.TryGetComponent(out IMovable moveObj))
-        {
-            moveObj.ApplyEffect();
-            effectedObjs.Add(moveObj);
-        }
-        
-        if (obj.TryGetComponent(out IRevealable revealObj))
-        {
-            revealObj.ApplyEffect();
-            effectedObjs.Add(revealObj);
-        }
-
         if (!obj.TryGetComponent(out IEffectable effectable)) return;
-        
-        effectable.ApplyEffect();
-        effectedObjs.Add(effectable);
 
+        effectable.ApplyEffect();
+        effectedObjsThisFrame.Add(effectable);
+        effectedObjs.Add(effectable);
     }
 
     private IEnumerator Flicker(float maxTime, Action onFlickerEnd)
@@ -376,6 +347,6 @@ public class FlashLight : MonoBehaviour
     }
 
     private void UpdateExtraCharge(float charge) => _extraCharge = charge;
-  
+
     public void ZeroOutBattery() => BatteryLife = 0;
 }

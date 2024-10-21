@@ -98,7 +98,7 @@ public abstract class PlayerBaseState
     protected virtual void HandleFlashlightSphereCast()
     {
         if (player.HasFlashlight)
-            player.flashlight.HandleSphereCast();
+            player.flashlight.HandleRayCast();
     }
 
     public virtual void HandleFlashlightPower()

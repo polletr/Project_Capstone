@@ -1,22 +1,23 @@
-using System;
 using UnityEngine;
-using System.Collections;
 
-[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(Rigidbody), typeof(Outline))]
 public class MoveableObject : MonoBehaviour, IMovable
 {
     //[SerializeField] private float breakForce = 4f;
-
+    [SerializeField] private Material outlineMaterial;
     public bool DefaultUseGravity { get; private set; }
     public float DefaultDrag { get; private set; }
     public RigidbodyConstraints DefaultConstraints { get; private set; }
-
+    
+    public Outline BoxOutline {get; private set;}
     public Rigidbody Rb { get; set; }
 
     private void Awake()
     {
         Rb = GetComponent<Rigidbody>();
-
+        BoxOutline = GetComponent<Outline>();
+        BoxOutline.enabled = false;
+       // GetComponent<Renderer>().material += outlineMaterial;
         DefaultUseGravity = Rb.useGravity;
         DefaultDrag = Rb.drag;
         DefaultConstraints = Rb.constraints;
@@ -24,7 +25,12 @@ public class MoveableObject : MonoBehaviour, IMovable
 
     public void ApplyEffect()
     {
-        //outline effect
+        BoxOutline.enabled = true;
+    }
+    
+    public void RemoveEffect()
+    {
+        BoxOutline.enabled = false;
     }
 
     #region CollisonDrop
