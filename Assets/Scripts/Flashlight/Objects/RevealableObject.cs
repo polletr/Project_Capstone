@@ -1,14 +1,30 @@
+using FMOD.Studio;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class RevealableObject : MonoBehaviour  , IRevealable
 {
+    private MeshRenderer m_Renderer;
     private Material objMaterial;
+
+    private Material originalMaterial;
+    [SerializeField] private Material revealMaterial;
+    [SerializeField] private Material dissolveMaterial;
     [SerializeField] private float revealTime;
     [SerializeField] private float unRevealTime;
 
-    public bool IsRevealed { get; set; }
+    [SerializeField] private UnityEvent objectRevealed;
+
+    private EventInstance revealSound;
+
+    public bool IsRevealed
+    {
+        get;
+        set;
+    }
 
     private float revealTimer;
     private float currentObjTransp;
@@ -16,16 +32,21 @@ public class RevealableObject : MonoBehaviour  , IRevealable
 
     void Awake()
     {
-        objMaterial = GetComponent<MeshRenderer>().material;
-        origObjTransp = objMaterial.GetFloat("_Transparency");
-        revealTimer = 0f;
+        m_Renderer = GetComponent<MeshRenderer>();
+        m_Renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+        
+        originalMaterial = m_Renderer.material;
+        m_Renderer.material = revealMaterial;
+        objMaterial = revealMaterial;
+            revealTimer = 0f;
 
-        currentObjTransp = origObjTransp;
+        revealSound = AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.FlashlightRevealing);
+
     }
 
     public void ApplyEffect()
     {
-        GetComponent<MeshRenderer>().material = objMaterial;
+        
     }
 
     public void RemoveEffect()
@@ -43,36 +64,55 @@ public class RevealableObject : MonoBehaviour  , IRevealable
     {
         StopAllCoroutines();
         revealTimer += Time.deltaTime;
-        currentObjTransp = Mathf.Lerp(origObjTransp, 1f, revealTimer / revealTime);
-        Debug.Log(revealTimer);
-        objMaterial.SetFloat("_Transparency", currentObjTransp);
+        m_Renderer.material = dissolveMaterial;
+        currentObjTransp = Mathf.Lerp(1f, 0f, revealTimer / revealTime);
+        m_Renderer.material.SetFloat("_DissolveAmount", currentObjTransp);
+
+
+        PLAYBACK_STATE playbackState;
+        revealSound.getPlaybackState(out playbackState);
+        if (playbackState.Equals(PLAYBACK_STATE.STOPPED))
+        {
+            revealSound.start();
+        }
+
         if (revealTimer >= revealTime)
         {
             revealTimer = 0f;
-            IsRevealed = true;
         }
-        revealed = currentObjTransp >= 1f;
-    }
 
-    public void UnrevealObj()
+        if (currentObjTransp <= 0f)
+        {
+            IsRevealed = true;
+            m_Renderer.material = originalMaterial;
+            revealSound.stop(STOP_MODE.IMMEDIATE);
+            AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.FlashlightReveal, this.transform.position);
+            objectRevealed.Invoke();
+        }
+        revealed = currentObjTransp <= 0f;
+   }
+
+    public void UnRevealObj()
     {
-        StartCoroutine(Unreveal());
+        StartCoroutine(UnReveal());
     }
 
 
-    private IEnumerator Unreveal()
+    private IEnumerator UnReveal()
     {
         revealTimer = 0f;
-
-        float currentFloat = currentObjTransp;
-        float timer = 0f;
-        while (currentObjTransp > origObjTransp)
+        revealSound.stop(STOP_MODE.IMMEDIATE);
+        var currentFloat = currentObjTransp;
+        var timer = 0f;
+        while (currentObjTransp < 1f)
         {
             timer += Time.deltaTime;
-            currentObjTransp = Mathf.Lerp(currentFloat, origObjTransp, timer / unRevealTime);
-            objMaterial.SetFloat("_Transparency", currentObjTransp);
+            currentObjTransp = Mathf.Lerp(currentFloat, 1f, timer / unRevealTime);
+            m_Renderer.material.SetFloat("_DissolveAmount", currentObjTransp);
 
             yield return null;
         }
+        m_Renderer.material = revealMaterial;
     }
+
 }

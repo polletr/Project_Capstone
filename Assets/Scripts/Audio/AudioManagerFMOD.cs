@@ -78,8 +78,9 @@ public class AudioManagerFMOD : Singleton<AudioManagerFMOD>
     }
 
 
-    private void OnDestroy()
+    protected override void OnDestroy()
     {
         CleanUp();
+        base.OnDestroy();
     }
 }

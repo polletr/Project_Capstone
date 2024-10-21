@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &76656611706495617
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 392263461314138004}
+  m_Layer: 0
+  m_Name: Eye
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &392263461314138004
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 76656611706495617}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.4857, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6080547743055034047}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &904477281664417906
 GameObject:
   m_ObjectHideFlags: 0
@@ -36,6 +67,7 @@ Transform:
   m_Children:
   - {fileID: 6873721253427522439}
   - {fileID: 5127120717343839388}
+  - {fileID: 392263461314138004}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3330528363716557571
@@ -51,23 +83,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   patrolTransforms: []
-  eyes: {fileID: 9204836737115642125}
+  eyes: {fileID: 392263461314138004}
   agent: {fileID: 0}
   patrolRange: 5
   maxIdleTime: 5
   minIdleTime: 1
   patrolSpeed: 1
   paralisedSpeed: 0
-  stunTime: 10
   rotationSpeed: 5
   hearingMultiplier: 1
-  sightRange: 10
+  sightRange: 15
   sightAngle: 45
-  attackRange: 2
-  attackAntecipationTime: 2
+  attackRange: 1.5
+  attackAntecipationTime: 0.5
   <TeleportCooldown>k__BackingField: 2
   <MaxChaseTime>k__BackingField: 5
-  <StunTime>k__BackingField: 15
+  <StunTime>k__BackingField: 10
   <BodyMaterial>k__BackingField: {fileID: 2100000, guid: c3148a63354fa442abce19b1a40f9fef,
     type: 2}
   <EyeMaterial>k__BackingField: {fileID: 2100000, guid: 37ef587f6a5be4df0b4cb7317dca8b44,
@@ -75,7 +106,7 @@ MonoBehaviour:
   <SmokeParticle>k__BackingField: {fileID: 6885992037475440784}
   <DoorAttackCooldown>k__BackingField: 2
   <DoorAttackDamage>k__BackingField: 2
-  changeTranspDuration: 1
+  changeTranspDuration: 0.5
   Event: {fileID: 11400000, guid: 821642c9ec9c5474b88bc1b575e70ddf, type: 2}
 --- !u!114 &7393242699462606258
 MonoBehaviour:
@@ -339,12 +370,6 @@ PrefabInstance:
 --- !u!4 &6873721253427522439 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2142731607897281118, guid: 695293388826b864f8015255c24320f0,
-    type: 3}
-  m_PrefabInstance: {fileID: 4816843913625188825}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &9204836737115642125 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4424496615975280852, guid: 695293388826b864f8015255c24320f0,
     type: 3}
   m_PrefabInstance: {fileID: 4816843913625188825}
   m_PrefabAsset: {fileID: 0}

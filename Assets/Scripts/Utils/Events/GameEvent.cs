@@ -6,6 +6,7 @@ public class GameEvent : ScriptableObject
     public UnityAction<Vector3, float> OnSoundEmitted;
 
     public UnityAction OnPlayerDeath;
+    public UnityAction OnFadeBlackScreen;
     public UnityAction OnPlayerRespawn;
 
     public UnityAction OnPickupFlashlight;
@@ -19,6 +20,7 @@ public class GameEvent : ScriptableObject
     public UnityAction OnFinishRecharge;
 
     public UnityAction<LevelData> OnLevelChange;
+    public UnityAction OnReloadScenes;
     public UnityAction OnLoadStarterScene;
 
     public UnityAction<Transform> SetNewSpawn;
@@ -26,6 +28,18 @@ public class GameEvent : ScriptableObject
     public UnityAction<string> SetTutorialText;
     public UnityAction<string> SetTutorialTextTimer;
 
+    int timer = 0;
+    public void HandlePlayerFootSteps(Vector3 position, float range)
+    {
+        if (timer == 0)
+        {
+            OnSoundEmitted?.Invoke(position, range);
+        }
+
+        timer++;
+        timer %= 5;
+
+    }
 }
 
 

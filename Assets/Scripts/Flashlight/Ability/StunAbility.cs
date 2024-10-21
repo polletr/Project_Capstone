@@ -1,3 +1,5 @@
+using FMOD.Studio;
+using FMODUnity;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,6 +19,8 @@ public class StunAbility : FlashlightAbility
 
     CountdownTimer timer;
 
+    EventInstance flashSound;
+
     public override void OnUseAbility()
     {
         timer = new CountdownTimer(cooldown);
@@ -35,6 +39,8 @@ public class StunAbility : FlashlightAbility
                 thing.ApplyStunEffect();
         }
         Flashlight.ConsumeBattery(Cost);
+        flashSound = AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.FlashlightStun);
+        flashSound.start();
 
         StartCoroutine(RestoreLightOverTime());
 

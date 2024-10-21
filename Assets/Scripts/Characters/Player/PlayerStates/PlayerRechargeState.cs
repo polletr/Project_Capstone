@@ -1,3 +1,4 @@
+using FMOD.Studio;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -18,7 +19,13 @@ public class PlayerRechargeState : PlayerBaseState
         
         timer = new CountdownTimer(player.Settings.FlashlightReloadTime);
         timer.Start();
-  
+
+        player.playerFootsteps.getPlaybackState(out var playbackState);
+        if (playbackState.Equals(PLAYBACK_STATE.PLAYING))
+        {
+            player.playerFootsteps.stop(STOP_MODE.ALLOWFADEOUT);
+        }
+
     }
     public override void ExitState()
     {

@@ -64,6 +64,11 @@ public abstract class PlayerBaseState
         // Calculate the movement direction based on the input (dir) and camera orientation
         _direction = (cameraForward * dir.y + cameraRight * dir.x);
     }
+    
+    public virtual void HandleRecharge()
+    {
+        
+    }
 
     public virtual void HandleAttack(bool isHeld)
     {
@@ -144,7 +149,8 @@ public abstract class PlayerBaseState
         if (_direction.sqrMagnitude > 0f)
         {
             if (player.Event.OnSoundEmitted != null)
-                player.Event.OnSoundEmitted.Invoke(player.transform.position, GetSoundEmitted());
+                player.Event.HandlePlayerFootSteps(player.transform.position, GetSoundEmitted());
+
             //Actual sound
             if (playbackState.Equals(PLAYBACK_STATE.STOPPED))
             {
@@ -173,17 +179,18 @@ public abstract class PlayerBaseState
             if (obj.TryGetComponent(out Interactable thing))
             {
                 player.interactableObj = thing;
-                player.interactableObj.indicatorHandler.IndicatorUI.TriggerTextIndicator(true);
+                if (player.interactableObj.indicatorHandler != null && player.interactableObj.indicatorHandler.IndicatorUI != null)
+                    player.interactableObj.indicatorHandler.IndicatorUI.TriggerTextIndicator(true);
             }
             else
             {
-                if (player.interactableObj != null)
+                if (player.interactableObj != null && player.interactableObj.indicatorHandler != null && player.interactableObj.indicatorHandler.IndicatorUI != null)
                     player.interactableObj.indicatorHandler.IndicatorUI.TriggerTextIndicator(false);
             }
         }
         else
         {
-            if (player.interactableObj != null)
+            if (player.interactableObj != null && player.interactableObj.indicatorHandler != null && player.interactableObj.indicatorHandler.IndicatorUI != null)
             {
                 player.interactableObj.indicatorHandler.IndicatorUI.TriggerTextIndicator(false);
                 player.interactableObj = null;

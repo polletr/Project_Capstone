@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
 public class LevelManager : Singleton<LevelManager>
@@ -16,18 +16,24 @@ public class LevelManager : Singleton<LevelManager>
     private string _currentScene;
     private List<string> _currentLoadedScenes = new();
 
+    private EventSystem _eventSystem;
+
     private void OnEnable()
     {
         Event.OnLevelChange += StartLevelLoading;
+        Event.OnReloadScenes += ReloadActiveScenes;
+
     }
 
     private void OnDisable()
     {
         Event.OnLevelChange -= StartLevelLoading;
+        Event.OnReloadScenes -= ReloadActiveScenes;
     }
 
     private void Start()
     {
+        _eventSystem = FindObjectOfType<EventSystem>();
         _currentScene = StartingScene;
         LoadStartScene();
     }
@@ -57,7 +63,6 @@ public class LevelManager : Singleton<LevelManager>
                 SceneManager.LoadSceneAsync(scene, LoadSceneMode.Additive);
             }
         }
-
     }
 
     public void LoadOnlyScene(string sceneName)
@@ -82,17 +87,45 @@ public class LevelManager : Singleton<LevelManager>
         return _currentLoadedScenes;
     }
 
+    private void ReloadActiveScenes()
+    {
+        StartCoroutine(UnloadScenesThenLoad());
+    }
+
+    private IEnumerator UnloadScenesThenLoad()
+    {
+        // Unload all active scenes except the MasterScene
+        foreach (var scene in GetActiveScenes())
+        {
+            if (scene == MasterScene) continue;
+
+            AsyncOperation unloadOp = SceneManager.UnloadSceneAsync(scene);
+
+            // Wait for each scene to finish unloading
+            while (!unloadOp.isDone)
+            {
+                yield return null;
+            }
+        }
+
+        // Once all scenes are unloaded, load the start scene
+        LoadStartScene();
+        // LoadLevels
+    }
+
+
+
     #region    Extra Methods
 
-   /* private void LoadSceneWithDelay<T>(UnityAction<T> action, T parameter)
-    {
-        SceneManager.LoadSceneAsync(_currentScene, LoadSceneMode.Additive);
-        action?.Invoke(parameter);
-    }
-    private void LoadSceneWithDelay(UnityAction action)
-    {
-        SceneManager.LoadSceneAsync(_currentScene, LoadSceneMode.Additive);
-        action?.Invoke();
-    }*/
+    /* private void LoadSceneWithDelay<T>(UnityAction<T> action, T parameter)
+     {
+         SceneManager.LoadSceneAsync(_currentScene, LoadSceneMode.Additive);
+         action?.Invoke(parameter);
+     }
+     private void LoadSceneWithDelay(UnityAction action)
+     {
+         SceneManager.LoadSceneAsync(_currentScene, LoadSceneMode.Additive);
+         action?.Invoke();
+     }*/
     #endregion
 }

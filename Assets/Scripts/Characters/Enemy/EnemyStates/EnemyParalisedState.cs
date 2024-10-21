@@ -27,21 +27,11 @@ public class EnemyParalisedState : EnemyBaseState
             enemy.playerCharacter.AddEnemyToChaseList(enemy);
         }
 
-/*        if (enemy.agent.destination != chasePos)
+        if (Vector3.Distance(enemy.transform.position, enemy.playerCharacter.transform.position) <= enemy.AttackRange)
         {
-            enemy.agent.SetDestination(chasePos);
+            enemy.ChangeState(enemy.AttackState);
         }
 
-        if (Vector3.Distance(enemy.transform.position, enemy.playerCharacter.transform.position) <= enemy.SightRange && enemy.playerCharacter.GetComponent<PlayerController>().IsAlive())
-        {
-            chasePos = enemy.playerCharacter.transform.position;
-            if (Vector3.Distance(enemy.transform.position, enemy.playerCharacter.transform.position) <= enemy.AttackRange)
-            {
-                enemy.agent.ResetPath();
-                enemy.ChangeState(enemy.AttackState);
-            }
-        }
-*/
         // Get the direction to the player
         Vector3 directionToPlayer = (enemy.playerCharacter.transform.position - enemy.transform.position).normalized;
 

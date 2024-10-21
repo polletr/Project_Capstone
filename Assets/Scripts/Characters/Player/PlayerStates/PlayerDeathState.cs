@@ -1,3 +1,4 @@
+using FMOD.Studio;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Utilities;
@@ -13,28 +14,31 @@ public class PlayerDeathState : PlayerBaseState
 
     CountdownTimer timer;
     float FOV;
-
+    bool hasFaded;
     public override void EnterState()
     {
         FOV = player.PlayerCam.fieldOfView;
         player.Event.OnPlayerDeath?.Invoke();
         //playerAnimator.animator.Play(playerAnimator.DieHash);
 
-        Debug.Log("Player is dead");
+        player.playerFootsteps.getPlaybackState(out var playbackState);
+        if (playbackState.Equals(PLAYBACK_STATE.PLAYING))
+        {
+            player.playerFootsteps.stop(STOP_MODE.ALLOWFADEOUT);
+        }
 
-        timer = new CountdownTimer(player.Settings.RespawnTime);
+        timer = new CountdownTimer(3f);
         timer.Start();
-
+        hasFaded = false;
     }
     public override void ExitState()
     {
         // player.PlayerCam.transform.parent = player.CameraHolder;
         player.PlayerCam.fieldOfView = FOV;
-        player.transform.position = player.CheckPoint.position;
         EnemyFace = null;
         EnemyKiller = null;
-
-        Debug.Log("Player is alive");
+        hasFaded = false;
+        Debug.Log("Exit DeathState");
     }
 
     public override void StateFixedUpdate()
@@ -45,12 +49,8 @@ public class PlayerDeathState : PlayerBaseState
     public override void StateUpdate()
     {
         timer.Tick(Time.deltaTime);
-        if (timer.IsFinished)
-        {
-            //animation stuff here
-            player.Event.OnPlayerRespawn?.Invoke();
-        }
 
+        if (hasFaded) return;
 
         if (IsKilledByEnemy())
         {
@@ -60,14 +60,13 @@ public class PlayerDeathState : PlayerBaseState
             player.PlayerCam.transform.rotation = Quaternion.Slerp(player.PlayerCam.transform.rotation, lookRotation, 7 * Time.deltaTime);
 
             player.PlayerCam.fieldOfView = Mathf.Lerp(player.PlayerCam.fieldOfView, 25, 7 * Time.deltaTime);
-
-            // Trigger UI fade or effect here      
-            //UI fade black or something
-        }
-        else
-        {
-            //UI fade black or something
-        }
+            if (timer.IsFinished)
+            {
+                player.Event.OnFadeBlackScreen?.Invoke();
+                Debug.Log("Blackscreen start");
+                hasFaded = true;
+            }
+        }      
     }
 
     public override void HandleMovement(Vector2 dir)

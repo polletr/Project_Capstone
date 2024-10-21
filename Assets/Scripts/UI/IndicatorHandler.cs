@@ -2,25 +2,39 @@ using UnityEngine;
 
 public class IndicatorHandler : MonoBehaviour
 {
-    [Header("UI References")]
-    [SerializeField] private float radius = 5f;
-    [SerializeField] private float minDistance = 2f;
-    [SerializeField] private float circleUIDistance = 10f;
-    public Transform playerTarget { get; set; }
+    [Header("Parameters")]
+    [SerializeField] private float checkRadius = 5f;
+    [SerializeField] private float circleUIMinDistance = 2f;
+    [SerializeField] private float circleUIMaxDistance = 10f;
+
+    [Header("References")]
+    [SerializeField] private SphereCollider triggerCol;
 
     [Header("Optional UI References")]
-    [SerializeField] private bool _dummyUIReference = false;
+    [SerializeField] private ObjectFlare objectFlare;
     [field: SerializeField] public Transform TargetUIPos { get; set; }
-    [field: SerializeField] public UIInteractableIndicator IndicatorUI { get; private set;}
+    [field: SerializeField, Tooltip("Setup as child or hook up in inspector")]
+    public UIInteractableIndicator IndicatorUI { get; private set; }
 
     private Camera cam;
 
+    private Transform playerTarget;
+
     private void Start()
     {
-        _dummyUIReference = true;
+        if (triggerCol == null)
+        {
+            Debug.LogError($"No SphereCollider found on {gameObject.name}");
+            return;
+        }
+        triggerCol.isTrigger = true;
+        triggerCol.radius = checkRadius;
+
         cam = Camera.main;
         var UI = GetComponentInChildren<UIInteractableIndicator>();
         IndicatorUI = UI ? UI : IndicatorUI;
+
+        objectFlare = GetComponentInChildren<ObjectFlare>();
 
         IndicatorUI.SetIndicatorPosition(TargetUIPos != null ? TargetUIPos.position : transform.position);
 
@@ -30,41 +44,33 @@ public class IndicatorHandler : MonoBehaviour
 
     private void Update()
     {
-        if (playerTarget == null)
-        {
-            DetectTarget();
-        }
-        else
-        {
-            UpdateIndicators();
-        }
-    }
+        if (playerTarget == null) return;
 
-    private void DetectTarget()
-    {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, radius);
-
-        foreach (Collider collider in colliders)
-        {
-            if (collider.TryGetComponent(out PlayerController player))
-            {
-                playerTarget = player.transform;
-                break;
-            }
-        }
+        UpdateIndicators();
     }
 
     private void UpdateIndicators()
     {
-        float distance = Vector3.Distance(playerTarget.position, transform.position);
+        var distance = Vector3.Distance(playerTarget.position, transform.position);
 
-        IndicatorUI.SetCircleIndicator(distance < circleUIDistance ? Mathf.InverseLerp(circleUIDistance, minDistance, distance) : 0);
+        IndicatorUI.SetCircleIndicator(distance < circleUIMaxDistance
+            ? Mathf.InverseLerp(circleUIMaxDistance, circleUIMinDistance, distance)
+            : 0);
 
+
+        if(objectFlare == null) return;
+
+        if (distance < circleUIMaxDistance)
+            objectFlare.StopFlare();
+        else
+            objectFlare.StartFlare();
     }
 
-    private void OnDrawGizmos()
+    private void OnTriggerEnter(Collider other)
     {
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position, radius);
+        if (playerTarget == null && other.TryGetComponent(out PlayerController player))
+        {
+            playerTarget = player.transform;
+        }
     }
 }

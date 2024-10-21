@@ -11,6 +11,10 @@ public class ObjectFlare : MonoBehaviour
     private CanvasGroup canvasGroup;
     private RectTransform rectTransform;
     private Camera cam;
+
+    private Sequence scaleSequence;
+    private Sequence fadeSequence;
+
     private void Awake()
     {
         cam = Camera.main;
@@ -21,19 +25,33 @@ public class ObjectFlare : MonoBehaviour
 
     private void Start()
     {
-        
-        Sequence sequenceScale = DOTween.Sequence();
-        sequenceScale.Append(rectTransform.DOScale(new Vector3(0.2f,0.2f), duration).SetEase(ease))
+        scaleSequence = DOTween.Sequence();
+        scaleSequence.Append(rectTransform.DOScale(new Vector3(0.2f,0.2f), duration).SetEase(ease))
             .AppendInterval(delay)
-            .Append(rectTransform.DOScale(new Vector3(1f, 1f), duration))
+            .Append(rectTransform.DOScale(new Vector3(0.3f, 0.3f), duration))
             .AppendInterval(0.5f).SetLoops(-1, LoopType.Yoyo);
         
-        Sequence sequenceFade = DOTween.Sequence();
-        sequenceFade.Append(canvasGroup.DOFade(0, duration).SetEase(ease))
+        fadeSequence = DOTween.Sequence();
+        fadeSequence.Append(canvasGroup.DOFade(0, duration).SetEase(ease))
             .AppendInterval(delay)
             .Append(canvasGroup.DOFade(1, duration))
             .AppendInterval(0.5f).SetLoops(-1, LoopType.Yoyo);
+
     }
+
+    public void StartFlare()
+    {
+        scaleSequence.Play();
+        fadeSequence.Play();
+    }
+
+    public void StopFlare()
+    {
+        scaleSequence.Pause();
+        fadeSequence.Pause();
+        canvasGroup.alpha = 0;
+    }
+
 
     private void Update()
     {

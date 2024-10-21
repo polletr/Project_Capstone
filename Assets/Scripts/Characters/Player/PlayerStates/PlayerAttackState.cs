@@ -11,6 +11,7 @@ public class PlayerAttackState : PlayerBaseState
     {
         timer = new StopwatchTimer();
         timer.Start();
+        usingAbility = false;
     }
     public override void ExitState()
     {
@@ -41,7 +42,6 @@ public class PlayerAttackState : PlayerBaseState
         {
             if (timer.GetTime() < 0.1f)
             {
-               // stun!
                player.flashlight.HandleStunAbility();
             }
             player.ChangeState(player.MoveState);

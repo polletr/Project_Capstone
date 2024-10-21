@@ -26,6 +26,10 @@ public class SFXEvents : ScriptableObject
     [field: SerializeField] public EventReference PickUpFlashlight { get; private set; }
     [field: SerializeField] public EventReference FlashlightOnOff { get; private set; }
     [field: SerializeField] public EventReference FlashlightReload { get; private set; }
+    [field: SerializeField] public EventReference FlashlightStun { get; private set; }
+    [field: SerializeField] public EventReference FlashlightRevealing { get; private set; }
+    [field: SerializeField] public EventReference FlashlightReveal { get; private set; }
+
 
     [field: Header("Environment Lights SFX")]
     [field: SerializeField] public EventReference LightConstantFlickering { get; private set; }
@@ -41,5 +45,9 @@ public class SFXEvents : ScriptableObject
 
     [field: Header("Objects")]
     [field: SerializeField] public EventReference SuddenAppear { get; private set; }
+    [field: SerializeField] public EventReference DocumentsOpen { get; private set; }
+    [field: SerializeField] public EventReference DocumentsClose { get; private set; }
+
+    [field: SerializeField] public EventReference DragObjects { get; private set; }
 
 }

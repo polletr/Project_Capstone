@@ -59,8 +59,10 @@ public class UIAnimator : MonoBehaviour
 
     public void MoveInAnimate(bool check)
     {
+        
         if (currentTween.IsActive())
-            return;
+            currentTween.Kill();
+    
 
         OnAnimateStarted.Invoke();
 

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Linq;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -59,6 +60,15 @@ public class FlashLight : MonoBehaviour
         Player = GetComponentInParent<PlayerController>();
 
         MoveHoldPos = MoveHoldPos == null ? transform : MoveHoldPos;
+
+        for (var i = 0; i < transform.childCount; i++)
+        {
+            if (transform.GetChild(i).TryGetComponent(out FlashlightAbility ability))
+            {
+                flashlightAbilities.Add(ability);
+            }
+        } 
+       
 
         if (flashlightAbilities.Count <= 0) return;
 
@@ -123,9 +133,9 @@ public class FlashLight : MonoBehaviour
     {
         if (IsBatteryDead() || !isFlashlightOn) return;
 
-        var hits = new RaycastHit[10];
+        var hits = new RaycastHit[1];
         var flashlightPos = transform;
-        var numHits = Physics.SphereCastNonAlloc(flashlightPos.position, 1f, flashlightPos.forward, hits, range, layerMask);
+        var numHits = Physics.SphereCastNonAlloc(flashlightPos.position, 0.1f, flashlightPos.forward, hits, range, layerMask);
 
         effectedObjsThisFrame.Clear();
         
@@ -190,14 +200,14 @@ public class FlashLight : MonoBehaviour
         Gizmos.color = Color.red;
 
         // Ray and range definition
-        Vector3 origin = transform.position;
-        Vector3 direction = transform.forward * range;
+        var origin = transform.position;
+        var direction = transform.forward * range;
 
         // Draw the sphere at the origin point
         Gizmos.DrawWireSphere(origin, 2f);
 
         // Calculate the end point of the SphereCast
-        Vector3 endPoint = origin + direction;
+        var endPoint = origin + direction;
 
         // Draw the line representing the ray of the SphereCast
         Gizmos.DrawLine(origin, endPoint);
@@ -214,7 +224,13 @@ public class FlashLight : MonoBehaviour
 
     public void HandleFlashAbility()
     {
-      //check object in front of player to see which ability it is switch to reveal  
+        Debug.Log("Flash Ability Move/Reveal");
+        if(Physics.Raycast(transform.position, transform.forward, out var hit, range))
+            CurrentAbility = hit.collider.TryGetComponent(out RevealableObject obj) && !obj.IsRevealed ? 
+                flashlightAbilities.Find(ability => ability is RevealAbility) : 
+                flashlightAbilities.Find(ability => ability is MoveAbility);
+        
+        
         if (CurrentAbility != null && isFlashlightOn && (BatteryLife - CurrentAbility.Cost) >= minBatteryAfterUse)
             CurrentAbility.OnUseAbility();
         else
@@ -250,6 +266,13 @@ public class FlashLight : MonoBehaviour
     {
         Light.enabled = false;
         isFlashlightOn = false;
+        //Remove effect on things
+        for (int i = 0; i < effectedObjs.Count; i++)
+        {
+            effectedObjs[i].RemoveEffect();
+            effectedObjs.Remove(effectedObjs[i]);
+        }
+
     }
 
     public void ConsumeBattery(float cost)

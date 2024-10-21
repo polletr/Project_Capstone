@@ -18,7 +18,7 @@ public class EnemyStunState : EnemyBaseState
 
         countdownTimer = new CountdownTimer(enemy.StunTime);
         countdownTimer.Start();
-
+        enemy.StopAllCoroutines();
         enemy.StartCoroutine(enemy.EnemyTransparency(0f));
         enemy.SmokeParticle.Play();
         enemy.EnemyCollider.enabled = false;
@@ -27,6 +27,7 @@ public class EnemyStunState : EnemyBaseState
     }
     public override void ExitState()
     {
+        enemy.StopAllCoroutines();
         enemy.StartCoroutine(enemy.EnemyTransparency(0.9f));
         enemy.SmokeParticle.Play();
         enemy.EnemyCollider.enabled = true;

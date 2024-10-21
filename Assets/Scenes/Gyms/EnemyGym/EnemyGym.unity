@@ -655,8 +655,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6aa1e108ecabefa4ab6f727f7f92e4e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  revealMaterial: {fileID: 0}
+  dissolveMaterial: {fileID: 0}
   revealTime: 5
   unRevealTime: 2
+  objectRevealed:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!65 &274101163
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1592,7 +1597,7 @@ PrefabInstance:
     - target: {fileID: 8306106938783440130, guid: f8322ff5aa74b5c48be5453fe90845d0,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.81413555
+      value: 1.57
       objectReference: {fileID: 0}
     - target: {fileID: 8306106938783440130, guid: f8322ff5aa74b5c48be5453fe90845d0,
         type: 3}
@@ -1972,6 +1977,79 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bedc4c315612c0d429f32fda2e727742, type: 3}
+--- !u!1001 &1129887221760667103
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5118641459001917365, guid: 5905702451dbd1047bd38d6074210028,
+        type: 3}
+      propertyPath: m_Name
+      value: Light bulb in a chord
+      objectReference: {fileID: 0}
+    - target: {fileID: 5495167684953056527, guid: 5905702451dbd1047bd38d6074210028,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 9.653403
+      objectReference: {fileID: 0}
+    - target: {fileID: 5495167684953056527, guid: 5905702451dbd1047bd38d6074210028,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.27
+      objectReference: {fileID: 0}
+    - target: {fileID: 5495167684953056527, guid: 5905702451dbd1047bd38d6074210028,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1.2269621
+      objectReference: {fileID: 0}
+    - target: {fileID: 5495167684953056527, guid: 5905702451dbd1047bd38d6074210028,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5495167684953056527, guid: 5905702451dbd1047bd38d6074210028,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5495167684953056527, guid: 5905702451dbd1047bd38d6074210028,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5495167684953056527, guid: 5905702451dbd1047bd38d6074210028,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5495167684953056527, guid: 5905702451dbd1047bd38d6074210028,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5495167684953056527, guid: 5905702451dbd1047bd38d6074210028,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5495167684953056527, guid: 5905702451dbd1047bd38d6074210028,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7941801711747457599, guid: 5905702451dbd1047bd38d6074210028,
+        type: 3}
+      propertyPath: m_Range
+      value: 7.0425105
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 5905702451dbd1047bd38d6074210028, type: 3}
 --- !u!1001 &4166514704285015522
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2071,7 +2149,7 @@ PrefabInstance:
     - target: {fileID: 904477281664417906, guid: c161c13877aafaf4f84046c57e2c26b0,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2076442353892275476, guid: c161c13877aafaf4f84046c57e2c26b0,
         type: 3}
@@ -2251,3 +2329,4 @@ SceneRoots:
   - {fileID: 1137625078}
   - {fileID: 1189203885}
   - {fileID: 831965101}
+  - {fileID: 1129887221760667103}

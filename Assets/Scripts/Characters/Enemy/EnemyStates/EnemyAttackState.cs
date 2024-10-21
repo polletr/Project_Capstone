@@ -59,7 +59,7 @@ public class EnemyAttackState : EnemyBaseState
                     //enemy.currentAudio = AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.Attack);
                     //enemy.currentAudio.start();
 
-                    enemy.ChangeState(enemy.IdleState);
+                    //enemy.ChangeState(enemy.IdleState);
 
                 }
                 else

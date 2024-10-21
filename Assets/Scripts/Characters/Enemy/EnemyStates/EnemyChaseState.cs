@@ -5,7 +5,6 @@ public class EnemyChaseState : EnemyBaseState
 {
     private Vector3 teleportPosition;
     private float teleportTimer;
-    private float timeInChaseState;
 
     public EnemyChaseState(EnemyClass enemyClass, EnemyAnimator enemyAnim)
         : base(enemyClass, enemyAnim) { }
@@ -21,7 +20,6 @@ public class EnemyChaseState : EnemyBaseState
         enemyAnimator.animator.CrossFade(enemyAnimator.IdleHash, enemyAnimator.animationCrossFade);
 
         enemy.agent.ResetPath();
-        timeInChaseState = 0f;
         teleportTimer = 0;
 
 
@@ -29,7 +27,6 @@ public class EnemyChaseState : EnemyBaseState
 
     public override void ExitState()
     {
-        timeInChaseState = 0f;
         teleportTimer = 0;
         enemy.BodyMaterial.SetFloat("_Transparency", 0.9f);
         enemy.EyeMaterial.SetFloat("_Transparency", 0.9f);
@@ -44,8 +41,6 @@ public class EnemyChaseState : EnemyBaseState
     {
         if (enemy.EnemyTeleporting)
             return;
-
-        timeInChaseState += Time.deltaTime;
 
         teleportTimer += Time.deltaTime;
         if (enemy.playerCharacter != null)
@@ -86,14 +81,9 @@ public class EnemyChaseState : EnemyBaseState
     {
         teleportTimer = 0f;
 
-        // Calculate the interpolation factor (0 = start, 1 = max time in chase state)
-        float t = Mathf.Clamp01(timeInChaseState / enemy.MaxChaseTime);
-
-        float currentTeleportMultiplier = Mathf.Lerp(3f, 0.8f, t);
-
         // Calculate teleport position based on the lerped multiplier
         Vector3 directionToPlayer = (enemy.playerCharacter.transform.position - enemy.transform.position).normalized;
-        Vector3 desiredTeleportPosition = enemy.playerCharacter.transform.position - directionToPlayer * enemy.AttackRange * currentTeleportMultiplier;
+        Vector3 desiredTeleportPosition = enemy.playerCharacter.transform.position - directionToPlayer * enemy.AttackRange * 0.8f;
 
         if (CheckPath(desiredTeleportPosition))
         {

@@ -35,13 +35,10 @@ public class Door : Interactable
 
     private bool rotating;
 
-    private IndicatorHandler _indicatorHandler;
-
     private void Start()
     {
         shakeEffect = GetComponent<ShakeEffect>();
         // Save the door's closed rotation
-        _indicatorHandler = GetComponent<IndicatorHandler>();
         doorObstacle = GetComponent<NavMeshObstacle>();
         closedRotation = transform.localRotation;
         playerCamera = Camera.main.gameObject;
@@ -50,7 +47,7 @@ public class Door : Interactable
 
     private void Update()
     {
-        if (playerCamera == null) return;
+        if (playerCamera == null|| indicatorHandler == null || indicatorHandler.IndicatorUI == null) return;
         
         var distanceToPlayer = Vector3.Distance(playerCamera.transform.position, transform.position);
         if (distanceToPlayer < distanceToCheckUIPos)
@@ -156,7 +153,8 @@ public class Door : Interactable
         AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.EasyLockedDoor, transform.position);
         shakeEffect.ShakeObject();
         OnInteractLocked.Invoke();
-        _indicatorHandler.IndicatorUI.SetIndicatorSprite(true);
+        if(indicatorHandler != null && indicatorHandler.IndicatorUI != null) 
+            indicatorHandler.IndicatorUI.SetLockedIndicator(true);
 
     }
 
@@ -220,7 +218,8 @@ public class Door : Interactable
     public void OnLockOrUnlockDoor(bool islockedDoor)
     {
         isLocked = islockedDoor;
-        _indicatorHandler.IndicatorUI.SetIndicatorSprite(islockedDoor);
+        if (indicatorHandler != null)
+            indicatorHandler.IndicatorUI.SetLockedIndicator(islockedDoor);
         AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.UnlockDoor, transform.position);
     }
 
