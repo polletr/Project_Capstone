@@ -1,3 +1,4 @@
+using FMOD.Studio;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,6 +14,12 @@ public class PlayerInteractState : PlayerBaseState
 
         if (player.interactableObj is not Documentation)
             player.ChangeState(player.MoveState);
+
+        player.playerFootsteps.getPlaybackState(out var playbackState);
+        if (playbackState.Equals(PLAYBACK_STATE.PLAYING))
+        {
+            player.playerFootsteps.stop(STOP_MODE.ALLOWFADEOUT);
+        }
     }
 
     public override void ExitState()

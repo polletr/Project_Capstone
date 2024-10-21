@@ -1,3 +1,4 @@
+using FMOD.Studio;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Utilities;
@@ -19,6 +20,12 @@ public class PlayerDeathState : PlayerBaseState
         FOV = player.PlayerCam.fieldOfView;
         player.Event.OnPlayerDeath?.Invoke();
         //playerAnimator.animator.Play(playerAnimator.DieHash);
+
+        player.playerFootsteps.getPlaybackState(out var playbackState);
+        if (playbackState.Equals(PLAYBACK_STATE.PLAYING))
+        {
+            player.playerFootsteps.stop(STOP_MODE.ALLOWFADEOUT);
+        }
 
         timer = new CountdownTimer(3f);
         timer.Start();

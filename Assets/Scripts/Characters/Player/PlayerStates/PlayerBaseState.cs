@@ -179,17 +179,18 @@ public abstract class PlayerBaseState
             if (obj.TryGetComponent(out Interactable thing))
             {
                 player.interactableObj = thing;
-                player.interactableObj.indicatorHandler.IndicatorUI.TriggerTextIndicator(true);
+                if (player.interactableObj.indicatorHandler != null && player.interactableObj.indicatorHandler.IndicatorUI != null)
+                    player.interactableObj.indicatorHandler.IndicatorUI.TriggerTextIndicator(true);
             }
             else
             {
-                if (player.interactableObj != null)
+                if (player.interactableObj != null && player.interactableObj.indicatorHandler != null && player.interactableObj.indicatorHandler.IndicatorUI != null)
                     player.interactableObj.indicatorHandler.IndicatorUI.TriggerTextIndicator(false);
             }
         }
         else
         {
-            if (player.interactableObj != null)
+            if (player.interactableObj != null && player.interactableObj.indicatorHandler != null && player.interactableObj.indicatorHandler.IndicatorUI != null)
             {
                 player.interactableObj.indicatorHandler.IndicatorUI.TriggerTextIndicator(false);
                 player.interactableObj = null;
