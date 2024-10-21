@@ -107,7 +107,7 @@ public class FlashLight : MonoBehaviour
         {
             Event.SetTutorialText?.Invoke("Battery is Dead Press Q to recharge"); //Ui to change battery
             // Turn off the flashlight
-            StartCoroutine(Flicker(2f, TurnOffLight));
+            StartCoroutine(Flicker(1f, TurnOffLight));
         }
     }
 
