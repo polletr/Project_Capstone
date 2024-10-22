@@ -24,7 +24,10 @@ public class FlashLight : MonoBehaviour
 
     [field: SerializeField] public float BatteryLife { get; private set; }
 
+
     [field: SerializeField] public float MaxBatteryLife { get; private set; } = 100;
+  
+    public float TotalBatteryLife => MaxBatteryLife + _extraCharge;
 
     [field: SerializeField] public Transform MoveHoldPos { get; private set; }
 
@@ -32,7 +35,7 @@ public class FlashLight : MonoBehaviour
 
 
     public PlayerController Player { get; private set; }
-    
+
     public Transform RayCastOrigin => Player.PlayerCam.transform;
     public FlashlightAbility CurrentAbility { get; private set; }
 
@@ -48,7 +51,6 @@ public class FlashLight : MonoBehaviour
 
     private List<IEffectable> effectedObjs = new();
     private HashSet<IEffectable> effectedObjsThisFrame = new();
-
 
     private void Awake()
     {
@@ -108,7 +110,6 @@ public class FlashLight : MonoBehaviour
             // Turn off the flashlight
             StartCoroutine(Flicker(1f, TurnOffLight));
             Event.SetTutorialText?.Invoke("Battery is Dead Press Q to recharge"); //Ui to change battery
-
         }
     }
 
@@ -133,7 +134,6 @@ public class FlashLight : MonoBehaviour
 
     public void HandleRayCast()
     {
-        
         // Remove effects from objects that were affected in the last frame but are not in this frame
         for (var i = 0; i < effectedObjs.Count; i++)
         {
@@ -142,13 +142,13 @@ public class FlashLight : MonoBehaviour
             effectedObjs[i].RemoveEffect();
             effectedObjs.Remove(effectedObjs[i]);
         }
-        
+
         if (IsBatteryDead() || !isFlashlightOn) return;
-      
+
         effectedObjsThisFrame.Clear();
 
         if (!Physics.Raycast(RayCastOrigin.position, RayCastOrigin.forward, out var hit, range)) return;
-        
+
         var obj = hit.collider.gameObject;
 
         if (!obj.TryGetComponent(out IEffectable effectable)) return;
@@ -156,8 +156,8 @@ public class FlashLight : MonoBehaviour
         // Try to get both IRevealable and IMovable components
         var hasRevealable = obj.TryGetComponent(out IRevealable revealObj);
         var hasMovable = obj.TryGetComponent(out IMovable movableObj);
-        
-     // Apply the reveal effect if not revealed && check if it has a movable component
+
+        // Apply the reveal effect if not revealed && check if it has a movable component
         if (hasRevealable)
         {
             if (!revealObj.IsRevealed)
@@ -168,10 +168,10 @@ public class FlashLight : MonoBehaviour
             }
             else if (hasMovable)
             {
-                var distance =((MoveAbility)flashlightAbilities.Find(ability => ability is MoveAbility)).PickupRange;
+                var distance = ((MoveAbility)flashlightAbilities.Find(ability => ability is MoveAbility)).PickupRange;
 
                 if (!(Vector3.Distance(RayCastOrigin.position, obj.transform.position) <= distance)) return;
-                
+
                 movableObj.ApplyEffect();
                 effectedObjs.Add(movableObj);
                 effectedObjsThisFrame.Add(movableObj);
@@ -326,6 +326,7 @@ public class FlashLight : MonoBehaviour
             // Wait for the next flicker
             yield return new WaitForSeconds(flickerTimer);
         }
+
         isFlickering = false;
 
         onFlickerEnd?.Invoke();

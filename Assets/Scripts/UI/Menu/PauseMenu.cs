@@ -10,12 +10,12 @@ public class PauseMenu : Menu
     [SerializeField] private AudioClip pauseClip;
     [SerializeField] private AudioClip buttonClickClip;
 
-    private bool _isPaused;
+    public bool IsPaused { get; private set; }
     private float _initialTimeScale;
     private void Awake()
     {
-        _isPaused = false;
-        _currentMenu.gameObject.SetActive(_isPaused);
+        IsPaused = false;
+        _currentMenu.gameObject.SetActive(IsPaused);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
@@ -27,18 +27,18 @@ public class PauseMenu : Menu
    
     public void OnTogglePauseMenu()
     {
-        _isPaused = !_isPaused;
-        _currentMenu.gameObject.SetActive(_isPaused);
+        IsPaused = !IsPaused;
+        _currentMenu.gameObject.SetActive(IsPaused);
 
-        AudioManagerFMOD.Instance.PauseAllAudio(_isPaused);
+        AudioManagerFMOD.Instance.PauseAllAudio(IsPaused);
 
 
         //AudioManager.Instance.PlayAudio(pauseClip);
 
-        Cursor.lockState = _isPaused? CursorLockMode.None : CursorLockMode.Locked;
-        Cursor.visible = _isPaused;
+        Cursor.lockState = IsPaused? CursorLockMode.None : CursorLockMode.Locked;
+        Cursor.visible = IsPaused;
 
-        if (_isPaused)
+        if (IsPaused)
         {
             _initialTimeScale = Time.timeScale;
             //AudioManager.Instance.PauseBGAudio();

@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 
 public class InputManager : MonoBehaviour
 {
@@ -23,11 +22,25 @@ public class InputManager : MonoBehaviour
         action = new PlayerInput();
     }
 
-    private void OnEnable() => EnableInput();
+    private void OnEnable()
+    {
+        EnablePlayerInput();
+        if (pauseMenu != null)
+            action.Menu.Pause.performed += TogglePause;
 
-    private void OnDisable() => DisableInput();
+        action.Enable();
+    }
 
-    private void EnableInput()
+    private void OnDisable()
+    {
+        DisablePlayerInput();
+        if (pauseMenu != null)
+            action.Menu.Pause.performed -= TogglePause;
+        
+        action.Disable();
+    }
+
+    private void EnablePlayerInput()
     {
         action.Player.Move.performed += (val) => Movement = val.ReadValue<Vector2>();
 
@@ -47,13 +60,9 @@ public class InputManager : MonoBehaviour
         action.Player.Flashlight.performed += (val) => player.currentState?.HandleFlashlightPower();
 
         action.Player.ChangeBattery.performed += (val) => player.HandleChangeBattery();
-        if (pauseMenu != null)
-            action.Menu.Pause.performed += (val) => pauseMenu.OnTogglePauseMenu();
-
-        action.Enable();
     }
 
-    private void DisableInput()
+    private void DisablePlayerInput()
     {
         action.Player.Move.performed -= (val) => Movement = val.ReadValue<Vector2>();
 
@@ -74,15 +83,23 @@ public class InputManager : MonoBehaviour
 
         action.Player.ChangeBattery.performed -= (val) => player.HandleChangeBattery();
         if (pauseMenu != null)
-        action.Menu.Pause.performed -= (val) => pauseMenu.OnTogglePauseMenu();
-
-        action.Disable();
+            action.Menu.Pause.performed -= (val) => pauseMenu.OnTogglePauseMenu();
     }
 
     private void OnPointerMove(InputAction.CallbackContext context)
     {
-        Vector2 input = context.ReadValue<Vector2>();
+        var input = context.ReadValue<Vector2>();
         Device = context.control.device;
         LookAround = input;
+    }
+
+    private void TogglePause(InputAction.CallbackContext context)
+    {
+        pauseMenu.OnTogglePauseMenu();
+        
+        if (pauseMenu.IsPaused)
+            DisablePlayerInput();
+        else
+            EnablePlayerInput();
     }
 }
