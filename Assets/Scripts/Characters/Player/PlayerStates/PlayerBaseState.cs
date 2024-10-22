@@ -72,7 +72,7 @@ public abstract class PlayerBaseState
 
     public virtual void HandleAttack(bool isHeld)
     {
-        if (isHeld)
+        if (isHeld && player.HasFlashlight)
             player.ChangeState(player.AttackState);
     }
 

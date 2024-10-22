@@ -38,18 +38,15 @@ public class PlayerAttackState : PlayerBaseState
 
     public override void HandleAttack(bool isHeld)
     {
-        if (!isHeld)
+        if (isHeld || !player.HasFlashlight) return;
+        
+        if (timer.GetTime() < 0.1f)
         {
-            if (timer.GetTime() < 0.1f)
-            {
-               player.flashlight.HandleStunAbility();
-            }
-            player.ChangeState(player.MoveState);
+            player.flashlight.HandleStunAbility();
         }
-        if (!isHeld && player.HasFlashlight)
-        {
-            player.flashlight.StopUsingFlashlight();
-        }
+        player.ChangeState(player.MoveState);
+    
+        player.flashlight.StopUsingFlashlight();
     }
 
     protected override void HandleFlashlightSphereCast()

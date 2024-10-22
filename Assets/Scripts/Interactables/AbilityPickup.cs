@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class AbilityPickup : Interactable, ICollectable
 {
+    public PickupData AbilityPickupData;
     [field: SerializeField] public FlashlightAbility AbilityToPickup { get; private set; }
 
     protected override void Awake()
@@ -13,6 +14,8 @@ public class AbilityPickup : Interactable, ICollectable
 
     public void Collect()
     {
+        if(ObjectPickupUIHandler.Instance != null)
+            ObjectPickupUIHandler.Instance.PickedUpObject(AbilityPickupData);
         gameObject.SetActive(false);
     }
 
