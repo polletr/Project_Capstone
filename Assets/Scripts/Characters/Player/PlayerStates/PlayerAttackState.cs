@@ -7,6 +7,8 @@ public class PlayerAttackState : PlayerBaseState
     
     private StopwatchTimer timer;
     bool usingAbility = false;
+
+    private float clickTimeFrame = 0.2f;
     public override void EnterState()
     {
         timer = new StopwatchTimer();
@@ -28,7 +30,7 @@ public class PlayerAttackState : PlayerBaseState
         base.StateUpdate();
         timer.Tick(Time.deltaTime);
         
-        if (timer.GetTime() > 0.1f && !usingAbility)
+        if (timer.GetTime() > clickTimeFrame && !usingAbility)
         {
             usingAbility = true;
            
@@ -40,7 +42,7 @@ public class PlayerAttackState : PlayerBaseState
     {
         if (isHeld || !player.HasFlashlight) return;
         
-        if (timer.GetTime() < 0.1f)
+        if (timer.GetTime() < clickTimeFrame)
         {
             player.flashlight.HandleStunAbility();
         }
