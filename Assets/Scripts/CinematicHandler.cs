@@ -7,6 +7,7 @@ public class CinematicHandler : MonoBehaviour
 {
 
     [SerializeField] private List<TimelineAsset> deathCinematics = new();
+    [SerializeField] private TimelineAsset oneSecTransition;
 
     private PlayableDirector director;
 
@@ -22,6 +23,12 @@ public class CinematicHandler : MonoBehaviour
         int randomIndex = Random.Range(0, deathCinematics.Count);
 
         director.playableAsset = deathCinematics[randomIndex];
+        director.Play();
+    }
+
+    public void PlayOneSecTransition()
+    {
+        director.playableAsset = oneSecTransition;
         director.Play();
     }
 

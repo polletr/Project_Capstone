@@ -276,6 +276,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3cee5a14e59ac14faff4be3396f5101, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &29968018 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3561872605050790335, guid: bedc4c315612c0d429f32fda2e727742,
+    type: 3}
+  m_PrefabInstance: {fileID: 29968016}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1945436347}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b70738de05e7e74bae2edaa2edfd270, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &46502965
 GameObject:
   m_ObjectHideFlags: 0
@@ -1804,8 +1816,8 @@ PlayableDirector:
   m_GameObject: {fileID: 864876159}
   m_Enabled: 1
   serializedVersion: 3
-  m_PlayableAsset: {fileID: 11400000, guid: 8b9ac9adaf728f04fb2456ca2c8233c1, type: 2}
-  m_InitialState: 0
+  m_PlayableAsset: {fileID: 11400000, guid: 8e63a26eccfef2243a6d350a1c7f005c, type: 2}
+  m_InitialState: 1
   m_WrapMode: 2
   m_DirectorUpdateMode: 1
   m_InitialTime: 0
@@ -1842,6 +1854,10 @@ PlayableDirector:
     value: {fileID: 886818446}
   - key: {fileID: 7118296632197492398, guid: 41273b7263f6f4946b46c18127c75e71, type: 2}
     value: {fileID: 46502965}
+  - key: {fileID: 2811246197965950509, guid: 8e63a26eccfef2243a6d350a1c7f005c, type: 2}
+    value: {fileID: 886818446}
+  - key: {fileID: 7118296632197492398, guid: 8e63a26eccfef2243a6d350a1c7f005c, type: 2}
+    value: {fileID: 46502965}
   m_ExposedReferences:
     m_References: []
 --- !u!4 &864876161
@@ -1875,6 +1891,7 @@ MonoBehaviour:
     m_Signals:
     - {fileID: 11400000, guid: 6c5935558f491fc449db44db09aa1965, type: 2}
     - {fileID: 11400000, guid: 363015a5f0cb68544bcabbb3f69dc0fd, type: 2}
+    - {fileID: 11400000, guid: 53c8a048be5072a45b81eea72371e09a, type: 2}
     m_Events:
     - m_PersistentCalls:
         m_Calls:
@@ -1902,11 +1919,61 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+        - m_Target: {fileID: 29968018}
+          m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
+          m_MethodName: EnablePlayerInput
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
     - m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 801181352}
           m_TargetAssemblyTypeName: OldMovieTexture, Assembly-CSharp
           m_MethodName: StartFilm
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 29968018}
+          m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
+          m_MethodName: DisablePlayerInput
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 29968018}
+          m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
+          m_MethodName: EnablePlayerInput
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 801181352}
+          m_TargetAssemblyTypeName: OldMovieTexture, Assembly-CSharp
+          m_MethodName: StopFilm
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -1931,6 +1998,7 @@ MonoBehaviour:
   deathCinematics:
   - {fileID: 11400000, guid: 8b9ac9adaf728f04fb2456ca2c8233c1, type: 2}
   - {fileID: 11400000, guid: 41273b7263f6f4946b46c18127c75e71, type: 2}
+  oneSecTransition: {fileID: 11400000, guid: 8e63a26eccfef2243a6d350a1c7f005c, type: 2}
 --- !u!1 &886818446
 GameObject:
   m_ObjectHideFlags: 0
@@ -2616,10 +2684,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40644858560f5c441836dd38798473e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalEvent: {fileID: 11400000, guid: f85e88f90450555409a513e746ea4777, type: 2}
+  GlobalEvent: {fileID: 11400000, guid: fa82e9c93b81e9648b037031ff87f635, type: 2}
   OnTriggerGlobalEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 864876163}
+        m_TargetAssemblyTypeName: CinematicHandler, Assembly-CSharp
+        m_MethodName: PlayOneSecTransition
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1181058625
 GameObject:
   m_ObjectHideFlags: 0

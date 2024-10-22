@@ -40,7 +40,7 @@ public class InputManager : MonoBehaviour
         action.Disable();
     }
 
-    private void EnablePlayerInput()
+    public void EnablePlayerInput()
     {
         action.Player.Move.performed += (val) => Movement = val.ReadValue<Vector2>();
 
@@ -62,7 +62,7 @@ public class InputManager : MonoBehaviour
         action.Player.ChangeBattery.performed += (val) => player.HandleChangeBattery();
     }
 
-    private void DisablePlayerInput()
+    public void DisablePlayerInput()
     {
         action.Player.Move.performed -= (val) => Movement = val.ReadValue<Vector2>();
 
