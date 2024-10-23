@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Utilities;
 using Random = UnityEngine.Random;
 
 public class FlashLight : MonoBehaviour
@@ -28,7 +29,7 @@ public class FlashLight : MonoBehaviour
 
     [field: SerializeField] public float MaxBatteryLife { get; private set; } = 100;
   
-    public float TotalBatteryLife => MaxBatteryLife + _extraCharge;
+    public float TotalBatteryLife => MaxBatteryLife + extraCharge;
 
     [field: SerializeField] public Transform MoveHoldPos { get; private set; }
 
@@ -45,16 +46,20 @@ public class FlashLight : MonoBehaviour
     [field: SerializeField] public LayerMask IgrnoreMask { get; private set; }
 
     private float flickerTimer;
-    private float _extraCharge;
+    private float extraCharge;
 
     private bool isFlashlightOn;
     private bool isFlickering;
 
     private List<IEffectable> effectedObjs = new();
     private HashSet<IEffectable> effectedObjsThisFrame = new();
+    
+    private CountdownTimer cooldownTimer;
 
     private void Awake()
     {
+        cooldownTimer = new CountdownTimer(0.1f);
+        cooldownTimer.Start();
         Light = GetComponent<Light>();
         isFlashlightOn = Light.enabled;
         Light.range = range;
@@ -97,20 +102,21 @@ public class FlashLight : MonoBehaviour
 
     private void Update()
     {
+        cooldownTimer?.Tick(Time.deltaTime);
         // Decrease BatteryLife continuously over time based on Cost per second
         if (isFlashlightOn && !IsBatteryDead())
             Drain(baseCost * Time.deltaTime);
 
         if (!IsBatteryDead()) return;
 
-        if (CurrentAbility != null)
+        if (CurrentAbility != null && cooldownTimer.IsFinished)
             CurrentAbility.OnStopAbility();
 
         if (isFlashlightOn && !isFlickering)
         {
             // Turn off the flashlight
-            StartCoroutine(Flicker(1f, TurnOffLight));
-            Event.SetTutorialText?.Invoke("Battery is Dead Press Q to recharge"); //Ui to change battery
+            StartCoroutine(Flicker(0.5f, TurnOffLight));
+            Event.SetTutorialText?.Invoke("Battery is Dead Press R to recharge"); //Ui to change battery
         }
     }
 
@@ -281,8 +287,6 @@ public class FlashLight : MonoBehaviour
     {
         if (!IsBatteryDead())
             Drain(cost);
-        else
-            Event.SetTutorialText?.Invoke("Battery is Dead Press Q to recharge"); //Ui to change battery
     }
 
     private void TurnOnLight()
@@ -356,12 +360,18 @@ public class FlashLight : MonoBehaviour
 
     private void Recharge()
     {
-        BatteryLife = MaxBatteryLife + _extraCharge;
+        BatteryLife = MaxBatteryLife + extraCharge;
         Event.SetTutorialTextTimer?.Invoke("Battery Recharged");
         TurnOnLight();
     }
 
-    private void UpdateExtraCharge(float charge) => _extraCharge = charge;
+    private void UpdateExtraCharge(float charge) => extraCharge = charge;
 
     public void ZeroOutBattery() => BatteryLife = 0;
+    
+    public void StartCoolDown(float time)
+    {
+        cooldownTimer = new CountdownTimer(time);
+        cooldownTimer.Start();
+    }
 }

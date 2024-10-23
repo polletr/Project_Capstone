@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 public class PauseMenu : Menu
 {
     public UnityEvent OnPause;
-    public UnityEvent OnResume;
+    public UnityEvent OnResume = new();
 
     [SerializeField] private AudioClip pauseClip;
     [SerializeField] private AudioClip buttonClickClip;
@@ -49,7 +49,8 @@ public class PauseMenu : Menu
         {
             Time.timeScale = _initialTimeScale;
             //AudioManager.Instance.ResumeBGAudio();
-            OnResume.Invoke(); 
+           InputManager.Instance.EnablePlayerInput();
+            Debug.Log("Resuming");
         }
 
     }

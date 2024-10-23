@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class InputManager : MonoBehaviour
+public class InputManager : Singleton<InputManager>
 {
     private PlayerInput action;
     private PlayerController player;
@@ -15,8 +15,9 @@ public class InputManager : MonoBehaviour
 
     [SerializeField] private PauseMenu pauseMenu;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         player = GetComponent<PlayerController>();
         cameraController = GetComponentInChildren<CameraController>();
         action = new PlayerInput();
@@ -26,8 +27,9 @@ public class InputManager : MonoBehaviour
     {
         EnablePlayerInput();
         if (pauseMenu != null)
-            action.Menu.Pause.performed += TogglePause;
+            action.Menu.Pause.performed  += (val) =>  TogglePause();
 
+        pauseMenu.OnResume.AddListener(TogglePause);
         action.Enable();
     }
 
@@ -35,8 +37,9 @@ public class InputManager : MonoBehaviour
     {
         DisablePlayerInput();
         if (pauseMenu != null)
-            action.Menu.Pause.performed -= TogglePause;
+            action.Menu.Pause.performed -= (val) =>  TogglePause();
         
+        pauseMenu.OnResume.RemoveListener(TogglePause);
         action.Disable();
     }
 
@@ -82,8 +85,6 @@ public class InputManager : MonoBehaviour
         action.Player.Flashlight.performed -= (val) => player.currentState?.HandleFlashlightPower();
 
         action.Player.ChangeBattery.performed -= (val) => player.HandleChangeBattery();
-        if (pauseMenu != null)
-            action.Menu.Pause.performed -= (val) => pauseMenu.OnTogglePauseMenu();
     }
 
     private void OnPointerMove(InputAction.CallbackContext context)
@@ -93,7 +94,7 @@ public class InputManager : MonoBehaviour
         LookAround = input;
     }
 
-    private void TogglePause(InputAction.CallbackContext context)
+    private void TogglePause()
     {
         pauseMenu.OnTogglePauseMenu();
         

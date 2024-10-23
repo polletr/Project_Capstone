@@ -16,7 +16,6 @@ public class CinematicHandler : Singleton<CinematicHandler>
         {
         if (!oneSecTransition || director.state != PlayState.Playing )
         {
-            Debug.Log("OneSecTransition is null or not the current playable asset");
             return 0f;
         }
         
@@ -33,8 +32,7 @@ public class CinematicHandler : Singleton<CinematicHandler>
     public void PlayDeathCinematic()
     {
         if (deathCinematics.Count == 0) return;
-        Debug.Log("Playing Death Cinematic");
-        // Get a random index from the list
+    // Get a random index from the list
         var randomIndex = Random.Range(0, deathCinematics.Count);
 
         director.playableAsset = deathCinematics[randomIndex];
