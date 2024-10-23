@@ -47,12 +47,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Cost>k__BackingField: 10
   cooldown: 5
-  pickupForce: 150
-  pickupRange: 10
   maxHoldRange: 3
   maxHoldTime: 15
-  pushForce: 2000
-  pushCost: 5
+  pickupForce: 150
+  <PickupRange>k__BackingField: 10
 --- !u!1 &6191043455370362153
 GameObject:
   m_ObjectHideFlags: 0
@@ -196,13 +194,13 @@ MonoBehaviour:
   minBatteryAfterUse: 15
   minFlickerTime: 0.05
   maxFlickerTime: 0.2
-  <BatteryLife>k__BackingField: 5
+  <BatteryLife>k__BackingField: 30
   <MaxBatteryLife>k__BackingField: 100
   <MoveHoldPos>k__BackingField: {fileID: 0}
   flashlightAbilities: []
-  layerMask:
+  <IgrnoreMask>k__BackingField:
     serializedVersion: 2
-    m_Bits: 511
+    m_Bits: 0
 --- !u!23 &3341116582347002850
 MeshRenderer:
   m_ObjectHideFlags: 0
