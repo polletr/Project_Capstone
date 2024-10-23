@@ -4,6 +4,7 @@ using System.Linq;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class FlashLight : MonoBehaviour
@@ -41,7 +42,7 @@ public class FlashLight : MonoBehaviour
 
     public Light Light { get; private set; }
 
-    [SerializeField] private LayerMask layerMask;
+    [field: SerializeField] public LayerMask IgrnoreMask { get; private set; }
 
     private float flickerTimer;
     private float _extraCharge;
@@ -220,7 +221,7 @@ public class FlashLight : MonoBehaviour
                 : flashlightAbilities.Find(ability => ability is MoveAbility);
 
 
-        if (CurrentAbility != null && isFlashlightOn && (BatteryLife - CurrentAbility.Cost) >= minBatteryAfterUse)
+        if (CurrentAbility != null && isFlashlightOn && (BatteryLife - CurrentAbility.Cost) > 0)
             CurrentAbility.OnUseAbility();
         else
             Player.currentState?.HandleMove();

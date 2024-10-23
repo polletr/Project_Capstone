@@ -3,7 +3,7 @@ using UnityEngine.Events;
 public class FlashlightPickup : Interactable, ICollectable
 {
     public UnityEvent OnCollect;
-
+    
     public void Collect()
     {
         AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.PickUpFlashlight, transform.position);
