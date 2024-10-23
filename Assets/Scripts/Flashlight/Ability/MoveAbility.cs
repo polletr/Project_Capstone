@@ -22,8 +22,7 @@ public class MoveAbility : FlashlightAbility
         base.Initialize(flashlight);
         moveHoldPos = flashlight.MoveHoldPos;
     }
-
-
+    
     private void Pickup()
     {
         if (Physics.Raycast(Flashlight.RayCastOrigin.position, Flashlight.RayCastOrigin.forward, out var hit, PickupRange) &&
