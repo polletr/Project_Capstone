@@ -115,7 +115,7 @@ public class FlashLight : MonoBehaviour
         if (isFlashlightOn && !isFlickering)
         {
             // Turn off the flashlight
-            StartCoroutine(Flicker(0.5f, TurnOffLight));
+            StartCoroutine(Flicker(1f, TurnOffLight));
             Event.SetTutorialText?.Invoke("Battery is Dead Press R to recharge"); //Ui to change battery
         }
     }
