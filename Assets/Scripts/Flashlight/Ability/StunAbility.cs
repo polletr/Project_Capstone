@@ -29,7 +29,7 @@ public class StunAbility : FlashlightAbility
         Flashlight.Light.intensity = lightIntensity;
         Flashlight.Light.color = flashColor;
 
-        Ray ray = new Ray(transform.position, transform.forward * Flashlight.Light.range);
+        Ray ray = new Ray(Flashlight.transform.position, Flashlight.transform.forward * Flashlight.Light.range);
         RaycastHit[] hits = Physics.SphereCastAll(ray, effectRadius, Flashlight.Light.range);
         foreach (RaycastHit hit in hits)
         {

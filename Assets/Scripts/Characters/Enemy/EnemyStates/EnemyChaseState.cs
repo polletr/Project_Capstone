@@ -7,22 +7,22 @@ public class EnemyChaseState : EnemyBaseState
     private float teleportTimer;
 
     public EnemyChaseState(EnemyClass enemyClass, EnemyAnimator enemyAnim)
-        : base(enemyClass, enemyAnim) { }
+        : base(enemyClass, enemyAnim)
+    {
+    }
 
     public override void EnterState()
     {
-
         if (enemy.playerCharacter == null || !enemy.playerCharacter.IsAlive())
         {
             enemy.ChangeState(enemy.IdleState);
         }
 
-        enemyAnimator.animator.CrossFade(enemyAnimator.IdleHash, enemyAnimator.animationCrossFade);
+        if (enemyAnimator.animator != null)
+            enemyAnimator.animator.CrossFade(enemyAnimator.IdleHash, enemyAnimator.animationCrossFade);
 
         enemy.agent.ResetPath();
         teleportTimer = 0;
-
-
     }
 
     public override void ExitState()
@@ -30,11 +30,10 @@ public class EnemyChaseState : EnemyBaseState
         teleportTimer = 0;
         enemy.BodyMaterial.SetFloat("_Transparency", 0.9f);
         enemy.EyeMaterial.SetFloat("_Transparency", 0.9f);
-
     }
+
     public override void StateFixedUpdate()
     {
-
     }
 
     public override void StateUpdate()
@@ -46,16 +45,21 @@ public class EnemyChaseState : EnemyBaseState
         if (enemy.playerCharacter != null)
         {
             // Get the direction to the player
-            Vector3 directionToPlayer = (enemy.playerCharacter.transform.position - enemy.transform.position).normalized;
+            Vector3 directionToPlayer =
+                (enemy.playerCharacter.transform.position - enemy.transform.position).normalized;
 
             // Calculate the rotation towards the player
-            Quaternion lookRotation = Quaternion.LookRotation(new Vector3(directionToPlayer.x, 0, directionToPlayer.z)); // Ignore y-axis to keep rotation flat
+            Quaternion lookRotation =
+                Quaternion.LookRotation(new Vector3(directionToPlayer.x, 0,
+                    directionToPlayer.z)); // Ignore y-axis to keep rotation flat
 
             // Smoothly rotate the enemy towards the player
-            enemy.transform.rotation = Quaternion.Slerp(enemy.transform.rotation, lookRotation, Time.deltaTime * enemy.RotationSpeed);
+            enemy.transform.rotation = Quaternion.Slerp(enemy.transform.rotation, lookRotation,
+                Time.deltaTime * enemy.RotationSpeed);
 
             // If within attack range, switch to attack state
-            if (Vector3.Distance(enemy.transform.position, enemy.playerCharacter.transform.position) <= enemy.AttackRange)
+            if (Vector3.Distance(enemy.transform.position, enemy.playerCharacter.transform.position) <=
+                enemy.AttackRange)
             {
                 enemy.ChangeState(enemy.AttackState);
             }
@@ -74,7 +78,6 @@ public class EnemyChaseState : EnemyBaseState
         {
             enemy.ChangeState(enemy.IdleState);
         }
-
     }
 
     private void TeleportTowardsPlayer()
@@ -83,7 +86,8 @@ public class EnemyChaseState : EnemyBaseState
 
         // Calculate teleport position based on the lerped multiplier
         Vector3 directionToPlayer = (enemy.playerCharacter.transform.position - enemy.transform.position).normalized;
-        Vector3 desiredTeleportPosition = enemy.playerCharacter.transform.position - directionToPlayer * enemy.AttackRange * 0.8f;
+        Vector3 desiredTeleportPosition =
+            enemy.playerCharacter.transform.position - directionToPlayer * enemy.AttackRange * 0.8f;
 
         if (CheckPath(desiredTeleportPosition))
         {
@@ -122,14 +126,9 @@ public class EnemyChaseState : EnemyBaseState
                             enemy.playerCharacter.AddEnemyToChaseList(enemy);
                             enemy.ChangeState(enemy.ChaseState);
                         }
-
                     }
                 }
             }
         }
-
-
-
     }
-
 }
