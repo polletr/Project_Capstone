@@ -158,6 +158,8 @@ public class FlashLight : MonoBehaviour
         var hasRevealable = obj.TryGetComponent(out IRevealable revealObj);
         var hasMovable = obj.TryGetComponent(out IMovable movableObj);
 
+        // Get the distance to move an object
+        var distanceToMoveObj = ((MoveAbility)flashlightAbilities.Find(ability => ability is MoveAbility)).PickupRange;
         // Apply the reveal effect if not revealed && check if it has a movable component
         if (hasRevealable)
         {
@@ -169,9 +171,11 @@ public class FlashLight : MonoBehaviour
             }
             else if (hasMovable)
             {
-                var distance = ((MoveAbility)flashlightAbilities.Find(ability => ability is MoveAbility)).PickupRange;
 
-                if (!(Vector3.Distance(RayCastOrigin.position, obj.transform.position) <= distance)) return;
+                if (distanceToMoveObj < Vector3.Distance(transform.position, obj.transform.position))
+                    return; 
+                
+                if (!(Vector3.Distance(RayCastOrigin.position, obj.transform.position) <= distanceToMoveObj)) return;
 
                 movableObj.ApplyEffect();
                 effectedObjs.Add(movableObj);
@@ -180,6 +184,10 @@ public class FlashLight : MonoBehaviour
         }
         else
         {
+            
+            // Check if the object has a movable component and if the object is within the range of the move ability pickup
+            if (hasMovable && distanceToMoveObj < Vector3.Distance(transform.position, obj.transform.position))
+                return; 
             // If it's IEffectable and hasn't been affected yet, apply its effect
             effectedObjsThisFrame.Add(effectable);
             if (!effectedObjs.Contains(effectable))
@@ -231,7 +239,11 @@ public class FlashLight : MonoBehaviour
     {
         CurrentAbility = flashlightAbilities.Find(ability => ability is StunAbility);
         if (CurrentAbility != null && isFlashlightOn && (BatteryLife - CurrentAbility.Cost) >= minBatteryAfterUse)
+        {
+            if(PlayerBatteryUIHandler.Instance != null)
+                PlayerBatteryUIHandler.Instance.BlickBatteryUIOnce();
             CurrentAbility.OnUseAbility();
+        }
         else
             Player.currentState?.HandleMove();
     }
@@ -313,7 +325,6 @@ public class FlashLight : MonoBehaviour
         var timer = 0f;
         while (timer < maxTime)
         {
-            Debug.Log("Flickering");
             // Randomize the intensity
             Light.intensity = Random.Range(0.2f, intensity);
 
@@ -347,6 +358,7 @@ public class FlashLight : MonoBehaviour
     {
         BatteryLife = MaxBatteryLife + _extraCharge;
         Event.SetTutorialTextTimer?.Invoke("Battery Recharged");
+        TurnOnLight();
     }
 
     private void UpdateExtraCharge(float charge) => _extraCharge = charge;

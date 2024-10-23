@@ -59,6 +59,8 @@ public class ObjectPickupUIHandler : Singleton<ObjectPickupUIHandler>
         {
             var pickup = pickedUpObjects.Dequeue();
             
+            yield return new WaitForSeconds(CinematicHandler.Instance.OneSecDuration);
+            
             MoveIn(pickup);
 
             // Wait for the animation to finish moving in

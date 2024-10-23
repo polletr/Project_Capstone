@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-public class PlayerBatteryUIHandler : MonoBehaviour
+public class PlayerBatteryUIHandler : Singleton<PlayerBatteryUIHandler>
 {
     [Header("References")] public GameEvent Event;
     [SerializeField] private FlashLight flashLight;
@@ -56,15 +56,16 @@ public class PlayerBatteryUIHandler : MonoBehaviour
         }
     }
 
-    private IEnumerator Blink()
+    private IEnumerator Blink(bool blinkOnce = false)
     {
         isBlinking = true;
-        while (BatteryCharge <= 0)
+        while (BatteryCharge <= 0 || blinkOnce)
         {
             batteryImage.gameObject.SetActive(true);
             yield return new WaitForSeconds(blinkSpeed);
             batteryImage.gameObject.SetActive(false);
             yield return new WaitForSeconds(blinkSpeed);
+            blinkOnce = false;
         }
 
         batteryImage.gameObject.SetActive(true);
@@ -74,5 +75,13 @@ public class PlayerBatteryUIHandler : MonoBehaviour
     private void TurnOnBatteryUI()
     {
         batteryImage.gameObject.SetActive(true);
+    }
+
+    public void BlickBatteryUIOnce()
+    {
+        if (!isBlinking)
+        {
+            StartCoroutine(Blink(true));
+        }
     }
 }

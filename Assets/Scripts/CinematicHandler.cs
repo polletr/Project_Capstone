@@ -3,16 +3,31 @@ using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
 
-public class CinematicHandler : MonoBehaviour
+public class CinematicHandler : Singleton<CinematicHandler>
 {
-
     [SerializeField] private List<TimelineAsset> deathCinematics = new();
-    [SerializeField] private TimelineAsset oneSecTransition;
+    [field: SerializeField] public TimelineAsset oneSecTransition;
 
     private PlayableDirector director;
 
-    private void Awake()
+    public float OneSecDuration 
     {
+        get
+        {
+        if (!oneSecTransition || director.playableAsset != oneSecTransition )
+        {
+            Debug.Log("OneSecTransition is null or not the current playable asset");
+            return 0f;
+        }
+        
+        var time = (float)oneSecTransition.duration;
+        return time;
+        }
+    }
+
+    protected override void Awake()
+    {
+        base.Awake();
         director = GetComponent<PlayableDirector>();
     }
     public void PlayDeathCinematic()
@@ -20,7 +35,7 @@ public class CinematicHandler : MonoBehaviour
         if (deathCinematics.Count == 0) return;
         Debug.Log("Playing Death Cinematic");
         // Get a random index from the list
-        int randomIndex = Random.Range(0, deathCinematics.Count);
+        var randomIndex = Random.Range(0, deathCinematics.Count);
 
         director.playableAsset = deathCinematics[randomIndex];
         director.Play();
