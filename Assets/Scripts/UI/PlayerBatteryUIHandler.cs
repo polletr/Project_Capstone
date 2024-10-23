@@ -58,6 +58,7 @@ public class PlayerBatteryUIHandler : Singleton<PlayerBatteryUIHandler>
 
     private IEnumerator Blink(bool blinkOnce = false)
     {
+        var count = 0;
         isBlinking = true;
         while (BatteryCharge <= 0 || blinkOnce)
         {
@@ -65,7 +66,8 @@ public class PlayerBatteryUIHandler : Singleton<PlayerBatteryUIHandler>
             yield return new WaitForSeconds(blinkSpeed);
             batteryImage.gameObject.SetActive(false);
             yield return new WaitForSeconds(blinkSpeed);
-            blinkOnce = false;
+            count++;
+            blinkOnce = count < 3;
         }
 
         batteryImage.gameObject.SetActive(true);

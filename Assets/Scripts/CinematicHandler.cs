@@ -14,7 +14,7 @@ public class CinematicHandler : Singleton<CinematicHandler>
     {
         get
         {
-        if (!oneSecTransition || director.playableAsset != oneSecTransition )
+        if (!oneSecTransition || director.state != PlayState.Playing )
         {
             Debug.Log("OneSecTransition is null or not the current playable asset");
             return 0f;
