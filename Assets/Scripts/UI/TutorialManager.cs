@@ -12,6 +12,7 @@ public class TutorialManager : MonoBehaviour
     public GlobalEventSO stunTutorial;
     public GlobalEventSO moveTutorial;
     public GlobalEventSO flashlightOnTutorial;
+    public GlobalEventSO flashlightOffTutorial;
     private CountdownTimer _countdownTimer;
 
     private void Awake()
@@ -24,6 +25,7 @@ public class TutorialManager : MonoBehaviour
         stunTutorial.OnTriggerGlobalEvent += StunText;
         moveTutorial.OnTriggerGlobalEvent += MoveText;
         flashlightOnTutorial.OnTriggerGlobalEvent += FlashlightText;
+        flashlightOffTutorial.OnTriggerGlobalEvent += FlashlightOffText;
         Event.SetTutorialText += SetText;
         Event.SetTutorialTextTimer += SetTextTimer;
 
@@ -35,6 +37,7 @@ public class TutorialManager : MonoBehaviour
         stunTutorial.OnTriggerGlobalEvent -= StunText;
         moveTutorial.OnTriggerGlobalEvent -= MoveText;
         flashlightOnTutorial.OnTriggerGlobalEvent -= FlashlightText;
+        flashlightOffTutorial.OnTriggerGlobalEvent -= FlashlightOffText;
         Event.SetTutorialText -= SetText;
         Event.SetTutorialTextTimer -= SetTextTimer;
     }
@@ -72,7 +75,12 @@ public class TutorialManager : MonoBehaviour
     }
     public void FlashlightText()
     {
-        SetTextTimer("Press F to turn on flashlight");
+        SetTextTimer("Press F to turn ON flashlight");
+    }
+
+    public void FlashlightOffText()
+    {
+        SetTextTimer("Press F to turn OFF flashlight");
     }
 
 }
