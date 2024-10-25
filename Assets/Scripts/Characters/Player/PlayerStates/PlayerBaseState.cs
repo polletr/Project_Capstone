@@ -5,22 +5,22 @@ using UnityEngine.InputSystem;
 
 public abstract class PlayerBaseState
 {
-    protected bool isRunning;
-    protected bool isCrouching;
+    protected bool IsRunning;
+    protected bool IsCrouching;
 
-    protected PlayerController player { get; set; }
-    protected PlayerAnimator playerAnimator { get; set; }
-    public InputManager inputManager { get; set; }
+    protected PlayerController Player { get; set; }
+    protected PlayerAnimator PlayerAnimator { get; set; }
+    public InputManager InputManager { get; set; }
 
-    protected float _bobTimer;
+    protected float BobTimer;
 
-    private Vector3 _direction;
+    private Vector3 direction;
 
     protected PlayerBaseState(PlayerController playerController)
     {
-        player = playerController;
-        playerAnimator = player.playerAnimator;
-        inputManager = player.inputManager;
+        Player = playerController;
+        PlayerAnimator = Player.playerAnimator;
+        InputManager = Player.inputManager;
     }
 
 
@@ -29,7 +29,7 @@ public abstract class PlayerBaseState
     public virtual void StateFixedUpdate() { }
     public virtual void StateUpdate()
     {
-        player.characterController.SimpleMove(_direction.normalized * GetSpeed());
+        Player.characterController.SimpleMove(direction.normalized * GetSpeed());
 
         StepsSound();
 
@@ -38,11 +38,11 @@ public abstract class PlayerBaseState
         CheckInteractionUI();
 
         // Calculate the local movement direction relative to the player's forward direction
-        Vector3 localDirection = player.transform.InverseTransformDirection(_direction);
+        var localDirection = Player.transform.InverseTransformDirection(direction);
 
         // Set the animator parameters based on the local direction
-        playerAnimator.animator.SetFloat("Horizontal", localDirection.x * GetMovementAnimValue());
-        playerAnimator.animator.SetFloat("Vertical", localDirection.z * GetMovementAnimValue());
+        PlayerAnimator.animator.SetFloat("Horizontal", localDirection.x * GetMovementAnimValue());
+        PlayerAnimator.animator.SetFloat("Vertical", localDirection.z * GetMovementAnimValue());
 
     }
 
@@ -50,8 +50,8 @@ public abstract class PlayerBaseState
     {
 
         // Get the camera's forward and right directions
-        Vector3 cameraForward = player.PlayerCam.transform.forward;
-        Vector3 cameraRight = player.PlayerCam.transform.right;
+        var cameraForward = Player.PlayerCam.transform.forward;
+        var cameraRight = Player.PlayerCam.transform.right;
 
         // Since we're working in a 3D space, we don't want any vertical movement on the Y axis
         cameraForward.y = 0;
@@ -62,7 +62,7 @@ public abstract class PlayerBaseState
         cameraRight.Normalize();
 
         // Calculate the movement direction based on the input (dir) and camera orientation
-        _direction = (cameraForward * dir.y + cameraRight * dir.x);
+        direction = (cameraForward * dir.y + cameraRight * dir.x);
     }
     
     public virtual void HandleRecharge()
@@ -70,10 +70,9 @@ public abstract class PlayerBaseState
         
     }
 
-    public virtual void HandleAttack(bool isHeld)
+    public virtual void HandleAttack()
     {
-        if (isHeld && player.HasFlashlight)
-            player.ChangeState(player.AttackState);
+            Player.ChangeState(Player.AttackState);
     }
 
     public virtual void HandleMove() { }
@@ -82,118 +81,117 @@ public abstract class PlayerBaseState
     
     public virtual void HandleRun(bool check)
     {
-        if (!isCrouching)
-            isRunning = check;
+        if (!IsCrouching)
+            IsRunning = check;
     }
 
     public virtual void HandleCrouch(bool check)
     {
-        isCrouching = check;
-        playerAnimator.animator.SetBool("isCrouching", check);
+        IsCrouching = check;
+        PlayerAnimator.animator.SetBool("isCrouching", check);
 
-        if (isCrouching)
-            isRunning = false;
+        if (IsCrouching)
+            IsRunning = false;
     }
 
     protected virtual void HandleFlashlightSphereCast()
     {
-        if (player.HasFlashlight)
-            player.flashlight.HandleRayCast();
+        if (Player.HasFlashlight)
+            Player.flashlight.HandleRayCast();
     }
 
     public virtual void HandleFlashlightPower()
     {
-        if (player.HasFlashlight)
-            player.flashlight.HandleFlashlightPower();
+        if (Player.HasFlashlight)
+            Player.flashlight.HandleFlashlightPower();
     }
-
-
+    
     public virtual void HandleLookAround(Vector2 dir, InputDevice device)
     {
-        var sensitivityMultilayer = player.Settings.cameraSensitivityMouse;
+        var sensitivityMultilayer = Player.Settings.cameraSensitivityMouse;
 
         if (device is Gamepad)
         {
-            sensitivityMultilayer = player.Settings.cameraSensitivityGamepad;
+            sensitivityMultilayer = Player.Settings.cameraSensitivityGamepad;
         }
 
         // Calculate player's body (y-axis) rotation
-        player.yRotation += dir.x * sensitivityMultilayer * Time.deltaTime;
-        player.CameraHolder.localRotation = Quaternion.Euler(0, player.yRotation, 0);  // Rotate body horizontally
+        Player.yRotation += dir.x * sensitivityMultilayer * Time.deltaTime;
+        Player.CameraHolder.localRotation = Quaternion.Euler(0, Player.yRotation, 0);  // Rotate body horizontally
 
         // Calculate camera pitch (x-axis) rotation
-        player.xRotation += dir.y * sensitivityMultilayer * Time.deltaTime;
-        player.xRotation = Mathf.Clamp(player.xRotation, player.Settings.ClampAngleUp, player.Settings.ClampAngleDown);
-        player.PlayerCam.transform.localRotation = Quaternion.Euler(-player.xRotation, 0, 0);  // Rotate camera vertically
+        Player.xRotation += dir.y * sensitivityMultilayer * Time.deltaTime;
+        Player.xRotation = Mathf.Clamp(Player.xRotation, Player.Settings.ClampAngleUp, Player.Settings.ClampAngleDown);
+        Player.PlayerCam.transform.localRotation = Quaternion.Euler(-Player.xRotation, 0, 0);  // Rotate camera vertically
 
         // Only update the flashlight's rotation if the player is holding it
-        if (player.HasFlashlight && player.xRotation > player.Settings.FlashlightAngleDown)
+        if (Player.HasFlashlight && Player.xRotation > Player.Settings.FlashlightAngleDown)
         {
             // Get current rotation and target rotation in Euler angles
-            var currentRotation = player.Hand.localRotation.eulerAngles;
-            var targetRotation = player.PlayerCam.transform.rotation.eulerAngles;
+            var currentRotation = Player.Hand.localRotation.eulerAngles;
+            var targetRotation = Player.PlayerCam.transform.rotation.eulerAngles;
 
             // Slurp only the z-axis, while keeping the x and y axes unchanged
-            var zRotation = Mathf.LerpAngle(currentRotation.z, targetRotation.x, player.Settings.FlashlightRotateSpeed * Time.deltaTime);
+            var zRotation = Mathf.LerpAngle(currentRotation.z, targetRotation.x, Player.Settings.FlashlightRotateSpeed * Time.deltaTime);
 
             // Apply the new rotation, only modifying the z-axis
-            player.Hand.localRotation = Quaternion.Euler(currentRotation.x, currentRotation.y, zRotation);
+            Player.Hand.localRotation = Quaternion.Euler(currentRotation.x, currentRotation.y, zRotation);
         }
     }
 
 
     protected virtual void StepsSound()
     {
-        player.playerFootsteps.getPlaybackState(out var playbackState);
+        Player.playerFootsteps.getPlaybackState(out var playbackState);
 
-        if (_direction.sqrMagnitude > 0f)
+        if (direction.sqrMagnitude > 0f)
         {
-            if (player.Event.OnSoundEmitted != null)
-                player.Event.HandlePlayerFootSteps(player.transform.position, GetSoundEmitted());
+            if (Player.Event.OnSoundEmitted != null)
+                Player.Event.HandlePlayerFootSteps(Player.transform.position, GetSoundEmitted());
 
             //Actual sound
             if (playbackState.Equals(PLAYBACK_STATE.STOPPED))
             {
-                player.playerFootsteps.start();
+                Player.playerFootsteps.start();
             }
         }
         else
         {
             if (playbackState.Equals(PLAYBACK_STATE.PLAYING))
             {
-                player.playerFootsteps.stop(STOP_MODE.ALLOWFADEOUT);
+                Player.playerFootsteps.stop(STOP_MODE.ALLOWFADEOUT);
             }
         }
     }
 
     public virtual void HandleDeath()
     {
-        player.ChangeState(player.DeathState);
+        Player.ChangeState(Player.DeathState);
     }
 
     public virtual void CheckInteractionUI()
     {
-        if (Physics.Raycast(player.PlayerCam.transform.position, player.PlayerCam.transform.forward, out RaycastHit hit, player.Settings.InteractionRange))
+        if (Physics.Raycast(Player.PlayerCam.transform.position, Player.PlayerCam.transform.forward, out RaycastHit hit, Player.Settings.InteractionRange))
         {
             var obj = hit.collider.gameObject;
             if (obj.TryGetComponent(out Interactable thing))
             {
-                player.interactableObj = thing;
-                if (player.interactableObj.indicatorHandler != null && player.interactableObj.indicatorHandler.IndicatorUI != null)
-                    player.interactableObj.indicatorHandler.IndicatorUI.TriggerTextIndicator(true);
+                Player.interactableObj = thing;
+                if (Player.interactableObj.indicatorHandler != null && Player.interactableObj.indicatorHandler.IndicatorUI != null)
+                    Player.interactableObj.indicatorHandler.IndicatorUI.TriggerTextIndicator(true);
             }
             else
             {
-                if (player.interactableObj != null && player.interactableObj.indicatorHandler != null && player.interactableObj.indicatorHandler.IndicatorUI != null)
-                    player.interactableObj.indicatorHandler.IndicatorUI.TriggerTextIndicator(false);
+                if (Player.interactableObj != null && Player.interactableObj.indicatorHandler != null && Player.interactableObj.indicatorHandler.IndicatorUI != null)
+                    Player.interactableObj.indicatorHandler.IndicatorUI.TriggerTextIndicator(false);
             }
         }
         else
         {
-            if (player.interactableObj != null && player.interactableObj.indicatorHandler != null && player.interactableObj.indicatorHandler.IndicatorUI != null)
+            if (Player.interactableObj != null && Player.interactableObj.indicatorHandler != null && Player.interactableObj.indicatorHandler.IndicatorUI != null)
             {
-                player.interactableObj.indicatorHandler.IndicatorUI.TriggerTextIndicator(false);
-                player.interactableObj = null;
+                Player.interactableObj.indicatorHandler.IndicatorUI.TriggerTextIndicator(false);
+                Player.interactableObj = null;
             }
         }
 
@@ -201,39 +199,39 @@ public abstract class PlayerBaseState
 
     protected virtual float GetSpeed()
     {
-        if (isRunning)
+        if (IsRunning)
         {
-            return player.Settings.RunningSpeed;
+            return Player.Settings.RunningSpeed;
         }
-        else if (isCrouching)
+        else if (IsCrouching)
         {
-            return player.Settings.CrouchingSpeed;
+            return Player.Settings.CrouchingSpeed;
         }
         else
         {
-            return player.Settings.WalkingSpeed;
+            return Player.Settings.WalkingSpeed;
         }
     }
 
     protected virtual float GetSoundEmitted()
     {
-        if (isRunning)
+        if (IsRunning)
         {
-            return player.Settings.RunSoundRange;
+            return Player.Settings.RunSoundRange;
         }
-        else if (isCrouching)
+        else if (IsCrouching)
         {
-            return player.Settings.CrouchSoundRange;
+            return Player.Settings.CrouchSoundRange;
         }
         else
         {
-            return player.Settings.WalkSoundRange;
+            return Player.Settings.WalkSoundRange;
         }
     }
 
     protected virtual float GetMovementAnimValue()
     {
-        if (isRunning || isCrouching)
+        if (IsRunning || IsCrouching)
         {
             return 1f;
         }

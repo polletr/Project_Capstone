@@ -7,37 +7,42 @@ using Utilities;
 
 public class StunAbility : FlashlightAbility
 {
-    [SerializeField] float effectRadius;
-    [SerializeField] Color flashColor;
-    [SerializeField] Color cooldownColor;
-    [SerializeField] float decreaseRate;
+    [SerializeField] private Color flashColor;
+    [SerializeField] private Color cooldownColor;
+    [SerializeField] private float decreaseRate;
+    [SerializeField] private float effectRadius;
+    [SerializeField] private float lightIntensity;
+    [SerializeField] private float cooldownIntensity;
 
-
-    [SerializeField] float lightIntensity;
-
-    [SerializeField] float cooldownIntensity;
-
-    CountdownTimer timer;
-
-    EventInstance flashSound;
+    private CountdownTimer timer;
+    private EventInstance flashSound;
 
     public override void OnUseAbility()
     {
+        if (!PlayerBatteryUIHandler.Instance)
+            PlayerBatteryUIHandler.Instance.FlickerBatteryUIOnce();
+        
         timer = new CountdownTimer(cooldown);
         timer.Start();
 
         Flashlight.Light.intensity = lightIntensity;
         Flashlight.Light.color = flashColor;
 
-        Ray ray = new Ray(Flashlight.transform.position, Flashlight.transform.forward * Flashlight.Light.range);
-        RaycastHit[] hits = Physics.SphereCastAll(ray, effectRadius, Flashlight.Light.range);
-        foreach (RaycastHit hit in hits)
+        var ray = new Ray(Flashlight.transform.position, Flashlight.transform.forward * Flashlight.Light.range);
+       
+        var hits = new RaycastHit[10];
+        var size = Physics.SphereCastNonAlloc(ray, effectRadius, hits, Flashlight.Light.range, Flashlight.IgrnoreMask);
+       
+        for (var i = 0; i < size; i++)
         {
+            var hit = hits[i];
+            if (!hit.collider) continue;
             var obj = hit.collider.gameObject;
 
-            if (obj.TryGetComponent(out IStunnable thing))
+            if (obj.TryGetComponent(out IStunable thing))
                 thing.ApplyStunEffect();
         }
+    
         Flashlight.ConsumeBattery(Cost);
         flashSound = AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.FlashlightStun);
         flashSound.start();

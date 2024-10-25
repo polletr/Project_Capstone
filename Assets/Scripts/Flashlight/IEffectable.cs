@@ -5,14 +5,12 @@ public interface IEffectable
     void RemoveEffect() { }
 }
 
-public interface IMovable : IEffectable { }
-
 public interface IRevealable : IEffectable
 {
     bool IsRevealed { get; set; }
 }
 
-public interface IStunnable : IEffectable 
+public interface IStunable : IEffectable 
 { 
     void ApplyStunEffect() { }
 }

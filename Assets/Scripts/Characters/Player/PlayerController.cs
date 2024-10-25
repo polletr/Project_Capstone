@@ -2,7 +2,6 @@ using FMOD.Studio;
 using FMODUnity;
 using System.Collections.Generic;
 using IEnumerator = System.Collections.IEnumerator;
-
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -44,14 +43,15 @@ public class PlayerController : MonoBehaviour
     public EventInstance playerHeartbeat { get; private set; }
 
     private float _minEnemyDistance;
+
     // private bool _canRegenHealth = true;
     private List<EnemyClass> _enemiesChasing = new();
     private float currentEnemyDistance;
 
     private void Awake()
     {
-        Cursor.lockState = CursorLockMode.Locked;//Move this from here later
-        Cursor.visible = false;//Move this from here later
+        Cursor.lockState = CursorLockMode.Locked; //Move this from here later
+        Cursor.visible = false; //Move this from here later
 
         SetSpawn(transform);
 
@@ -114,12 +114,14 @@ public class PlayerController : MonoBehaviour
 
     private void SetupSoundEvents()
     {
-        playerFootsteps = AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.PlayerSteps);
-        playerBreathing = AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.HeavyToLowBreathing);
-        playerHeartbeat = AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.PlayerHeartbeat);
+        playerFootsteps =
+            AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.PlayerSteps);
+        playerBreathing =
+            AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.HeavyToLowBreathing);
+        playerHeartbeat =
+            AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.PlayerHeartbeat);
         RuntimeManager.StudioSystem.setParameterByName("EnemyDistance", 1);
         playerHeartbeat.start();
-
     }
 
     private void PlayBreathing()
@@ -142,7 +144,6 @@ public class PlayerController : MonoBehaviour
         {
             flashlight.gameObject.SetActive(true);
         }
-
     }
 
     public void AddEnemyToChaseList(EnemyClass enemy)
@@ -160,7 +161,6 @@ public class PlayerController : MonoBehaviour
 
     private void CheckEnemies()
     {
-
         if (_enemiesChasing.Count > 0)
         {
             // Calculate the normalized distance based on the nearest enemy
@@ -185,7 +185,6 @@ public class PlayerController : MonoBehaviour
                     break;
                 }
             }
-
         }
         else
         {
@@ -213,7 +212,6 @@ public class PlayerController : MonoBehaviour
     }
 
 
-
     public bool IsAlive()
     {
         return currentState != DeathState;
@@ -231,19 +229,28 @@ public class PlayerController : MonoBehaviour
         currentState?.HandleInteract();
     }
 
-    public void CancelInteract()
+    public void HandleAttack()
     {
-
-    }
-
-    public void HandleChangeBattery()
+        if (HasFlashlight)
+            flashlight?.HandleFlashAbility();
+    } 
+    public void HandleRecharge()
     {
-        if (currentState != RechargeState && HasFlashlight)
+        if (HasFlashlight)
         {
-            currentState.HandleRecharge();
+            currentState?.HandleRecharge();
         }
+            
     }
 
+    //if the flashlight is on, change the flashlight ability to value
+    public void HandleChangeAbility(int value)
+    {
+        if (!flashlight || !flashlight.IsFlashlightOn) return;
+
+        flashlight.HandleChangeAbility(value);
+    }
+    
     private void HandleFlashlightPickUp()
     {
         HasFlashlight = true;
@@ -278,5 +285,6 @@ public class PlayerController : MonoBehaviour
         currentState = newState;
         currentState.EnterState();
     }
+
     #endregion
 }

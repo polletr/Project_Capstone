@@ -17,14 +17,14 @@ public class PlayerDeathState : PlayerBaseState
     bool hasFaded;
     public override void EnterState()
     {
-        FOV = player.PlayerCam.fieldOfView;
-        player.Event.OnPlayerDeath?.Invoke();
+        FOV = Player.PlayerCam.fieldOfView;
+        Player.Event.OnPlayerDeath?.Invoke();
         //playerAnimator.animator.Play(playerAnimator.DieHash);
 
-        player.playerFootsteps.getPlaybackState(out var playbackState);
+        Player.playerFootsteps.getPlaybackState(out var playbackState);
         if (playbackState.Equals(PLAYBACK_STATE.PLAYING))
         {
-            player.playerFootsteps.stop(STOP_MODE.ALLOWFADEOUT);
+            Player.playerFootsteps.stop(STOP_MODE.ALLOWFADEOUT);
         }
 
         timer = new CountdownTimer(3f);
@@ -34,7 +34,7 @@ public class PlayerDeathState : PlayerBaseState
     public override void ExitState()
     {
         // player.PlayerCam.transform.parent = player.CameraHolder;
-        player.PlayerCam.fieldOfView = FOV;
+        Player.PlayerCam.fieldOfView = FOV;
         EnemyFace = null;
         EnemyKiller = null;
         hasFaded = false;
@@ -55,14 +55,14 @@ public class PlayerDeathState : PlayerBaseState
         if (IsKilledByEnemy())
         {
             // Smoothly rotate the camera to look at the enemy's face
-            Vector3 direction = (EnemyFace.position - player.PlayerCam.transform.position).normalized;
+            Vector3 direction = (EnemyFace.position - Player.PlayerCam.transform.position).normalized;
             Quaternion lookRotation = Quaternion.LookRotation(direction);
-            player.PlayerCam.transform.rotation = Quaternion.Slerp(player.PlayerCam.transform.rotation, lookRotation, 7 * Time.deltaTime);
+            Player.PlayerCam.transform.rotation = Quaternion.Slerp(Player.PlayerCam.transform.rotation, lookRotation, 7 * Time.deltaTime);
 
-            player.PlayerCam.fieldOfView = Mathf.Lerp(player.PlayerCam.fieldOfView, 25, 7 * Time.deltaTime);
+            Player.PlayerCam.fieldOfView = Mathf.Lerp(Player.PlayerCam.fieldOfView, 25, 7 * Time.deltaTime);
             if (timer.IsFinished)
             {
-                player.Event.OnFadeBlackScreen?.Invoke();
+                Player.Event.OnFadeBlackScreen?.Invoke();
                 Debug.Log("Blackscreen start");
                 hasFaded = true;
             }
@@ -84,7 +84,7 @@ public class PlayerDeathState : PlayerBaseState
 
     }
 
-    public override void HandleAttack(bool isHeld)
+    public override void HandleAttack()
     {
 
     }

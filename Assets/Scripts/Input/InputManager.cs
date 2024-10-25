@@ -31,6 +31,7 @@ public class InputManager : Singleton<InputManager>
             action.Menu.Pause.performed += (val) => TogglePause();
             pauseMenu.OnResume.AddListener(TogglePause);
         }
+
         action.Enable();
     }
 
@@ -42,52 +43,66 @@ public class InputManager : Singleton<InputManager>
             action.Menu.Pause.performed -= (val) => TogglePause();
             pauseMenu.OnResume.RemoveListener(TogglePause);
         }
+
         action.Disable();
     }
 
+    #region Player Input
+
     public void EnablePlayerInput()
     {
-        action.Player.Move.performed += (val) => Movement = val.ReadValue<Vector2>();
+        action.Player.Move.performed += OnMove;
 
         action.Player.PointerMove.performed += OnPointerMove;
 
-        action.Player.Attack.performed += (val) => player.currentState?.HandleAttack(true);
-        action.Player.Attack.canceled += (val) => player.currentState?.HandleAttack(false);
+        action.Player.Attack.performed += OnAttack;
 
-        action.Player.Crouch.performed += (val) => player.currentState?.HandleCrouch(true);
-        action.Player.Crouch.canceled += (val) => player.currentState?.HandleCrouch(false);
+        action.Player.Crouch.performed += (_) => player.currentState?.HandleCrouch(true);
+        action.Player.Crouch.canceled += (_) => player.currentState?.HandleCrouch(false);
 
-        action.Player.Run.performed += (val) => player.currentState?.HandleRun(true);
-        action.Player.Run.canceled += (val) => player.currentState?.HandleRun(false);
+        action.Player.Run.canceled += (_) => player.currentState?.HandleRun(true);
+        action.Player.Run.performed += (_) => player.currentState?.HandleRun(true);
 
-        action.Player.Interact.performed += (val) => player.currentState?.HandleInteract();
+        action.Player.Interact.performed += OnInteract;
 
-        action.Player.Flashlight.performed += (val) => player.currentState?.HandleFlashlightPower();
+        action.Player.RechargeFlashlight.performed += OnRechargeFlashlight;
 
-        action.Player.ChangeBattery.performed += (val) => player.HandleChangeBattery();
+        action.Player.Flashlight.performed += OnFlashlightPower;
+
+        action.Player.ChangeAbility.performed += OnChangeAbility;
     }
 
     public void DisablePlayerInput()
     {
-        action.Player.Move.performed -= (val) => Movement = val.ReadValue<Vector2>();
+        action.Player.Move.performed -= OnMove;
 
         action.Player.PointerMove.performed -= OnPointerMove;
 
-        action.Player.Attack.performed -= (val) => player.currentState?.HandleAttack(true);
-        action.Player.Attack.canceled -= (val) => player.currentState?.HandleAttack(false);
+        action.Player.Attack.performed -= OnAttack;
 
-        action.Player.Crouch.performed -= (val) => player.currentState?.HandleCrouch(true);
-        action.Player.Crouch.canceled -= (val) => player.currentState?.HandleCrouch(false);
+        action.Player.Crouch.performed -= (_) => player.currentState?.HandleCrouch(true);
+        action.Player.Crouch.canceled -= (_) => player.currentState?.HandleCrouch(false);
 
-        action.Player.Run.performed -= (val) => player.currentState?.HandleRun(true);
-        action.Player.Run.canceled -= (val) => player.currentState?.HandleRun(false);
+        action.Player.Run.performed -= (_) => player.currentState?.HandleRun(true);
+        action.Player.Run.canceled -= (_) => player.currentState?.HandleRun(true);
 
-        action.Player.Interact.performed -= (val) => player.currentState?.HandleInteract();
+        action.Player.Interact.performed -= OnInteract;
 
-        action.Player.Flashlight.performed -= (val) => player.currentState?.HandleFlashlightPower();
+        action.Player.RechargeFlashlight.performed -= OnRechargeFlashlight;
 
-        action.Player.ChangeBattery.performed -= (val) => player.HandleChangeBattery();
+        action.Player.Flashlight.performed -= OnFlashlightPower;
+
+        action.Player.ChangeAbility.performed -= OnChangeAbility;
     }
+    #endregion
+
+    /// <summary>
+    /// All the input for the player actions
+    /// </summary>
+
+    #region Player Game Input
+
+    private void OnMove(InputAction.CallbackContext context) => Movement = context.ReadValue<Vector2>();
 
     private void OnPointerMove(InputAction.CallbackContext context)
     {
@@ -96,13 +111,34 @@ public class InputManager : Singleton<InputManager>
         LookAround = input;
     }
 
+    private void OnAttack(InputAction.CallbackContext context) => player.HandleAttack();
+
+    private void OnInteract(InputAction.CallbackContext context) => player.HandleInteract();
+
+    private void OnRechargeFlashlight(InputAction.CallbackContext context) => player.HandleRecharge();
+
+    private void OnFlashlightPower(InputAction.CallbackContext context) => player.currentState?.HandleFlashlightPower();
+
+    private void OnChangeAbility(InputAction.CallbackContext context) =>
+        player.HandleChangeAbility((int)context.ReadValue<float>());
+
+    #endregion
+
+    /// <summary>
+    /// All the input for the player Menu actions
+    /// </summary>
+
+    #region Player Menu Input
+
     private void TogglePause()
     {
         pauseMenu.OnTogglePauseMenu();
-        
+
         if (pauseMenu.IsPaused)
             DisablePlayerInput();
         else
             EnablePlayerInput();
     }
+
+    #endregion
 }

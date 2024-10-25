@@ -10,21 +10,21 @@ public class PlayerInteractState : PlayerBaseState
 
     public override void EnterState()
     {
-        player.interactableObj.OnInteract();
+        Player.interactableObj.OnInteract();
 
-        if (player.interactableObj is not Documentation)
-            player.ChangeState(player.MoveState);
+        if (Player.interactableObj is not Documentation)
+            Player.ChangeState(Player.MoveState);
 
-        player.playerFootsteps.getPlaybackState(out var playbackState);
+        Player.playerFootsteps.getPlaybackState(out var playbackState);
         if (playbackState.Equals(PLAYBACK_STATE.PLAYING))
         {
-            player.playerFootsteps.stop(STOP_MODE.ALLOWFADEOUT);
+            Player.playerFootsteps.stop(STOP_MODE.ALLOWFADEOUT);
         }
     }
 
     public override void ExitState()
     {
-        player.interactableObj = null;
+        Player.interactableObj = null;
     }
 
     public override void StateFixedUpdate()
@@ -47,7 +47,7 @@ public class PlayerInteractState : PlayerBaseState
     {
     }
 
-    public override void HandleAttack(bool isHeld)
+    public override void HandleAttack()
     {
         
     }
@@ -59,16 +59,16 @@ public class PlayerInteractState : PlayerBaseState
 
     public override void HandleInteract()
     {
-        if (player.interactableObj is not Documentation) return;
+        if (Player.interactableObj is not Documentation) return;
 
-        player.interactableObj.OnInteract();
-        player.ChangeState(player.MoveState);
+        Player.interactableObj.OnInteract();
+        Player.ChangeState(Player.MoveState);
     }
 
     public override void HandleDeath()
     {
-        if (player.interactableObj is Documentation)
-            player.interactableObj.OnInteract();
+        if (Player.interactableObj is Documentation)
+            Player.interactableObj.OnInteract();
         base.HandleDeath();
     }
 }

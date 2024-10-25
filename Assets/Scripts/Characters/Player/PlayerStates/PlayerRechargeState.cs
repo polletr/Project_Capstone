@@ -15,23 +15,23 @@ public class PlayerRechargeState : PlayerBaseState
     public override void EnterState()
     {
         // playerAnimator.animator.Play(playerAnimator.DieHash);
-        player.ReloadAnimation = player.StartCoroutine(ReloadAnimation());
+        Player.ReloadAnimation = Player.StartCoroutine(ReloadAnimation());
         
-        timer = new CountdownTimer(player.Settings.FlashlightReloadTime);
+        timer = new CountdownTimer(Player.Settings.FlashlightReloadTime);
         timer.Start();
 
-        player.playerFootsteps.getPlaybackState(out var playbackState);
+        Player.playerFootsteps.getPlaybackState(out var playbackState);
         if (playbackState.Equals(PLAYBACK_STATE.PLAYING))
         {
-            player.playerFootsteps.stop(STOP_MODE.ALLOWFADEOUT);
+            Player.playerFootsteps.stop(STOP_MODE.ALLOWFADEOUT);
         }
 
     }
     public override void ExitState()
     {
-        player.StopCoroutine(player.ReloadAnimation);
+        Player.StopCoroutine(Player.ReloadAnimation);
         // player.PlayerCam.transform.parent = player.CameraHolder;
-        player.Event.OnFinishRecharge?.Invoke();
+        Player.Event.OnFinishRecharge?.Invoke();
     }
 
     public override void StateFixedUpdate()
@@ -45,7 +45,7 @@ public class PlayerRechargeState : PlayerBaseState
         if (timer.IsFinished)
         {
             //animation stuff here
-            player.ChangeState(player.MoveState);
+            Player.ChangeState(Player.MoveState);
         }
 
        
@@ -56,8 +56,7 @@ public class PlayerRechargeState : PlayerBaseState
         while (true)
         {
             yield return new WaitForSeconds(0.1f);
-            player.Event.SetTutorialText?.Invoke(reloadText =
-                (reloadText == "Recharging . . .") ? "Recharging" : (reloadText + " ."));
+            Player.Event.SetTutorialText?.Invoke(reloadText = reloadText == "Recharging . . ." ? "Recharging" : reloadText + " .");
         }
     }
 
@@ -72,7 +71,7 @@ public class PlayerRechargeState : PlayerBaseState
     }
 
 
-    public override void HandleAttack(bool isHeld)
+    public override void HandleAttack()
     {
 
     }

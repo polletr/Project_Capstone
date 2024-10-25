@@ -9,7 +9,7 @@ public class PlayerMoveState : PlayerBaseState
 
     public override void EnterState()
     {
-        playerAnimator.animator.Play(playerAnimator.IdleHash);
+        PlayerAnimator.animator.Play(PlayerAnimator.IdleHash);
     }
     public override void ExitState()
     {
@@ -24,14 +24,14 @@ public class PlayerMoveState : PlayerBaseState
 
         HandleBobing();
 
-        Ray ray = new Ray(player.PlayerCam.transform.position, player.PlayerCam.transform.forward);
+        Ray ray = new Ray(Player.PlayerCam.transform.position, Player.PlayerCam.transform.forward);
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, player.Settings.MaxEnemyDistance))
+        if (Physics.Raycast(ray, out hit, Player.Settings.MaxEnemyDistance))
         {
             var obj = hit.collider.gameObject;
             if (obj.TryGetComponent(out EnemyClass enemy))
             {
-                player.AddEnemyToChaseList(enemy);
+                Player.AddEnemyToChaseList(enemy);
             }
         }
 
@@ -40,45 +40,45 @@ public class PlayerMoveState : PlayerBaseState
 
     public override void HandleInteract()
     {
-        if (player.interactableObj != null)
-            player.ChangeState(player.InteractState);
+        if (Player.interactableObj != null)
+            Player.ChangeState(Player.InteractState);
     }
 
     public override void HandleRecharge()
     {
-        player.flashlight.ZeroOutBattery();
-        player.ChangeState(player.RechargeState);
+        Player.flashlight.ZeroOutBattery();
+        Player.ChangeState(Player.RechargeState);
     }
     
     private void HandleBobing()
     {
         // Check if the player is moving
-        if (player.characterController.velocity.magnitude > 0.1f)
+        if (Player.characterController.velocity.magnitude > 0.1f)
         {
             // Increment bobbing timer based on time and frequency
-            _bobTimer += Time.deltaTime * (isRunning ? player.Settings.BobSpeedRun : isCrouching ? player.Settings.BobSpeedCrouch : player.Settings.BobSpeedWalk);
+            BobTimer += Time.deltaTime * (IsRunning ? Player.Settings.BobSpeedRun : IsCrouching ? Player.Settings.BobSpeedCrouch : Player.Settings.BobSpeedWalk);
 
             // Calculate vertical bobbing offset using sine wave
-            float bobOffsetY = Mathf.Sin(_bobTimer) * player.Settings.BobAmount; // Use BobAmount for vertical bobbing
+            float bobOffsetY = Mathf.Sin(BobTimer) * Player.Settings.BobAmount; // Use BobAmount for vertical bobbing
 
             // Apply the calculated bobbing offset to the camera's local position
-            player.PlayerCam.transform.localPosition = new Vector3(
-                player.DefaultCameraLocalPosition.x,  // No left/right bobbing
-                player.DefaultCameraLocalPosition.y + bobOffsetY,  // Up/down bobbing
-                player.DefaultCameraLocalPosition.z
+            Player.PlayerCam.transform.localPosition = new Vector3(
+                Player.DefaultCameraLocalPosition.x,  // No left/right bobbing
+                Player.DefaultCameraLocalPosition.y + bobOffsetY,  // Up/down bobbing
+                Player.DefaultCameraLocalPosition.z
             );
         }
         else
         {
             // Smoothly return the camera to its default position when not moving
-            player.PlayerCam.transform.localPosition = Vector3.Lerp(
-                player.PlayerCam.transform.localPosition,
-                player.DefaultCameraLocalPosition,
-                Time.deltaTime * (isRunning ? player.Settings.BobSpeedRun : isCrouching ? player.Settings.BobSpeedCrouch : player.Settings.BobSpeedWalk)
+            Player.PlayerCam.transform.localPosition = Vector3.Lerp(
+                Player.PlayerCam.transform.localPosition,
+                Player.DefaultCameraLocalPosition,
+                Time.deltaTime * (IsRunning ? Player.Settings.BobSpeedRun : IsCrouching ? Player.Settings.BobSpeedCrouch : Player.Settings.BobSpeedWalk)
             );
 
             // Reset the bob timer
-            _bobTimer = 0.0f;
+            BobTimer = 0.0f;
         }
     }
 

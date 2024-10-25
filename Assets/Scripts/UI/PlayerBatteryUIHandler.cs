@@ -79,7 +79,7 @@ public class PlayerBatteryUIHandler : Singleton<PlayerBatteryUIHandler>
         batteryImage.gameObject.SetActive(true);
     }
 
-    public void BlickBatteryUIOnce()
+    public void FlickerBatteryUIOnce()
     {
         if (!isBlinking)
         {
