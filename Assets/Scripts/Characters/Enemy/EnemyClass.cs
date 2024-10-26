@@ -191,7 +191,8 @@ public class EnemyClass : MonoBehaviour, IStunnable
     {
         if (other.TryGetComponent(out LightController light))
         {
-            light.TurnOnOffLight(false);
+            if (!light.GuidingLight)
+                light.TurnOnOffLight(false);
         }
     }
 
@@ -199,7 +200,8 @@ public class EnemyClass : MonoBehaviour, IStunnable
     {
         if (other.TryGetComponent(out LightController light))
         {
-            light.TurnOnOffLight(true);
+            if (!light.GuidingLight)
+                light.TurnOnOffLight(true);
         }
     }
 

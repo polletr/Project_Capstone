@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2948769640999753654}
+  - component: {fileID: 3718525519219348748}
   m_Layer: 0
   m_Name: LightBulbChord
   m_TagString: Untagged
@@ -33,6 +34,18 @@ Transform:
   - {fileID: 1153718398125549449}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3718525519219348748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1007502784602685172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c89c6ac348435104bb2cf0ef36c6f069, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8530852719374874233
 GameObject:
   m_ObjectHideFlags: 0
@@ -63,7 +76,7 @@ Transform:
   m_GameObject: {fileID: 8530852719374874233}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.052, z: 0.005}
+  m_LocalPosition: {x: 0, y: -0.048, z: 0.005}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -80,14 +93,14 @@ Light:
   serializedVersion: 10
   m_Type: 0
   m_Shape: 0
-  m_Color: {r: 1, g: 0.495283, b: 0.495283, a: 1}
+  m_Color: {r: 1, g: 0.99574727, b: 0.9292453, a: 1}
   m_Intensity: 1
-  m_Range: 10
-  m_SpotAngle: 127.707954
-  m_InnerSpotAngle: 24.65936
+  m_Range: 5
+  m_SpotAngle: 155.30586
+  m_InnerSpotAngle: 125.83941
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 0
+    m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -120,7 +133,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 4
+  m_Lightmapping: 2
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -198,7 +211,7 @@ SphereCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
@@ -218,7 +231,7 @@ MonoBehaviour:
   maxFlickerDuration: 3
   flickerFrequency: 0.1
   constantFlickering: 0
-  guidingLight: 0
+  GuidingLight: 0
 --- !u!1001 &2497242608251732889
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -292,6 +305,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 2cd8532f01409ab4787b7ac2b10cbbc4, type: 2}
+    - target: {fileID: 4424396828587804706, guid: 852c8953dded441f0a30fd84484c7051,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 6317578925029434746, guid: 852c8953dded441f0a30fd84484c7051,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -301,7 +319,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: c6c281d0160fbcd49a9edf924c9a13c1, type: 2}
+      objectReference: {fileID: 2100000, guid: 0e359dc8fc454964fb805f17e8c67658, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
