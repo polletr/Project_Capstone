@@ -22,7 +22,7 @@ public class LightController : MonoBehaviour
 
     private float originalIntensity;
 
-    [SerializeField] bool guidingLight = false;
+    [field: SerializeField] public bool GuidingLight = false;
 
     private EventInstance constantFlickeringSound;
 
@@ -30,6 +30,8 @@ public class LightController : MonoBehaviour
     private SphereCollider sphereCollider;
 
     private List<Light> childLights = new();
+
+    private CheckLightMaterial checkLight;
 
     private void Awake()
     {
@@ -40,6 +42,7 @@ public class LightController : MonoBehaviour
         sphereCollider = GetComponent<SphereCollider>();
         sphereCollider.isTrigger = true;
         gameObject.layer = LayerMask.NameToLayer("LightController");
+        checkLight = GetComponentInParent<CheckLightMaterial>();
 
         if (lightSource == null)
         {
@@ -66,21 +69,21 @@ public class LightController : MonoBehaviour
     // Turn light on or off
     public void TurnOnOffLight(bool check)
     {
-        if (!guidingLight)
-        {
-            if (!check && constantFlickering)
-                StopConstantFlickering();
-            else
-                AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.LightTurnOn, transform.position);
-            // Random chance to flicker when turning on/off
-            //if (check && Random.value < flickerChance) // When turning on
-            lightSource.enabled = check;
-            FlickerLight();
+        if (!check && constantFlickering)
+            StopConstantFlickering();
+        else
+            AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.LightTurnOn, transform.position);
+        // Random chance to flicker when turning on/off
+        //if (check && Random.value < flickerChance) // When turning on
+        lightSource.enabled = check;
+        FlickerLight();
 
-            foreach (Light light in childLights)
-            {
-                light.enabled = check;
-            }
+        if (checkLight != null)
+            checkLight.ChangeLight(check);
+
+        foreach (Light light in childLights)
+        {
+            light.enabled = check;
         }
 
     }
@@ -95,17 +98,14 @@ public class LightController : MonoBehaviour
         // Wait for the specified time.
         yield return new WaitForSeconds(delay);
 
-        if (!guidingLight)
+        AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.LightTurnOn, transform.position);
+
+        lightSource.enabled = true;
+        FlickerLight();
+
+        foreach (Light light in childLights)
         {
-            AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.LightTurnOn, transform.position);
-
-            lightSource.enabled = true;
-            FlickerLight();
-
-            foreach (Light light in childLights)
-            {
-                light.enabled = true;
-            }
+            light.enabled = true;
         }
     }
     // Flicker the light for a specified duration
@@ -150,6 +150,7 @@ public class LightController : MonoBehaviour
     // Constant flicker coroutine
     private IEnumerator ConstantFlickerCoroutine()
     {
+        
         constantFlickeringSound.start();
         while (constantFlickering)
         {
