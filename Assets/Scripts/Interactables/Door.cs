@@ -87,6 +87,7 @@ public class Door : Interactable
 
     private void CloseDoor(float speed)
     {
+        Debug.Log(IsOpen);
         if (IsOpen)
         {
             StartCoroutine(RotateDoor(closedRotation, speed));
