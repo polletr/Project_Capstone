@@ -10,6 +10,7 @@ public class AutomaticDoorClose : MonoBehaviour
     {
         if (other.GetComponent<PlayerController>())
         {
+            Debug.Log("Call Close");
             doorScript?.OnCloseDoor(5f);
         }
     }
