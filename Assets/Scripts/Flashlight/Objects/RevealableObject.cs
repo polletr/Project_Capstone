@@ -5,53 +5,51 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class RevealableObject : MonoBehaviour  , IRevealable
+public class RevealableObject : MonoBehaviour, IRevealable
 {
-    private MeshRenderer m_Renderer;
-    private Material objMaterial;
+    private List<MeshRenderer> meshRenderers = new List<MeshRenderer>();
+    private Dictionary<MeshRenderer, Material[]> originalMaterials = new Dictionary<MeshRenderer, Material[]>();
 
-    private Material originalMaterial;
     [SerializeField] private Material revealMaterial;
     [SerializeField] private Material dissolveMaterial;
     [SerializeField] private float revealTime;
     [SerializeField] private float unRevealTime;
-
     [SerializeField] private UnityEvent objectRevealed;
+    [SerializeField] private UnityEvent OnApplyEffect;
+    [SerializeField] private UnityEvent OnRemoveEffect;
+
 
     private EventInstance revealSound;
 
-    public bool IsRevealed
-    {
-        get;
-        set;
-    }
+    public bool IsRevealed { get; set; }
 
     private float revealTimer;
     private float currentObjTransp;
-    private float origObjTransp;
 
     void Awake()
     {
-        m_Renderer = GetComponent<MeshRenderer>();
-        m_Renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
-        
-        originalMaterial = m_Renderer.material;
-        m_Renderer.material = revealMaterial;
-        objMaterial = revealMaterial;
-            revealTimer = 0f;
+        // Find and store all MeshRenderers in the object's hierarchy
+        meshRenderers.AddRange(GetComponentsInChildren<MeshRenderer>());
+
+        // Store original materials for each MeshRenderer
+        foreach (var renderer in meshRenderers)
+        {
+            originalMaterials[renderer] = renderer.materials;
+            renderer.material = revealMaterial;
+            renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+        }
 
         revealSound = AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.FlashlightRevealing);
-
     }
 
     public void ApplyEffect()
     {
-        
+        OnApplyEffect.Invoke();
     }
 
     public void RemoveEffect()
     {
-
+        OnRemoveEffect.Invoke();
     }
 
     public void SuddenReveal()
@@ -63,56 +61,109 @@ public class RevealableObject : MonoBehaviour  , IRevealable
     public void RevealObj(out bool revealed)
     {
         StopAllCoroutines();
-        revealTimer += Time.deltaTime;
-        m_Renderer.material = dissolveMaterial;
-        currentObjTransp = Mathf.Lerp(1f, 0f, revealTimer / revealTime);
-        m_Renderer.material.SetFloat("_DissolveAmount", currentObjTransp);
+        RevealFunction();
+        revealed = IsRevealed;
+    }
 
+    private void RevealFunction()
+    {
 
-        PLAYBACK_STATE playbackState;
-        revealSound.getPlaybackState(out playbackState);
-        if (playbackState.Equals(PLAYBACK_STATE.STOPPED))
+        if (!IsRevealed)
         {
-            revealSound.start();
-        }
+            // Set dissolve material for all renderers
+            SetMaterials(dissolveMaterial);
 
-        if (revealTimer >= revealTime)
-        {
-            revealTimer = 0f;
+            // Play reveal sound if not already playing
+            PLAYBACK_STATE playbackState;
+            revealSound.getPlaybackState(out playbackState);
+            if (playbackState.Equals(PLAYBACK_STATE.STOPPED))
+            {
+                revealSound.start();
+            }
+
+            revealTimer += Time.deltaTime;
+            currentObjTransp = Mathf.Lerp(1f, 0f, revealTimer / revealTime);
+
+            foreach (var renderer in meshRenderers)
+            {
+                foreach (var material in renderer.materials)
+                {
+                    material.SetFloat("_DissolveAmount", currentObjTransp);
+                    Debug.Log(material.GetFloat("_DissolveAmount"));
+                }
+            }
         }
 
         if (currentObjTransp <= 0f)
         {
-            IsRevealed = true;
-            m_Renderer.material = originalMaterial;
+            // After revealing, set original materials and stop sound
+            SetOriginalMaterials();
+            if (GetComponent<IndicatorHandler>() != null)
+            {
+                GetComponent<IndicatorHandler>().enabled = true;
+            }
             revealSound.stop(STOP_MODE.IMMEDIATE);
             AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.FlashlightReveal, this.transform.position);
             objectRevealed.Invoke();
+            IsRevealed = true;
         }
-        revealed = currentObjTransp <= 0f;
-   }
+    }
 
     public void UnRevealObj()
     {
-        StartCoroutine(UnReveal());
+        StopAllCoroutines();
+        StartCoroutine(UnRevealCoroutine());
     }
 
-
-    private IEnumerator UnReveal()
+    private IEnumerator UnRevealCoroutine()
     {
         revealTimer = 0f;
         revealSound.stop(STOP_MODE.IMMEDIATE);
-        var currentFloat = currentObjTransp;
-        var timer = 0f;
+
+        float startTransparency = currentObjTransp;
+
         while (currentObjTransp < 1f)
         {
-            timer += Time.deltaTime;
-            currentObjTransp = Mathf.Lerp(currentFloat, 1f, timer / unRevealTime);
-            m_Renderer.material.SetFloat("_DissolveAmount", currentObjTransp);
+            revealTimer += Time.deltaTime;
+            currentObjTransp = Mathf.Lerp(startTransparency, 1f, revealTimer / unRevealTime);
+
+            foreach (var renderer in meshRenderers)
+            {
+                foreach (var material in renderer.materials)
+                {
+                    material.SetFloat("_DissolveAmount", currentObjTransp);
+                }
+            }
 
             yield return null;
         }
-        m_Renderer.material = revealMaterial;
+
+        SetMaterials(revealMaterial);
+        IsRevealed = false;
     }
 
+    private void SetMaterials(Material material)
+    {
+        foreach (var renderer in meshRenderers)
+        {
+            var materials = new Material[renderer.materials.Length];
+            for (int i = 0; i < materials.Length; i++)
+            {
+                materials[i] = material;
+            }
+            renderer.materials = materials;
+        }
+    }
+
+    private void SetOriginalMaterials()
+    {
+        foreach (var renderer in meshRenderers)
+        {
+            if (originalMaterials.ContainsKey(renderer))
+            {
+                renderer.materials = originalMaterials[renderer];
+                renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
+            }
+        }
+    }
 }

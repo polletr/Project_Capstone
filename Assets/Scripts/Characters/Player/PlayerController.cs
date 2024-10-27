@@ -163,37 +163,26 @@ public class PlayerController : MonoBehaviour
     {
         if (_enemiesChasing.Count > 0)
         {
-            // Calculate the normalized distance based on the nearest enemy
-            float targetDistance = _minEnemyDistance / Settings.MaxEnemyDistance;
-
-            // Directly set the FMOD parameter based on the nearest enemy
-            currentEnemyDistance = targetDistance;
-
+            float nearestDistance = float.MaxValue;
             foreach (EnemyClass enemy in _enemiesChasing)
             {
-                if (_enemiesChasing.Count == 0)
-                    break;
+                float distance = Vector3.Distance(enemy.transform.position, transform.position);
+                if (distance < nearestDistance) nearestDistance = distance;
 
-                if (Vector3.Distance(enemy.transform.position, transform.position) < _minEnemyDistance)
-                {
-                    _minEnemyDistance = Vector3.Distance(enemy.transform.position, transform.position);
-                }
-
-                if (Vector3.Distance(enemy.transform.position, transform.position) > Settings.MaxEnemyDistance)
+                if (distance > Settings.MaxEnemyDistance)
                 {
                     _enemiesChasing.Remove(enemy);
                     break;
                 }
             }
+            currentEnemyDistance = Mathf.Clamp01(nearestDistance / Settings.MaxEnemyDistance);
         }
         else
         {
-            // Smoothly interpolate towards 1 when there are no enemies
             currentEnemyDistance = Mathf.Lerp(currentEnemyDistance, 1f, Time.deltaTime);
         }
-
-        // Apply the interpolated or direct value to FMOD
         RuntimeManager.StudioSystem.setParameterByName("EnemyDistance", currentEnemyDistance);
+
     }
 
     private void WipeEnemyList(LevelData l)

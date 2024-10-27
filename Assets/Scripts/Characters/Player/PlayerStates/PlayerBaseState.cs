@@ -62,7 +62,32 @@ public abstract class PlayerBaseState
         cameraRight.Normalize();
 
         // Calculate the movement direction based on the input (dir) and camera orientation
-        direction = (cameraForward * dir.y + cameraRight * dir.x);
+        _direction = (cameraForward * dir.y + cameraRight * dir.x);
+
+        // Calculate target tilt based on horizontal movement input
+        float targetTilt = -dir.x * player.Settings.TiltAngle;
+
+        // Add oscillating tilt for forward movement
+        if (_direction != Vector3.zero && Mathf.Abs(Vector3.Dot(_direction.normalized, player.PlayerCam.transform.forward)) > 0.1f)
+        {
+            float oscillation = Mathf.Sin(Time.time * player.Settings.SwayFrequency) * player.Settings.SwayAmplitude;
+            targetTilt += oscillation;
+        }
+        else
+        {
+            targetTilt = 0;
+        }    
+
+        // Smoothly interpolate the z-axis tilt
+        float smoothTilt = Mathf.LerpAngle(player.PlayerCam.transform.localEulerAngles.z, targetTilt, player.Settings.TiltSpeed * Time.deltaTime);
+
+        // Update camera's local rotation on Z-axis for tilt effect
+        player.PlayerCam.transform.localRotation = Quaternion.Euler(
+            player.PlayerCam.transform.localEulerAngles.x,
+            player.PlayerCam.transform.localEulerAngles.y,
+            smoothTilt
+        );
+
     }
     
     public virtual void HandleRecharge()
