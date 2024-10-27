@@ -212,7 +212,7 @@ public class FlashLight : MonoBehaviour
         }
         else
         {
-            Debug.Log("wrong number");
+            Debug.Log("No ability found in slot");
         }
         
     }
