@@ -63,6 +63,31 @@ public abstract class PlayerBaseState
 
         // Calculate the movement direction based on the input (dir) and camera orientation
         _direction = (cameraForward * dir.y + cameraRight * dir.x);
+
+        // Calculate target tilt based on horizontal movement input
+        float targetTilt = -dir.x * player.Settings.TiltAngle;
+
+        // Add oscillating tilt for forward movement
+        if (_direction != Vector3.zero && Mathf.Abs(Vector3.Dot(_direction.normalized, player.PlayerCam.transform.forward)) > 0.1f)
+        {
+            float oscillation = Mathf.Sin(Time.time * player.Settings.SwayFrequency) * player.Settings.SwayAmplitude;
+            targetTilt += oscillation;
+        }
+        else
+        {
+            targetTilt = 0;
+        }    
+
+        // Smoothly interpolate the z-axis tilt
+        float smoothTilt = Mathf.LerpAngle(player.PlayerCam.transform.localEulerAngles.z, targetTilt, player.Settings.TiltSpeed * Time.deltaTime);
+
+        // Update camera's local rotation on Z-axis for tilt effect
+        player.PlayerCam.transform.localRotation = Quaternion.Euler(
+            player.PlayerCam.transform.localEulerAngles.x,
+            player.PlayerCam.transform.localEulerAngles.y,
+            smoothTilt
+        );
+
     }
     
     public virtual void HandleRecharge()
@@ -124,7 +149,7 @@ public abstract class PlayerBaseState
         // Calculate camera pitch (x-axis) rotation
         player.xRotation += dir.y * sensitivityMultilayer * Time.deltaTime;
         player.xRotation = Mathf.Clamp(player.xRotation, player.Settings.ClampAngleUp, player.Settings.ClampAngleDown);
-        player.PlayerCam.transform.localRotation = Quaternion.Euler(-player.xRotation, 0, 0);  // Rotate camera vertically
+        player.PlayerCam.transform.localRotation = Quaternion.Euler(-player.xRotation, 0, player.PlayerCam.transform.localEulerAngles.z);  // Rotate camera vertically
 
         // Only update the flashlight's rotation if the player is holding it
         if (player.HasFlashlight && player.xRotation > player.Settings.FlashlightAngleDown)

@@ -1,4 +1,5 @@
 using System;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 [CreateAssetMenu(menuName = "GameSO/User Container", fileName = "PlayerPrefs"), Serializable]
 public class PlayerSettings : ScriptableObject
@@ -39,6 +40,10 @@ public class PlayerSettings : ScriptableObject
 
 
     [Header("Bobbing")]
+    public float TiltAngle;
+    public float TiltSpeed;
+    public float SwayFrequency;
+    public float SwayAmplitude;
     public float BobAmount = 0.2f;
     public float BobSpeedWalk = 0.2f;
     public float BobSpeedRun = 0.2f;
