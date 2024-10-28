@@ -79,20 +79,24 @@ public class Door : Interactable
     {
         if (!IsOpen)
         {
+            if (rotating)
+                StopAllCoroutines();
+
+            IsOpen = true;
             StartCoroutine(RotateDoor(CheckDirection(user), speed));
             OnOpen.Invoke();
-            IsOpen = true;
         }
     }
 
     private void CloseDoor(float speed)
     {
-        Debug.Log(IsOpen);
         if (IsOpen)
         {
+            if (rotating)
+                StopAllCoroutines();
+            IsOpen = false;
             StartCoroutine(RotateDoor(closedRotation, speed));
             OnClose.Invoke();
-            IsOpen = false;
         }
     }
 
@@ -169,7 +173,7 @@ public class Door : Interactable
 
     private IEnumerator RotateDoor(Quaternion targetRotation, float speed)
     {
-        if (rotating) yield break;
+        //if (rotating) yield break;
 
         if (IsOpen)
             AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.CloseDoor, this.transform.position);
