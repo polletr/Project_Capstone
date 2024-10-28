@@ -44,14 +44,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ed5ba916c663b046b30fd91a7c4b197, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Cost>k__BackingField: 20
-  cooldown: 2
-  effectRadius: 10
-  flashColor: {r: 1, g: 1, b: 1, a: 1}
-  cooldownColor: {r: 0.90188676, g: 0.54964036, b: 0.54964036, a: 0.6117647}
-  decreaseRate: 2
-  lightIntensity: 150
-  cooldownIntensity: 10
+  <Cost>k__BackingField: 1
+  <Cooldown>k__BackingField: 5
+  <AbilityIntensity>k__BackingField: 200
+  <AbilityColor>k__BackingField: {r: 1, g: 0.504717, b: 0.504717, a: 1}
+  <AbilitySpotAngle>k__BackingField: 100
+  <AbilityInnerSpotAngle>k__BackingField: 80
+  <AbilityBuildUpTime>k__BackingField: 1
+  effectRadius: 5
+  buildUpColor: {r: 0.6415094, g: 0.009077947, b: 0.009077947, a: 1}
+  buildUpIntensity: 100
+  buildUpSpotAngle: 5
+  buildUpInnerSpotAngle: 3
 --- !u!1001 &3787266799679114167
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -69,6 +73,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: StunAbilityPickup_4 Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 1950703114104692555, guid: 877482f4ae4b4ff428c6c5bdd5bb209f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2126905111428986721, guid: 877482f4ae4b4ff428c6c5bdd5bb209f,
         type: 3}
@@ -114,17 +123,17 @@ PrefabInstance:
     - target: {fileID: 6187357157855225727, guid: 877482f4ae4b4ff428c6c5bdd5bb209f,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 7.817026
+      value: 13.422302
       objectReference: {fileID: 0}
     - target: {fileID: 6187357157855225727, guid: 877482f4ae4b4ff428c6c5bdd5bb209f,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.049999524
+      value: 1.019989
       objectReference: {fileID: 0}
     - target: {fileID: 6187357157855225727, guid: 877482f4ae4b4ff428c6c5bdd5bb209f,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 5.948773
+      value: 6.0145903
       objectReference: {fileID: 0}
     - target: {fileID: 6187357157855225727, guid: 877482f4ae4b4ff428c6c5bdd5bb209f,
         type: 3}
@@ -134,17 +143,17 @@ PrefabInstance:
     - target: {fileID: 6187357157855225727, guid: 877482f4ae4b4ff428c6c5bdd5bb209f,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 6187357157855225727, guid: 877482f4ae4b4ff428c6c5bdd5bb209f,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 6187357157855225727, guid: 877482f4ae4b4ff428c6c5bdd5bb209f,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 6187357157855225727, guid: 877482f4ae4b4ff428c6c5bdd5bb209f,
         type: 3}

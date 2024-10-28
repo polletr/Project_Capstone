@@ -1,11 +1,12 @@
 using System.Collections;
 using UnityEngine;
 
-public class RevealAbility : FlashlightAbility
+public class DisapearAbility : FlashlightAbility
 {
-    [SerializeField] private float revealRange = 3f;
+   
+    [SerializeField] private float interactRange = 3f;
     
-    private RevealableObject currentObj;
+    private DisapearObject currentObj;
     
     private Coroutine visualReveal;
     private Coroutine revealCoroutine;
@@ -13,7 +14,7 @@ public class RevealAbility : FlashlightAbility
     public override void OnUseAbility()
     {
         visualReveal = StartCoroutine(ChangeRevealLight());
-        revealCoroutine = StartCoroutine(UseRevealAbility());
+        revealCoroutine = StartCoroutine(UseDisappearAbility());
     }
 
     public override void OnStopAbility()
@@ -24,7 +25,7 @@ public class RevealAbility : FlashlightAbility
         if (revealCoroutine != null)
         {
             StopCoroutine(revealCoroutine);
-            if (currentObj && !currentObj.IsRevealed)
+            if (currentObj && !currentObj.IsHidden)
             {
                 currentObj.UnRevealObj();
                 currentObj = null;
@@ -35,14 +36,14 @@ public class RevealAbility : FlashlightAbility
         Flashlight.ResetLight(Cooldown);
     }
 
-    private IEnumerator UseRevealAbility()
+    private IEnumerator UseDisappearAbility()
     {
         var isRevealed = false;
         while (!isRevealed)
         {
-            if (Physics.Raycast(Flashlight.RayCastOrigin.position, Flashlight.RayCastOrigin.forward, out var hit, revealRange))
+            if (Physics.Raycast(Flashlight.RayCastOrigin.position, Flashlight.RayCastOrigin.forward, out var hit, interactRange))
             {
-                if (hit.collider.TryGetComponent(out RevealableObject obj))
+                if (hit.collider.TryGetComponent(out DisapearObject obj))
                 {
                     if (currentObj == null)
                     {
@@ -56,7 +57,7 @@ public class RevealAbility : FlashlightAbility
                         break;
                     }
 
-                    currentObj.RevealObj(out isRevealed);
+                    currentObj.HideObj(out isRevealed);
                 }
                 else
                 {
@@ -97,3 +98,4 @@ public class RevealAbility : FlashlightAbility
         }
     }
 }
+

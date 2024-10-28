@@ -1,21 +1,17 @@
 using FMOD.Studio;
-
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 
-public class DisapearObject : MonoBehaviour, IHideable 
+public class DisapearObject : MonoBehaviour, IHideable
 {
-    private List<MeshRenderer> meshRenderers = new ();
-    private Dictionary<MeshRenderer, Material[]> originalMaterials = new ();
+       private List<MeshRenderer> meshRenderers = new ();
 
-    [SerializeField] private Material ObjMaterial;
-    [SerializeField] private Material dissolveMaterial; 
-    [SerializeField] private float hideTime;
-    [SerializeField] private float unHideTime;
+    [SerializeField] private Material dissolveMaterial;
+    [SerializeField] private float revealTime;
+    [SerializeField] private float unRevealTime;
     [SerializeField] private UnityEvent objectRevealed;
     [SerializeField] private UnityEvent OnApplyEffect;
     [SerializeField] private UnityEvent OnRemoveEffect;
@@ -25,22 +21,14 @@ public class DisapearObject : MonoBehaviour, IHideable
 
     public bool IsHidden { get; set; }
 
-    private float hideTimer;
-    private float currentObjTransp;
+    private float revealTimer;
+    private float currentObjTransp = 0f;
 
     private void Awake()
     {
         // Find and store all MeshRenderers in the object's hierarchy
         meshRenderers.AddRange(GetComponentsInChildren<MeshRenderer>());
-
-        // Store original materials for each MeshRenderer
-        foreach (var renderer in meshRenderers)
-        {
-            originalMaterials[renderer] = renderer.materials;
-            renderer.material = ObjMaterial;
-            renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
-        }
-
+        
         revealSound = AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.FlashlightRevealing);
     }
 
@@ -53,23 +41,16 @@ public class DisapearObject : MonoBehaviour, IHideable
     {
         OnRemoveEffect.Invoke();
     }
-
-    public void SuddenReveal()
-    {
-        gameObject.SetActive(true);
-        AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.SuddenAppear, this.transform.position);
-    }
-
-    public void RevealObj(out bool revealed)
+    
+    public void HideObj(out bool revealed)
     {
         StopAllCoroutines();
-        HideFunction();
+        RevealFunction();
         revealed = IsHidden;
     }
 
-    private void HideFunction()
+    private void RevealFunction()
     {
-
         if (!IsHidden)
         {
             // Set dissolve material for all renderers
@@ -82,47 +63,46 @@ public class DisapearObject : MonoBehaviour, IHideable
                 revealSound.start();
             }
 
-            hideTimer += Time.deltaTime;
-            currentObjTransp = Mathf.Lerp(0f,1f, hideTimer / hideTime);
+            revealTimer += Time.deltaTime;
+            currentObjTransp = Mathf.Lerp(0, 1f, revealTimer / revealTime);
 
-            foreach (var material in meshRenderers.SelectMany(renderer => renderer.materials))
+            foreach (var renderer in meshRenderers)
             {
-                material.SetFloat("_DissolveAmount", currentObjTransp); 
+                foreach (var material in renderer.materials)
+                {
+                    material.SetFloat("_DissolveAmount", currentObjTransp);
+                    Debug.Log(material.GetFloat("_DissolveAmount"));
+                }
             }
         }
 
-        if (currentObjTransp <= 0f)
+        if (currentObjTransp >= 1f)
         {
-            // After revealing, set original materials and stop sound
-            SetOriginalMaterials();
-            if (GetComponent<IndicatorHandler>() != null)
-            {
-                GetComponent<IndicatorHandler>().enabled = true;
-            }
-            revealSound.stop(STOP_MODE.IMMEDIATE);
+           revealSound.stop(STOP_MODE.IMMEDIATE);
             AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.FlashlightReveal, this.transform.position);
             objectRevealed.Invoke();
             IsHidden = true;
+            Destroy(this.gameObject);
         }
     }
 
-    public void HideObj()
+    public void UnRevealObj()
     {
         StopAllCoroutines();
-        StartCoroutine(UnHideCoroutine());
+        StartCoroutine(UnRevealCoroutine());
     }
 
-    private IEnumerator UnHideCoroutine()
+    private IEnumerator UnRevealCoroutine()
     {
-        hideTimer = 0f;
+        revealTimer = 0f;
         revealSound.stop(STOP_MODE.IMMEDIATE);
 
         var startTransparency = currentObjTransp;
 
         while (currentObjTransp > 0f)
         {
-            hideTimer += Time.deltaTime;
-            currentObjTransp = Mathf.Lerp(startTransparency, 0f, hideTimer / unHideTime);
+            revealTimer += Time.deltaTime;
+            currentObjTransp = Mathf.Lerp(startTransparency, 0f, revealTimer / unRevealTime);
 
             foreach (var material in meshRenderers.SelectMany(renderer => renderer.materials))
             {
@@ -131,8 +111,7 @@ public class DisapearObject : MonoBehaviour, IHideable
 
             yield return null;
         }
-
-        SetMaterials(ObjMaterial);
+        
         IsHidden = false;
     }
 
@@ -148,15 +127,5 @@ public class DisapearObject : MonoBehaviour, IHideable
             renderer.materials = materials;
         }
     }
-
-    private void SetOriginalMaterials()
-    {
-        foreach (var renderer in meshRenderers)
-        {
-            if (!originalMaterials.TryGetValue(renderer, out var material)) continue;
-            
-            renderer.materials = material;
-            renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
-        }
-    }
+    
 }

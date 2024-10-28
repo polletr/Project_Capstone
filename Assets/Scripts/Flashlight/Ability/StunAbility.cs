@@ -1,24 +1,17 @@
-using System;
 using FMOD.Studio;
-using FMODUnity;
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Serialization;
-using Utilities;
 
 public class StunAbility : FlashlightAbility
 {
-  
-    
-    [SerializeField] private Color flashColor;
-    [SerializeField] private float flashIntensity;
-    [SerializeField] private float flashspotAngle;
-    [SerializeField] private float flashInnerSpotAngle;
     
     [SerializeField] private float effectRadius;
-    [SerializeField] private float buildUpTime;
+
+    [Header("Build Up Properties")]
+    [SerializeField] private Color buildUpColor;
+    [SerializeField] private float buildUpIntensity;
+    [SerializeField] private float buildUpSpotAngle;
+    [SerializeField] private float buildUpInnerSpotAngle;
 
     private EventInstance flashSound;
 
@@ -40,10 +33,10 @@ public class StunAbility : FlashlightAbility
 
 
 //set light to stun flash properties 
-        Flashlight.Light.intensity = flashIntensity;
-        Flashlight.Light.color = flashColor;
-        Flashlight.Light.spotAngle = flashspotAngle;
-        Flashlight.Light.innerSpotAngle = flashInnerSpotAngle;
+        Flashlight.Light.intensity = AbilityIntensity;
+        Flashlight.Light.color = AbilityColor;
+        Flashlight.Light.spotAngle = AbilitySpotAngle;
+        Flashlight.Light.innerSpotAngle = AbilityInnerSpotAngle;
 
         if (!PlayerBatteryUIHandler.Instance)
             PlayerBatteryUIHandler.Instance.FlickerBatteryUIOnce();
@@ -75,7 +68,7 @@ public class StunAbility : FlashlightAbility
     
     private IEnumerator StartStunAttack()
     {
-        var delayTimer = 0f;
+        var timer = 0f;
 
         // Store the initial properties of the flashlight
         var initialIntensity = Flashlight.Light.intensity;
@@ -84,14 +77,14 @@ public class StunAbility : FlashlightAbility
         var initialInnerSpotAngle = Flashlight.Light.innerSpotAngle;
 
 
-        while (delayTimer < buildUpTime)
+        while (timer < AbilityBuildUpTime)
         {
-            Flashlight.Light.intensity = Mathf.Lerp(initialIntensity, 50, delayTimer / buildUpTime);
-            Flashlight.Light.color = Color.Lerp(flashlightColor, Color.red, delayTimer / buildUpTime);
-            Flashlight.Light.spotAngle = Mathf.Lerp(lightSpotAngle, 5f, delayTimer / buildUpTime);
-            Flashlight.Light.innerSpotAngle = Mathf.Lerp(initialInnerSpotAngle, 0f, delayTimer / buildUpTime);
+            Flashlight.Light.intensity = Mathf.Lerp(initialIntensity, buildUpIntensity, timer / AbilityBuildUpTime);
+            Flashlight.Light.color = Color.Lerp(flashlightColor, buildUpColor, timer / AbilityBuildUpTime);
+            Flashlight.Light.spotAngle = Mathf.Lerp(lightSpotAngle, buildUpSpotAngle, timer / AbilityBuildUpTime);
+            Flashlight.Light.innerSpotAngle = Mathf.Lerp(initialInnerSpotAngle, buildUpInnerSpotAngle, timer / AbilityBuildUpTime);
 
-            delayTimer += Time.deltaTime;
+            timer += Time.deltaTime;
             yield return null;
         }
         

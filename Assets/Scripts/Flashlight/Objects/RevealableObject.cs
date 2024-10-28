@@ -2,6 +2,7 @@ using FMOD.Studio;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -26,7 +27,7 @@ public class RevealableObject : MonoBehaviour, IRevealable
     private float revealTimer;
     private float currentObjTransp;
 
-    void Awake()
+    private void Awake()
     {
         // Find and store all MeshRenderers in the object's hierarchy
         meshRenderers.AddRange(GetComponentsInChildren<MeshRenderer>());
@@ -74,8 +75,7 @@ public class RevealableObject : MonoBehaviour, IRevealable
             SetMaterials(dissolveMaterial);
 
             // Play reveal sound if not already playing
-            PLAYBACK_STATE playbackState;
-            revealSound.getPlaybackState(out playbackState);
+            revealSound.getPlaybackState(out var playbackState);
             if (playbackState.Equals(PLAYBACK_STATE.STOPPED))
             {
                 revealSound.start();
@@ -120,19 +120,16 @@ public class RevealableObject : MonoBehaviour, IRevealable
         revealTimer = 0f;
         revealSound.stop(STOP_MODE.IMMEDIATE);
 
-        float startTransparency = currentObjTransp;
+        var startTransparency = currentObjTransp;
 
         while (currentObjTransp < 1f)
         {
             revealTimer += Time.deltaTime;
             currentObjTransp = Mathf.Lerp(startTransparency, 1f, revealTimer / unRevealTime);
 
-            foreach (var renderer in meshRenderers)
+            foreach (var material in meshRenderers.SelectMany(renderer => renderer.materials))
             {
-                foreach (var material in renderer.materials)
-                {
-                    material.SetFloat("_DissolveAmount", currentObjTransp);
-                }
+                material.SetFloat("_DissolveAmount", currentObjTransp);
             }
 
             yield return null;
@@ -147,7 +144,7 @@ public class RevealableObject : MonoBehaviour, IRevealable
         foreach (var renderer in meshRenderers)
         {
             var materials = new Material[renderer.materials.Length];
-            for (int i = 0; i < materials.Length; i++)
+            for (var i = 0; i < materials.Length; i++)
             {
                 materials[i] = material;
             }
@@ -159,9 +156,9 @@ public class RevealableObject : MonoBehaviour, IRevealable
     {
         foreach (var renderer in meshRenderers)
         {
-            if (originalMaterials.ContainsKey(renderer))
+            if (originalMaterials.TryGetValue(renderer, out var material))
             {
-                renderer.materials = originalMaterials[renderer];
+                renderer.materials = material;
                 renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
             }
         }
