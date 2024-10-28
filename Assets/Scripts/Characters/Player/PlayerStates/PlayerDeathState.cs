@@ -84,7 +84,7 @@ public class PlayerDeathState : PlayerBaseState
 
     }
 
-    public override void HandleAttack()
+    public override void HandleAttack(bool held)
     {
 
     }

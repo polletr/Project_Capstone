@@ -2,9 +2,9 @@ using UnityEngine;
 
 public abstract class FlashlightAbility : MonoBehaviour
 {
-    [field: SerializeField] public int Cost { get; private set; } = 10;
+    [field: SerializeField] public int Cost { get; protected set; } = 10;
     
-    [SerializeField] protected float cooldown;
+    [field: SerializeField] public float Cooldown { get; protected set; } = 10;
 
     protected FlashLight Flashlight;
 

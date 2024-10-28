@@ -4,17 +4,33 @@ using UnityEngine;
 public class RevealAbility : FlashlightAbility
 {
     [SerializeField] private float revealRange = 3f;
-    private RevealableObject currentObj;
-    private float originalIntensity;
-    private Color originalColor;
-    private Coroutine visualReveal;
-    private Coroutine revealCoroutine;
 
-    [SerializeField] private float noObjectinViewTime;
+   // [SerializeField] private float noObjectinViewTime;
     [SerializeField] private float maxIntensity;
     [SerializeField] private float timeToMaxIntensity;
     [SerializeField] private Color targetColor;
+
+    private RevealableObject currentObj;
+
+    private float originalIntensity;
+    private Color originalColor;
     
+    private Coroutine visualReveal;
+    private Coroutine revealCoroutine;
+
+    public override void Initialize(FlashLight flashlight)
+    {
+        base.Initialize(flashlight);
+        originalIntensity = Flashlight.Light.intensity;
+        originalColor = Flashlight.Light.color;
+    }
+
+    public override void OnUseAbility()
+    {
+        visualReveal = StartCoroutine(VisualReveal());
+        revealCoroutine = StartCoroutine(UseRevealAbility());
+    }
+
     public override void OnStopAbility()
     {
         if (visualReveal != null)
@@ -23,7 +39,7 @@ public class RevealAbility : FlashlightAbility
         if (revealCoroutine != null)
         {
             StopCoroutine(revealCoroutine);
-            if (currentObj != null && !currentObj.IsRevealed)
+            if (!currentObj && !currentObj.IsRevealed)
             {
                 currentObj.UnRevealObj();
                 currentObj = null;
@@ -33,18 +49,15 @@ public class RevealAbility : FlashlightAbility
         Flashlight.ConsumeBattery(Cost);
 
         Flashlight.ResetLight();
-    }
 
-    public override void OnUseAbility()
-    {
-        visualReveal = StartCoroutine(VisualReveal());
-        revealCoroutine = StartCoroutine(UseRevealAbility());
+        Flashlight.StartCooldown(Cooldown);
+    
     }
 
     private IEnumerator UseRevealAbility()
     {
-        var check = false;
-        while (!check)
+        var isRevealed = false;
+        while (!isRevealed)
         {
             if (Physics.Raycast(Flashlight.RayCastOrigin.position, Flashlight.RayCastOrigin.forward, out var hit,
                     revealRange))
@@ -63,7 +76,7 @@ public class RevealAbility : FlashlightAbility
                         break;
                     }
 
-                    currentObj.RevealObj(out check);
+                    currentObj.RevealObj(out isRevealed);
                 }
                 else
                 {

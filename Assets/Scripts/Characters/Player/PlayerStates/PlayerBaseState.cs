@@ -62,15 +62,15 @@ public abstract class PlayerBaseState
         cameraRight.Normalize();
 
         // Calculate the movement direction based on the input (dir) and camera orientation
-        _direction = (cameraForward * dir.y + cameraRight * dir.x);
+        direction = (cameraForward * dir.y + cameraRight * dir.x);
 
         // Calculate target tilt based on horizontal movement input
-        float targetTilt = -dir.x * player.Settings.TiltAngle;
+        float targetTilt = -dir.x * Player.Settings.TiltAngle;
 
         // Add oscillating tilt for forward movement
-        if (_direction != Vector3.zero && Mathf.Abs(Vector3.Dot(_direction.normalized, player.PlayerCam.transform.forward)) > 0.1f)
+        if (direction != Vector3.zero && Mathf.Abs(Vector3.Dot(direction.normalized, Player.PlayerCam.transform.forward)) > 0.1f)
         {
-            float oscillation = Mathf.Sin(Time.time * player.Settings.SwayFrequency) * player.Settings.SwayAmplitude;
+            float oscillation = Mathf.Sin(Time.time * Player.Settings.SwayFrequency) * Player.Settings.SwayAmplitude;
             targetTilt += oscillation;
         }
         else
@@ -79,12 +79,12 @@ public abstract class PlayerBaseState
         }    
 
         // Smoothly interpolate the z-axis tilt
-        float smoothTilt = Mathf.LerpAngle(player.PlayerCam.transform.localEulerAngles.z, targetTilt, player.Settings.TiltSpeed * Time.deltaTime);
+        float smoothTilt = Mathf.LerpAngle(Player.PlayerCam.transform.localEulerAngles.z, targetTilt, Player.Settings.TiltSpeed * Time.deltaTime);
 
         // Update camera's local rotation on Z-axis for tilt effect
-        player.PlayerCam.transform.localRotation = Quaternion.Euler(
-            player.PlayerCam.transform.localEulerAngles.x,
-            player.PlayerCam.transform.localEulerAngles.y,
+        Player.PlayerCam.transform.localRotation = Quaternion.Euler(
+            Player.PlayerCam.transform.localEulerAngles.x,
+            Player.PlayerCam.transform.localEulerAngles.y,
             smoothTilt
         );
 
@@ -95,7 +95,7 @@ public abstract class PlayerBaseState
         
     }
 
-    public virtual void HandleAttack()
+    public virtual void HandleAttack(bool held)
     {
             Player.ChangeState(Player.AttackState);
     }

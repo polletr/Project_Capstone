@@ -71,11 +71,11 @@ public class PlayerRechargeState : PlayerBaseState
     }
 
 
-    public override void HandleAttack()
+    public override void HandleAttack(bool held)
     {
 
     }
-
+    
     protected override void HandleFlashlightSphereCast()
     {
 

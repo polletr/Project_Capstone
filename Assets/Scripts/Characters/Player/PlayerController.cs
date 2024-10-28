@@ -218,11 +218,12 @@ public class PlayerController : MonoBehaviour
         currentState?.HandleInteract();
     }
 
-    public void HandleAttack()
+    public void HandleAttack(bool held)
     {
         if (HasFlashlight)
-            flashlight?.HandleFlashAbility();
+            currentState?.HandleAttack(held);
     } 
+    
     public void HandleRecharge()
     {
         if (HasFlashlight)

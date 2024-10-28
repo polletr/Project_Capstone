@@ -55,7 +55,8 @@ public class InputManager : Singleton<InputManager>
 
         action.Player.PointerMove.performed += OnPointerMove;
 
-        action.Player.Attack.performed += OnAttack;
+        action.Player.Attack.performed += (_) => player.HandleAttack(true);
+        action.Player.Attack.canceled += (_) => player.HandleAttack(false);
 
         action.Player.Crouch.performed += (_) => player.currentState?.HandleCrouch(true);
         action.Player.Crouch.canceled += (_) => player.currentState?.HandleCrouch(false);
@@ -78,8 +79,10 @@ public class InputManager : Singleton<InputManager>
 
         action.Player.PointerMove.performed -= OnPointerMove;
 
-        action.Player.Attack.performed -= OnAttack;
+        action.Player.Attack.canceled  -= (_) => player.HandleAttack(false);
+        action.Player.Attack.performed -= (_) => player.HandleAttack(true);
 
+        
         action.Player.Crouch.performed -= (_) => player.currentState?.HandleCrouch(true);
         action.Player.Crouch.canceled -= (_) => player.currentState?.HandleCrouch(false);
 
@@ -110,8 +113,6 @@ public class InputManager : Singleton<InputManager>
         Device = context.control.device;
         LookAround = input;
     }
-
-    private void OnAttack(InputAction.CallbackContext context) => player.HandleAttack();
 
     private void OnInteract(InputAction.CallbackContext context) => player.HandleInteract();
 

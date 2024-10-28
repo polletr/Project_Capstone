@@ -15,6 +15,8 @@ public class FlashLight : MonoBehaviour
 
     [SerializeField] private Color lightColor;
     [SerializeField] private float intensity;
+    [SerializeField] private float innerSpotAngle = 15f;
+    [SerializeField] private float outerSpotAngle = 30f;
 
     [SerializeField] private float baseCost;
     [SerializeField] private float minBatteryAfterUse;
@@ -59,10 +61,13 @@ public class FlashLight : MonoBehaviour
         cooldownTimer.Start();
 
         Light = GetComponent<Light>();
+
         IsFlashlightOn = Light.enabled;
-        Light.range = range;
         Light.intensity = intensity;
         Light.color = lightColor;
+        Light.spotAngle = outerSpotAngle;
+        Light.innerSpotAngle = innerSpotAngle;
+        Light.range = range;
 
         Player = GetComponentInParent<PlayerController>();
 
@@ -100,6 +105,8 @@ public class FlashLight : MonoBehaviour
 
     private void Update()
     {
+        Debug.Log($"can use ability {cooldownTimer.IsFinished} timer {cooldownTimer.Progress}");
+        
         cooldownTimer?.Tick(Time.deltaTime);
         // Decrease BatteryLife continuously over time based on Cost per second
         if (IsFlashlightOn && !IsBatteryDead())
@@ -193,12 +200,17 @@ public class FlashLight : MonoBehaviour
         ResetLightState();
     }
 
-    public void HandleFlashAbility()
+    public void HandleAbility()
     {
-        if (CurrentAbility != null && IsFlashlightOn && BatteryLife - CurrentAbility.Cost > minBatteryAfterUse)
+        if (CurrentAbility != null && IsFlashlightOn && BatteryLife - CurrentAbility.Cost > minBatteryAfterUse && cooldownTimer.IsFinished)
+        {
             CurrentAbility.OnUseAbility();
+            cooldownTimer.Reset(CurrentAbility.Cooldown);
+        }
         else
+        {
             Player.currentState?.HandleMove();
+        }
     }
 
     public void HandleChangeAbility(int index)
@@ -214,7 +226,6 @@ public class FlashLight : MonoBehaviour
         {
             Debug.Log("No ability found in slot");
         }
-        
     }
 
     public void StopUsingFlashlight()
@@ -226,7 +237,8 @@ public class FlashLight : MonoBehaviour
     private void ResetLightState()
     {
         Light.enabled = IsFlashlightOn = true;
-
+        Light.spotAngle = outerSpotAngle;
+        Light.innerSpotAngle = innerSpotAngle;
         Light.range = range;
         Light.intensity = intensity;
         Light.color = lightColor;
@@ -289,7 +301,7 @@ public class FlashLight : MonoBehaviour
         while (timer < maxTime)
         {
             // Randomize the intensity
-            Light.intensity = Mathf.PerlinNoise(0 , intensity);
+            Light.intensity = Mathf.PerlinNoise(0, intensity);
 
             // Randomize the time interval for the next flicker
             flickerTimer = Random.Range(minFlickerTime, maxFlickerTime);
@@ -316,9 +328,20 @@ public class FlashLight : MonoBehaviour
 
     private void Recharge()
     {
+        CurrentAbility?.OnStopAbility();
         BatteryLife = MaxBatteryLife + extraCharge;
         Event.SetTutorialTextTimer?.Invoke("Battery Recharged");
         TurnOnLight();
+    }
+
+    public void StartCooldown(float time)
+    {
+        if (cooldownTimer == null)
+            cooldownTimer = new CountdownTimer(time);
+        else
+            cooldownTimer.Reset(time);
+        
+        cooldownTimer.Start();
     }
 
     private void UpdateExtraCharge(float charge) => extraCharge = charge;
