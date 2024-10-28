@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class EnemyParalisedState : EnemyBaseState
 {
-    public EnemyParalisedState(EnemyClass enemyClass, EnemyAnimator enemyAnim)
+    public EnemyParalisedState(ShadowEnemy enemyClass, EnemyAnimator enemyAnim)
         : base(enemyClass, enemyAnim) { }
 
     public override void EnterState()

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyAttackState : EnemyBaseState
 {
-    public EnemyAttackState(EnemyClass enemyClass, EnemyAnimator enemyAnim)
+    public EnemyAttackState(ShadowEnemy enemyClass, EnemyAnimator enemyAnim)
         : base(enemyClass, enemyAnim) { }
 
     private bool anticipating; // Flag for the anticipation phase
@@ -35,6 +35,8 @@ public class EnemyAttackState : EnemyBaseState
     public override void StateUpdate()
     {
         anticipationTimer += Time.deltaTime;
+
+        RotateToPlayer();
 
         // Anticipation phase
         if (anticipating)

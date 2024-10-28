@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public class EnemyPatrolState : EnemyBaseState
 {
     
-    public EnemyPatrolState(EnemyClass enemyClass,EnemyAnimator enemyAnim) 
+    public EnemyPatrolState(ShadowEnemy enemyClass,EnemyAnimator enemyAnim) 
         : base(enemyClass,enemyAnim) { }
     
     private Coroutine patrolRoutine;

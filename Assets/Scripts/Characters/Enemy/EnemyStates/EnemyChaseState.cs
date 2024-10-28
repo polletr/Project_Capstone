@@ -6,7 +6,7 @@ public class EnemyChaseState : EnemyBaseState
     private Vector3 teleportPosition;
     private float teleportTimer;
 
-    public EnemyChaseState(EnemyClass enemyClass, EnemyAnimator enemyAnim)
+    public EnemyChaseState(ShadowEnemy enemyClass, EnemyAnimator enemyAnim)
         : base(enemyClass, enemyAnim)
     {
     }
@@ -44,18 +44,7 @@ public class EnemyChaseState : EnemyBaseState
         teleportTimer += Time.deltaTime;
         if (enemy.playerCharacter != null)
         {
-            // Get the direction to the player
-            Vector3 directionToPlayer =
-                (enemy.playerCharacter.transform.position - enemy.transform.position).normalized;
-
-            // Calculate the rotation towards the player
-            Quaternion lookRotation =
-                Quaternion.LookRotation(new Vector3(directionToPlayer.x, 0,
-                    directionToPlayer.z)); // Ignore y-axis to keep rotation flat
-
-            // Smoothly rotate the enemy towards the player
-            enemy.transform.rotation = Quaternion.Slerp(enemy.transform.rotation, lookRotation,
-                Time.deltaTime * enemy.RotationSpeed);
+            RotateToPlayer();
 
             // If within attack range, switch to attack state
             if (Vector3.Distance(enemy.transform.position, enemy.playerCharacter.transform.position) <=

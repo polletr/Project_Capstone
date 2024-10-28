@@ -28,6 +28,8 @@ public class GameEvent : ScriptableObject
     public UnityAction<string> SetTutorialText;
     public UnityAction<string> SetTutorialTextTimer;
 
+    public UnityAction PlayerExitedSafeZone;
+
     int timer = 0;
     public void HandlePlayerFootSteps(Vector3 position, float range)
     {
