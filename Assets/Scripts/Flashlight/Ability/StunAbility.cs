@@ -3,27 +3,28 @@ using FMOD.Studio;
 using FMODUnity;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Utilities;
 
 public class StunAbility : FlashlightAbility
 {
+  
+    
     [SerializeField] private Color flashColor;
-    [SerializeField] private Color cooldownColor;
-    [SerializeField] private float decreaseRate;
+    [SerializeField] private float flashIntensity;
+    [SerializeField] private float flashspotAngle;
+    [SerializeField] private float flashInnerSpotAngle;
+    
     [SerializeField] private float effectRadius;
-    [SerializeField] private float lightIntensity;
-    [SerializeField] private float cooldownIntensity;
     [SerializeField] private float buildUpTime;
 
-    private CountdownTimer timer;
     private EventInstance flashSound;
-
-    private void Update() => timer?.Tick(Time.deltaTime);
 
     public override void OnUseAbility()
     {
+        
         StartCoroutine(StartStunAttack());
     }
 
@@ -31,16 +32,23 @@ public class StunAbility : FlashlightAbility
     public override void OnStopAbility()
     {
         StopAllCoroutines();
-        Flashlight.StartCooldown(Cooldown);
-        StartCoroutine(RestoreLightOverTime());
+        Flashlight.ResetLight(0.5f);
     }
 
     private void Stun()
     {
+
+
+//set light to stun flash properties 
+        Flashlight.Light.intensity = flashIntensity;
+        Flashlight.Light.color = flashColor;
+        Flashlight.Light.spotAngle = flashspotAngle;
+        Flashlight.Light.innerSpotAngle = flashInnerSpotAngle;
+
         if (!PlayerBatteryUIHandler.Instance)
             PlayerBatteryUIHandler.Instance.FlickerBatteryUIOnce();
 
-        var ray = new Ray(Flashlight.transform.position, Flashlight.transform.forward * Flashlight.Light.range);
+        var ray = new Ray(Flashlight.RayCastOrigin.position, Flashlight.RayCastOrigin.forward * Flashlight.Light.range);
 
         var hits = new RaycastHit[10];
         var size = Physics.SphereCastNonAlloc(ray, effectRadius, hits, Flashlight.Light.range, Flashlight.IgrnoreMask);
@@ -55,15 +63,16 @@ public class StunAbility : FlashlightAbility
                 thing.ApplyStunEffect();
         }
 
-        Flashlight.ConsumeBattery(Cost);
         flashSound = AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.FlashlightStun);
         flashSound.start();
+        Flashlight.ConsumeBattery(Cost);
 
-        timer = new CountdownTimer(1f);
-        timer.Start();
-        StartCoroutine(RestoreLightOverTime());
+        
+        //set light to stun flash properties 
+        Flashlight.StartCoroutine(Flashlight.ZeroOutLight(Cooldown));
+        
     }
-
+    
     private IEnumerator StartStunAttack()
     {
         var delayTimer = 0f;
@@ -77,47 +86,15 @@ public class StunAbility : FlashlightAbility
 
         while (delayTimer < buildUpTime)
         {
-            Flashlight.Light.intensity = Mathf.Lerp(initialIntensity, 50 , delayTimer / buildUpTime);
+            Flashlight.Light.intensity = Mathf.Lerp(initialIntensity, 50, delayTimer / buildUpTime);
             Flashlight.Light.color = Color.Lerp(flashlightColor, Color.red, delayTimer / buildUpTime);
             Flashlight.Light.spotAngle = Mathf.Lerp(lightSpotAngle, 5f, delayTimer / buildUpTime);
             Flashlight.Light.innerSpotAngle = Mathf.Lerp(initialInnerSpotAngle, 0f, delayTimer / buildUpTime);
-            
+
             delayTimer += Time.deltaTime;
             yield return null;
         }
-
-        //set light to stun flash properties 
-        Flashlight.Light.intensity = lightIntensity;
-        Flashlight.Light.color = flashColor;
-        Flashlight.Light.spotAngle = 100;
-        Flashlight.Light.innerSpotAngle = 50;
-
+        
         Stun();
-    }
-
-
-    private IEnumerator RestoreLightOverTime()
-    {
-        Debug.Log("RestoreLightOverTime");
-        while (timer != null && !timer.IsFinished)
-        {
-            // Gradually decrease intensity
-            Flashlight.Light.intensity =
-                Mathf.Lerp(Flashlight.Light.intensity, cooldownIntensity, decreaseRate * Time.deltaTime);
-
-            // Gradually return color
-            Flashlight.Light.color = Color.Lerp(Flashlight.Light.color, cooldownColor, decreaseRate * Time.deltaTime);
-
-            // Wait for the next frame
-            yield return null;
-        }
-
-
-        // Reset the flashlight when the timer finishes
-        if (timer != null && timer.IsFinished)
-        {
-            Flashlight.ResetLight();
-            timer = null;
-        }
     }
 }

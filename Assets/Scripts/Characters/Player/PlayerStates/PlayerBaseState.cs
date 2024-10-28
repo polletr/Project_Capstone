@@ -24,9 +24,18 @@ public abstract class PlayerBaseState
     }
 
 
-    public virtual void EnterState() { }
-    public virtual void ExitState() { }
-    public virtual void StateFixedUpdate() { }
+    public virtual void EnterState()
+    {
+    }
+
+    public virtual void ExitState()
+    {
+    }
+
+    public virtual void StateFixedUpdate()
+    {
+    }
+
     public virtual void StateUpdate()
     {
         Player.characterController.SimpleMove(direction.normalized * GetSpeed());
@@ -43,12 +52,10 @@ public abstract class PlayerBaseState
         // Set the animator parameters based on the local direction
         PlayerAnimator.animator.SetFloat("Horizontal", localDirection.x * GetMovementAnimValue());
         PlayerAnimator.animator.SetFloat("Vertical", localDirection.z * GetMovementAnimValue());
-
     }
 
     public virtual void HandleMovement(Vector2 dir)
     {
-
         // Get the camera's forward and right directions
         var cameraForward = Player.PlayerCam.transform.forward;
         var cameraRight = Player.PlayerCam.transform.right;
@@ -68,7 +75,8 @@ public abstract class PlayerBaseState
         float targetTilt = -dir.x * Player.Settings.TiltAngle;
 
         // Add oscillating tilt for forward movement
-        if (direction != Vector3.zero && Mathf.Abs(Vector3.Dot(direction.normalized, Player.PlayerCam.transform.forward)) > 0.1f)
+        if (direction != Vector3.zero &&
+            Mathf.Abs(Vector3.Dot(direction.normalized, Player.PlayerCam.transform.forward)) > 0.1f)
         {
             float oscillation = Mathf.Sin(Time.time * Player.Settings.SwayFrequency) * Player.Settings.SwayAmplitude;
             targetTilt += oscillation;
@@ -76,10 +84,11 @@ public abstract class PlayerBaseState
         else
         {
             targetTilt = 0;
-        }    
+        }
 
         // Smoothly interpolate the z-axis tilt
-        float smoothTilt = Mathf.LerpAngle(Player.PlayerCam.transform.localEulerAngles.z, targetTilt, Player.Settings.TiltSpeed * Time.deltaTime);
+        float smoothTilt = Mathf.LerpAngle(Player.PlayerCam.transform.localEulerAngles.z, targetTilt,
+            Player.Settings.TiltSpeed * Time.deltaTime);
 
         // Update camera's local rotation on Z-axis for tilt effect
         Player.PlayerCam.transform.localRotation = Quaternion.Euler(
@@ -87,12 +96,10 @@ public abstract class PlayerBaseState
             Player.PlayerCam.transform.localEulerAngles.y,
             smoothTilt
         );
-
     }
-    
+
     public virtual void HandleRecharge()
     {
-        
     }
 
     public virtual void HandleAttack(bool held)
@@ -100,10 +107,14 @@ public abstract class PlayerBaseState
             Player.ChangeState(Player.AttackState);
     }
 
-    public virtual void HandleMove() { }
+    public virtual void HandleMove()
+    {
+    }
 
-    public virtual void HandleInteract() { }
-    
+    public virtual void HandleInteract()
+    {
+    }
+
     public virtual void HandleRun(bool check)
     {
         if (!IsCrouching)
@@ -130,7 +141,7 @@ public abstract class PlayerBaseState
         if (Player.HasFlashlight)
             Player.flashlight.HandleFlashlightPower();
     }
-    
+
     public virtual void HandleLookAround(Vector2 dir, InputDevice device)
     {
         var sensitivityMultilayer = Player.Settings.cameraSensitivityMouse;
@@ -142,12 +153,13 @@ public abstract class PlayerBaseState
 
         // Calculate player's body (y-axis) rotation
         Player.yRotation += dir.x * sensitivityMultilayer * Time.deltaTime;
-        Player.CameraHolder.localRotation = Quaternion.Euler(0, Player.yRotation, 0);  // Rotate body horizontally
+        Player.CameraHolder.localRotation = Quaternion.Euler(0, Player.yRotation, 0); // Rotate body horizontally
 
         // Calculate camera pitch (x-axis) rotation
         Player.xRotation += dir.y * sensitivityMultilayer * Time.deltaTime;
         Player.xRotation = Mathf.Clamp(Player.xRotation, Player.Settings.ClampAngleUp, Player.Settings.ClampAngleDown);
-        Player.PlayerCam.transform.localRotation = Quaternion.Euler(-Player.xRotation, 0, 0);  // Rotate camera vertically
+        Player.PlayerCam.transform.localRotation =
+            Quaternion.Euler(-Player.xRotation, 0, 0); // Rotate camera vertically
 
         // Only update the flashlight's rotation if the player is holding it
         if (Player.HasFlashlight && Player.xRotation > Player.Settings.FlashlightAngleDown)
@@ -157,7 +169,8 @@ public abstract class PlayerBaseState
             var targetRotation = Player.PlayerCam.transform.rotation.eulerAngles;
 
             // Slurp only the z-axis, while keeping the x and y axes unchanged
-            var zRotation = Mathf.LerpAngle(currentRotation.z, targetRotation.x, Player.Settings.FlashlightRotateSpeed * Time.deltaTime);
+            var zRotation = Mathf.LerpAngle(currentRotation.z, targetRotation.x,
+                Player.Settings.FlashlightRotateSpeed * Time.deltaTime);
 
             // Apply the new rotation, only modifying the z-axis
             Player.Hand.localRotation = Quaternion.Euler(currentRotation.x, currentRotation.y, zRotation);
@@ -196,30 +209,33 @@ public abstract class PlayerBaseState
 
     public virtual void CheckInteractionUI()
     {
-        if (Physics.Raycast(Player.PlayerCam.transform.position, Player.PlayerCam.transform.forward, out RaycastHit hit, Player.Settings.InteractionRange))
+        if (Physics.Raycast(Player.PlayerCam.transform.position, Player.PlayerCam.transform.forward, out RaycastHit hit,
+                Player.Settings.InteractionRange))
         {
             var obj = hit.collider.gameObject;
             if (obj.TryGetComponent(out Interactable thing))
             {
                 Player.interactableObj = thing;
-                if (Player.interactableObj.indicatorHandler != null && Player.interactableObj.indicatorHandler.IndicatorUI != null)
+                if (Player.interactableObj.indicatorHandler != null &&
+                    Player.interactableObj.indicatorHandler.IndicatorUI != null)
                     Player.interactableObj.indicatorHandler.IndicatorUI.TriggerTextIndicator(true);
             }
             else
             {
-                if (Player.interactableObj != null && Player.interactableObj.indicatorHandler != null && Player.interactableObj.indicatorHandler.IndicatorUI != null)
+                if (Player.interactableObj != null && Player.interactableObj.indicatorHandler != null &&
+                    Player.interactableObj.indicatorHandler.IndicatorUI != null)
                     Player.interactableObj.indicatorHandler.IndicatorUI.TriggerTextIndicator(false);
             }
         }
         else
         {
-            if (Player.interactableObj != null && Player.interactableObj.indicatorHandler != null && Player.interactableObj.indicatorHandler.IndicatorUI != null)
+            if (Player.interactableObj != null && Player.interactableObj.indicatorHandler != null &&
+                Player.interactableObj.indicatorHandler.IndicatorUI != null)
             {
                 Player.interactableObj.indicatorHandler.IndicatorUI.TriggerTextIndicator(false);
                 Player.interactableObj = null;
             }
         }
-
     }
 
     protected virtual float GetSpeed()
@@ -265,6 +281,4 @@ public abstract class PlayerBaseState
             return 0.5f;
         }
     }
-
 }
-

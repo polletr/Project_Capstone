@@ -48,10 +48,7 @@ public class RevealAbility : FlashlightAbility
 
         Flashlight.ConsumeBattery(Cost);
 
-        Flashlight.ResetLight();
-
-        Flashlight.StartCooldown(Cooldown);
-    
+        Flashlight.ResetLight(Cooldown);
     }
 
     private IEnumerator UseRevealAbility()

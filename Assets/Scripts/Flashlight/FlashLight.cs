@@ -11,14 +11,16 @@ public class FlashLight : MonoBehaviour
     public GameEvent Event;
 
     [Header("Base Flashlight Settings")] [SerializeField]
-    private float range;
+    private Color lightColor;
 
-    [SerializeField] private Color lightColor;
     [SerializeField] private float intensity;
+    [SerializeField] private float range;
     [SerializeField] private float innerSpotAngle = 15f;
     [SerializeField] private float outerSpotAngle = 30f;
 
-    [SerializeField] private float baseCost;
+    [Header("Battery Settings")] [SerializeField]
+    private float baseCost;
+
     [SerializeField] private float minBatteryAfterUse;
 
     [SerializeField] private float minFlickerTime = 0.1f; // Minimum time between flickers
@@ -33,10 +35,7 @@ public class FlashLight : MonoBehaviour
 
     [SerializeField] private List<FlashlightAbility> flashlightAbilities;
 
-
-    public PlayerController Player { get; private set; }
-
-    public Transform RayCastOrigin => Player.PlayerCam.transform;
+    public Transform RayCastOrigin => player.PlayerCam.transform;
     public FlashlightAbility CurrentAbility { get; private set; }
 
     public Light Light { get; private set; }
@@ -44,22 +43,21 @@ public class FlashLight : MonoBehaviour
     [field: SerializeField] public LayerMask IgrnoreMask { get; private set; }
 
     public bool IsFlashlightOn { get; private set; }
-
+  
     private float flickerTimer;
     private float extraCharge;
-
     private bool isFlickering;
+    
+    private PlayerController player;
 
     private List<IEffectable> effectedObjs = new();
     private HashSet<IEffectable> effectedObjsThisFrame = new();
 
-    private CountdownTimer cooldownTimer;
+    public bool CanUseAbility { get; private set; } = true;
 
     private void Awake()
     {
-        cooldownTimer = new CountdownTimer(0.1f);
-        cooldownTimer.Start();
-
+        
         Light = GetComponent<Light>();
 
         IsFlashlightOn = Light.enabled;
@@ -69,7 +67,7 @@ public class FlashLight : MonoBehaviour
         Light.innerSpotAngle = innerSpotAngle;
         Light.range = range;
 
-        Player = GetComponentInParent<PlayerController>();
+        player = GetComponentInParent<PlayerController>();
 
         for (var i = 0; i < transform.childCount; i++)
         {
@@ -105,9 +103,6 @@ public class FlashLight : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log($"can use ability {cooldownTimer.IsFinished} timer {cooldownTimer.Progress}");
-        
-        cooldownTimer?.Tick(Time.deltaTime);
         // Decrease BatteryLife continuously over time based on Cost per second
         if (IsFlashlightOn && !IsBatteryDead())
             Drain(baseCost * Time.deltaTime);
@@ -184,8 +179,8 @@ public class FlashLight : MonoBehaviour
         Gizmos.color = Color.red;
 
         // Ray and range definition
-        var origin = Player.PlayerCam.transform.position;
-        var direction = Player.PlayerCam.transform.forward * range;
+        var origin = player.PlayerCam.transform.position;
+        var direction = player.PlayerCam.transform.forward * range;
 
         // Calculate the end point of the SphereCast
         var endPoint = origin + direction;
@@ -194,22 +189,23 @@ public class FlashLight : MonoBehaviour
         Gizmos.DrawLine(origin, endPoint);
     }
 
-    public void ResetLight()
+    public void ResetLight(float cooldown)
     {
         // Reset the flashlight to its default state and ready for use
-        ResetLightState();
+        StartCoroutine(ResetLightState(cooldown));
     }
 
     public void HandleAbility()
     {
-        if (CurrentAbility != null && IsFlashlightOn && BatteryLife - CurrentAbility.Cost > minBatteryAfterUse && cooldownTimer.IsFinished)
+        Debug.Log("CanUseAbility: " + CanUseAbility);
+        if (CurrentAbility != null && IsFlashlightOn && BatteryLife - CurrentAbility.Cost > minBatteryAfterUse && CanUseAbility)
         {
             CurrentAbility.OnUseAbility();
-            cooldownTimer.Reset(CurrentAbility.Cooldown);
+            CanUseAbility = false;
         }
         else
         {
-            Player.currentState?.HandleMove();
+            player.currentState?.HandleMove();
         }
     }
 
@@ -231,18 +227,36 @@ public class FlashLight : MonoBehaviour
     public void StopUsingFlashlight()
     {
         if (CurrentAbility != null && IsFlashlightOn)
+        {
             CurrentAbility.OnStopAbility();
+        }
     }
 
-    private void ResetLightState()
+    private IEnumerator ResetLightState(float cooldown)
     {
+        CanUseAbility = false;
         Light.enabled = IsFlashlightOn = true;
-        Light.spotAngle = outerSpotAngle;
-        Light.innerSpotAngle = innerSpotAngle;
-        Light.range = range;
-        Light.intensity = intensity;
-        Light.color = lightColor;
-        Player.currentState?.HandleMove();
+        player.currentState?.HandleMove();
+
+        var currentlIntensity = Light.intensity;
+        var currentColor = Light.color;
+        var currentRange = Light.range;
+        var currentSpotAngle = Light.spotAngle;
+        var currentInnerSpotAngle = Light.innerSpotAngle;
+
+        var timer = 0f;
+        while (timer < cooldown)
+        {
+            Light.intensity = Mathf.Lerp(currentlIntensity, intensity, timer / cooldown);
+            Light.color = Color.Lerp(currentColor, lightColor, timer / cooldown);
+            Light.range = Mathf.Lerp(currentRange, range, timer / cooldown);
+            Light.spotAngle = Mathf.Lerp(currentSpotAngle, outerSpotAngle, timer / cooldown);
+            Light.innerSpotAngle = Mathf.Lerp(currentInnerSpotAngle, innerSpotAngle, timer / cooldown);
+
+            timer += Time.deltaTime;
+            yield return null;
+        }
+        CanUseAbility = true;
     }
 
     private void TurnOffLight()
@@ -267,11 +281,11 @@ public class FlashLight : MonoBehaviour
     {
         if (!IsBatteryDead())
         {
-            ResetLightState();
+            ResetLight(1);
         }
         else
         {
-            ResetLightState();
+            ResetLight(1);
             TurnOffLight();
         }
     }
@@ -334,17 +348,36 @@ public class FlashLight : MonoBehaviour
         TurnOnLight();
     }
 
-    public void StartCooldown(float time)
-    {
-        if (cooldownTimer == null)
-            cooldownTimer = new CountdownTimer(time);
-        else
-            cooldownTimer.Reset(time);
-        
-        cooldownTimer.Start();
-    }
 
     private void UpdateExtraCharge(float charge) => extraCharge = charge;
 
     public void ZeroOutBattery() => BatteryLife = 0;
+
+    public IEnumerator ZeroOutLight(float cooldown, float zeroDownTime = 0.5f)
+    {
+        var delayTimer = 0f;
+
+        // Store the initial properties of the flashlight
+        var initialIntensity = Light.intensity;
+        var flashlightColor = Light.color;
+        var lightSpotAngle = Light.spotAngle;
+        var initialInnerSpotAngle = Light.innerSpotAngle;
+
+
+        while (delayTimer < zeroDownTime)
+        {
+            Light.intensity = Mathf.Lerp(initialIntensity, 0, delayTimer / zeroDownTime);
+            Light.color = Color.Lerp(flashlightColor, Color.black, delayTimer / zeroDownTime);
+            //Light.range = Mathf.Lerp(Light.range, 0, delayTimer / zeroDownTime);
+            //Light.spotAngle = Mathf.Lerp(lightSpotAngle, 0, delayTimer / zeroDownTime);
+            //Light.innerSpotAngle = Mathf.Lerp(initialInnerSpotAngle, 0f, delayTimer / zeroDownTime);
+
+            delayTimer += Time.deltaTime;
+            yield return null;
+        }
+
+        ResetLight(cooldown);
+        
+        CanUseAbility = true;
+    }
 }

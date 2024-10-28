@@ -7,7 +7,7 @@ public class PlayerAttackState : PlayerBaseState
     {
         //Use current Flashlight ability Attack
         Player.flashlight.HandleAbility();
-        Player.ChangeState(Player.MoveState);
+       // Player.ChangeState(Player.MoveState);
     }
     public override void ExitState()
     {

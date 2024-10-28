@@ -136,13 +136,14 @@ public class PlayerController : MonoBehaviour
 
     private void UpdateFlashlight()
     {
-        if (!HasFlashlight && flashlight.gameObject.activeSelf)
+        switch (HasFlashlight)
         {
-            flashlight.gameObject.SetActive(false);
-        }
-        else if (HasFlashlight && !flashlight.gameObject.activeSelf)
-        {
-            flashlight.gameObject.SetActive(true);
+            case false when flashlight.gameObject.activeSelf:
+                flashlight.gameObject.SetActive(false);
+                break;
+            case true when !flashlight.gameObject.activeSelf:
+                flashlight.gameObject.SetActive(true);
+                break;
         }
     }
 
@@ -175,14 +176,15 @@ public class PlayerController : MonoBehaviour
                     break;
                 }
             }
+
             currentEnemyDistance = Mathf.Clamp01(nearestDistance / Settings.MaxEnemyDistance);
         }
         else
         {
             currentEnemyDistance = Mathf.Lerp(currentEnemyDistance, 1f, Time.deltaTime);
         }
-        RuntimeManager.StudioSystem.setParameterByName("EnemyDistance", currentEnemyDistance);
 
+        RuntimeManager.StudioSystem.setParameterByName("EnemyDistance", currentEnemyDistance);
     }
 
     private void WipeEnemyList(LevelData l)
@@ -220,17 +222,18 @@ public class PlayerController : MonoBehaviour
 
     public void HandleAttack(bool held)
     {
-        if (HasFlashlight)
+        if (HasFlashlight && flashlight.IsFlashlightOn)
+        {
             currentState?.HandleAttack(held);
-    } 
-    
+        }
+    }
+
     public void HandleRecharge()
     {
         if (HasFlashlight)
         {
             currentState?.HandleRecharge();
         }
-            
     }
 
     //if the flashlight is on, change the flashlight ability to value
@@ -240,7 +243,7 @@ public class PlayerController : MonoBehaviour
 
         flashlight.HandleChangeAbility(value);
     }
-    
+
     private void HandleFlashlightPickUp()
     {
         HasFlashlight = true;
