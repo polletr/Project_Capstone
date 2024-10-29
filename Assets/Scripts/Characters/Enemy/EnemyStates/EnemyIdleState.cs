@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyIdleState : EnemyBaseState
 {
     
-    public EnemyIdleState(EnemyClass enemyClass, EnemyAnimator enemyAnim) 
+    public EnemyIdleState(ShadowEnemy enemyClass, EnemyAnimator enemyAnim) 
         : base(enemyClass,enemyAnim) { }
 
     public override void EnterState()

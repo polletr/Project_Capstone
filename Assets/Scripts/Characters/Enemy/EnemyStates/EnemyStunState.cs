@@ -5,7 +5,7 @@ using Utilities;
 
 public class EnemyStunState : EnemyBaseState
 {
-    public EnemyStunState(EnemyClass enemyClass, EnemyAnimator enemyAnim)
+    public EnemyStunState(ShadowEnemy enemyClass, EnemyAnimator enemyAnim)
         : base(enemyClass, enemyAnim) { }
 
     CountdownTimer countdownTimer;

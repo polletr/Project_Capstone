@@ -12,9 +12,9 @@ public abstract class EnemyBaseState
     protected float timer;
 
     public EnemyAnimator enemyAnimator { get; private set; }
-    public EnemyClass enemy { get; set; }
+    public ShadowEnemy enemy { get; set; }
     
-    public EnemyBaseState(EnemyClass enemyClass,EnemyAnimator enemyAnim)
+    public EnemyBaseState(ShadowEnemy enemyClass,EnemyAnimator enemyAnim)
     {
         enemy = enemyClass;
         enemyAnimator = enemyAnim;
@@ -43,6 +43,22 @@ public abstract class EnemyBaseState
     public virtual void HandleChase()
     {
         enemy.ChangeState(enemy.ChaseState);
+    }
+
+    protected virtual void RotateToPlayer()
+    {
+        // Get the direction to the player
+        Vector3 directionToPlayer =
+            (enemy.playerCharacter.transform.position - enemy.transform.position).normalized;
+
+        Quaternion lookRotation =
+            Quaternion.LookRotation(new Vector3(directionToPlayer.x, 0,
+                directionToPlayer.z)); // Ignore y-axis to keep rotation flat
+
+        // Smoothly rotate the enemy towards the player
+        enemy.transform.rotation = Quaternion.Slerp(enemy.transform.rotation, lookRotation,
+            Time.deltaTime * enemy.RotationSpeed);
+
     }
 
     protected virtual void OnSoundDetected(Vector3 soundPosition, float soundRange)

@@ -33,7 +33,7 @@ public class Door : Interactable
 
     private float currentHealth;
 
-    private bool rotating;
+    public bool Rotating { get; private set; }
 
     private void Start()
     {
@@ -79,7 +79,7 @@ public class Door : Interactable
     {
         if (!IsOpen)
         {
-            if (rotating)
+            if (Rotating)
                 StopAllCoroutines();
 
             IsOpen = true;
@@ -92,7 +92,7 @@ public class Door : Interactable
     {
         if (IsOpen)
         {
-            if (rotating)
+            if (Rotating)
                 StopAllCoroutines();
             IsOpen = false;
             StartCoroutine(RotateDoor(closedRotation, speed));
@@ -162,7 +162,7 @@ public class Door : Interactable
             indicatorHandler.IndicatorUI.SetLockedIndicator(true);
 
     }
-
+    
     public void OpenDoor()
     {
         AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.UnlockDoor, transform.position);
@@ -173,7 +173,7 @@ public class Door : Interactable
 
     private IEnumerator RotateDoor(Quaternion targetRotation, float speed)
     {
-        //if (rotating) yield break;
+        //if (Rotating) yield break;
 
         if (IsOpen)
             AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.CloseDoor, this.transform.position);
@@ -181,7 +181,7 @@ public class Door : Interactable
             AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.OpenDoor, this.transform.position);
 
 
-        rotating = true;
+        Rotating = true;
         float timeElapsed = 0f;
         Quaternion currentRotation = transform.localRotation;
 
@@ -204,7 +204,7 @@ public class Door : Interactable
             doorObstacle.carving = true;
         }
 
-        rotating = false;
+        Rotating = false;
     }
 
     public void OnOpenDoor(float speed)

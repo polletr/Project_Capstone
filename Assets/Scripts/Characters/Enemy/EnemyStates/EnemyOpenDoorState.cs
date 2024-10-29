@@ -8,7 +8,7 @@ public class EnemyOpenDoorState : EnemyBaseState
     private float attackCooldown; // Time between attacks
     private float attackCooldownTimer;
     
-    public EnemyOpenDoorState(EnemyClass enemyClass, EnemyAnimator enemyAnim)
+    public EnemyOpenDoorState(ShadowEnemy enemyClass, EnemyAnimator enemyAnim)
         : base(enemyClass, enemyAnim) { }
 
     public override void EnterState()
