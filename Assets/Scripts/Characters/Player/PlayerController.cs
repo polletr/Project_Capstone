@@ -165,7 +165,7 @@ public class PlayerController : MonoBehaviour
         if (_enemiesChasing.Count > 0)
         {
             float nearestDistance = float.MaxValue;
-            foreach (EnemyClass enemy in _enemiesChasing)
+            foreach (ShadowEnemy enemy in _enemiesChasing)
             {
                 float distance = Vector3.Distance(enemy.transform.position, transform.position);
                 if (distance < nearestDistance) nearestDistance = distance;

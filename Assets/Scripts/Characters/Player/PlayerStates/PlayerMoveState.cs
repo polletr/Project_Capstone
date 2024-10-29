@@ -29,7 +29,7 @@ public class PlayerMoveState : PlayerBaseState
         if (Physics.Raycast(ray, out hit, Player.Settings.MaxEnemyDistance))
         {
             var obj = hit.collider.gameObject;
-            if (obj.TryGetComponent(out EnemyClass enemy))
+            if (obj.TryGetComponent(out ShadowEnemy enemy))
             {
                 Player.AddEnemyToChaseList(enemy);
             }

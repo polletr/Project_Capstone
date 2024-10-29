@@ -40,11 +40,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6080547743055034047}
-  - component: {fileID: 3330528363716557571}
   - component: {fileID: 7393242699462606258}
   - component: {fileID: 733488586319824286}
   - component: {fileID: 2076442353892275476}
   - component: {fileID: 409374397354755012}
+  - component: {fileID: 1840986766455685750}
   m_Layer: 0
   m_Name: SlimShadowEnemy
   m_TagString: Untagged
@@ -70,44 +70,6 @@ Transform:
   - {fileID: 392263461314138004}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3330528363716557571
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 904477281664417906}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 679fb04ba36c7454882cef773305a7ee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  patrolTransforms: []
-  eyes: {fileID: 392263461314138004}
-  agent: {fileID: 0}
-  patrolRange: 5
-  maxIdleTime: 5
-  minIdleTime: 1
-  patrolSpeed: 1
-  paralisedSpeed: 0
-  rotationSpeed: 5
-  hearingMultiplier: 1
-  sightRange: 15
-  sightAngle: 45
-  attackRange: 1.5
-  attackAntecipationTime: 0.5
-  <TeleportCooldown>k__BackingField: 2
-  <MaxChaseTime>k__BackingField: 5
-  <StunTime>k__BackingField: 10
-  <BodyMaterial>k__BackingField: {fileID: 2100000, guid: c3148a63354fa442abce19b1a40f9fef,
-    type: 2}
-  <EyeMaterial>k__BackingField: {fileID: 2100000, guid: 37ef587f6a5be4df0b4cb7317dca8b44,
-    type: 2}
-  <SmokeParticle>k__BackingField: {fileID: 6885992037475440784}
-  <DoorAttackCooldown>k__BackingField: 2
-  <DoorAttackDamage>k__BackingField: 2
-  changeTranspDuration: 0.5
-  Event: {fileID: 11400000, guid: 821642c9ec9c5474b88bc1b575e70ddf, type: 2}
 --- !u!114 &7393242699462606258
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -179,6 +141,44 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   detectionRadius: 8
+--- !u!114 &1840986766455685750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 904477281664417906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f24cd1aca8e662b4b91fb365e0d77db5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patrolTransforms: []
+  eyes: {fileID: 392263461314138004}
+  agent: {fileID: 0}
+  patrolRange: 5
+  maxIdleTime: 2
+  minIdleTime: 0.5
+  patrolSpeed: 3
+  paralisedSpeed: 0
+  rotationSpeed: 0
+  hearingMultiplier: 1
+  sightRange: 5
+  sightAngle: 45
+  attackRange: 1
+  attackAntecipationTime: 1
+  <TeleportCooldown>k__BackingField: 2
+  <MaxChaseTime>k__BackingField: 5
+  <StunTime>k__BackingField: 10
+  <BodyMaterial>k__BackingField: {fileID: 2100000, guid: c3148a63354fa442abce19b1a40f9fef,
+    type: 2}
+  <EyeMaterial>k__BackingField: {fileID: 2100000, guid: 37ef587f6a5be4df0b4cb7317dca8b44,
+    type: 2}
+  <SmokeParticle>k__BackingField: {fileID: 0}
+  <DoorAttackCooldown>k__BackingField: 0
+  <DoorAttackDamage>k__BackingField: 0
+  changeTranspDuration: 0
+  Event: {fileID: 11400000, guid: 821642c9ec9c5474b88bc1b575e70ddf, type: 2}
 --- !u!1001 &3474844743270428374
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -255,12 +255,6 @@ PrefabInstance:
 --- !u!4 &5127120717343839388 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8583317467312896586, guid: 20c20b1e4b41b43909a24bd09f7554e7,
-    type: 3}
-  m_PrefabInstance: {fileID: 3474844743270428374}
-  m_PrefabAsset: {fileID: 0}
---- !u!198 &6885992037475440784 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 8049856286128354886, guid: 20c20b1e4b41b43909a24bd09f7554e7,
     type: 3}
   m_PrefabInstance: {fileID: 3474844743270428374}
   m_PrefabAsset: {fileID: 0}
