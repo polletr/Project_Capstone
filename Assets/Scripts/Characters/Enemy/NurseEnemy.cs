@@ -12,8 +12,10 @@ public class NurseEnemy : EnemyClass
 
     [SerializeField] private List<Transform> patrolTransforms = new List<Transform>();
     [SerializeField] private Transform eyes;
-
+    public int CurrentIdleSpotIndex {  get; private set; }
     [field: SerializeField] public float RotationSpeed { get; private set; }
+    [field: SerializeField] public float ChaseSpeed { get; private set; }
+
 
     public List<Transform> PatrolTransforms
     {
@@ -37,13 +39,23 @@ public class NurseEnemy : EnemyClass
     [HideInInspector] public NavMeshAgent agent;
 
     [SerializeField, Range(0.5f, 3f)] private float attackRange = 1f;
-    [SerializeField] private float attackAntecipationTime = 1;
     public GameEvent Event;
 
+    private void OnEnable()
+    {
+        Event.PlayerExitedSafeZone += HandleChase;
+        Event.PlayerEnteredSafeZone += ChangePatrolIndex;
+    }
 
+    private void OnDisable()
+    {
+        Event.PlayerExitedSafeZone -= HandleChase;
+        Event.PlayerEnteredSafeZone -= ChangePatrolIndex;
+
+    }
     void Awake()
     {
-        
+        CurrentIdleSpotIndex = 0;
         enemyAnimator = GetComponentInChildren<EnemyAnimator>();
         enemyAnimator.GetAnimator();
         
@@ -76,9 +88,18 @@ public class NurseEnemy : EnemyClass
         currentAudio.set3DAttributes(attributes);
     }
 
-    public virtual void Attack()
+    public void Attack()
     {
         playerCharacter.GetKilled(this, eyes);
+    }
+
+    void HandleChase(PlayerController player)
+    {
+        if (playerCharacter == null)
+        {
+            playerCharacter = player;
+        }
+        currentState?.HandleChase();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -87,6 +108,11 @@ public class NurseEnemy : EnemyClass
         {
             currentState?.HandleRetreat();
         }
+    }
+
+    void ChangePatrolIndex(int index)
+    {
+        CurrentIdleSpotIndex = index;
     }
 
     public void DisableEnemy()
