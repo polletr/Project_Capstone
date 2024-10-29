@@ -89,7 +89,6 @@ public class RevealableObject : MonoBehaviour, IRevealable
                 foreach (var material in renderer.materials)
                 {
                     material.SetFloat("_DissolveAmount", currentObjTransp);
-                    Debug.Log(material.GetFloat("_DissolveAmount"));
                 }
             }
         }

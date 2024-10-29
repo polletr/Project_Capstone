@@ -12,7 +12,8 @@ public class PlayerDeathState : PlayerBaseState
     public Transform EnemyFace { get; set; }
     public EnemyClass EnemyKiller { get; set; }
 
-    CountdownTimer timer;
+    CountdownTimer blackscreenTimer;
+    CountdownTimer waitTimer;
     float FOV;
     bool hasFaded;
     public override void EnterState()
@@ -27,8 +28,12 @@ public class PlayerDeathState : PlayerBaseState
             Player.playerFootsteps.stop(STOP_MODE.ALLOWFADEOUT);
         }
 
-        timer = new CountdownTimer(3f);
-        timer.Start();
+        blackscreenTimer = new CountdownTimer(3f);
+        blackscreenTimer.Start();
+
+        waitTimer = new CountdownTimer(0.5f);
+        waitTimer.Start();
+
         hasFaded = false;
     }
     public override void ExitState()
@@ -48,19 +53,20 @@ public class PlayerDeathState : PlayerBaseState
 
     public override void StateUpdate()
     {
-        timer.Tick(Time.deltaTime);
+        blackscreenTimer.Tick(Time.deltaTime);
+        waitTimer.Tick(Time.deltaTime);
 
         if (hasFaded) return;
 
-        if (IsKilledByEnemy())
+        if (IsKilledByEnemy() && waitTimer.IsFinished)
         {
             // Smoothly rotate the camera to look at the enemy's face
             Vector3 direction = (EnemyFace.position - Player.PlayerCam.transform.position).normalized;
             Quaternion lookRotation = Quaternion.LookRotation(direction);
             Player.PlayerCam.transform.rotation = Quaternion.Slerp(Player.PlayerCam.transform.rotation, lookRotation, 7 * Time.deltaTime);
 
-            Player.PlayerCam.fieldOfView = Mathf.Lerp(Player.PlayerCam.fieldOfView, 25, 7 * Time.deltaTime);
-            if (timer.IsFinished)
+            player.PlayerCam.fieldOfView = Mathf.Lerp(player.PlayerCam.fieldOfView, 25, 7 * Time.deltaTime);
+            if (blackscreenTimer.IsFinished)
             {
                 Player.Event.OnFadeBlackScreen?.Invoke();
                 Debug.Log("Blackscreen start");
