@@ -33,7 +33,7 @@ public class DisapearAbility : FlashlightAbility
         }
 
 
-        Flashlight.ResetLight(1);
+        Flashlight.ResetLight(0.1f);
     }
 
     private IEnumerator UseDisappearAbility()
