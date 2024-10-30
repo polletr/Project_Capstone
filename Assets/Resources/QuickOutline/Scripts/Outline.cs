@@ -140,9 +140,12 @@ public class Outline : MonoBehaviour {
     }
   }
 
- public void RemoveOutlineEffect() {
-    foreach (var renderer in renderers) {
-
+ public void RemoveOutlineEffect() 
+ {
+    foreach (var renderer in renderers) 
+    {
+        if (renderer == null)
+                continue;
       // Remove outline shaders
       var materials = renderer.sharedMaterials.ToList();
 
