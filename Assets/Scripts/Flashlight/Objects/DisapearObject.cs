@@ -92,7 +92,7 @@ public class DisapearObject : MonoBehaviour, IHideable
             }
         }
 
-        if (currentObjTransp >= 1f)
+        if (currentObjTransp >= 0.8f)
         {
            revealSound.stop(STOP_MODE.IMMEDIATE);
             AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.FlashlightReveal, this.transform.position);
