@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class LevelManager : Singleton<LevelManager>
 {
     public GameEvent Event;
+    public GlobalEventTrigger  globalTrigger;
 
     [field: SerializeField] public string MasterScene { get; private set; }
     [field: SerializeField] public string StartingScene { get; private set; }
@@ -15,13 +16,13 @@ public class LevelManager : Singleton<LevelManager>
 
     private string _currentScene;
     private List<string> _currentLoadedScenes = new();
-
-    private EventSystem _eventSystem;
-
+    private GlobalEventSO CheckPointEvent;
+    
     private void OnEnable()
     {
         Event.OnLevelChange += StartLevelLoading;
         Event.OnReloadScenes += ReloadActiveScenes;
+        Event.OnTriggerCheckpoint += (checkpoint) => CheckPointEvent = checkpoint;
 
     }
 
@@ -29,11 +30,11 @@ public class LevelManager : Singleton<LevelManager>
     {
         Event.OnLevelChange -= StartLevelLoading;
         Event.OnReloadScenes -= ReloadActiveScenes;
+        Event.OnTriggerCheckpoint -= (checkpoint) => CheckPointEvent = checkpoint;
     }
 
     private void Start()
     {
-        _eventSystem = FindObjectOfType<EventSystem>();
         _currentScene = StartingScene;
         LoadStartScene();
     }
@@ -62,6 +63,12 @@ public class LevelManager : Singleton<LevelManager>
             {
                 SceneManager.LoadSceneAsync(scene, LoadSceneMode.Additive);
             }
+        }
+        
+        if(CheckPointEvent != null)
+        {
+            globalTrigger.GlobalEvent = CheckPointEvent;
+            globalTrigger.OnTriggerGlobalEvent();
         }
     }
 

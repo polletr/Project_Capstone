@@ -208,7 +208,7 @@ public class PlayerController : MonoBehaviour
         return currentState != DeathState;
     }
 
-    private void SetSpawn(Transform pos)
+    public void SetSpawn(Transform pos)
     {
         CheckPoint = pos;
     }

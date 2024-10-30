@@ -53,6 +53,7 @@ public class PlayerDeathState : PlayerBaseState
 
     public override void StateUpdate()
     {
+        Debug.Log("DeathState Update");
         blackscreenTimer.Tick(Time.deltaTime);
         waitTimer.Tick(Time.deltaTime);
 

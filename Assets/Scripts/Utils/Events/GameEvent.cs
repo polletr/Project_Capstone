@@ -8,6 +8,7 @@ public class GameEvent : ScriptableObject
     public UnityAction OnPlayerDeath;
     public UnityAction OnFadeBlackScreen;
     public UnityAction OnPlayerRespawn;
+    public UnityAction<GlobalEventSO> OnTriggerCheckpoint;
 
     public UnityAction OnPickupFlashlight;
     public UnityAction<FlashlightAbility> OnPickupAbility;

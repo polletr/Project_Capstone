@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class GlobalTrigger : MonoBehaviour
+public class GlobalEventTrigger : MonoBehaviour
 {
     public GlobalEventSO GlobalEvent;
 
