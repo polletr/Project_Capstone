@@ -69,6 +69,15 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "ChangeAbilityMouse",
+                    "type": "PassThrough",
+                    "id": "eb41315d-36e6-46f8-9c70-d9ee96078291",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Crouch",
                     "type": "Button",
                     "id": "b4f42731-26a0-424d-a03a-c17ad7ba03da",
@@ -327,6 +336,17 @@
                     "processors": "",
                     "groups": "Keyboard",
                     "action": "RechargeFlashlight",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "be0d2d76-5521-4199-9a9c-6c2183136127",
+                    "path": "<Mouse>/scroll",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "ChangeAbilityMouse",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

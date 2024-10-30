@@ -3,7 +3,6 @@ using System.Collections;
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
-using Utilities;
 using Random = UnityEngine.Random;
 
 public class FlashLight : MonoBehaviour
@@ -34,7 +33,22 @@ public class FlashLight : MonoBehaviour
     [SerializeField] private List<FlashlightAbility> flashlightAbilities;
 
     public Transform RayCastOrigin => player.PlayerCam.transform;
-    public FlashlightAbility CurrentAbility { get; private set; }
+
+    public FlashlightAbility CurrentAbility
+    {
+        get => CurrentAbility;
+        private set
+        {
+            CurrentAbility = value;
+            if (!CurrentAbility)
+            {
+                Debug.LogWarning("No ability found trying to set nothing as current ability");
+                return;
+            }
+
+            CurrentAbility.SetLight(Light);
+        }
+    }
 
     public Light Light { get; private set; }
 
@@ -123,8 +137,7 @@ public class FlashLight : MonoBehaviour
         ability.gameObject.transform.parent = transform;
         ability.gameObject.transform.localPosition = Vector3.zero;
         flashlightAbilities.Add(ability);
-        if (CurrentAbility == null)
-            CurrentAbility = ability;
+        CurrentAbility = ability;
     }
 
     private void RemoveAbility(FlashlightAbility ability)
@@ -158,7 +171,7 @@ public class FlashLight : MonoBehaviour
         if (!obj.TryGetComponent(out IEffectable effectable)) return;
 
         // Try to get both IRevealable and IMovable components
-        var hasRevealable = obj.TryGetComponent(out IRevealable revealObj); 
+        var hasRevealable = obj.TryGetComponent(out IRevealable revealObj);
         var hashideable = obj.TryGetComponent(out IHideable hideObj);
 
         // Apply the reveal effect if not revealed && check if it has a movable component
@@ -202,7 +215,7 @@ public class FlashLight : MonoBehaviour
 
     public void HandleAbility()
     {
-        if (CurrentAbility != null && !IsBatteryDead() &&IsFlashlightOn && CanUseAbility)
+        if (CurrentAbility != null && !IsBatteryDead() && IsFlashlightOn && CanUseAbility)
         {
             CurrentAbility.OnUseAbility();
             CanUseAbility = false;

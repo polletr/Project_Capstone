@@ -71,6 +71,8 @@ public class InputManager : Singleton<InputManager>
         action.Player.Flashlight.performed += OnFlashlightPower;
 
         action.Player.ChangeAbility.performed += OnChangeAbility;
+        
+        action.Player.ChangeAbilityMouse.performed += HandleScrollAbility;
     }
 
     public void DisablePlayerInput()
@@ -96,6 +98,8 @@ public class InputManager : Singleton<InputManager>
         action.Player.Flashlight.performed -= OnFlashlightPower;
 
         action.Player.ChangeAbility.performed -= OnChangeAbility;
+        
+        action.Player.ChangeAbilityMouse.performed -= HandleScrollAbility;
     }
     #endregion
 
@@ -122,6 +126,19 @@ public class InputManager : Singleton<InputManager>
 
     private void OnChangeAbility(InputAction.CallbackContext context) =>
         player.HandleChangeAbility((int)context.ReadValue<float>());
+    
+    private void HandleScrollAbility(InputAction.CallbackContext context)
+    {
+        var scrollValue = context.ReadValue<Vector2>();
+        if (scrollValue.y > 0 || scrollValue.x > 0)
+        {
+            player.HandleChangeAbility(1);
+        }
+        else if (scrollValue.y < 0 || scrollValue.x < 0)
+        {
+            player.HandleChangeAbility(-1);
+        }
+    }
 
     #endregion
 

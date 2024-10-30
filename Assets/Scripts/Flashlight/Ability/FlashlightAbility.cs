@@ -5,19 +5,34 @@ public abstract class FlashlightAbility : MonoBehaviour
     // Ability settings 
     [field: SerializeField] public int Cost { get; protected set; } = 10;
     [field: SerializeField] public float Cooldown { get; protected set; } = 10;
+    [field: SerializeField] public float AbilityBuildUpTime { get; protected set; }
 
     // Ability light settings
+    [field: Header("Ability Light Settings")]
     [field: SerializeField] public float AbilityIntensity { get; protected set; }
     [field: SerializeField] public Color AbilityColor { get; protected set; }
     [field: SerializeField] public float AbilitySpotAngle { get; protected set; }
     [field: SerializeField] public float AbilityInnerSpotAngle { get; protected set; }
-    [field: SerializeField] public float AbilityBuildUpTime { get; protected set; }
-
+    
+    // Ability flashlight settings
+    [field: Header("Flashlight Settings")]
+    [field: SerializeField] public float BaseIntensity { get; protected set; }
+    [field: SerializeField] public Color BaseColor { get; protected set; }
+    [field: SerializeField] public float BaseSpotAngle { get; protected set; }
+    [field: SerializeField] public float BaseInnerSpotAngle { get; protected set; }
+    
     protected FlashLight Flashlight;
 
     public abstract void OnUseAbility();
     public abstract void OnStopAbility();
 
+    public void SetLight(Light currentLight)
+    {
+        currentLight.intensity = AbilityIntensity;
+        currentLight.color = AbilityColor;
+        currentLight.spotAngle = AbilitySpotAngle;
+        currentLight.innerSpotAngle = AbilityInnerSpotAngle;
+    }
 
     public virtual void Initialize(FlashLight flashlight)
     {

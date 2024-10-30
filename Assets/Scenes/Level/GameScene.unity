@@ -260,15 +260,25 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 3297617451062792445, guid: bedc4c315612c0d429f32fda2e727742,
+        type: 3}
+      propertyPath: m_Name
+      value: DisappearAbility
+      objectReference: {fileID: 0}
     - target: {fileID: 3561872605050790335, guid: bedc4c315612c0d429f32fda2e727742,
         type: 3}
       propertyPath: pauseMenu
       value: 
       objectReference: {fileID: 886818447}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5126299387504130228, guid: bedc4c315612c0d429f32fda2e727742, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3297617451062792445, guid: bedc4c315612c0d429f32fda2e727742,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 388081270}
   m_SourcePrefab: {fileID: 100100000, guid: bedc4c315612c0d429f32fda2e727742, type: 3}
 --- !u!1 &46502965
 GameObject:
@@ -515,6 +525,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 126723336}
   m_CullTransparentMesh: 1
+--- !u!114 &236129426 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6078618007356151088, guid: bedc4c315612c0d429f32fda2e727742,
+    type: 3}
+  m_PrefabInstance: {fileID: 29968016}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3cee5a14e59ac14faff4be3396f5101, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &260842996
 GameObject:
   m_ObjectHideFlags: 0
@@ -546,6 +568,32 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &388081268 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3297617451062792445, guid: bedc4c315612c0d429f32fda2e727742,
+    type: 3}
+  m_PrefabInstance: {fileID: 29968016}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &388081270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 388081268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1eeb6d8a18340e489b1e0a5bfc9fdd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Cost>k__BackingField: 10
+  <Cooldown>k__BackingField: 10
+  <AbilityIntensity>k__BackingField: 50
+  <AbilityColor>k__BackingField: {r: 0.98377347, g: 1, b: 0.3915094, a: 1}
+  <AbilitySpotAngle>k__BackingField: 0
+  <AbilityInnerSpotAngle>k__BackingField: 0
+  <AbilityBuildUpTime>k__BackingField: 0
+  interactRange: 3
 --- !u!1 &447458893
 GameObject:
   m_ObjectHideFlags: 0
@@ -2849,7 +2897,7 @@ PrefabInstance:
         type: 3}
       propertyPath: flashLight
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 236129426}
     - target: {fileID: 1112428895895272872, guid: 77c4095f266314c4e8420a4fbf9e3c62,
         type: 3}
       propertyPath: normalColor.b

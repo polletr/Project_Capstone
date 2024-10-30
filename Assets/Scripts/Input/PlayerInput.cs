@@ -91,6 +91,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
+                    ""name"": ""ChangeAbilityMouse"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""eb41315d-36e6-46f8-9c70-d9ee96078291"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Crouch"",
                     ""type"": ""Button"",
                     ""id"": ""b4f42731-26a0-424d-a03a-c17ad7ba03da"",
@@ -351,6 +360,17 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""RechargeFlashlight"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""be0d2d76-5521-4199-9a9c-6c2183136127"",
+                    ""path"": ""<Mouse>/scroll"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""ChangeAbilityMouse"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -422,6 +442,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
         m_Player_Flashlight = m_Player.FindAction("Flashlight", throwIfNotFound: true);
         m_Player_ChangeAbility = m_Player.FindAction("ChangeAbility ", throwIfNotFound: true);
+        m_Player_ChangeAbilityMouse = m_Player.FindAction("ChangeAbilityMouse", throwIfNotFound: true);
         m_Player_Crouch = m_Player.FindAction("Crouch", throwIfNotFound: true);
         m_Player_RechargeFlashlight = m_Player.FindAction("RechargeFlashlight", throwIfNotFound: true);
         // Menu
@@ -495,6 +516,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Interact;
     private readonly InputAction m_Player_Flashlight;
     private readonly InputAction m_Player_ChangeAbility;
+    private readonly InputAction m_Player_ChangeAbilityMouse;
     private readonly InputAction m_Player_Crouch;
     private readonly InputAction m_Player_RechargeFlashlight;
     public struct PlayerActions
@@ -508,6 +530,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         public InputAction @Interact => m_Wrapper.m_Player_Interact;
         public InputAction @Flashlight => m_Wrapper.m_Player_Flashlight;
         public InputAction @ChangeAbility => m_Wrapper.m_Player_ChangeAbility;
+        public InputAction @ChangeAbilityMouse => m_Wrapper.m_Player_ChangeAbilityMouse;
         public InputAction @Crouch => m_Wrapper.m_Player_Crouch;
         public InputAction @RechargeFlashlight => m_Wrapper.m_Player_RechargeFlashlight;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
@@ -540,6 +563,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @ChangeAbility.started += instance.OnChangeAbility;
             @ChangeAbility.performed += instance.OnChangeAbility;
             @ChangeAbility.canceled += instance.OnChangeAbility;
+            @ChangeAbilityMouse.started += instance.OnChangeAbilityMouse;
+            @ChangeAbilityMouse.performed += instance.OnChangeAbilityMouse;
+            @ChangeAbilityMouse.canceled += instance.OnChangeAbilityMouse;
             @Crouch.started += instance.OnCrouch;
             @Crouch.performed += instance.OnCrouch;
             @Crouch.canceled += instance.OnCrouch;
@@ -571,6 +597,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @ChangeAbility.started -= instance.OnChangeAbility;
             @ChangeAbility.performed -= instance.OnChangeAbility;
             @ChangeAbility.canceled -= instance.OnChangeAbility;
+            @ChangeAbilityMouse.started -= instance.OnChangeAbilityMouse;
+            @ChangeAbilityMouse.performed -= instance.OnChangeAbilityMouse;
+            @ChangeAbilityMouse.canceled -= instance.OnChangeAbilityMouse;
             @Crouch.started -= instance.OnCrouch;
             @Crouch.performed -= instance.OnCrouch;
             @Crouch.canceled -= instance.OnCrouch;
@@ -667,6 +696,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         void OnInteract(InputAction.CallbackContext context);
         void OnFlashlight(InputAction.CallbackContext context);
         void OnChangeAbility(InputAction.CallbackContext context);
+        void OnChangeAbilityMouse(InputAction.CallbackContext context);
         void OnCrouch(InputAction.CallbackContext context);
         void OnRechargeFlashlight(InputAction.CallbackContext context);
     }
