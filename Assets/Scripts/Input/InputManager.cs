@@ -124,19 +124,18 @@ public class InputManager : Singleton<InputManager>
 
     private void OnFlashlightPower(InputAction.CallbackContext context) => player.currentState?.HandleFlashlightPower();
 
-    private void OnChangeAbility(InputAction.CallbackContext context) =>
-        player.HandleChangeAbility((int)context.ReadValue<float>());
+    private void OnChangeAbility(InputAction.CallbackContext context) => player.HandleChangeAbility((int)context.ReadValue<float>());
     
     private void HandleScrollAbility(InputAction.CallbackContext context)
     {
         var scrollValue = context.ReadValue<Vector2>();
         if (scrollValue.y > 0 || scrollValue.x > 0)
         {
-            player.HandleChangeAbility(1);
+            player.HandleChangeAbility(1,true);
         }
         else if (scrollValue.y < 0 || scrollValue.x < 0)
         {
-            player.HandleChangeAbility(-1);
+            player.HandleChangeAbility(-1,true);
         }
     }
 

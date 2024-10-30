@@ -3,13 +3,14 @@ using System.Collections;
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
+using Utilities;
 using Random = UnityEngine.Random;
 
 public class FlashLight : MonoBehaviour
 {
     public GameEvent Event;
 
-    [Header("Base Flashlight Settings")] [SerializeField]
+    [field: Header("Base Flashlight Settings")] [SerializeField]
     private Color lightColor;
 
     [SerializeField] private float intensity;
@@ -17,7 +18,7 @@ public class FlashLight : MonoBehaviour
     [SerializeField] private float innerSpotAngle = 15f;
     [SerializeField] private float outerSpotAngle = 30f;
 
-    [Header("Battery Settings")] [SerializeField]
+    [field: Header("Battery Settings")] [SerializeField]
     private float baseCost;
 
     [SerializeField] private float minFlickerTime = 0.1f; // Minimum time between flickers
@@ -25,53 +26,54 @@ public class FlashLight : MonoBehaviour
 
     [field: SerializeField] public float BatteryLife { get; private set; }
 
-
     [field: SerializeField] public float MaxBatteryLife { get; private set; } = 100;
 
-    public float TotalBatteryLife => MaxBatteryLife + extraCharge;
 
     [SerializeField] private List<FlashlightAbility> flashlightAbilities;
 
-    public Transform RayCastOrigin => player.PlayerCam.transform;
-    public FlashlightAbility CurrentAbility { get; private set; }
+    [field: SerializeField] public LayerMask IgrnoreMask { get; private set; }
 
-    /*    public FlashlightAbility CurrentAbility
+    private FlashlightAbility _currentAbility;
+
+    public FlashlightAbility CurrentAbility
+    {
+        get => _currentAbility;
+        private set
         {
-            get => CurrentAbility;
-            private set
-            {
-                if (!CurrentAbility)
-                {
-                    Debug.LogWarning("No ability found trying to set nothing as current ability");
-                    return;
-                }
-                CurrentAbility = value;
+            _currentAbility = value;
 
+            if (!CurrentAbility)
+            {
+                Debug.LogWarning("No ability found trying to set nothing as current ability");
+            }
+            else
+            {
                 CurrentAbility.SetLight(Light);
             }
         }
-    */
+    }
+
+    public float TotalBatteryLife => MaxBatteryLife + extraCharge;
+
+    public Transform RayCastOrigin => player.PlayerCam.transform;
     public Light Light { get; private set; }
-
-    [field: SerializeField] public LayerMask IgrnoreMask { get; private set; }
-
+    public bool CanUseAbility { get; private set; } = true;
     public bool IsFlashlightOn { get; private set; }
 
-    private float flickerTimer;
     private float extraCharge;
-    private bool isFlickering;
 
+    private CountdownTimer flickerTimer;
     private PlayerController player;
 
     private List<IEffectable> effectedObjs = new();
     private HashSet<IEffectable> effectedObjsThisFrame = new();
 
-    public bool CanUseAbility { get; private set; } = true;
+    private Coroutine flickerCoroutine;
 
     private void Awake()
     {
         Light = GetComponent<Light>();
-
+        flickerTimer = new CountdownTimer(1f);
         IsFlashlightOn = Light.enabled;
         Light.intensity = intensity;
         Light.color = lightColor;
@@ -115,6 +117,7 @@ public class FlashLight : MonoBehaviour
 
     private void Update()
     {
+        flickerTimer?.Tick(Time.deltaTime);
         // Decrease BatteryLife continuously over time based on Cost per second
         if (IsFlashlightOn && !IsBatteryDead())
             Drain(baseCost * Time.deltaTime);
@@ -124,11 +127,14 @@ public class FlashLight : MonoBehaviour
         if (CurrentAbility)
             CurrentAbility.OnStopAbility();
 
-        if (!IsFlashlightOn || isFlickering) return;
+        if (IsFlashlightOn && flickerCoroutine == null)
+        {
+            flickerCoroutine = StartCoroutine(Flicker( 2f, TurnOffLight));
+            Event.SetTutorialText?.Invoke("Battery is Dead Press R to recharge"); //Ui to change battery
+        }
         // Turn off the flashlight
-        StartCoroutine(Flicker(1f, TurnOffLight));
-        Event.SetTutorialText?.Invoke("Battery is Dead Press R to recharge"); //Ui to change battery
     }
+
 
     private void CollectAbility(FlashlightAbility ability)
     {
@@ -171,6 +177,8 @@ public class FlashLight : MonoBehaviour
 
         if (!obj.TryGetComponent(out IEffectable effectable)) return;
 
+        effectedObjsThisFrame.Add(effectable);
+
         // Try to get both IRevealable and IMovable components
         var hasRevealable = obj.TryGetComponent(out IRevealable revealObj);
         var hashideable = obj.TryGetComponent(out IHideable hideObj);
@@ -183,6 +191,7 @@ public class FlashLight : MonoBehaviour
                 return;
             }
         }
+
 
         if (!effectedObjs.Contains(effectable))
         {
@@ -227,20 +236,42 @@ public class FlashLight : MonoBehaviour
         }
     }
 
-    public void HandleChangeAbility(int index)
+    public void HandleChangeAbility(int index, bool isScroll = false)
     {
-        var abilityNum = index - 1;
-        if (IsFlashlightOn && abilityNum < flashlightAbilities.Count)
+        if (!IsFlashlightOn || !CurrentAbility) return;
+
+        var currentIndex = flashlightAbilities.IndexOf(CurrentAbility);
+
+        if (isScroll)
         {
-            Debug.Log(abilityNum);
-            CurrentAbility?.OnStopAbility();
-            CurrentAbility = flashlightAbilities[abilityNum];
+            // determine scroll direction
+            switch (index)
+            {
+                case > 0: // Scroll up
+                    currentIndex = (currentIndex + 1) % flashlightAbilities.Count;
+                    break;
+                case < 0: // Scroll down
+                    currentIndex = (currentIndex - 1 + flashlightAbilities.Count) % flashlightAbilities.Count;
+                    break;
+            }
         }
         else
         {
-            Debug.Log("No ability found in slot");
+            // Direct selection, keyboard 1 , 2, 3 
+            currentIndex = index - 1;
+
+            if (currentIndex < 0 || currentIndex >= flashlightAbilities.Count)
+            {
+                Debug.Log("No ability found in slot");
+                return;
+            }
         }
+
+        // Stop current ability and set the new one
+        CurrentAbility?.OnStopAbility();
+        CurrentAbility = flashlightAbilities[currentIndex];
     }
+
 
     public void StopUsingFlashlight()
     {
@@ -253,7 +284,6 @@ public class FlashLight : MonoBehaviour
     private IEnumerator ResetLightState(float cooldown)
     {
         CanUseAbility = false;
-        Light.enabled = IsFlashlightOn = true;
         player.currentState?.HandleMove();
 
         var currentlIntensity = Light.intensity;
@@ -283,7 +313,7 @@ public class FlashLight : MonoBehaviour
         Light.enabled = IsFlashlightOn = false;
 
         //Remove effect on things
-        for (var i = 0; i < effectedObjs.Count; i++)
+        for (var i = effectedObjs.Count - 1; i >= 0; i--)
         {
             effectedObjs[i].RemoveEffect();
             effectedObjs.Remove(effectedObjs[i]);
@@ -300,6 +330,7 @@ public class FlashLight : MonoBehaviour
     {
         if (!IsBatteryDead())
         {
+            Light.enabled = IsFlashlightOn = true;
             ResetLight(1);
         }
         else
@@ -311,6 +342,8 @@ public class FlashLight : MonoBehaviour
 
     public void HandleFlashlightPower()
     {
+        if (IsBatteryDead()) return;
+        
         AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.FlashlightOnOff, transform.position);
 
         IsFlashlightOn = !IsFlashlightOn;
@@ -337,28 +370,25 @@ public class FlashLight : MonoBehaviour
                 break;
         }
 
-        effectedObjsThisFrame.Add(obj);
         effectedObjs.Add(obj);
     }
 
     private IEnumerator Flicker(float maxTime, Action onFlickerEnd)
     {
-        isFlickering = true;
-        var timer = 0f;
-        while (timer < maxTime)
+        flickerTimer.Reset(maxTime);
+        flickerTimer.Start();
+
+        while (!flickerTimer.IsFinished)
         {
             // Randomize the intensity
             Light.intensity = Mathf.PerlinNoise(0, intensity);
 
             // Randomize the time interval for the next flicker
-            flickerTimer = Random.Range(minFlickerTime, maxFlickerTime);
+            var time = Random.Range(minFlickerTime, maxFlickerTime);
 
-            timer += Time.deltaTime;
             // Wait for the next flicker
-            yield return new WaitForSeconds(flickerTimer);
+            yield return new WaitForSeconds(time);
         }
-
-        isFlickering = false;
 
         onFlickerEnd?.Invoke();
     }
@@ -375,6 +405,9 @@ public class FlashLight : MonoBehaviour
 
     private void Recharge()
     {
+        if (flickerCoroutine != null)
+            StopCoroutine(flickerCoroutine);
+
         CurrentAbility?.OnStopAbility();
         BatteryLife = MaxBatteryLife + extraCharge;
         Event.SetTutorialTextTimer?.Invoke("Battery Recharged");
