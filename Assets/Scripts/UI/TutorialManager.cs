@@ -10,7 +10,7 @@ public class TutorialManager : MonoBehaviour
 
     public GameEvent Event;
     public GlobalEventSO stunTutorial;
-    public GlobalEventSO moveTutorial;
+    public GlobalEventSO disappearTutorial;
     public GlobalEventSO flashlightOnTutorial;
     public GlobalEventSO flashlightOffTutorial;
     private CountdownTimer _countdownTimer;
@@ -23,7 +23,7 @@ public class TutorialManager : MonoBehaviour
     private void OnEnable()
     {
         stunTutorial.OnTriggerGlobalEvent += StunText;
-        moveTutorial.OnTriggerGlobalEvent += MoveText;
+        disappearTutorial.OnTriggerGlobalEvent += DisappearText;
         flashlightOnTutorial.OnTriggerGlobalEvent += FlashlightText;
         flashlightOffTutorial.OnTriggerGlobalEvent += FlashlightOffText;
         Event.SetTutorialText += SetText;
@@ -35,7 +35,7 @@ public class TutorialManager : MonoBehaviour
     private void OnDisable()
     {
         stunTutorial.OnTriggerGlobalEvent -= StunText;
-        moveTutorial.OnTriggerGlobalEvent -= MoveText;
+        disappearTutorial.OnTriggerGlobalEvent -= DisappearText;
         flashlightOnTutorial.OnTriggerGlobalEvent -= FlashlightText;
         flashlightOffTutorial.OnTriggerGlobalEvent -= FlashlightOffText;
         Event.SetTutorialText -= SetText;
@@ -69,9 +69,9 @@ public class TutorialManager : MonoBehaviour
     {
         SetTextTimer("Left click to stun");
     }
-    public void MoveText()
+    public void DisappearText()
     {
-        SetTextTimer("Hold down left mouse button to move highlighted objects");
+        SetTextTimer("Hold down left mouse button to make highlighted objects disappear");
     }
     public void FlashlightText()
     {
