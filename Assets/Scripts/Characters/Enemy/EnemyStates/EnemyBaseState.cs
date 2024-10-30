@@ -33,11 +33,7 @@ public abstract class EnemyBaseState
 
     public virtual void HandleParalise() 
     {
-        if (!enemy.Paralised)
-        {
-            enemy.Paralised = true;
-            enemy.ChangeState(enemy.ParalisedState);
-        }
+        enemy.ChangeState(enemy.ParalisedState);
     }
 
     public virtual void HandleChase()
