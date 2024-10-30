@@ -92,12 +92,12 @@ public class DisapearObject : MonoBehaviour, IHideable
             }
         }
 
-        if (currentObjTransp >= 0.8f)
+        if (currentObjTransp >= 0.7f)
         {
            revealSound.stop(STOP_MODE.IMMEDIATE);
             AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.FlashlightReveal, this.transform.position);
             objectRevealed.Invoke();
-            IsHidden = true;
+            IsHidden = true; 
             Destroy(this.gameObject);
         }
     }
