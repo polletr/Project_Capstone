@@ -169,7 +169,6 @@ public class ShadowEnemy : EnemyClass, IStunable
 
     public void ApplyEffect()
     {
-        Debug.Log("Paralise");
         currentState?.HandleParalise();
     }
 

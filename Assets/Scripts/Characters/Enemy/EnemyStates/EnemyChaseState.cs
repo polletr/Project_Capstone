@@ -47,8 +47,7 @@ public class EnemyChaseState : EnemyBaseState
             RotateToPlayer();
 
             // If within attack range, switch to attack state
-            if (Vector3.Distance(enemy.transform.position, enemy.playerCharacter.transform.position) <=
-                enemy.AttackRange)
+            if (Vector3.Distance(enemy.transform.position, enemy.playerCharacter.transform.position) <= enemy.AttackRange)
             {
                 enemy.ChangeState(enemy.AttackState);
             }

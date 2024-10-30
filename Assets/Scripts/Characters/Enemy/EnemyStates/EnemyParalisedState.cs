@@ -1,7 +1,10 @@
 using UnityEngine;
+using UnityEngine.AI;
+using Utilities;
 
 public class EnemyParalisedState : EnemyBaseState
 {
+    CountdownTimer countTimer;
     public EnemyParalisedState(ShadowEnemy enemyClass, EnemyAnimator enemyAnim)
         : base(enemyClass, enemyAnim) { }
 
@@ -13,6 +16,8 @@ public class EnemyParalisedState : EnemyBaseState
 
         enemyAnimator.animator.CrossFade(enemyAnimator.IdleHash, enemyAnimator.animationCrossFade);
 
+        countTimer = new CountdownTimer(8f);
+        countTimer.Start();
     }
     public override void ExitState()
     {
@@ -21,6 +26,7 @@ public class EnemyParalisedState : EnemyBaseState
 
     public override void StateUpdate()
     {
+        countTimer.Tick(Time.deltaTime);
         if (enemy.playerCharacter == null)
         {
             enemy.playerCharacter = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
@@ -40,8 +46,36 @@ public class EnemyParalisedState : EnemyBaseState
 
         // Smoothly rotate the enemy towards the player
         enemy.transform.rotation = Quaternion.Slerp(enemy.transform.rotation, lookRotation, Time.deltaTime * enemy.RotationSpeed);
+
+        if (countTimer.IsFinished)
+        {
+            TeleportToRandomPositionAroundPlayer();
+        }
     }
 
+    void TeleportToRandomPositionAroundPlayer()
+    {
+        Vector3 targetPosition = Vector3.zero;
+        Debug.Log("Teleport");
+        while (targetPosition == Vector3.zero)
+        {
+            // Generate a random direction and distance within the specified radius range
+            Vector3 randomDirection = Random.insideUnitSphere * 5f;
+            randomDirection += enemy.playerCharacter.transform.position;
+            // Ensure it's not closer than the minimum radius
+            if (Vector3.Distance(randomDirection, enemy.playerCharacter.transform.position) >= enemy.AttackRange * 1.5f)
+            {
+                // If CheckPath approves, set the position as the target
+                if (CheckPath(randomDirection))
+                {
+                    targetPosition = randomDirection;
+                }
+            }
+        }
+
+        enemy.StartCoroutine(enemy.TeleportEnemyWithDelay(targetPosition));
+        countTimer.Reset();
+    }
 
     public override void StateFixedUpdate()
     {
@@ -51,6 +85,12 @@ public class EnemyParalisedState : EnemyBaseState
     protected override void VisionDetection() { }
 
     protected override void OnSoundDetected(Vector3 soundPosition, float soundRange) { }
+
+    public override void HandleParalise()
+    {
+
+    }
+
 
 
 
