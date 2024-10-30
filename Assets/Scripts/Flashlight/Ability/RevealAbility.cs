@@ -31,7 +31,7 @@ public class RevealAbility : FlashlightAbility
             }
         }
 
-        Flashlight.ResetLight(0.1f);
+        Flashlight.ResetLight(0.5f);
     }
 
     private IEnumerator UseRevealAbility()

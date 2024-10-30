@@ -21678,7 +21678,7 @@ PrefabInstance:
     - target: {fileID: 2095272179484061901, guid: abe1644e14f4df945bbcd917df03a42f,
         type: 3}
       propertyPath: OnTriggerEvent.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2095272179484061901, guid: abe1644e14f4df945bbcd917df03a42f,
         type: 3}
@@ -21699,7 +21699,7 @@ PrefabInstance:
         type: 3}
       propertyPath: OnTriggerEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 468361484}
     - target: {fileID: 2095272179484061901, guid: abe1644e14f4df945bbcd917df03a42f,
         type: 3}
       propertyPath: OnTriggerEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -21718,7 +21718,7 @@ PrefabInstance:
     - target: {fileID: 2095272179484061901, guid: abe1644e14f4df945bbcd917df03a42f,
         type: 3}
       propertyPath: OnTriggerEvent.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: FlickerLight
+      value: OnTriggerGlobalEvent
       objectReference: {fileID: 0}
     - target: {fileID: 2095272179484061901, guid: abe1644e14f4df945bbcd917df03a42f,
         type: 3}
@@ -21728,7 +21728,7 @@ PrefabInstance:
     - target: {fileID: 2095272179484061901, guid: abe1644e14f4df945bbcd917df03a42f,
         type: 3}
       propertyPath: OnTriggerEvent.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: LightController, Assembly-CSharp
+      value: GlobalTrigger, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 2095272179484061901, guid: abe1644e14f4df945bbcd917df03a42f,
         type: 3}
@@ -21803,7 +21803,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8233318308910117196, guid: abe1644e14f4df945bbcd917df03a42f,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 468361484}
   m_SourcePrefab: {fileID: 100100000, guid: abe1644e14f4df945bbcd917df03a42f, type: 3}
 --- !u!4 &468361482 stripped
 Transform:
@@ -21817,6 +21821,19 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 468361481}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &468361484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 468361483}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bb60af3893a7bc4496cfcf153c018ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalEvent: {fileID: 11400000, guid: fca40bade891eb048819b5988af3ade2, type: 2}
 --- !u!1 &475570009
 GameObject:
   m_ObjectHideFlags: 0
