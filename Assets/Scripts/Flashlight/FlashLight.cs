@@ -13,11 +13,6 @@ public class FlashLight : MonoBehaviour
     [field: Header("Base Flashlight Settings")] [SerializeField]
     private Color lightColor;
 
-    [SerializeField] private float intensity;
-    [SerializeField] private float range;
-    [SerializeField] private float innerSpotAngle = 15f;
-    [SerializeField] private float outerSpotAngle = 30f;
-
     [field: Header("Battery Settings")] [SerializeField]
     private float baseCost;
 
@@ -75,11 +70,6 @@ public class FlashLight : MonoBehaviour
         Light = GetComponent<Light>();
         flickerTimer = new CountdownTimer(1f);
         IsFlashlightOn = Light.enabled;
-        Light.intensity = intensity;
-        Light.color = lightColor;
-        Light.spotAngle = outerSpotAngle;
-        Light.innerSpotAngle = innerSpotAngle;
-        Light.range = range;
 
         player = GetComponentInParent<PlayerController>();
 
@@ -100,6 +90,12 @@ public class FlashLight : MonoBehaviour
         }
 
         CurrentAbility = flashlightAbilities[0];
+        Light.intensity = CurrentAbility.BaseIntensity;
+        Light.color = CurrentAbility.BaseColor;
+        Light.spotAngle =CurrentAbility.BaseSpotAngle;
+        Light.innerSpotAngle = CurrentAbility.BaseInnerSpotAngle;
+        Light.range = CurrentAbility.BaseRange;
+
     }
 
     private void OnEnable()
@@ -171,7 +167,7 @@ public class FlashLight : MonoBehaviour
 
         effectedObjsThisFrame.Clear();
 
-        if (!Physics.Raycast(RayCastOrigin.position, RayCastOrigin.forward, out var hit, range)) return;
+        if (!Physics.Raycast(RayCastOrigin.position, RayCastOrigin.forward, out var hit, Light.range)) return;
 
         var obj = hit.collider.gameObject;
 
@@ -208,7 +204,7 @@ public class FlashLight : MonoBehaviour
 
         // Ray and range definition
         var origin = player.PlayerCam.transform.position;
-        var direction = player.PlayerCam.transform.forward * range;
+        var direction = player.PlayerCam.transform.forward * Light.range;
 
         // Calculate the end point of the SphereCast
         var endPoint = origin + direction;
@@ -295,11 +291,11 @@ public class FlashLight : MonoBehaviour
         var timer = 0f;
         while (timer < cooldown)
         {
-            Light.intensity = Mathf.Lerp(currentlIntensity, intensity, timer / cooldown);
-            Light.color = Color.Lerp(currentColor, lightColor, timer / cooldown);
-            Light.range = Mathf.Lerp(currentRange, range, timer / cooldown);
-            Light.spotAngle = Mathf.Lerp(currentSpotAngle, outerSpotAngle, timer / cooldown);
-            Light.innerSpotAngle = Mathf.Lerp(currentInnerSpotAngle, innerSpotAngle, timer / cooldown);
+            Light.intensity = Mathf.Lerp(currentlIntensity, CurrentAbility.BaseIntensity, timer / cooldown);
+            Light.color = Color.Lerp(currentColor, CurrentAbility.BaseColor, timer / cooldown);
+            Light.range = Mathf.Lerp(currentRange, CurrentAbility.BaseRange, timer / cooldown);
+            Light.spotAngle = Mathf.Lerp(currentSpotAngle, CurrentAbility.BaseSpotAngle, timer / cooldown);
+            Light.innerSpotAngle = Mathf.Lerp(currentInnerSpotAngle, CurrentAbility.BaseInnerSpotAngle, timer / cooldown);
 
             timer += Time.deltaTime;
             yield return null;
@@ -381,7 +377,7 @@ public class FlashLight : MonoBehaviour
         while (!flickerTimer.IsFinished)
         {
             // Randomize the intensity
-            Light.intensity = Mathf.PerlinNoise(0, intensity);
+            Light.intensity = Mathf.PerlinNoise(0, CurrentAbility.BaseIntensity);
 
             // Randomize the time interval for the next flicker
             var time = Random.Range(minFlickerTime, maxFlickerTime);
