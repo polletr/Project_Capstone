@@ -33,23 +33,24 @@ public class FlashLight : MonoBehaviour
     [SerializeField] private List<FlashlightAbility> flashlightAbilities;
 
     public Transform RayCastOrigin => player.PlayerCam.transform;
+    public FlashlightAbility CurrentAbility { get; private set; }
 
-    public FlashlightAbility CurrentAbility
-    {
-        get => CurrentAbility;
-        private set
+    /*    public FlashlightAbility CurrentAbility
         {
-            CurrentAbility = value;
-            if (!CurrentAbility)
+            get => CurrentAbility;
+            private set
             {
-                Debug.LogWarning("No ability found trying to set nothing as current ability");
-                return;
+                if (!CurrentAbility)
+                {
+                    Debug.LogWarning("No ability found trying to set nothing as current ability");
+                    return;
+                }
+                CurrentAbility = value;
+
+                CurrentAbility.SetLight(Light);
             }
-
-            CurrentAbility.SetLight(Light);
         }
-    }
-
+    */
     public Light Light { get; private set; }
 
     [field: SerializeField] public LayerMask IgrnoreMask { get; private set; }
