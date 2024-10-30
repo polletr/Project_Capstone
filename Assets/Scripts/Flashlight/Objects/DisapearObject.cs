@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
+
+[RequireComponent(typeof(Outline))]
 
 public class DisapearObject : MonoBehaviour, IHideable
 {
@@ -25,6 +28,8 @@ public class DisapearObject : MonoBehaviour, IHideable
     private float revealTimer;
     private float currentObjTransp = 0f;
 
+    private Outline outline;
+
     private void Awake()
     {
         // Find and store all MeshRenderers in the object's hierarchy
@@ -36,20 +41,24 @@ public class DisapearObject : MonoBehaviour, IHideable
         {
             originalMaterials[renderer] = renderer.materials;
         }
-        
+
+        outline = GetComponent<Outline>();
+
         revealSound = AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.FlashlightRevealing);
     }
 
     public void ApplyEffect()
     {
         OnApplyEffect.Invoke();
+        outline.AppyOutlineEffect();
     }
 
     public void RemoveEffect()
     {
         OnRemoveEffect.Invoke();
+        outline.RemoveOutlineEffect();
     }
-    
+
     public void HideObj(out bool revealed)
     {
         StopAllCoroutines();
