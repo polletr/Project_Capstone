@@ -8,6 +8,7 @@ using UnityEngine.Events;
 public class DisapearObject : MonoBehaviour, IHideable
 {
        private List<MeshRenderer> meshRenderers = new ();
+       private Dictionary<MeshRenderer, Material[]> originalMaterials = new Dictionary<MeshRenderer, Material[]>();
 
     [SerializeField] private Material dissolveMaterial;
     [SerializeField] private float revealTime;
@@ -27,7 +28,14 @@ public class DisapearObject : MonoBehaviour, IHideable
     private void Awake()
     {
         // Find and store all MeshRenderers in the object's hierarchy
+        
         meshRenderers.AddRange(GetComponentsInChildren<MeshRenderer>());
+        
+        // Store original materials for each MeshRenderer
+        foreach (var renderer in meshRenderers)
+        {
+            originalMaterials[renderer] = renderer.materials;
+        }
         
         revealSound = AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.FlashlightRevealing);
     }
@@ -112,6 +120,8 @@ public class DisapearObject : MonoBehaviour, IHideable
             yield return null;
         }
         
+        SetOriginalMaterials();
+        
         IsHidden = false;
     }
 
@@ -125,6 +135,18 @@ public class DisapearObject : MonoBehaviour, IHideable
                 materials[i] = material;
             }
             renderer.materials = materials;
+        }
+    }
+    
+    private void SetOriginalMaterials()
+    {
+        foreach (var renderer in meshRenderers)
+        {
+            if (originalMaterials.TryGetValue(renderer, out var material))
+            {
+                renderer.materials = material;
+                renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
+            }
         }
     }
     

@@ -65,7 +65,7 @@ public class PlayerDeathState : PlayerBaseState
             Quaternion lookRotation = Quaternion.LookRotation(direction);
             Player.PlayerCam.transform.rotation = Quaternion.Slerp(Player.PlayerCam.transform.rotation, lookRotation, 7 * Time.deltaTime);
 
-            player.PlayerCam.fieldOfView = Mathf.Lerp(player.PlayerCam.fieldOfView, 25, 7 * Time.deltaTime);
+            Player.PlayerCam.fieldOfView = Mathf.Lerp(Player.PlayerCam.fieldOfView, 25, 7 * Time.deltaTime);
             if (blackscreenTimer.IsFinished)
             {
                 Player.Event.OnFadeBlackScreen?.Invoke();

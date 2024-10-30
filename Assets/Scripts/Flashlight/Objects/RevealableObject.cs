@@ -6,6 +6,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
+[RequireComponent(typeof(Outline))]
 public class RevealableObject : MonoBehaviour, IRevealable
 {
     private List<MeshRenderer> meshRenderers = new List<MeshRenderer>();
@@ -27,6 +28,8 @@ public class RevealableObject : MonoBehaviour, IRevealable
     private float revealTimer;
     private float currentObjTransp;
 
+    private Outline outline;
+
     private void Awake()
     {
         // Find and store all MeshRenderers in the object's hierarchy
@@ -40,23 +43,27 @@ public class RevealableObject : MonoBehaviour, IRevealable
             renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
         }
 
+        outline = GetComponent<Outline>();
         revealSound = AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.FlashlightRevealing);
     }
 
     public void ApplyEffect()
     {
         OnApplyEffect.Invoke();
+        outline.AppyOutlineEffect();
     }
 
     public void RemoveEffect()
     {
         OnRemoveEffect.Invoke();
+        outline.RemoveOutlineEffect();
     }
 
     public void SuddenReveal()
     {
         gameObject.SetActive(true);
-        AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.SuddenAppear, this.transform.position);
+        AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.SuddenAppear,
+            this.transform.position);
     }
 
     public void RevealObj(out bool revealed)
@@ -68,7 +75,6 @@ public class RevealableObject : MonoBehaviour, IRevealable
 
     private void RevealFunction()
     {
-
         if (!IsRevealed)
         {
             // Set dissolve material for all renderers
@@ -101,8 +107,10 @@ public class RevealableObject : MonoBehaviour, IRevealable
             {
                 GetComponent<IndicatorHandler>().enabled = true;
             }
+
             revealSound.stop(STOP_MODE.IMMEDIATE);
-            AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.FlashlightReveal, this.transform.position);
+            AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.FlashlightReveal,
+                this.transform.position);
             objectRevealed.Invoke();
             IsRevealed = true;
         }
@@ -147,6 +155,7 @@ public class RevealableObject : MonoBehaviour, IRevealable
             {
                 materials[i] = material;
             }
+
             renderer.materials = materials;
         }
     }

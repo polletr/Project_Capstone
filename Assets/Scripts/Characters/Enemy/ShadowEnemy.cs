@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class ShadowEnemy : EnemyClass, IStunnable
+public class ShadowEnemy : EnemyClass, IStunable
 {
     public Vector3 PatrolCenterPos { get; set; }
     public PlayerController playerCharacter { get; set; }

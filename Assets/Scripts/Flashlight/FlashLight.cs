@@ -21,8 +21,6 @@ public class FlashLight : MonoBehaviour
     [Header("Battery Settings")] [SerializeField]
     private float baseCost;
 
-    [SerializeField] private float minBatteryAfterUse;
-
     [SerializeField] private float minFlickerTime = 0.1f; // Minimum time between flickers
     [SerializeField] private float maxFlickerTime = 0.5f; // Maximum time between flickers
 
@@ -43,11 +41,11 @@ public class FlashLight : MonoBehaviour
     [field: SerializeField] public LayerMask IgrnoreMask { get; private set; }
 
     public bool IsFlashlightOn { get; private set; }
-  
+
     private float flickerTimer;
     private float extraCharge;
     private bool isFlickering;
-    
+
     private PlayerController player;
 
     private List<IEffectable> effectedObjs = new();
@@ -57,7 +55,6 @@ public class FlashLight : MonoBehaviour
 
     private void Awake()
     {
-        
         Light = GetComponent<Light>();
 
         IsFlashlightOn = Light.enabled;
@@ -161,9 +158,17 @@ public class FlashLight : MonoBehaviour
         if (!obj.TryGetComponent(out IEffectable effectable)) return;
 
         // Try to get both IRevealable and IMovable components
-        var hasRevealable = obj.TryGetComponent(out IRevealable revealObj);
+        var hasRevealable = obj.TryGetComponent(out IRevealable revealObj); 
+        var hashideable = obj.TryGetComponent(out IHideable hideObj);
+
         // Apply the reveal effect if not revealed && check if it has a movable component
-        if (hasRevealable && revealObj.IsRevealed) return;
+        if (hasRevealable && revealObj.IsRevealed)
+        {
+            if (!hashideable)
+            {
+                return;
+            }
+        }
 
         if (!effectedObjs.Contains(effectable))
         {
@@ -197,8 +202,7 @@ public class FlashLight : MonoBehaviour
 
     public void HandleAbility()
     {
-        Debug.Log("CanUseAbility: " + CanUseAbility);
-        if (CurrentAbility != null && IsFlashlightOn && BatteryLife - CurrentAbility.Cost > minBatteryAfterUse && CanUseAbility)
+        if (CurrentAbility != null && !IsBatteryDead() &&IsFlashlightOn && CanUseAbility)
         {
             CurrentAbility.OnUseAbility();
             CanUseAbility = false;
@@ -256,6 +260,7 @@ public class FlashLight : MonoBehaviour
             timer += Time.deltaTime;
             yield return null;
         }
+
         CanUseAbility = true;
     }
 
@@ -303,7 +308,21 @@ public class FlashLight : MonoBehaviour
 
     private void ApplyCurrentAbilityEffect(IEffectable obj)
     {
-        obj.ApplyEffect();
+        switch (obj)
+        {
+            case IRevealable revealable:
+                if (CurrentAbility is RevealAbility)
+                    obj.ApplyEffect();
+                break;
+            case IHideable hideable:
+                if (CurrentAbility is DisapearAbility)
+                    obj.ApplyEffect();
+                break;
+            default:
+                obj.ApplyEffect();
+                break;
+        }
+
         effectedObjsThisFrame.Add(obj);
         effectedObjs.Add(obj);
     }
@@ -377,7 +396,7 @@ public class FlashLight : MonoBehaviour
         }
 
         ResetLight(cooldown);
-        
+
         CanUseAbility = true;
     }
 }

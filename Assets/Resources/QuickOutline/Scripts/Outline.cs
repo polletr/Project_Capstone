@@ -24,6 +24,7 @@ public class Outline : MonoBehaviour {
     SilhouetteOnly
   }
 
+  [SerializeField] private bool applyOutline;
   public Mode OutlineMode {
     get { return outlineMode; }
     set {
@@ -97,9 +98,11 @@ public class Outline : MonoBehaviour {
 
     // Apply material properties immediately
     needsUpdate = true;
+    if(applyOutline)
+      AppyOutlineEffect();
   }
 
-  void OnEnable() {
+ public void AppyOutlineEffect() {
     foreach (var renderer in renderers) {
 
       // Append outline shaders
@@ -137,7 +140,7 @@ public class Outline : MonoBehaviour {
     }
   }
 
-  void OnDisable() {
+ public void RemoveOutlineEffect() {
     foreach (var renderer in renderers) {
 
       // Remove outline shaders
