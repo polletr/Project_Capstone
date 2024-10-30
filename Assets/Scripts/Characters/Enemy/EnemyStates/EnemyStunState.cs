@@ -20,7 +20,7 @@ public class EnemyStunState : EnemyBaseState
         countdownTimer.Start();
         enemy.StopAllCoroutines();
         enemy.StartCoroutine(enemy.EnemyTransparency(0f));
-        enemy.SmokeParticle.Play();
+        //enemy.SmokeParticle.Play();
         enemy.EnemyCollider.enabled = false;
         enemy.currentAudio.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
 
@@ -29,7 +29,7 @@ public class EnemyStunState : EnemyBaseState
     {
         enemy.StopAllCoroutines();
         enemy.StartCoroutine(enemy.EnemyTransparency(0.9f));
-        enemy.SmokeParticle.Play();
+        //enemy.SmokeParticle.Play();
         enemy.EnemyCollider.enabled = true;
     }
 

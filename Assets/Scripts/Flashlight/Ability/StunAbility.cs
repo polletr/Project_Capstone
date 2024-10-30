@@ -42,20 +42,22 @@ public class StunAbility : FlashlightAbility
             PlayerBatteryUIHandler.Instance.FlickerBatteryUIOnce();
 
         var ray = new Ray(Flashlight.RayCastOrigin.position, Flashlight.RayCastOrigin.forward);
+        RaycastHit[] hits = Physics.SphereCastAll(ray, effectRadius, stunRange);
 
-        var hits = new RaycastHit[10];
-        var size = Physics.SphereCastNonAlloc(ray, effectRadius, hits,stunRange, Flashlight.IgrnoreMask);
-
-        for (var i = 0; i < size; i++)
+        if (hits.Length > 0)
         {
-            var hit = hits[i];
-            if (!hit.collider) continue;
-            var obj = hit.collider.gameObject;
+            foreach (var hit in hits)
+            {
+                var obj = hit.collider.gameObject;
+                Debug.Log("Hit object: " + obj.name);
 
-            if (obj.TryGetComponent(out IStunable thing))
-                thing.ApplyStunEffect();
+                if (obj.TryGetComponent(out IStunable thing))
+                {
+                    thing.ApplyStunEffect();
+                    Debug.Log("Apply Stun from Flashlight on " + obj.name);
+                }
+            }
         }
-
         flashSound = AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.FlashlightStun);
         flashSound.start();
         Flashlight.ConsumeBattery(Cost);

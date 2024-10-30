@@ -164,6 +164,7 @@ public class ShadowEnemy : EnemyClass, IStunable
 
     public void ApplyStunEffect()
     {
+        Debug.Log("Enemy Received Stun");
         currentState?.HandleStun();
     }
 

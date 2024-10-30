@@ -17,8 +17,6 @@ public class EnemyParalisedState : EnemyBaseState
 
         enemyAnimator.animator.CrossFade(enemyAnimator.IdleHash, enemyAnimator.animationCrossFade);
 
-        Debug.Log("ParaliseState Enter");
-
         countTimer = new CountdownTimer(5f);
         countTimer.Start();
     }
@@ -50,7 +48,6 @@ public class EnemyParalisedState : EnemyBaseState
         // Smoothly rotate the enemy towards the player
         enemy.transform.rotation = Quaternion.Slerp(enemy.transform.rotation, lookRotation, Time.deltaTime * enemy.RotationSpeed);
 
-        Debug.Log(countTimer.Progress);
         if (countTimer.IsFinished)
         {
             TeleportToRandomPositionAroundPlayer();
