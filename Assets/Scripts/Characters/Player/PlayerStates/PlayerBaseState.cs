@@ -98,9 +98,7 @@ public abstract class PlayerBaseState
         );
     }
 
-    public virtual void HandleRecharge()
-    {
-    }
+    public virtual void HandleRecharge() { }
 
     public virtual void HandleAttack(bool held)
     {
@@ -141,7 +139,7 @@ public abstract class PlayerBaseState
         if (Player.HasFlashlight)
             Player.flashlight.HandleFlashlightPower();
     }
-
+    
     public virtual void HandleLookAround(Vector2 dir, InputDevice device)
     {
         var sensitivityMultilayer = Player.Settings.cameraSensitivityMouse;
@@ -177,6 +175,10 @@ public abstract class PlayerBaseState
         }
     }
 
+    public virtual void HandleDeath()
+    {
+        Player.ChangeState(Player.DeathState);
+    }
 
     protected virtual void StepsSound()
     {
@@ -202,10 +204,6 @@ public abstract class PlayerBaseState
         }
     }
 
-    public virtual void HandleDeath()
-    {
-        Player.ChangeState(Player.DeathState);
-    }
 
     public virtual void CheckInteractionUI()
     {

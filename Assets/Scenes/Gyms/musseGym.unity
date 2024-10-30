@@ -167,6 +167,7 @@ GameObject:
   - component: {fileID: 41283619}
   - component: {fileID: 41283618}
   - component: {fileID: 41283620}
+  - component: {fileID: 41283621}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -235,6 +236,25 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &41283621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 41283617}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  applyOutline: 0
+  outlineMode: 0
+  outlineColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineWidth: 2
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!1 &47179572
 GameObject:
   m_ObjectHideFlags: 0
@@ -1799,7 +1819,6 @@ GameObject:
   - component: {fileID: 708140163}
   - component: {fileID: 708140162}
   - component: {fileID: 708140161}
-  - component: {fileID: 708140160}
   - component: {fileID: 708140159}
   m_Layer: 0
   m_Name: Cube_7
@@ -1820,24 +1839,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  applyOutline: 0
   outlineMode: 0
   outlineColor: {r: 1, g: 1, b: 1, a: 1}
   outlineWidth: 2
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
---- !u!114 &708140160
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 708140158}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1c70645afa08184c84fcb953202cfbc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &708140161
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2291,11 +2299,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Cost>k__BackingField: 10
   <Cooldown>k__BackingField: 10
+  <AbilityBuildUpTime>k__BackingField: 0
   <AbilityIntensity>k__BackingField: 50
   <AbilityColor>k__BackingField: {r: 0, g: 0, b: 0, a: 0}
   <AbilitySpotAngle>k__BackingField: 0
   <AbilityInnerSpotAngle>k__BackingField: 0
-  <AbilityBuildUpTime>k__BackingField: 0
+  <BaseIntensity>k__BackingField: 0
+  <BaseColor>k__BackingField: {r: 0, g: 0, b: 0, a: 0}
+  <BaseSpotAngle>k__BackingField: 0
+  <BaseInnerSpotAngle>k__BackingField: 0
   interactRange: 3
 --- !u!1 &819500451
 GameObject:
@@ -3570,12 +3582,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Cost>k__BackingField: 1
   <Cooldown>k__BackingField: 5
+  <AbilityBuildUpTime>k__BackingField: 2
   <AbilityIntensity>k__BackingField: 100
   <AbilityColor>k__BackingField: {r: 1, g: 0.504717, b: 0.504717, a: 1}
   <AbilitySpotAngle>k__BackingField: 100
   <AbilityInnerSpotAngle>k__BackingField: 60
-  <AbilityBuildUpTime>k__BackingField: 2
+  <BaseIntensity>k__BackingField: 0
+  <BaseColor>k__BackingField: {r: 0, g: 0, b: 0, a: 0}
+  <BaseSpotAngle>k__BackingField: 0
+  <BaseInnerSpotAngle>k__BackingField: 0
   effectRadius: 10
+  stunRange: 0
   buildUpColor: {r: 1, g: 0, b: 0, a: 1}
   buildUpIntensity: 10
   buildUpSpotAngle: 10
@@ -4998,8 +5015,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6078618007356151088, guid: bedc4c315612c0d429f32fda2e727742,
         type: 3}
+      propertyPath: maxFlickerTime
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6078618007356151088, guid: bedc4c315612c0d429f32fda2e727742,
+        type: 3}
+      propertyPath: minFlickerTime
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6078618007356151088, guid: bedc4c315612c0d429f32fda2e727742,
+        type: 3}
       propertyPath: outerSpotAngle
       value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 6078618007356151088, guid: bedc4c315612c0d429f32fda2e727742,
+        type: 3}
+      propertyPath: <BatteryLife>k__BackingField
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6078618007356151088, guid: bedc4c315612c0d429f32fda2e727742,
+        type: 3}
+      propertyPath: <IgrnoreMask>k__BackingField.m_Bits
+      value: 1535
       objectReference: {fileID: 0}
     - target: {fileID: 6159023357845122311, guid: bedc4c315612c0d429f32fda2e727742,
         type: 3}

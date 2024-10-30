@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class StunAbility : FlashlightAbility
 {
-    
+    [field: Header("Stun Ability Settings")]
     [SerializeField] private float effectRadius;
+    [SerializeField] private float stunRange;
 
     [Header("Build Up Properties")]
     [SerializeField] private Color buildUpColor;
@@ -17,7 +18,6 @@ public class StunAbility : FlashlightAbility
 
     public override void OnUseAbility()
     {
-        
         StartCoroutine(StartStunAttack());
     }
 
@@ -41,10 +41,10 @@ public class StunAbility : FlashlightAbility
         if (!PlayerBatteryUIHandler.Instance)
             PlayerBatteryUIHandler.Instance.FlickerBatteryUIOnce();
 
-        var ray = new Ray(Flashlight.RayCastOrigin.position, Flashlight.RayCastOrigin.forward * Flashlight.Light.range);
+        var ray = new Ray(Flashlight.RayCastOrigin.position, Flashlight.RayCastOrigin.forward);
 
         var hits = new RaycastHit[10];
-        var size = Physics.SphereCastNonAlloc(ray, effectRadius, hits, Flashlight.Light.range, Flashlight.IgrnoreMask);
+        var size = Physics.SphereCastNonAlloc(ray, effectRadius, hits,stunRange, Flashlight.IgrnoreMask);
 
         for (var i = 0; i < size; i++)
         {
