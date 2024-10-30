@@ -13,6 +13,7 @@ public class EnemyStunState : EnemyBaseState
 
     public override void EnterState()
     {
+        enemy.OnStunEnemy?.Invoke();
         enemy.agent.ResetPath();
         enemyAnimator.animator.Play(enemyAnimator.StunHash);
 

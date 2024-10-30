@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
 
 public class ShadowEnemy : EnemyClass, IStunable
 {
@@ -15,6 +16,8 @@ public class ShadowEnemy : EnemyClass, IStunable
 
     [SerializeField] private List<Transform> patrolTransforms = new List<Transform>();
     [SerializeField] private Transform eyes;
+
+    public UnityEvent OnStunEnemy;
 
     public List<Transform> PatrolTransforms
     {

@@ -300,17 +300,16 @@ PrefabInstance:
       propertyPath: outerSpotAngle
       value: 40
       objectReference: {fileID: 0}
-    - target: {fileID: 6442637019191904758, guid: bedc4c315612c0d429f32fda2e727742,
+    - target: {fileID: 6327931661740232474, guid: bedc4c315612c0d429f32fda2e727742,
         type: 3}
-      propertyPath: near clip plane
-      value: 0.1
+      propertyPath: m_Radius
+      value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 8899544617467568975, guid: bedc4c315612c0d429f32fda2e727742,
+    - target: {fileID: 6327931661740232474, guid: bedc4c315612c0d429f32fda2e727742,
         type: 3}
-      propertyPath: Settings
-      value: 
-      objectReference: {fileID: 11400000, guid: 6c1fe679afe4f6940bf9f584de87a40b,
-        type: 2}
+      propertyPath: m_SlopeLimit
+      value: 45
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 5126299387504130228, guid: bedc4c315612c0d429f32fda2e727742, type: 3}
     m_RemovedGameObjects: []
@@ -2770,7 +2769,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Switch Ability using mouse wheel or 1-2-3
+          m_StringArgument: Switch Lens using mouse wheel or 1-2-3
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!1 &1181058625
@@ -3268,7 +3267,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 1
-  m_AdditionalShaderChannelsFlag: 7
+  m_AdditionalShaderChannelsFlag: 31
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
