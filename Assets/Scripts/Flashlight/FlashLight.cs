@@ -264,7 +264,6 @@ public class FlashLight : MonoBehaviour
         }
 
         // Stop current ability and set the new one
-        CurrentAbility?.OnStopAbility();
         CurrentAbility = flashlightAbilities[currentIndex];
     }
 

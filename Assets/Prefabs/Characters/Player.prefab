@@ -658,6 +658,11 @@ PrefabInstance:
       propertyPath: <MoveHoldPos>k__BackingField
       value: 
       objectReference: {fileID: 4951786870922293375}
+    - target: {fileID: 7975032335739277217, guid: 496e78c0edf97f547bf9faf26f2fd312,
+        type: 3}
+      propertyPath: <IgrnoreMask>k__BackingField.m_Bits
+      value: 516
+      objectReference: {fileID: 0}
     - target: {fileID: 9066539181010035237, guid: 496e78c0edf97f547bf9faf26f2fd312,
         type: 3}
       propertyPath: cooldown
@@ -696,8 +701,43 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 4951786870922293375}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1672501090496924268, guid: 496e78c0edf97f547bf9faf26f2fd312,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5870104793921713537}
   m_SourcePrefab: {fileID: 100100000, guid: 496e78c0edf97f547bf9faf26f2fd312, type: 3}
+--- !u!1 &3297617451062792445 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1672501090496924268, guid: 496e78c0edf97f547bf9faf26f2fd312,
+    type: 3}
+  m_PrefabInstance: {fileID: 4248749843582802577}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5870104793921713537
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3297617451062792445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1eeb6d8a18340e489b1e0a5bfc9fdd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Cost>k__BackingField: 10
+  <Cooldown>k__BackingField: 10
+  <AbilityBuildUpTime>k__BackingField: 2
+  <AbilityIntensity>k__BackingField: 50
+  <AbilityColor>k__BackingField: {r: 0.98377347, g: 1, b: 0.3915094, a: 1}
+  <AbilitySpotAngle>k__BackingField: 60
+  <AbilityInnerSpotAngle>k__BackingField: 30
+  <BaseIntensity>k__BackingField: 10
+  <BaseColor>k__BackingField: {r: 1, g: 0.9908078, b: 0.64716977, a: 1}
+  <BaseSpotAngle>k__BackingField: 40
+  <BaseInnerSpotAngle>k__BackingField: 20
+  <BaseRange>k__BackingField: 10
+  interactRange: 3
 --- !u!4 &3576279339221103449 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 817377376301771208, guid: 496e78c0edf97f547bf9faf26f2fd312,
