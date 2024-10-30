@@ -1,5 +1,4 @@
 using System;
-using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 [CreateAssetMenu(menuName = "GameSO/User Container", fileName = "PlayerPrefs"), Serializable]
 public class PlayerSettings : ScriptableObject
