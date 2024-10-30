@@ -10,18 +10,21 @@ public class EnemyParalisedState : EnemyBaseState
 
     public override void EnterState()
     {
+        enemy.Paralised = true;
         enemy.agent.ResetPath();
 
         enemy.agent.speed = enemy.ParalisedSpeed;
 
         enemyAnimator.animator.CrossFade(enemyAnimator.IdleHash, enemyAnimator.animationCrossFade);
 
-        countTimer = new CountdownTimer(8f);
+        Debug.Log("ParaliseState Enter");
+
+        countTimer = new CountdownTimer(5f);
         countTimer.Start();
     }
     public override void ExitState()
     {
-
+        enemy.Paralised = false;
     }
 
     public override void StateUpdate()
@@ -47,6 +50,7 @@ public class EnemyParalisedState : EnemyBaseState
         // Smoothly rotate the enemy towards the player
         enemy.transform.rotation = Quaternion.Slerp(enemy.transform.rotation, lookRotation, Time.deltaTime * enemy.RotationSpeed);
 
+        Debug.Log(countTimer.Progress);
         if (countTimer.IsFinished)
         {
             TeleportToRandomPositionAroundPlayer();
@@ -57,6 +61,7 @@ public class EnemyParalisedState : EnemyBaseState
     {
         Vector3 targetPosition = Vector3.zero;
         Debug.Log("Teleport");
+
         while (targetPosition == Vector3.zero)
         {
             // Generate a random direction and distance within the specified radius range

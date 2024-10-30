@@ -175,10 +175,7 @@ public class ShadowEnemy : EnemyClass, IStunable
     public void RemoveEffect()
     {
         if (Paralised)
-        {
             currentState?.HandleChase();
-            Paralised = false;
-        }
     }
 
     public virtual void Attack()
