@@ -33,7 +33,7 @@ public class DisapearAbility : FlashlightAbility
         }
 
 
-        Flashlight.ResetLight(Cooldown);
+        Flashlight.ResetLight(1);
     }
 
     private IEnumerator UseDisappearAbility()
@@ -41,6 +41,7 @@ public class DisapearAbility : FlashlightAbility
         var isRevealed = false;
         while (!isRevealed)
         {
+          
             if (Physics.Raycast(Flashlight.RayCastOrigin.position, Flashlight.RayCastOrigin.forward, out var hit, interactRange))
             {
                 if (hit.collider.TryGetComponent(out DisapearObject obj))
@@ -77,7 +78,7 @@ public class DisapearAbility : FlashlightAbility
 
         currentObj = null;
         Flashlight.ConsumeBattery(Cost);
-        OnStopAbility();
+        Flashlight.ResetLight(Cooldown);
     }
 
     private IEnumerator ChangeRevealLight()
