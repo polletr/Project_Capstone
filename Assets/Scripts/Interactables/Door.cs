@@ -213,7 +213,7 @@ public class Door : Interactable
         //Think about opening sounds dependant on the speed
     }
 
-    public void OnCloseDoor(float speed)
+    public void OnCloseDoor(float speed = 0.8f)
     {
         CloseDoor(speed);
         //Think about opening sounds dependant on the speed
@@ -225,7 +225,9 @@ public class Door : Interactable
         isLocked = islockedDoor;
         if (indicatorHandler != null)
             indicatorHandler.IndicatorUI.SetLockedIndicator(islockedDoor);
-        AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.UnlockDoor, transform.position);
+
+        if (!isLocked)
+            AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.UnlockDoor, transform.position);
     }
 
 }

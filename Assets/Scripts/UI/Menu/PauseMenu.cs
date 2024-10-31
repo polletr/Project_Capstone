@@ -63,4 +63,9 @@ public class PauseMenu : Menu
         Cursor.visible = true;
         SceneManager.LoadScene(0);
     }
+
+    public void OnGiveFeedback()
+    {
+        Application.OpenURL("https://forms.gle/9ptFvdmDXz5eSe5y9");
+    }
 }

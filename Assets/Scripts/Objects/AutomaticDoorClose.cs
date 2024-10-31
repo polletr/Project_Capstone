@@ -1,32 +1,64 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using Utilities;
 
 public class AutomaticDoorClose : MonoBehaviour
 {
-   // [SerializeField] private Door doorScript;
+    [SerializeField] DoorCloseTrigger triggerA;
+    [SerializeField] DoorCloseTrigger triggerB;
+    [SerializeField] float timeToCloseDoor;
 
-    // private void OnTriggerExit(Collider other)
-    // {
-    //     if (other.GetComponent<PlayerController>())
-    //     {
-    //         Debug.Log("Call Close");
-    //         doorScript?.OnCloseDoor(5f);
-    //     }
-    // }
-    public void DoorCloserEntered(Collider other, Vector3 forward)
+    Door door;
+    private CountdownTimer countdownTimer;
+    private Coroutine closeDoorCoroutine;
+    private void Awake()
     {
-        if (other.TryGetComponent<PlayerController>(out PlayerController player))
+        door = GetComponent<Door>();
+        countdownTimer = new CountdownTimer(timeToCloseDoor);
+    }
+
+    public void StartCountdownToCloseDoor()
+    {
+        if (door.IsOpen)
         {
-            var cController = other.GetComponent<CharacterController>();
-            var newVelocity = new Vector3(cController.velocity.z, 0, cController.velocity.x);
-            if (Vector3.Dot( newVelocity, forward) < 0)
-                return;
-            Door door = GetComponent<Door>();
-            if (door == null || !door.isActiveAndEnabled)
-                return;
-            if(!door.Rotating && door.IsOpen)
-                door?.OnCloseDoor(5f);
+            if (closeDoorCoroutine != null)
+            {
+                StopCoroutine(closeDoorCoroutine);
+            }
+            closeDoorCoroutine = StartCoroutine(CloseDoorAfterCountdown());
         }
     }
+
+    public void StopCountdownToCloseDoor()
+    {
+        if (closeDoorCoroutine != null)
+        {
+            StopCoroutine(closeDoorCoroutine);
+            closeDoorCoroutine = null;
+            countdownTimer.Reset();
+        }
+    }
+    private IEnumerator CloseDoorAfterCountdown()
+    {
+        countdownTimer.Start();
+
+        // Wait until the timer is finished
+        while (!countdownTimer.IsFinished)
+        {
+            countdownTimer.Tick(Time.deltaTime);
+            yield return null;
+        }
+
+        // Timer is finished, close the door
+        if (door != null && door.IsOpen)
+        {
+            door.OnCloseDoor();
+            Debug.Log("Door is closing.");
+        }
+
+        closeDoorCoroutine = null;
+    }
+
 }
