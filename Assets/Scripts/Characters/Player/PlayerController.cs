@@ -230,8 +230,9 @@ public class PlayerController : MonoBehaviour
 
     public void HandleRecharge()
     {
-        if (HasFlashlight)
+        if (HasFlashlight && flashlight.BatteryLife < flashlight.MaxBatteryLife * 0.5f)
         {
+            Debug.Log("Recharging Flashlight");
             currentState?.HandleRecharge();
         }
     }
@@ -241,7 +242,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!flashlight || !flashlight.IsFlashlightOn) return;
 
-        flashlight.HandleChangeAbility(value,isScroll);
+        flashlight.HandleChangeAbility(value, isScroll);
     }
 
     private void HandleFlashlightPickUp()

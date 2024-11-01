@@ -5,7 +5,7 @@ public class PlayerInventory : MonoBehaviour
 {
     [field: SerializeField] public float ChargesCollected { get; private set; }
 
-    private Stack<FlashlightAbility> _collectedAbilitys = new();
+    private Stack<FlashlightAbility> collectedAbilitys = new();
 
     private int numAbilityCollectedperCheckpoint;
     private float numBatteryCollectedperCheckpoint;
@@ -55,7 +55,7 @@ public class PlayerInventory : MonoBehaviour
                 batteryItem.Collect();
                 break;
             case AbilityPickup abilityPickup:
-                _collectedAbilitys.Push(abilityPickup.AbilityToPickup);
+                collectedAbilitys.Push(abilityPickup.AbilityToPickup);
                 numAbilityCollectedperCheckpoint++;
                 Event.OnPickupAbility?.Invoke(abilityPickup.AbilityToPickup);
                 abilityPickup.Collect();
@@ -104,12 +104,13 @@ public class PlayerInventory : MonoBehaviour
 
     private void PlayerDiedRemoveAbility()
     {
-        while (numAbilityCollectedperCheckpoint > 0 && _collectedAbilitys.Count > 0)
+        while (numAbilityCollectedperCheckpoint > 0 && collectedAbilitys.Count > 0)
         {
-            FlashlightAbility ability = _collectedAbilitys.Pop();
+            FlashlightAbility ability = collectedAbilitys.Pop();
             Event.OnRemoveAbility?.Invoke(ability);
             numAbilityCollectedperCheckpoint--;
         }
+        RestAbilityCheckpointCounter(null);
     }
 
     private void RestAbilityCheckpointCounter(LevelData x) => numAbilityCollectedperCheckpoint = 0;
