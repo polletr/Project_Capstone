@@ -1,15 +1,14 @@
+using FMOD.Studio;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class EnemyChaseState : EnemyBaseState
 {
-    private Vector3 teleportPosition;
     private float teleportTimer;
 
     public EnemyChaseState(ShadowEnemy enemyClass, EnemyAnimator enemyAnim)
         : base(enemyClass, enemyAnim)
-    {
-    }
+    { }
 
     public override void EnterState()
     {
@@ -23,6 +22,17 @@ public class EnemyChaseState : EnemyBaseState
 
         enemy.agent.ResetPath();
         teleportTimer = 0;
+
+        PLAYBACK_STATE playbackState;
+        enemy.currentAudio.getPlaybackState(out playbackState);
+
+        if (playbackState == PLAYBACK_STATE.STOPPED)
+        {
+            enemy.currentAudio = AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.ShadowIdle);
+            enemy.currentAudio.start();
+        }
+
+        Debug.Log("CHasing Player");
     }
 
     public override void ExitState()
@@ -68,6 +78,15 @@ public class EnemyChaseState : EnemyBaseState
         }
     }
 
+    public override void HandleChase()
+    {
+        
+    }
+
+    protected override void VisionDetection()
+    {
+        
+    }
     private void TeleportTowardsPlayer()
     {
         teleportTimer = 0f;
@@ -89,34 +108,4 @@ public class EnemyChaseState : EnemyBaseState
     }
 
 
-    protected override void VisionDetection()
-    {
-        float detectionRadius = enemy.SightRange;
-        float detectionAngle = enemy.SightAngle;
-
-        Collider[] targetsInViewRadius = Physics.OverlapSphere(enemy.transform.position, detectionRadius);
-
-        foreach (Collider target in targetsInViewRadius)
-        {
-            Vector3 directionToTarget = (target.transform.position - enemy.transform.position).normalized;
-
-            // Check if the target is within the cone's angle
-            if (Vector3.Angle(enemy.transform.forward, directionToTarget) < detectionAngle / 2)
-            {
-                if (Physics.Raycast(enemy.transform.position, directionToTarget, out RaycastHit hit, detectionRadius))
-                {
-                    if (hit.collider == target)
-                    {
-                        if (hit.collider.CompareTag("Player") && enemy.playerCharacter == null)
-                        {
-                            chasePos = target.transform.position;
-                            enemy.playerCharacter = hit.collider.GetComponent<PlayerController>();
-                            enemy.playerCharacter.AddEnemyToChaseList(enemy);
-                            enemy.ChangeState(enemy.ChaseState);
-                        }
-                    }
-                }
-            }
-        }
-    }
 }

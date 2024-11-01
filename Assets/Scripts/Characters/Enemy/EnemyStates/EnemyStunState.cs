@@ -50,11 +50,6 @@ public class EnemyStunState : EnemyBaseState
 
     }
 
-    protected override void OnSoundDetected(Vector3 soundPosition, float soundRange)
-    {
-
-    }
-
     protected override void VisionDetection()
     {
 

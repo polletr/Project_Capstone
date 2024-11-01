@@ -16,7 +16,6 @@ public class EnemyOpenDoorState : EnemyBaseState
         Debug.Log("Open Door");
         enemy.agent.ResetPath();
         attacked = false;
-        enemy.Event.OnSoundEmitted += OnSoundDetected;
 
         time = enemy.AttackAntecipationTime;
         attackCooldown = enemy.DoorAttackCooldown;
@@ -31,7 +30,7 @@ public class EnemyOpenDoorState : EnemyBaseState
 
     public override void ExitState() 
     {
-        enemy.Event.OnSoundEmitted -= OnSoundDetected;
+
     }
 
     public override void StateFixedUpdate() { }

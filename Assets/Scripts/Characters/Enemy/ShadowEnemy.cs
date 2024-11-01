@@ -19,15 +19,6 @@ public class ShadowEnemy : EnemyClass, IStunable
 
     public UnityEvent OnStunEnemy;
 
-    public List<Transform> PatrolTransforms
-    {
-        get { return patrolTransforms; }
-        set { patrolTransforms = value; }
-    }
-    public float PatrolRange
-    {
-        get { return patrolRange; }
-    }
 
     public float MaxIdleTime
     {
@@ -37,11 +28,6 @@ public class ShadowEnemy : EnemyClass, IStunable
     public float MinIdleTime
     {
         get { return minIdleTime; }
-    }
-
-    public float PatrolSpeed
-    {
-        get { return patrolSpeed; }
     }
 
     public float ParalisedSpeed
@@ -57,11 +43,6 @@ public class ShadowEnemy : EnemyClass, IStunable
     public float SightRange
     {
         get { return sightRange; }
-    }
-
-    public float SightAngle
-    {
-        get { return sightAngle; }
     }
 
     public float AttackRange
@@ -102,8 +83,7 @@ public class ShadowEnemy : EnemyClass, IStunable
     [SerializeField] private float paralisedSpeed;
     [SerializeField] private float rotationSpeed;
     [SerializeField, Range(0f, 2f)] private float hearingMultiplier = 1f;
-    [SerializeField, Range(0.2f, 15f)] private float sightRange = 5f;
-    [SerializeField, Range(20f, 90f)] private float sightAngle = 45f;
+    [SerializeField, Range(0.2f, 100f)] private float sightRange = 5f;
     [SerializeField, Range(0.5f, 3f)] private float attackRange = 1f;
     [SerializeField] private float attackAntecipationTime = 1;
     [field: SerializeField] public float TeleportCooldown { get; private set; }

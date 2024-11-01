@@ -5,10 +5,10 @@
 			<value>Chasing</value>
 		</property>
 		<property name="outputFormat">
-			<value>1</value>
+			<value>2</value>
 		</property>
 		<relationship name="folder">
-			<destination>{fa6605a8-029c-42ff-aaa0-3ff021857e9e}</destination>
+			<destination>{2107491c-9f61-4848-b5c6-ea4c92c568e7}</destination>
 		</relationship>
 		<relationship name="mixer">
 			<destination>{9e9af469-37ff-449c-a4bc-f1241069a93c}</destination>
@@ -93,16 +93,16 @@
 	<object class="MixerBusPanner" id="{72d319cd-6c1d-4113-bf3c-42abb18043fe}" />
 	<object class="SingleSound" id="{b1578652-05ab-4347-9c5b-fa6109a87dbf}">
 		<property name="length">
-			<value>2.6863439768189621</value>
-		</property>
-		<property name="pitch">
-			<value>17</value>
+			<value>7.1716780045351474</value>
 		</property>
 		<relationship name="audioFile">
 			<destination>{22021df5-a450-44ee-8008-2b91a72a53f0}</destination>
 		</relationship>
 	</object>
 	<object class="EventMixerGroup" id="{e19135d1-fc4c-423a-91a2-0d4e90edc53f}">
+		<property name="volume">
+			<value>-27</value>
+		</property>
 		<property name="name">
 			<value>Audio 1</value>
 		</property>
@@ -121,7 +121,7 @@
 			<value>0</value>
 		</property>
 		<property name="length">
-			<value>2.6863439768189621</value>
+			<value>7.1716780045351474</value>
 		</property>
 		<relationship name="timeline">
 			<destination>{c8aabaab-d6a6-4c77-b51f-5995fe094662}</destination>
@@ -139,12 +139,14 @@
 	<object class="MixerBusFader" id="{7c27b34e-9947-47f7-8967-5846f2adb7a4}" />
 	<object class="MixerBusEffectChain" id="{640ada01-238e-402b-9752-18b5d329e75b}">
 		<relationship name="effects">
+			<destination>{8a972edd-8423-4ecc-820d-7d544f296051}</destination>
 			<destination>{47d6b7c5-0743-4a17-b336-d870138dc25c}</destination>
 			<destination>{ccb2e8e5-a790-44b3-bcd6-ed10ce200369}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{cd2dceb3-44ba-4532-8034-63f34ac50b58}" />
 	<object class="MixerBusFader" id="{49f8b3e4-1f25-409d-ac03-7be77137d1f0}" />
+	<object class="SpatialiserEffect" id="{8a972edd-8423-4ecc-820d-7d544f296051}" />
 	<object class="MixerBusFader" id="{47d6b7c5-0743-4a17-b336-d870138dc25c}" />
 	<object class="SFXReverbEffect" id="{ccb2e8e5-a790-44b3-bcd6-ed10ce200369}" />
 </objects>

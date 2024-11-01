@@ -6,9 +6,10 @@ using UnityEngine.AI;
 public class EnemyPatrolState : EnemyBaseState
 {
     
-    public EnemyPatrolState(ShadowEnemy enemyClass,EnemyAnimator enemyAnim) 
+   public EnemyPatrolState(ShadowEnemy enemyClass,EnemyAnimator enemyAnim) 
         : base(enemyClass,enemyAnim) { }
-    
+
+/*
     private Coroutine patrolRoutine;
     private int currentPatrolIndex = 0;
 
@@ -89,4 +90,4 @@ public class EnemyPatrolState : EnemyBaseState
         result = Vector3.zero;
         return false;
     }
-}
+*/}

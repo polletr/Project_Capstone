@@ -57,20 +57,20 @@ public abstract class EnemyBaseState
 
     }
 
-    protected virtual void OnSoundDetected(Vector3 soundPosition, float soundRange)
-    {
-          if(enemy == null) return;
-        var distance = Vector3.Distance(enemy.transform.position, soundPosition);
-        if (distance <= soundRange * enemy.HearingMultiplier)
+    /*    protected virtual void OnSoundDetected(Vector3 soundPosition, float soundRange)
         {
-            if (CheckPath(soundPosition))
+              if(enemy == null) return;
+            var distance = Vector3.Distance(enemy.transform.position, soundPosition);
+            if (distance <= soundRange * enemy.HearingMultiplier)
             {
-                chasePos = soundPosition;
-                enemy.ChangeState(enemy.ChaseState);
+                if (CheckPath(soundPosition))
+                {
+                    chasePos = soundPosition;
+                    enemy.ChangeState(enemy.ChaseState);
+                }
             }
         }
-    }
-
+    */
     protected virtual void VisionDetection()
     {
         float detectionRadius = enemy.SightRange;
@@ -86,26 +86,17 @@ public abstract class EnemyBaseState
 
         foreach (Collider target in targetsInViewRadius)
         {
-            // Perform a raycast to ensure there are no obstacles between the enemy and the target
-            Vector3 directionToTarget = (target.transform.position - enemy.transform.position).normalized;
-            RaycastHit hit;
-
-            if (Physics.Raycast(enemy.transform.position, directionToTarget, out hit, detectionRadius))
+            // Check if the target is the player
+            if (target.CompareTag("Player"))
             {
-                if (hit.collider == target && hit.collider.CompareTag("Player"))
-                {
-                    if (CheckPath(target.transform.position))
-                    {
-                        chasePos = target.transform.position;
-                        enemy.playerCharacter = hit.collider.GetComponent<PlayerController>();
-                        enemy.playerCharacter.AddEnemyToChaseList(enemy);
-                        enemy.ChangeState(enemy.ChaseState);
-                    }
-                }
+                chasePos = target.transform.position;
+                enemy.playerCharacter = target.GetComponent<PlayerController>();
+                enemy.playerCharacter.AddEnemyToChaseList(enemy);
+                enemy.ChangeState(enemy.ChaseState);
+                return;
             }
         }
     }
-
     protected bool CheckPath(Vector3 targetPos)
     {
         // Check if the desired position is on the NavMesh or find the closest valid point

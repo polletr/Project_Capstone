@@ -39,7 +39,7 @@ public class SFXEvents : ScriptableObject
     [field: Header("Enemies")]
     [field: SerializeField] public EventReference Cry { get; private set; }
     [field: SerializeField] public EventReference ShadowIdle { get; private set; }
-
+    [field: SerializeField] public EventReference AttackAnticipation { get; private set; }
     [field: SerializeField] public EventReference Chase { get; private set; }
     [field: SerializeField] public EventReference Attack { get; private set; }
 

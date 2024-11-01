@@ -13,7 +13,6 @@ public class EnemyIdleState : EnemyBaseState
         enemy.agent.ResetPath();
         enemyAnimator.animator.CrossFade(enemyAnimator.IdleHash, enemyAnimator.animationCrossFade);
 
-        enemy.Event.OnSoundEmitted += OnSoundDetected;
         // Randomize the idle time between a range of seconds
         time = Random.Range(enemy.MinIdleTime, enemy.MaxIdleTime);
         timer = 0f; // Reset the timer
@@ -35,7 +34,7 @@ public class EnemyIdleState : EnemyBaseState
     }
     public override void ExitState()
     {
-        enemy.Event.OnSoundEmitted -= OnSoundDetected;
+
     }
 
     public override void StateFixedUpdate()
@@ -46,14 +45,18 @@ public class EnemyIdleState : EnemyBaseState
     public override void StateUpdate()
     {
         VisionDetection();
-
-        timer += Time.deltaTime;
-
-        if (timer >= time)
+        if (enemy.playerCharacter != null)
         {
-            enemy.ChangeState(enemy.PatrolState);
+            RotateToPlayer();
         }
 
+        /*        timer += Time.deltaTime;
+
+                if (timer >= time)
+                {
+                    enemy.ChangeState(enemy.PatrolState);
+                }
+        */
     }
 
 }

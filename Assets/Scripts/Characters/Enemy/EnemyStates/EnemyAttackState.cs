@@ -1,3 +1,4 @@
+using FMOD.Studio;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,11 +19,9 @@ public class EnemyAttackState : EnemyBaseState
 
         anticipationTimer = 0f; // Timer for the anticipation phase
 
-        // Play anticipation animation or sound (optional)
-        enemy.enemyAnimator.animator.Play(enemyAnimator.AnticipationHash);
+        PLAYBACK_STATE playbackState;
+        enemy.currentAudio.getPlaybackState(out playbackState);
 
-        //enemy.currentAudio = AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.AttackAnticipation);
-        //enemy.currentAudio.start();
     }
 
     public override void ExitState()
@@ -39,7 +38,7 @@ public class EnemyAttackState : EnemyBaseState
         RotateToPlayer();
 
         // Anticipation phase
-        if (anticipating)
+        if (anticipating && enemy.playerCharacter.IsAlive())
         {
 
             //Eyes LErping to Red
@@ -52,14 +51,14 @@ public class EnemyAttackState : EnemyBaseState
                 float distanceToPlayer = Vector3.Distance(enemy.transform.position, enemy.playerCharacter.transform.position);
                 if (distanceToPlayer <= enemy.AttackRange  && enemy.playerCharacter.IsAlive()) // If player is still in range
                 {
+                    // Stop anticipation sound and play attack sound
+                    enemy.currentAudio.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+                    enemy.currentAudio = AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.Attack);
+                    enemy.currentAudio.start();
+
                     enemy.Attack();
                     // Proceed with attack
                     enemy.enemyAnimator.animator.Play(enemyAnimator.AttackHash);
-
-                    // Stop anticipation sound and play attack sound
-                    //enemy.currentAudio.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-                    //enemy.currentAudio = AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.Attack);
-                    //enemy.currentAudio.start();
 
                     //enemy.ChangeState(enemy.IdleState);
 

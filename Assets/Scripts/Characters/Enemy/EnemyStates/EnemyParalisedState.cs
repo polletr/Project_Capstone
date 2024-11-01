@@ -86,7 +86,6 @@ public class EnemyParalisedState : EnemyBaseState
 
     protected override void VisionDetection() { }
 
-    protected override void OnSoundDetected(Vector3 soundPosition, float soundRange) { }
 
     public override void HandleParalise()
     {
