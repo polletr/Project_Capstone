@@ -8,6 +8,7 @@ public class AudioManagerFMOD : Singleton<AudioManagerFMOD>
 {
     public SFXEvents SFXEvents;
 
+
     private List<EventInstance> eventInstances = new List<EventInstance>();
     private Dictionary<EventReference, EventInstance> bgMusicInstances = new Dictionary<EventReference, EventInstance>();
 
@@ -27,20 +28,6 @@ public class AudioManagerFMOD : Singleton<AudioManagerFMOD>
         return eventInstance;
     }
 
-    // Start playing background music
-    public EventInstance CreateBGInstance(EventReference musicEvent)
-    {
-        if (bgMusicInstances.ContainsKey(musicEvent))
-        {
-            Debug.LogWarning($"Background music '{musicEvent}' is already playing.");
-            return bgMusicInstances[musicEvent];
-        }
-
-        EventInstance bgMusicInstance = CreateEventInstance(musicEvent);
-        bgMusicInstances.Add(musicEvent, bgMusicInstance);
-        return bgMusicInstance;
-    }
-
     private void CleanUp()
     {
         foreach (var eventInstance in eventInstances)
@@ -50,26 +37,10 @@ public class AudioManagerFMOD : Singleton<AudioManagerFMOD>
         }
         eventInstances.Clear();
 
-        StopAllBGMusic();
-    }
-
-    // Stop all background music
-    public void StopAllBGMusic()
-    {
-        foreach (var bgMusicInstance in bgMusicInstances.Values)
-        {
-            bgMusicInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-            bgMusicInstance.release();
-        }
-        bgMusicInstances.Clear();
     }
 
     public void PauseAllAudio(bool isPaused)
     {
-        foreach (var bgMusicInstance in bgMusicInstances.Values)
-        {
-            bgMusicInstance.setPaused(isPaused);
-        }
         foreach (var eventInstance in eventInstances)
         {
             eventInstance.setPaused(isPaused);
