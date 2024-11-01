@@ -1,14 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
 public class LevelManager : Singleton<LevelManager>
 {
     public GameEvent Event;
-    public GlobalEventTrigger  globalTrigger;
-
     [field: SerializeField] public string MasterScene { get; private set; }
     [field: SerializeField] public string StartingScene { get; private set; }
 
@@ -16,21 +13,17 @@ public class LevelManager : Singleton<LevelManager>
 
     private string _currentScene;
     private List<string> _currentLoadedScenes = new();
-    private GlobalEventSO CheckPointEvent;
-    
+
     private void OnEnable()
     {
         Event.OnLevelChange += StartLevelLoading;
         Event.OnReloadScenes += ReloadActiveScenes;
-        Event.OnTriggerCheckpoint += (checkpoint) => CheckPointEvent = checkpoint;
-
     }
 
     private void OnDisable()
     {
         Event.OnLevelChange -= StartLevelLoading;
         Event.OnReloadScenes -= ReloadActiveScenes;
-        Event.OnTriggerCheckpoint -= (checkpoint) => CheckPointEvent = checkpoint;
     }
 
     private void Start()
@@ -44,7 +37,7 @@ public class LevelManager : Singleton<LevelManager>
     private IEnumerator LoadLevels(LevelData level)
     {
         _currentScene = level.CurrentSceneName;
-        //wait beofre loading the new scenes
+        //wait before loading the new scenes
         yield return new WaitForSeconds(_loadingWaitTime);
 
         //unload all scenes except the master scene , current scene and  the scenes to load
@@ -64,35 +57,26 @@ public class LevelManager : Singleton<LevelManager>
                 SceneManager.LoadSceneAsync(scene, LoadSceneMode.Additive);
             }
         }
-        
-        if(CheckPointEvent != null)
-        {
-            globalTrigger.GlobalEvent = CheckPointEvent;
-            globalTrigger.OnTriggerGlobalEvent();
-        }
     }
 
+    /// <summary>
+    /// Load a scene without anyother scene
+    /// use for final scene
+    /// </summary>
     public void LoadOnlyScene(string sceneName)
     {
         SceneManager.LoadScene(sceneName);
     }
 
+    /// <summary>
+    /// Load the first scene using the MasterScene and the StartingScene names
+    /// </summary>
     private void LoadStartScene()
     {
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(_currentScene, LoadSceneMode.Additive);
-        asyncLoad.completed += (_) => Event.OnLoadStarterScene?.Invoke();
+        var asyncLoad = SceneManager.LoadSceneAsync(_currentScene, LoadSceneMode.Additive);
+        asyncLoad.completed += (_) => { Event.OnLoadStarterScene?.Invoke(); };
     }
 
-    private List<string> GetActiveScenes()
-    {
-        _currentLoadedScenes.Clear();
-        for (int i = 0; i < SceneManager.loadedSceneCount; i++)
-        {
-            _currentLoadedScenes.Add(SceneManager.GetSceneAt(i).name);
-        }
-
-        return _currentLoadedScenes;
-    }
 
     private void ReloadActiveScenes()
     {
@@ -119,20 +103,20 @@ public class LevelManager : Singleton<LevelManager>
         LoadStartScene();
         // LoadLevels
     }
+    
 
+    #region Check Methods
 
-
-    #region    Extra Methods
-
-    /* private void LoadSceneWithDelay<T>(UnityAction<T> action, T parameter)
-     {
-         SceneManager.LoadSceneAsync(_currentScene, LoadSceneMode.Additive);
-         action?.Invoke(parameter);
-     }
-     private void LoadSceneWithDelay(UnityAction action)
-     {
-         SceneManager.LoadSceneAsync(_currentScene, LoadSceneMode.Additive);
-         action?.Invoke();
-     }*/
+    private List<string> GetActiveScenes()
+    {
+        _currentLoadedScenes.Clear();
+        for (var i = 0; i < SceneManager.loadedSceneCount; i++)
+        {
+            _currentLoadedScenes.Add(SceneManager.GetSceneAt(i).name);
+        }
+        return _currentLoadedScenes;
+    }
+    
     #endregion
+    
 }

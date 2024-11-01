@@ -34,21 +34,17 @@ public class BlackScreenHandler : MonoBehaviour
     private void FadeIn()
     {
         //fade in
-        canvasGroup.DOFade(1, duration).SetEase(ease).OnComplete(() => 
-        { 
-            Debug.Log("Inkoing fade in complete"); 
-            OnFadeInComplete?.Invoke(); 
-            Event.OnPlayerRespawn?.Invoke(); 
+        canvasGroup.DOFade(1, duration).SetEase(ease).OnComplete(() =>
+        {
+            OnFadeInComplete?.Invoke();
+            Event.OnReloadScenes?.Invoke();
+            Event.OnPlayerRespawn?.Invoke();
         });
     }
 
     public void FadeOut()
     {
-            Event.OnReloadScenes?.Invoke(); 
-        //fade out
-
-        canvasGroup.DOFade(0, duration).SetEase(ease).OnComplete(() => { Debug.Log("Inkoing fade out complete"); OnFadeOutComplete?.Invoke(); });
-
+        Event.OnLoadCheckPointEvents?.Invoke();
+        canvasGroup.DOFade(0, duration).SetEase(ease).OnComplete(() => { OnFadeOutComplete?.Invoke(); });
     }
-
 }

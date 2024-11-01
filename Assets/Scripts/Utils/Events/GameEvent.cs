@@ -8,7 +8,6 @@ public class GameEvent : ScriptableObject
     public UnityAction OnPlayerDeath;
     public UnityAction OnFadeBlackScreen;
     public UnityAction OnPlayerRespawn;
-    public UnityAction<GlobalEventSO> OnTriggerCheckpoint;
 
     public UnityAction OnPickupFlashlight;
     public UnityAction<FlashlightAbility> OnPickupAbility;
@@ -20,9 +19,15 @@ public class GameEvent : ScriptableObject
     public UnityAction<float> OnBatteryAdded;
     public UnityAction OnFinishRecharge;
 
+    
+    /// <summary>
+    /// Level Events
+    /// </summary>
     public UnityAction<LevelData> OnLevelChange;
     public UnityAction OnReloadScenes;
     public UnityAction OnLoadStarterScene;
+    public UnityAction<GlobalEventSO> OnTriggerCheckpoint;
+    public UnityAction OnLoadCheckPointEvents;
 
     public UnityAction<Transform> SetNewSpawn;
 
@@ -32,8 +37,8 @@ public class GameEvent : ScriptableObject
     public UnityAction<PlayerController> PlayerExitedSafeZone;
     public UnityAction<int> PlayerEnteredSafeZone;
 
-
     int timer = 0;
+
     public void HandlePlayerFootSteps(Vector3 position, float range)
     {
         if (timer == 0)

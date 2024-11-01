@@ -31,6 +31,10 @@ public class MainMenu : Menu
         //play click sound
     }
 
+    public void OnGiveFeedback()
+    {
+        Application.OpenURL("https://forms.gle/9ptFvdmDXz5eSe5y9");
+    }
 
 /*    public void OnToggleMute()
     {

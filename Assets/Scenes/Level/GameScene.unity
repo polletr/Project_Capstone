@@ -315,7 +315,7 @@ PrefabInstance:
         type: 3}
       propertyPath: Settings
       value: 
-      objectReference: {fileID: 11400000, guid: 272f33300b36af549ae340a66b02091a,
+      objectReference: {fileID: 11400000, guid: 6c1fe679afe4f6940bf9f584de87a40b,
         type: 2}
     m_RemovedComponents:
     - {fileID: 5126299387504130228, guid: bedc4c315612c0d429f32fda2e727742, type: 3}
@@ -2273,32 +2273,8 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
-          m_MethodName: DisablePlayerInput
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
     - m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
-          m_MethodName: EnablePlayerInput
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
         - m_Target: {fileID: 801181352}
           m_TargetAssemblyTypeName: OldMovieTexture, Assembly-CSharp
           m_MethodName: StopFilm
@@ -3687,6 +3663,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1598756187}
   - component: {fileID: 1598756186}
+  - component: {fileID: 1598756188}
   m_Layer: 0
   m_Name: LevelManager
   m_TagString: Untagged
@@ -3708,7 +3685,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <IsPersistent>k__BackingField: 0
   Event: {fileID: 11400000, guid: 821642c9ec9c5474b88bc1b575e70ddf, type: 2}
-  globalTrigger: {fileID: 0}
   <MasterScene>k__BackingField: GameScene
   <StartingScene>k__BackingField: L1_StarterScene
   _loadingWaitTime: 1
@@ -3727,6 +3703,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1598756188
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1598756184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad3f75a3355051a46973d0a0fd1dcbf9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: 821642c9ec9c5474b88bc1b575e70ddf, type: 2}
+  player: {fileID: 238350188}
 --- !u!1 &1604276516
 GameObject:
   m_ObjectHideFlags: 0
