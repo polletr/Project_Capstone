@@ -33,6 +33,11 @@ public class NurseIdleState : NurseBaseState
     {
         if (enemy.playerCharacter != null)
             RotateToPlayer();
+
+        if (enemy.ChasePlayer)
+        {
+            enemy.ChangeState(enemy.ChaseState);
+        }
     }
 
 }

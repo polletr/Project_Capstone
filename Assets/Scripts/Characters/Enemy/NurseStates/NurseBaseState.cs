@@ -30,13 +30,8 @@ public abstract class NurseBaseState
 
     public virtual void HandleRetreat() 
     {
-    }
 
-    public virtual void HandleChase()
-    {
-        enemy.ChangeState(enemy.ChaseState);
     }
-
     protected virtual void RotateToPlayer()
     {
         // Get the direction to the player, ignoring the Y-axis

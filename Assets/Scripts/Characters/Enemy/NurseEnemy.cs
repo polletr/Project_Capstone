@@ -40,6 +40,8 @@ public class NurseEnemy : EnemyClass
     [HideInInspector] public NavMeshAgent agent;
 
     [SerializeField, Range(0.5f, 3f)] private float attackRange = 1f;
+
+    public bool ChasePlayer { get; set; }
     public GameEvent Event;
 
     private void OnEnable()
@@ -100,7 +102,7 @@ public class NurseEnemy : EnemyClass
         {
             playerCharacter = player;
         }
-        currentState?.HandleChase();
+        ChasePlayer = true;
     }
 
     private void OnTriggerEnter(Collider other)

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class MoveObjectsController : MonoBehaviour
 {
@@ -12,6 +13,9 @@ public class MoveObjectsController : MonoBehaviour
     private bool isMoving;
     [SerializeField] private bool dragSound;
 
+    [SerializeField] UnityEvent OnStartMoving;
+    [SerializeField] UnityEvent OnStopMoving;
+
     private void Awake()
     {
         targetPos = transform.position; // Save the original position
@@ -20,6 +24,7 @@ public class MoveObjectsController : MonoBehaviour
     // Move the object in the specified direction
     public void MoveObject()
     {
+        OnStartMoving.Invoke();
         if (dragSound)
             AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.DragObjects, transform.position);
 
@@ -47,6 +52,8 @@ public class MoveObjectsController : MonoBehaviour
         }
 
         transform.position = targetPos; // Ensure the final position is set
+        OnStopMoving.Invoke();
+
         isMoving = false;
     }
 }
