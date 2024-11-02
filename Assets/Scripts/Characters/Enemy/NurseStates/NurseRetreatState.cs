@@ -52,7 +52,7 @@ public class NurseRetreatState : NurseBaseState
     private void StartRetreatMovement()
     {
         isRetreating = true;
-        enemy.agent.speed = enemy.ChaseSpeed;
+        enemy.agent.speed = enemy.RetreatSpeed;
         enemy.agent.SetDestination(targetPos);
         enemyAnimator.animator.CrossFade(enemyAnimator.WalkHash, enemyAnimator.animationCrossFade);
     }

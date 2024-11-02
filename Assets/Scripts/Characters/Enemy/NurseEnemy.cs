@@ -15,6 +15,7 @@ public class NurseEnemy : EnemyClass
     public int CurrentIdleSpotIndex {  get; private set; }
     [field: SerializeField] public float RotationSpeed { get; private set; }
     [field: SerializeField] public float ChaseSpeed { get; private set; }
+    [field: SerializeField] public float RetreatSpeed { get; private set; }
 
 
     public List<Transform> PatrolTransforms
