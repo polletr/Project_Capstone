@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3147570330761530513}
   - component: {fileID: 4016204738497781656}
   - component: {fileID: 1712589161711250857}
+  - component: {fileID: 1717245833315519011}
   m_Layer: 0
   m_Name: NurseEnemy_RunPrefab
   m_TagString: Untagged
@@ -122,6 +123,51 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &1717245833315519011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1349144224650048773}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b996f59cd8ef15f4c97e0bded1dcc958, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  direction: {x: 10, y: 0, z: 0}
+  duration: 2
+  dragSound: 0
+  OnStartMoving:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 539269732473203926}
+        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
+        m_MethodName: Play
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Walk
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnStopMoving:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1349144224650048773}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &3914069585706791411
 GameObject:
   m_ObjectHideFlags: 0
@@ -367,8 +413,18 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1838242604206202462}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 545421ba78b623a47ae7b688d5ef16ac,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8976467693983475221}
   m_SourcePrefab: {fileID: 100100000, guid: 545421ba78b623a47ae7b688d5ef16ac, type: 3}
+--- !u!95 &539269732473203926 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: 545421ba78b623a47ae7b688d5ef16ac,
+    type: 3}
+  m_PrefabInstance: {fileID: 6201821033560789319}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5738966453798055567 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1852576806548013000, guid: 545421ba78b623a47ae7b688d5ef16ac,
@@ -381,3 +437,35 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 6201821033560789319}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &6543768255975320598 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 545421ba78b623a47ae7b688d5ef16ac,
+    type: 3}
+  m_PrefabInstance: {fileID: 6201821033560789319}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8976467693983475221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6543768255975320598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fccd1b9e07c541044a2a5e1791492432, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  runStepsSound:
+    Guid:
+      Data1: 1309119392
+      Data2: 1255330137
+      Data3: -1642049663
+      Data4: -1402353288
+    Path: event:/Enemies/Nurse/NurseSteps
+  crawlingStepsSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
