@@ -12,6 +12,7 @@ public class NurseRetreatState : NurseBaseState
 
     public override void EnterState()
     {
+        enemy.ChasePlayer = false;
         targetPos = enemy.PatrolTransforms[enemy.CurrentIdleSpotIndex].transform.position;
 
         // Check if a valid path to target exists
@@ -74,11 +75,6 @@ public class NurseRetreatState : NurseBaseState
     public override void StateFixedUpdate() { }
 
     public override void HandleRetreat()
-    {
-        
-    }
-
-    public override void HandleChase()
     {
         
     }
