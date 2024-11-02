@@ -75,6 +75,11 @@ public class NurseRetreatState : NurseBaseState
 
     public override void HandleRetreat()
     {
-        enemy.ChangeState(enemy.RetreatState);
+        
+    }
+
+    public override void HandleChase()
+    {
+        
     }
 }
