@@ -6,10 +6,7 @@ public class PauseMenu : Menu
 {
     public UnityEvent OnPause;
     public UnityEvent OnResume = new();
-
-    [SerializeField] private AudioClip pauseClip;
-    [SerializeField] private AudioClip buttonClickClip;
-
+    
     public bool IsPaused { get; private set; }
     private float _initialTimeScale;
     private void Awake()
@@ -31,9 +28,7 @@ public class PauseMenu : Menu
         _currentMenu.gameObject.SetActive(IsPaused);
 
         AudioManagerFMOD.Instance.PauseAllAudio(IsPaused);
-
-
-        //AudioManager.Instance.PlayAudio(pauseClip);
+        
 
         Cursor.lockState = IsPaused? CursorLockMode.None : CursorLockMode.Locked;
         Cursor.visible = IsPaused;
@@ -41,14 +36,12 @@ public class PauseMenu : Menu
         if (IsPaused)
         {
             _initialTimeScale = Time.timeScale;
-            //AudioManager.Instance.PauseBGAudio();
             Time.timeScale = 0; 
             OnPause.Invoke(); 
         }
         else
         {
             Time.timeScale = _initialTimeScale;
-            //AudioManager.Instance.ResumeBGAudio();
            InputManager.Instance.EnablePlayerInput();
             Debug.Log("Resuming");
         }

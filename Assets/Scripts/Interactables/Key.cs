@@ -7,7 +7,7 @@ public class Key : Interactable , ICollectable
     
     public void Collect()
     {
-        if(ObjectPickupUIHandler.Instance != null)
+        if(ObjectPickupUIHandler.Instance)
             ObjectPickupUIHandler.Instance.PickedUpObject(KeyPickupData);
         AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.PickUpBatteries, transform.position);
         gameObject.SetActive(false);

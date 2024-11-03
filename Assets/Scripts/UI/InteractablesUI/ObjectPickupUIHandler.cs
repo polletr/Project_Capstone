@@ -1,10 +1,8 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Utilities;
 
 public class ObjectPickupUIHandler : Singleton<ObjectPickupUIHandler>
 {
@@ -41,18 +39,19 @@ public class ObjectPickupUIHandler : Singleton<ObjectPickupUIHandler>
         if (itemDisplayText == null) Debug.Log("Text is null on ObjectPickupUIHandler");
     }
 
-    public void PickedUpObject(PickupData pickup)
+    public void PickedUpObject(PickupData pickup, float time = 0)
     {
         pickedUpObjects.Enqueue(pickup);
         
         if (!isProcessing)
         {
-            StartCoroutine(HandlePickedUpObject());
+            StartCoroutine(HandlePickedUpObject(time));
         }
     }
 
-    private IEnumerator HandlePickedUpObject()
+    private IEnumerator HandlePickedUpObject(float time)
     {
+        var delay = time == 0?  waitTime : time;   
         isProcessing = true;
         
         while (pickedUpObjects.Count > 0)
@@ -67,7 +66,7 @@ public class ObjectPickupUIHandler : Singleton<ObjectPickupUIHandler>
             yield return new WaitUntil(() => !isAnimating);
 
             // Wait for waitTime after the item has moved in
-            yield return new WaitForSeconds(waitTime);
+            yield return new WaitForSeconds(delay);
 
             MoveBack();
             

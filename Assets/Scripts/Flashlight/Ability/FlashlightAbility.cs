@@ -26,8 +26,10 @@ public abstract class FlashlightAbility : MonoBehaviour
     [field: SerializeField] public float BaseInnerSpotAngle { get; protected set; } = 30;
     [field: SerializeField] public float BaseRange { get; protected set; } = 10;
 
+    [field: SerializeField] public PickupData AbilityPickupData { get; private set; }
+   
     protected FlashLight Flashlight;
-
+    
     public abstract void OnUseAbility();
     public abstract void OnStopAbility();
 
@@ -43,5 +45,10 @@ public abstract class FlashlightAbility : MonoBehaviour
     public virtual void Initialize(FlashLight flashlight)
     {
         Flashlight = flashlight;
+    }
+    
+    public void SetPickupData(PickupData data)
+    {
+        AbilityPickupData = data;
     }
 }

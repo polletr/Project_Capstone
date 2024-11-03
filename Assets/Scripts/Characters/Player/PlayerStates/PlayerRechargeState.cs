@@ -2,7 +2,6 @@ using FMOD.Studio;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Utilities;
 
 public class PlayerRechargeState : PlayerBaseState
 {
@@ -12,8 +11,7 @@ public class PlayerRechargeState : PlayerBaseState
     }
 
     private float progress; // Reference to the progress bar UI.
-    private const float BaseRechargeRate = 0.5f; // Normal recharge rate per second.
-    private const float ButtonMashBoost = 0.5f; // Extra progress per button press.
+    private float ButtonMashBoost; // Extra progress per button press.
     private float maxTime; // Max value for the progress bar.
 
 
@@ -21,7 +19,7 @@ public class PlayerRechargeState : PlayerBaseState
     {
         progress = 0;
         maxTime = Player.flashlight.MaxBatteryLife;
-     
+        ButtonMashBoost = Player.Settings.FlashlightReloadTime;
         // playerAnimator.animator.Play(playerAnimator.DieHash);
         Player.ReloadAnimation = Player.StartCoroutine(ReloadAnimation());
         
@@ -50,7 +48,7 @@ public class PlayerRechargeState : PlayerBaseState
             Player.ChangeState(Player.MoveState);
         }
         
-        progress += BaseRechargeRate * Time.deltaTime;
+        progress += Player.Settings.FlashlightReloadTime * Time.deltaTime;
     }
     
 

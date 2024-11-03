@@ -76,9 +76,17 @@ public class DisapearAbility : FlashlightAbility
             yield return null;
         }
 
+        Flashlight.Light.intensity = AbilityIntensity;
+        Flashlight.Light.color = AbilityColor;
+        Flashlight.Light.spotAngle = AbilitySpotAngle;
+        Flashlight.Light.innerSpotAngle = AbilityInnerSpotAngle;
+        
         currentObj = null;
         Flashlight.ConsumeBattery(Cost);
         Flashlight.ResetLight(Cooldown);
+        if (!PlayerBatteryUIHandler.Instance)
+            PlayerBatteryUIHandler.Instance.FlickerBatteryUIOnce();
+
     }
 
     private IEnumerator ChangeRevealLight()

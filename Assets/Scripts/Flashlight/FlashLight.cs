@@ -43,6 +43,11 @@ public class FlashLight : MonoBehaviour
             }
             else
             {
+                if (ObjectPickupUIHandler.Instance && IsFlashlightOn)
+                {
+                    ObjectPickupUIHandler.Instance.PickedUpObject(CurrentAbility.AbilityPickupData, 0.3f);
+                }
+
                 CurrentAbility.SetLight(Light);
             }
         }
@@ -92,10 +97,9 @@ public class FlashLight : MonoBehaviour
         CurrentAbility = flashlightAbilities[0];
         Light.intensity = CurrentAbility.BaseIntensity;
         Light.color = CurrentAbility.BaseColor;
-        Light.spotAngle =CurrentAbility.BaseSpotAngle;
+        Light.spotAngle = CurrentAbility.BaseSpotAngle;
         Light.innerSpotAngle = CurrentAbility.BaseInnerSpotAngle;
         Light.range = CurrentAbility.BaseRange;
-
     }
 
     private void OnEnable()
@@ -125,7 +129,7 @@ public class FlashLight : MonoBehaviour
 
         if (IsFlashlightOn && flickerCoroutine == null)
         {
-            flickerCoroutine = StartCoroutine(Flicker( 2f, TurnOffLight));
+            flickerCoroutine = StartCoroutine(Flicker(2f, TurnOffLight));
             Event.SetTutorialText?.Invoke("Battery is Dead Press R to recharge"); //Ui to change battery
         }
         // Turn off the flashlight
@@ -234,7 +238,7 @@ public class FlashLight : MonoBehaviour
 
     public void HandleChangeAbility(int index, bool isScroll = false)
     {
-        if (!IsFlashlightOn || !CurrentAbility) return;
+        if (!IsFlashlightOn || !CurrentAbility || IsBatteryDead()) return;
 
         var currentIndex = flashlightAbilities.IndexOf(CurrentAbility);
 
@@ -294,7 +298,8 @@ public class FlashLight : MonoBehaviour
             Light.color = Color.Lerp(currentColor, CurrentAbility.BaseColor, timer / cooldown);
             Light.range = Mathf.Lerp(currentRange, CurrentAbility.BaseRange, timer / cooldown);
             Light.spotAngle = Mathf.Lerp(currentSpotAngle, CurrentAbility.BaseSpotAngle, timer / cooldown);
-            Light.innerSpotAngle = Mathf.Lerp(currentInnerSpotAngle, CurrentAbility.BaseInnerSpotAngle, timer / cooldown);
+            Light.innerSpotAngle =
+                Mathf.Lerp(currentInnerSpotAngle, CurrentAbility.BaseInnerSpotAngle, timer / cooldown);
 
             timer += Time.deltaTime;
             yield return null;
@@ -338,7 +343,7 @@ public class FlashLight : MonoBehaviour
     public void HandleFlashlightPower()
     {
         if (IsBatteryDead()) return;
-        
+
         AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.FlashlightOnOff, transform.position);
 
         IsFlashlightOn = !IsFlashlightOn;

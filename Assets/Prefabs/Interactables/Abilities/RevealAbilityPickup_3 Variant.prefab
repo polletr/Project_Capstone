@@ -1,62 +1,79 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &351792899444951783
-GameObject:
+--- !u!1001 &1624702664463716656
+PrefabInstance:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 870569734343639520}
-  - component: {fileID: 2100882181092055175}
-  m_Layer: 0
-  m_Name: RevealAbility
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &870569734343639520
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 351792899444951783}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 8306106938783440130}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2100882181092055175
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 8306106938783440130}
+    m_Modifications:
+    - target: {fileID: 1327941422608178135, guid: 22b7793dd601ab141b562f09a93fef29,
+        type: 3}
+      propertyPath: m_Name
+      value: RevealAbility
+      objectReference: {fileID: 0}
+    - target: {fileID: 1916555387817939152, guid: 22b7793dd601ab141b562f09a93fef29,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1916555387817939152, guid: 22b7793dd601ab141b562f09a93fef29,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1916555387817939152, guid: 22b7793dd601ab141b562f09a93fef29,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1916555387817939152, guid: 22b7793dd601ab141b562f09a93fef29,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1916555387817939152, guid: 22b7793dd601ab141b562f09a93fef29,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1916555387817939152, guid: 22b7793dd601ab141b562f09a93fef29,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1916555387817939152, guid: 22b7793dd601ab141b562f09a93fef29,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1916555387817939152, guid: 22b7793dd601ab141b562f09a93fef29,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1916555387817939152, guid: 22b7793dd601ab141b562f09a93fef29,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1916555387817939152, guid: 22b7793dd601ab141b562f09a93fef29,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 22b7793dd601ab141b562f09a93fef29, type: 3}
+--- !u!4 &870569734343639520 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1916555387817939152, guid: 22b7793dd601ab141b562f09a93fef29,
+    type: 3}
+  m_PrefabInstance: {fileID: 1624702664463716656}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 351792899444951783}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24cc2443ba94083439ec4871026ba118, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <Cost>k__BackingField: 10
-  <Cooldown>k__BackingField: 10
-  <AbilityBuildUpTime>k__BackingField: 2
-  <AbilityIntensity>k__BackingField: 25
-  <AbilityColor>k__BackingField: {r: 0.21226415, g: 0.4467992, b: 0.8490566, a: 1}
-  <AbilitySpotAngle>k__BackingField: 100
-  <AbilityInnerSpotAngle>k__BackingField: 50
-  <BaseIntensity>k__BackingField: 12
-  <BaseColor>k__BackingField: {r: 0.5613208, g: 0.78359514, b: 1, a: 1}
-  <BaseSpotAngle>k__BackingField: 60
-  <BaseInnerSpotAngle>k__BackingField: 30
-  <BaseRange>k__BackingField: 15
-  revealRange: 5
 --- !u!1001 &2781202349945158269
 PrefabInstance:
   m_ObjectHideFlags: 0

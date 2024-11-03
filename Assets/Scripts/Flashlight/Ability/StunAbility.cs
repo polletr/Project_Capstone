@@ -65,6 +65,7 @@ public class StunAbility : FlashlightAbility
         
         //set light to stun flash properties 
         Flashlight.StartCoroutine(Flashlight.ZeroOutLight(Cooldown));
+        PlayerBatteryUIHandler.Instance.FlickerBatteryUIOnce();
         
     }
     
