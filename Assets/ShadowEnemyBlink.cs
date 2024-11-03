@@ -5,16 +5,22 @@ using UnityEngine;
 
 public class ShadowEnemyBlink : EnemyClass, IStunable
 {
-    [field: SerializeField] public Material BodyMaterial { get; private set; }
-    [field: SerializeField] public Material EyeMaterial { get; private set; }
+    [SerializeField] private Material BodyMaterial;
+    [SerializeField] private Material EyeMaterial;
+    [SerializeField] private float RotationSpeed;
+
     public EventInstance currentAudio { get; set; }
 
     [SerializeField] private float changeTranspDuration;
 
     private Coroutine EnemyTransparencyRoutine;
 
+    private PlayerController playerCharacter;
+
+
     private void Awake()
     {
+        playerCharacter = FindObjectOfType<PlayerController>();
         BodyMaterial.SetFloat("_Transparency", 0.9f);
         EyeMaterial.SetFloat("_Transparency", 0.9f);
         currentAudio = AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.ShadowIdle);
@@ -79,5 +85,22 @@ public class ShadowEnemyBlink : EnemyClass, IStunable
         currentAudio.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         this.gameObject.SetActive(false);
     }
+
+    protected virtual void RotateToPlayer()
+    {
+        // Get the direction to the player
+        Vector3 directionToPlayer =
+            (playerCharacter.transform.position - transform.position).normalized;
+
+        Quaternion lookRotation =
+            Quaternion.LookRotation(new Vector3(directionToPlayer.x, 0,
+                directionToPlayer.z)); // Ignore y-axis to keep rotation flat
+
+        // Smoothly rotate the enemy towards the player
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation,
+            Time.deltaTime * RotationSpeed);
+
+    }
+
 
 }
