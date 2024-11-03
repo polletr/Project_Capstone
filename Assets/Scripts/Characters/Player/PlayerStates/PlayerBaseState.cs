@@ -139,42 +139,40 @@ public abstract class PlayerBaseState
         if (Player.HasFlashlight)
             Player.flashlight.HandleFlashlightPower();
     }
-    
+
+
+    private Quaternion flashlightRotationOffset = Quaternion.Euler(-180, -90, 0);
+
     public virtual void HandleLookAround(Vector2 dir, InputDevice device)
     {
-        var sensitivityMultilayer = Player.Settings.cameraSensitivityMouse;
+        var sensitivityMultiplier = Player.Settings.cameraSensitivityMouse;
 
         if (device is Gamepad)
         {
-            sensitivityMultilayer = Player.Settings.cameraSensitivityGamepad;
+            sensitivityMultiplier = Player.Settings.cameraSensitivityGamepad;
         }
 
         // Calculate player's body (y-axis) rotation
-        Player.yRotation += dir.x * sensitivityMultilayer * Time.deltaTime;
+        Player.yRotation += dir.x * sensitivityMultiplier * Time.deltaTime;
         Player.CameraHolder.localRotation = Quaternion.Euler(0, Player.yRotation, 0); // Rotate body horizontally
 
         // Calculate camera pitch (x-axis) rotation
-        Player.xRotation += dir.y * sensitivityMultilayer * Time.deltaTime;
+        Player.xRotation += dir.y * sensitivityMultiplier * Time.deltaTime;
         Player.xRotation = Mathf.Clamp(Player.xRotation, Player.Settings.ClampAngleUp, Player.Settings.ClampAngleDown);
-        Player.PlayerCam.transform.localRotation =
-            Quaternion.Euler(-Player.xRotation, 0, 0); // Rotate camera vertically
+        Player.PlayerCam.transform.localRotation = Quaternion.Euler(-Player.xRotation, 0, 0); // Rotate camera vertically
 
         // Only update the flashlight's rotation if the player is holding it
-        if (Player.HasFlashlight && Player.xRotation > Player.Settings.FlashlightAngleDown)
+        if (Player.HasFlashlight)
         {
-            // Get current rotation and target rotation in Euler angles
-            var currentRotation = Player.Hand.localRotation.eulerAngles;
-            var targetRotation = Player.PlayerCam.transform.rotation.eulerAngles;
+            Quaternion targetRotation = Quaternion.LookRotation(Player.PlayerCam.transform.forward) * flashlightRotationOffset;
 
-            // Slurp only the z-axis, while keeping the x and y axes unchanged
-            var zRotation = Mathf.LerpAngle(currentRotation.z, targetRotation.x,
-                Player.Settings.FlashlightRotateSpeed * Time.deltaTime);
+            if (Player.xRotation < Player.Settings.FlashlightAngleDown)
+                targetRotation = Quaternion.LookRotation(Player.CameraHolder.transform.forward) * flashlightRotationOffset;
 
-            // Apply the new rotation, only modifying the z-axis
-            Player.Hand.localRotation = Quaternion.Euler(currentRotation.x, currentRotation.y, zRotation);
+            // Smoothly rotate the hand towards the target rotation with the specified delay
+            Player.Hand.rotation = Quaternion.Slerp(Player.Hand.rotation, targetRotation, Player.Settings.flashlightFollowDelay * Time.deltaTime);
         }
     }
-
     public virtual void HandleDeath()
     {
         Player.ChangeState(Player.DeathState);

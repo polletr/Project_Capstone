@@ -1,4 +1,5 @@
 using FMOD.Studio;
+using FMODUnity;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,7 +25,17 @@ public class ShadowEnemyBlink : EnemyClass, IStunable
         BodyMaterial.SetFloat("_Transparency", 0.9f);
         EyeMaterial.SetFloat("_Transparency", 0.9f);
         currentAudio = AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.ShadowIdle);
+        // 3D attributes based on the enemy's position and orientation
+        FMOD.ATTRIBUTES_3D attributes = new FMOD.ATTRIBUTES_3D
+        {
+            position = RuntimeUtils.ToFMODVector(transform.position),
+            forward = RuntimeUtils.ToFMODVector(transform.forward),
+            up = RuntimeUtils.ToFMODVector(transform.up)
+        };
+
+        currentAudio.set3DAttributes(attributes);
         currentAudio.start();
+
     }
 
     public void ApplyEffect()

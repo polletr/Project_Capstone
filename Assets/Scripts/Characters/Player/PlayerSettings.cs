@@ -16,6 +16,7 @@ public class PlayerSettings : ScriptableObject
     public float ClampAngleDown = 40.0f;
 
     [Header("Flashlight Rotate")]
+    public float flashlightFollowDelay = 2f;
     public float FlashlightRotateSpeed = 100.0f;
     public float FlashlightAngleUp = 50.0f;
     public float FlashlightAngleDown = 10.0f;
