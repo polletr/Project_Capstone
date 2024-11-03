@@ -39,13 +39,11 @@ public class PlayerSettings : ScriptableObject
     public float InteractionRange = 2.0f;
 
 
-    [Header("Bobbing")]
-    public float TiltAngle;
+    [Header("Dynamic Movement")]
     public float TiltSpeed;
     public float SwayFrequency;
     public float SwayAmplitude;
-    public float BobAmount = 0.2f;
-    public float BobSpeedWalk = 0.2f;
-    public float BobSpeedRun = 0.2f;
-    public float BobSpeedCrouch = 0.2f;
+    public float BobFrequency = 0.2f;
+    public float BobAmplitude;
+    public float BobResetSpeed;
 }

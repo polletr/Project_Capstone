@@ -34,6 +34,7 @@ public class PlayerController : MonoBehaviour
     public PlayerMoveState MoveState { get; private set; }
 
     public PlayerRechargeState RechargeState { get; private set; }
+    [field: SerializeField] public bool DynamicMov { get; private set; }
 
     public InputManager inputManager { get; private set; }
     public PlayerAnimator playerAnimator { get; private set; }
@@ -110,6 +111,11 @@ public class PlayerController : MonoBehaviour
     public void GetKilled()
     {
         currentState?.HandleDeath();
+    }
+
+    public void DynamicMovement(bool on)
+    {
+        DynamicMov = on;
     }
 
     private void SetupSoundEvents()

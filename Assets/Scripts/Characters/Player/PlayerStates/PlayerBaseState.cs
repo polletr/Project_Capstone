@@ -71,24 +71,29 @@ public abstract class PlayerBaseState
         // Calculate the movement direction based on the input (dir) and camera orientation
         direction = (cameraForward * dir.y + cameraRight * dir.x);
 
+        if (Player.DynamicMov)
+            TiltingCamera(dir);
+    }
+
+    private void TiltingCamera(Vector2 dir)
+    {
         // Calculate target tilt based on horizontal movement input
-        float targetTilt = -dir.x * Player.Settings.TiltAngle;
+        float targetTilt = 0f;
 
         // Add oscillating tilt for forward movement
-        if (direction != Vector3.zero &&
-            Mathf.Abs(Vector3.Dot(direction.normalized, Player.PlayerCam.transform.forward)) > 0.1f)
+        if (dir != Vector2.zero)
         {
+            // Calculate oscillation based on forward movement
             float oscillation = Mathf.Sin(Time.time * Player.Settings.SwayFrequency) * Player.Settings.SwayAmplitude;
             targetTilt += oscillation;
         }
         else
         {
-            targetTilt = 0;
+            targetTilt = 0; // Reset tilt when not moving
         }
 
         // Smoothly interpolate the z-axis tilt
-        float smoothTilt = Mathf.LerpAngle(Player.PlayerCam.transform.localEulerAngles.z, targetTilt,
-            Player.Settings.TiltSpeed * Time.deltaTime);
+        float smoothTilt = Mathf.LerpAngle(Player.PlayerCam.transform.localEulerAngles.z, targetTilt, Player.Settings.TiltSpeed * Time.deltaTime);
 
         // Update camera's local rotation on Z-axis for tilt effect
         Player.PlayerCam.transform.localRotation = Quaternion.Euler(
@@ -96,8 +101,36 @@ public abstract class PlayerBaseState
             Player.PlayerCam.transform.localEulerAngles.y,
             smoothTilt
         );
+
+        // Call the bobbing method
+        ApplyBobbing(dir);
     }
 
+    private void ApplyBobbing(Vector2 dir)
+    {
+        // Create a bobbing effect based on the movement speed and direction
+        if (dir.magnitude > 0)
+        {
+            float bobbingAmount = Mathf.Sin(Time.time * Player.Settings.BobFrequency) * Player.Settings.BobAmplitude;
+            Vector3 bobOffset = new Vector3(0, bobbingAmount, 0); // Only apply bobbing on the Y-axis
+
+            // Apply the bobbing effect to the camera position
+            Player.PlayerCam.transform.localPosition = new Vector3(
+                Player.PlayerCam.transform.localPosition.x,
+                Player.PlayerCam.transform.localPosition.y + bobOffset.y,
+                Player.PlayerCam.transform.localPosition.z
+            );
+        }
+        else
+        {
+            // Reset to the original position when not moving
+            Player.PlayerCam.transform.localPosition = new Vector3(
+                Player.PlayerCam.transform.localPosition.x,
+                Mathf.Lerp(Player.PlayerCam.transform.localPosition.y, 0f, Player.Settings.BobResetSpeed * Time.deltaTime),
+                Player.PlayerCam.transform.localPosition.z
+            );
+        }
+    }
     public virtual void HandleRecharge() { }
 
     public virtual void HandleAttack(bool held)
@@ -159,7 +192,10 @@ public abstract class PlayerBaseState
         // Calculate camera pitch (x-axis) rotation
         Player.xRotation += dir.y * sensitivityMultiplier * Time.deltaTime;
         Player.xRotation = Mathf.Clamp(Player.xRotation, Player.Settings.ClampAngleUp, Player.Settings.ClampAngleDown);
-        Player.PlayerCam.transform.localRotation = Quaternion.Euler(-Player.xRotation, 0, 0); // Rotate camera vertically
+        Vector3 currentRotation = Player.PlayerCam.transform.localEulerAngles;
+
+        // Set the new rotation, keeping the current z rotation
+        Player.PlayerCam.transform.localRotation = Quaternion.Euler(-Player.xRotation, 0, currentRotation.z);
 
         // Only update the flashlight's rotation if the player is holding it
         if (Player.HasFlashlight)
