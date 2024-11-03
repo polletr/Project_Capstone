@@ -30,16 +30,9 @@ public class NurseRetreatState : NurseBaseState
         // Play reaction animation
         enemyAnimator.animator.CrossFade(enemyAnimator.StunHash, enemyAnimator.animationCrossFade);
 
-        // Play reaction audio if not already playing
-        PLAYBACK_STATE playbackState;
-        enemy.currentAudio.getPlaybackState(out playbackState);
-
-        if (playbackState == PLAYBACK_STATE.STOPPED)
-        {
-            // enemy.currentAudio = AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents);
-            // enemy.currentAudio.start();
-        }
-
+        enemy.currentAudio = AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.NurseReact);
+        enemy.currentAudio.start();
+        enemy.currentAudio.release();
         // Start coroutine to wait for reaction animation to finish
         enemy.StartCoroutine(WaitForReactionAnimation());
     }

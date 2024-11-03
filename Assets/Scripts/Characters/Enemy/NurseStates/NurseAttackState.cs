@@ -13,6 +13,10 @@ public class NurseAttackState : NurseBaseState
 
         // Play reaction animation
         enemyAnimator.animator.CrossFade(enemyAnimator.AttackHash, enemyAnimator.animationCrossFade);
+        enemy.currentAudio = AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.NurseKillLaugh);
+        enemy.currentAudio.start();
+        enemy.currentAudio.release();
+
 
         enemy.Attack();
     }

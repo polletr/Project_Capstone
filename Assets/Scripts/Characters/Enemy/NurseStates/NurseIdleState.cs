@@ -13,15 +13,10 @@ public class NurseIdleState : NurseBaseState
         enemy.agent.ResetPath();
         enemyAnimator.animator.CrossFade(enemyAnimator.IdleHash, enemyAnimator.animationCrossFade);
 
-        PLAYBACK_STATE playbackState;
-        enemy.currentAudio.getPlaybackState(out playbackState);
-
-        if (playbackState == PLAYBACK_STATE.STOPPED)
-        {
-            //Check Audio for nurse Idle
-            //enemy.currentAudio = AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.ShadowIdle);
-            //enemy.currentAudio.start();
-        }
+        //Check Audio for nurse Idle
+        enemy.currentAudio = AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.NurseStrongLaugh);
+        enemy.currentAudio.start();
+        enemy.currentAudio.release();
 
     }
 

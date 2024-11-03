@@ -18,13 +18,13 @@ public class LightEnemyTrigger : MonoBehaviour
     {
         if (other.TryGetComponent(out PlayerController player))
         {
-            Event.PlayerExitedSafeZone.Invoke(player);
+            Event.PlayerExitedSafeZone?.Invoke(player);
         }
     }
 
     public void BroadcastPlayerProgress(int progress)
     {
-        Event.PlayerEnteredSafeZone.Invoke(progress);
+        Event.PlayerEnteredSafeZone?.Invoke(progress);
     }
 
 }

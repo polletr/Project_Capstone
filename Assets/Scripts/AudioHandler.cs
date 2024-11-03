@@ -12,9 +12,9 @@ public class AudioHandler : MonoBehaviour
     EventInstance audioInstance;
 
 
-    public void PlayOneShotAudio()
+    public void PlayOneShotAudio(Transform soundPoint)
     {
-        AudioManagerFMOD.Instance.PlayOneShot(audioClip, transform.position);
+        AudioManagerFMOD.Instance.PlayOneShot(audioClip, soundPoint.position);
     }
 
     public void PlayAudioInstance()

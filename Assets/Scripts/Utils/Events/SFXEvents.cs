@@ -36,12 +36,19 @@ public class SFXEvents : ScriptableObject
     [field: SerializeField] public EventReference LightTurnOn { get; private set; }
     [field: SerializeField] public EventReference LightFlickerOnce { get; private set; }
 
-    [field: Header("Enemies")]
+    [field: Header("ShadowEnemy")]
     [field: SerializeField] public EventReference Cry { get; private set; }
     [field: SerializeField] public EventReference ShadowIdle { get; private set; }
     [field: SerializeField] public EventReference AttackAnticipation { get; private set; }
     [field: SerializeField] public EventReference Chase { get; private set; }
     [field: SerializeField] public EventReference Attack { get; private set; }
+
+
+    [field: Header("NurseEnemy")]
+    [field: SerializeField] public EventReference NurseReact { get; private set; }
+    [field: SerializeField] public EventReference NurseStrongLaugh { get; private set; }
+    [field: SerializeField] public EventReference NurseTimidLaugh { get; private set; }
+    [field: SerializeField] public EventReference NurseKillLaugh { get; private set; }
 
     [field: Header("Objects")]
     [field: SerializeField] public EventReference SuddenAppear { get; private set; }
