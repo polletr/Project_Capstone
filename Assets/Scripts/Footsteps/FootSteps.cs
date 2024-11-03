@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using FMOD.Studio;
 using FMODUnity;
+using System.Net.Http.Headers;
 
 public class FootSteps : MonoBehaviour
 {
-    [SerializeField] private EventReference stepsSound;
+    [SerializeField] private EventReference runStepsSound;
+    [SerializeField] private EventReference crawlingStepsSound;
 
     private enum CURRENT_TERRAIN { GRASS, GRAVEL, WOOD_FLOOR, WATER };
 
@@ -39,9 +41,18 @@ public class FootSteps : MonoBehaviour
 
     }
 
-    private void PlayFootstep(int terrain)
+    private void PlayFootstep(int terrain, int animation)
     {
-        footsteps = RuntimeManager.CreateInstance(stepsSound);
+        EventReference reference;
+        switch (animation)
+        {
+            case 0:
+                reference = runStepsSound; break;
+            case 1:
+                reference = crawlingStepsSound; break;
+            default: reference = runStepsSound; break;
+        }
+        footsteps = RuntimeManager.CreateInstance(reference);
         footsteps.setParameterByName("Terrain", terrain);
         footsteps.set3DAttributes(RuntimeUtils.To3DAttributes(gameObject));
         footsteps.start();
@@ -49,25 +60,25 @@ public class FootSteps : MonoBehaviour
     }
 
 
-    public void Step()
+    public void Step(int animation)
     {
         DetermineTerrain();
         switch (currentTerrain)
         {
             case CURRENT_TERRAIN.GRAVEL:
-                PlayFootstep(1);
+                PlayFootstep(1, animation);
                 break;
 
             case CURRENT_TERRAIN.WOOD_FLOOR:
-                PlayFootstep(2);
+                PlayFootstep(2, animation);
                 break;
 
             case CURRENT_TERRAIN.WATER:
-                PlayFootstep(3);
+                PlayFootstep(3, animation);
                 break;
 
             default:
-                PlayFootstep(0);
+                PlayFootstep(0, animation);
                 break;
         }
     }
