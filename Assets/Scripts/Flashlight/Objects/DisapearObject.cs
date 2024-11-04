@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
@@ -110,7 +111,12 @@ public class DisapearObject : MonoBehaviour, IHideable
            revealSound.stop(STOP_MODE.IMMEDIATE);
             AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.FlashlightReveal, this.transform.position);
             objectRevealed.Invoke();
-            IsHidden = true; 
+            IsHidden = true;
+            if (TryGetComponent(out NavMeshObstacle obstacle))
+            {
+                obstacle.enabled = false;
+            }
+
             if (TryGetComponent(out RevealableObject revealableObject))
             {
                 revealableObject.enabled = true;
