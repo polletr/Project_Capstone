@@ -9,7 +9,7 @@ public class ShadowEnemyBlink : EnemyClass, IStunable
     [SerializeField] private Material BodyMaterial;
     [SerializeField] private Material EyeMaterial;
     [SerializeField] private float RotationSpeed;
-
+    [SerializeField] private float startTransparency;
     public EventInstance currentAudio { get; set; }
 
     [SerializeField] private float changeTranspDuration;
@@ -36,6 +36,8 @@ public class ShadowEnemyBlink : EnemyClass, IStunable
         currentAudio.set3DAttributes(attributes);
         currentAudio.start();
 
+        SetTransparency(startTransparency);
+
     }
 
     public void ApplyEffect()
@@ -54,6 +56,11 @@ public class ShadowEnemyBlink : EnemyClass, IStunable
 
     }
 
+    public void SetTransparency(float value)
+    {
+        if (EnemyTransparencyRoutine == null)
+            EnemyTransparencyRoutine = StartCoroutine(EnemyTransparency(value));
+    }
 
     public IEnumerator EnemyTransparency(float targetTransp)
     {
