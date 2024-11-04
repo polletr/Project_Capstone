@@ -84,6 +84,8 @@ public class RevealAbility : FlashlightAbility
         
         if (!PlayerBatteryUIHandler.Instance)
             PlayerBatteryUIHandler.Instance.FlickerBatteryUIOnce();
+        
+        tutorialEvents.OnReveal?.Invoke();
     }
 
     private IEnumerator ChangeRevealLight()

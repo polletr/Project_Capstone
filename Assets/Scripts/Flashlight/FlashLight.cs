@@ -9,6 +9,7 @@ using Random = UnityEngine.Random;
 public class FlashLight : MonoBehaviour
 {
     public GameEvent Event;
+    public TutorialEvents TutorialEvent;
 
     [field: Header("Base Flashlight Settings")] [SerializeField]
     private Color lightColor;
@@ -269,6 +270,7 @@ public class FlashLight : MonoBehaviour
 
         // Stop current ability and set the new one
         CurrentAbility = flashlightAbilities[currentIndex];
+        TutorialEvent.OnSwapAbility?.Invoke();
     }
 
 
@@ -348,9 +350,15 @@ public class FlashLight : MonoBehaviour
 
         IsFlashlightOn = !IsFlashlightOn;
         if (IsFlashlightOn)
+        {
+            TutorialEvent.OnTurnOnFlashlight?.Invoke();
             TurnOnLight();
+        }
         else
+        {
+            TutorialEvent.OnTurnOffFlashlight?.Invoke();
             TurnOffLight();
+        }
     }
 
     private void ApplyCurrentAbilityEffect(IEffectable obj)

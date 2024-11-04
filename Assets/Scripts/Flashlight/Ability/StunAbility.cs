@@ -67,6 +67,7 @@ public class StunAbility : FlashlightAbility
         Flashlight.StartCoroutine(Flashlight.ZeroOutLight(Cooldown));
         PlayerBatteryUIHandler.Instance.FlickerBatteryUIOnce();
         
+        tutorialEvents.OnStun?.Invoke();
     }
     
     private IEnumerator StartStunAttack()
