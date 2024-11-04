@@ -95,7 +95,10 @@ public class ShadowEnemyBlink : EnemyClass, IStunable
         // Ensure the transparency is set to the target value at the end
         BodyMaterial.SetFloat("_Transparency", targetTransp);
         EyeMaterial.SetFloat("_Transparency", targetTransp);
-        DisableEnemy();
+        if (bodyCurrentTransparency <= 0f)
+        {
+            DisableEnemy();
+        }
     }
 
     public void DisableEnemy()

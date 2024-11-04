@@ -13,13 +13,13 @@ public class HeadFollower : MonoBehaviour
     [SerializeField] private float maxHeadRotationY = 45f; // Maximum left/right rotation limit
 
     private Coroutine headFollowCoroutine;
-    // Public method to start following the player
+
     private void Start()
     {
+        if (Camera.main != null) cameraTransform = Camera.main.transform;
         StartFollowing(); // Start following the target or camera
     }
 
-    // Public method to start following the target or camera
     public void StartFollowing()
     {
         if (headFollowCoroutine != null)
@@ -29,7 +29,6 @@ public class HeadFollower : MonoBehaviour
         headFollowCoroutine = StartCoroutine(FollowCoroutine());
     }
 
-    // Coroutine to rotate the NPC's head towards the target or camera
     private IEnumerator FollowCoroutine()
     {
         while (true) // This will run indefinitely until stopped
@@ -41,28 +40,28 @@ public class HeadFollower : MonoBehaviour
 
     private void FollowTarget()
     {
-        Transform target;
-        if (followTarget != null)
-        {
-            target = followTarget;
-        }
-        else
-        {
-            cameraTransform = Camera.main.transform;
-            target = cameraTransform;
+        Transform target = followTarget != null ? followTarget : cameraTransform;
 
-        }
+        if (target == null) return;
 
-        // Get the direction to the target
+        // Calculate the world space direction to the target
         Vector3 directionToTarget = target.position - headTransform.position;
 
-        // Calculate the rotation to look at the target
-        Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
-        // Get the clamped rotation angles
-        //Vector3 clampedRotation = ClampRotation(targetRotation.eulerAngles);
+        // Calculate the target rotation in world space
+        Quaternion targetWorldRotation = Quaternion.LookRotation(directionToTarget);
 
-        // Apply the clamped rotation to the head
-        headTransform.localRotation = Quaternion.Slerp(headTransform.rotation, Quaternion.Euler(targetRotation.eulerAngles), rotationSpeed * Time.deltaTime);
+        // Convert the target rotation to local space relative to the enemy's transform
+        Quaternion targetLocalRotation = Quaternion.Inverse(transform.rotation) * targetWorldRotation;
+
+        // Clamp the rotation angles in local space
+        Vector3 clampedRotation = ClampRotation(targetLocalRotation.eulerAngles);
+
+        // Apply the clamped rotation to the head smoothly
+        headTransform.localRotation = Quaternion.Slerp(
+            headTransform.localRotation,
+            Quaternion.Euler(targetLocalRotation.eulerAngles),
+            rotationSpeed * Time.deltaTime
+        );
     }
 
     private Vector3 ClampRotation(Vector3 eulerAngles)
@@ -79,7 +78,6 @@ public class HeadFollower : MonoBehaviour
         return new Vector3(clampedX, clampedY, clampedZ);
     }
 
-    // Optional: Public method to stop following
     public void StopFollowing()
     {
         if (headFollowCoroutine != null)
@@ -88,10 +86,10 @@ public class HeadFollower : MonoBehaviour
             headFollowCoroutine = null; // Clear the reference
         }
     }
+
     public void SetFollowTarget(Transform newTarget)
     {
         followTarget = newTarget;
         StartFollowing(); // Restart the following coroutine
     }
-
 }
