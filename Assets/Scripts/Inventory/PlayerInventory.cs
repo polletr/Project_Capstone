@@ -66,6 +66,7 @@ public class PlayerInventory : MonoBehaviour
             case Key key:
                 if (!_openDoorIDs.Contains(key.OpenID))
                     _openDoorIDs.Add(key.OpenID);
+                Event.OnKeyPickup.Invoke(key.OpenID);
                 item.Collect();
                 break;
             case FlashlightPickup flashlightPickup:

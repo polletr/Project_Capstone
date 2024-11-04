@@ -56,7 +56,7 @@ public class PlayerRechargeState : PlayerBaseState
     {
         while (true)
         {
-            Player.Event.SetTutorialText?.Invoke("Recharging: " + progress.ToString("F0"));
+            Player.Event.SetTutorialText?.Invoke("Recharging: " + progress.ToString("F0") + "\n" +"Press R repetitively to boost recharge");
             yield return new WaitForSeconds(0.1f);
         }
     }
