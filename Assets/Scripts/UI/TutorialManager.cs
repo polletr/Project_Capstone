@@ -66,13 +66,13 @@ public class TutorialManager : MonoBehaviour
         _countdownTimer.Tick(Time.deltaTime);
         if (_countdownTimer.IsFinished)
         {
-            _tutorialtext.text = "";
+            _rechargetext.text = "";
             _countdownTimer.Stop();
             _countdownTimer.Reset();
         }
     }
 
-    public void SetTextTimer(string text)
+    private void SetTextTimer(string text)
     {
         _countdownTimer.Reset();
         _countdownTimer.Start();
@@ -105,7 +105,6 @@ public class TutorialManager : MonoBehaviour
     {
         SetText("Press F to turn ON flashlight");
         TutorialEvent.OnTurnOnFlashlight += RemoveFlashlightOnText;
-
     }
 
     private void FlashlightOffText()
