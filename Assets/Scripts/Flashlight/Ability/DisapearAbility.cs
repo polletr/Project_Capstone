@@ -86,7 +86,8 @@ public class DisapearAbility : FlashlightAbility
         Flashlight.ResetLight(Cooldown);
         if (!PlayerBatteryUIHandler.Instance)
             PlayerBatteryUIHandler.Instance.FlickerBatteryUIOnce();
-
+        
+        tutorialEvents.OnDisappear?.Invoke();
     }
 
     private IEnumerator ChangeRevealLight()

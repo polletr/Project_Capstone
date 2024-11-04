@@ -1,22 +1,35 @@
+using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using Utilities;
 
 public class TutorialManager : MonoBehaviour
 {
-
     [SerializeField] private float _tutorialTime;
     [SerializeField] private TextMeshProUGUI _tutorialtext;
+    [SerializeField] private TextMeshProUGUI _rechargetext;
 
     public GameEvent Event;
+    public TutorialEvents TutorialEvent;
+
     public GlobalEventSO stunTutorial;
     public GlobalEventSO disappearTutorial;
+    public GlobalEventSO revealTutorial;
+    public GlobalEventSO swapAbilityTutorial;
     public GlobalEventSO flashlightOnTutorial;
     public GlobalEventSO flashlightOffTutorial;
+
     private CountdownTimer _countdownTimer;
+
+    private Action currentFunction;
+    private UnityAction currentTutorialEvent;
 
     private void Awake()
     {
+        _tutorialtext.text = "";
+        _rechargetext.text = "";
         _countdownTimer = new CountdownTimer(_tutorialTime);
     }
 
@@ -24,21 +37,27 @@ public class TutorialManager : MonoBehaviour
     {
         stunTutorial.OnTriggerGlobalEvent += StunText;
         disappearTutorial.OnTriggerGlobalEvent += DisappearText;
-        flashlightOnTutorial.OnTriggerGlobalEvent += FlashlightText;
+        flashlightOnTutorial.OnTriggerGlobalEvent += FlashlightOnText;
         flashlightOffTutorial.OnTriggerGlobalEvent += FlashlightOffText;
-        Event.SetTutorialText += SetText;
+        revealTutorial.OnTriggerGlobalEvent += RevealText;
+        swapAbilityTutorial.OnTriggerGlobalEvent += SwapAbilityText;
+
+
+        Event.SetTutorialText += SetRechargeText;
         Event.SetTutorialTextTimer += SetTextTimer;
-
-
     }
 
     private void OnDisable()
     {
         stunTutorial.OnTriggerGlobalEvent -= StunText;
         disappearTutorial.OnTriggerGlobalEvent -= DisappearText;
-        flashlightOnTutorial.OnTriggerGlobalEvent -= FlashlightText;
+        flashlightOnTutorial.OnTriggerGlobalEvent -= FlashlightOnText;
         flashlightOffTutorial.OnTriggerGlobalEvent -= FlashlightOffText;
-        Event.SetTutorialText -= SetText;
+        revealTutorial.OnTriggerGlobalEvent -= RevealText;
+        swapAbilityTutorial.OnTriggerGlobalEvent -= SwapAbilityText;
+
+
+        Event.SetTutorialText -= SetRechargeText;
         Event.SetTutorialTextTimer -= SetTextTimer;
     }
 
@@ -50,37 +69,100 @@ public class TutorialManager : MonoBehaviour
             _tutorialtext.text = "";
             _countdownTimer.Stop();
             _countdownTimer.Reset();
-
         }
     }
+
     public void SetTextTimer(string text)
     {
         _countdownTimer.Reset();
         _countdownTimer.Start();
+        _rechargetext.text = text;
+    }
+
+    private void SetText(string text)
+    {
         _tutorialtext.text = text;
+    } 
+    private void SetRechargeText(string text)
+    {
+        _rechargetext.text = text;
     }
 
-    public void SetText(string text)
+    private void StunText()
     {
-        _tutorialtext.text = text;
+        SetText("Hold down left mouse to stun");
+        TutorialEvent.OnStun += RemoveStunText;
     }
 
-    public void StunText()
+    private void DisappearText()
     {
-        SetTextTimer("Left click to stun");
-    }
-    public void DisappearText()
-    {
-        SetTextTimer("Hold down left mouse button to make highlighted objects disappear");
-    }
-    public void FlashlightText()
-    {
-        SetTextTimer("Press F to turn ON flashlight");
+        SetText("Hold down left mouse button to make highlighted objects disappear");
+        TutorialEvent.OnDisappear += RemoveDisappearText;
+
     }
 
-    public void FlashlightOffText()
+    private void FlashlightOnText()
     {
-        SetTextTimer("Press F to turn OFF flashlight");
+        SetText("Press F to turn ON flashlight");
+        TutorialEvent.OnTurnOnFlashlight += RemoveFlashlightOnText;
+
     }
 
+    private void FlashlightOffText()
+    {
+        SetText("Press F to turn OFF flashlight");
+        TutorialEvent.OnTurnOffFlashlight += RemoveFlashlightOffText;
+    }
+
+    private void RevealText()
+    {
+        SetText("Hold down left mouse button to reveal hidden objects");
+        TutorialEvent.OnReveal += RemoveRevealText;
+    }
+
+    private void SwapAbilityText()
+    {
+        SetText("Press Q to swap abilities");
+        TutorialEvent.OnSwapAbility += RemoveSwapText;
+    }
+
+    #region Remove Text
+
+    private void RemoveSwapText()
+    {
+        TutorialEvent.OnSwapAbility -= RemoveSwapText;
+        _tutorialtext.text = "";
+    }
+
+    private void RemoveRevealText()
+    {
+        TutorialEvent.OnReveal -= RemoveRevealText;
+        _tutorialtext.text = "";
+    }
+    
+    private void RemoveFlashlightOffText()
+    {
+        TutorialEvent.OnTurnOffFlashlight -= RemoveFlashlightOffText;
+        _tutorialtext.text = "";
+    }
+    
+    private void RemoveFlashlightOnText()
+    {
+        TutorialEvent.OnTurnOnFlashlight -= RemoveFlashlightOnText;
+        _tutorialtext.text = "";
+    }
+    
+    private void RemoveStunText()
+    {
+        TutorialEvent.OnStun -= RemoveStunText;
+        _tutorialtext.text = "";
+    }
+    
+    private void RemoveDisappearText()
+    {
+        TutorialEvent.OnDisappear -= RemoveDisappearText;
+        _tutorialtext.text = "";
+    }
+
+    #endregion
 }
