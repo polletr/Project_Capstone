@@ -45,6 +45,18 @@ public class RevealableObject : MonoBehaviour, IRevealable
 
         outline = GetComponent<Outline>();
         revealSound = AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.FlashlightRevealing);
+
+    }
+
+    void OnEnable()
+    {
+        IsRevealed = false;
+        GetComponent<Collider>().isTrigger = true;
+        revealTimer = 0f;
+
+        if (TryGetComponent(out DisapearObject disapearObject))
+            disapearObject.enabled = false;
+
     }
 
     public void ApplyEffect()
@@ -120,6 +132,15 @@ public class RevealableObject : MonoBehaviour, IRevealable
                 this.transform.position);
             objectRevealed.Invoke();
             IsRevealed = true;
+
+            if (TryGetComponent(out DisapearObject disapearObject))
+            {
+                disapearObject.enabled = true;
+            }
+            else
+            {
+                GetComponent<Collider>().isTrigger = false;
+            }
         }
     }
 

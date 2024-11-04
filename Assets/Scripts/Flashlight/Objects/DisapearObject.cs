@@ -45,7 +45,20 @@ public class DisapearObject : MonoBehaviour, IHideable
         outline = GetComponent<Outline>();
 
         revealSound = AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.FlashlightRevealing);
+
     }
+
+    void OnEnable()
+    {
+        IsHidden = false;
+        GetComponent<Collider>().isTrigger = false;
+        revealTimer = 0f;
+
+        if (TryGetComponent(out RevealableObject revealableObject))
+            revealableObject.enabled = false;
+
+    }
+
 
     public void ApplyEffect()
     {
@@ -62,11 +75,11 @@ public class DisapearObject : MonoBehaviour, IHideable
     public void HideObj(out bool revealed)
     {
         StopAllCoroutines();
-        RevealFunction();
+        HideFunction();
         revealed = IsHidden;
     }
 
-    private void RevealFunction()
+    private void HideFunction()
     {
         if (!IsHidden)
         {
@@ -92,23 +105,30 @@ public class DisapearObject : MonoBehaviour, IHideable
             }
         }
 
-        if (currentObjTransp >= 0.7f)
+        if (currentObjTransp >= 0.75f)
         {
            revealSound.stop(STOP_MODE.IMMEDIATE);
             AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.FlashlightReveal, this.transform.position);
             objectRevealed.Invoke();
             IsHidden = true; 
-            Destroy(this.gameObject);
+            if (TryGetComponent(out RevealableObject revealableObject))
+            {
+                revealableObject.enabled = true;
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
     }
 
-    public void UnRevealObj()
+    public void UnHideObj()
     {
         StopAllCoroutines();
-        StartCoroutine(UnRevealCoroutine());
+        StartCoroutine(UnhideCoroutine());
     }
 
-    private IEnumerator UnRevealCoroutine()
+    private IEnumerator UnhideCoroutine()
     {
         revealTimer = 0f;
         revealSound.stop(STOP_MODE.IMMEDIATE);

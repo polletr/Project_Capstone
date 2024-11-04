@@ -27,7 +27,7 @@ public class DisapearAbility : FlashlightAbility
             StopCoroutine(revealCoroutine);
             if (currentObj && !currentObj.IsHidden)
             {
-                currentObj.UnRevealObj();
+                currentObj.UnHideObj();
                 currentObj = null;
             }
         }
@@ -52,7 +52,7 @@ public class DisapearAbility : FlashlightAbility
                     }
                     else if (currentObj != obj)
                     {
-                        currentObj.UnRevealObj();
+                        currentObj.UnHideObj();
                         currentObj = null;
                         OnStopAbility();
                         break;
@@ -64,7 +64,7 @@ public class DisapearAbility : FlashlightAbility
                 {
                     if (currentObj != null)
                     {
-                        currentObj.UnRevealObj();
+                        currentObj.UnHideObj();
                         currentObj = null;
                     }
 
