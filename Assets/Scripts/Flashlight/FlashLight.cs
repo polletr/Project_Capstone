@@ -55,13 +55,16 @@ public class FlashLight : MonoBehaviour
     }
 
     public float TotalBatteryLife => MaxBatteryLife + extraCharge;
+    public float CrankBoost => extracrank;
+    
 
     public Transform RayCastOrigin => player.PlayerCam.transform;
     public Light Light { get; private set; }
     public bool CanUseAbility { get; private set; } = true;
     public bool IsFlashlightOn { get; private set; }
 
-    private float extraCharge;
+    private float extraCharge;  
+    private float extracrank;
 
     private CountdownTimer flickerTimer;
     private PlayerController player;
@@ -108,6 +111,7 @@ public class FlashLight : MonoBehaviour
         Event.OnPickupAbility += CollectAbility;
         Event.OnFinishRecharge += Recharge;
         Event.OnBatteryAdded += UpdateExtraCharge;
+        Event.OnCrankAdded += UpdateExtraCharge;
     }
 
     private void OnDisable()
@@ -424,6 +428,7 @@ public class FlashLight : MonoBehaviour
 
 
     private void UpdateExtraCharge(float charge) => extraCharge = charge;
+    private void UpdateExtraCrank(float crank) => extraCharge = crank;
 
     public void ZeroOutBattery() => BatteryLife = 0;
 

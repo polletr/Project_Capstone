@@ -17,6 +17,7 @@ public class GameEvent : ScriptableObject
     public UnityAction<ICollectable> OnInteractItem;
 
     public UnityAction<float> OnBatteryAdded;
+    public UnityAction<float> OnCrankAdded;
     public UnityAction OnFinishRecharge;
 
     

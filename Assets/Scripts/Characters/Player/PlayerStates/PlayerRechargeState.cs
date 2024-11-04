@@ -77,6 +77,6 @@ public class PlayerRechargeState : PlayerBaseState
 
     public override void HandleRecharge()
     {
-        progress += ButtonMashBoost;
+        progress += ButtonMashBoost + Player.playerInventory.CrankCollected;
     }
 }

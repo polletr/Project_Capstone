@@ -38,6 +38,7 @@ public class PlayerController : MonoBehaviour
 
     public InputManager inputManager { get; private set; }
     public PlayerAnimator playerAnimator { get; private set; }
+    public PlayerInventory playerInventory { get; private set; }
 
     public EventInstance playerFootsteps { get; private set; }
     public EventInstance playerBreathing { get; private set; }
@@ -59,6 +60,7 @@ public class PlayerController : MonoBehaviour
         playerAnimator = GetComponent<PlayerAnimator>();
         playerAnimator.GetAnimator();
         inputManager = GetComponent<InputManager>();
+        playerInventory = GetComponent<PlayerInventory>();
 
         flashlight = GetComponentInChildren<FlashLight>();
         characterController = GetComponent<CharacterController>();
