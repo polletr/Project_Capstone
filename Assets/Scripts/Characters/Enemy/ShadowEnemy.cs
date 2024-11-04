@@ -249,7 +249,7 @@ public class ShadowEnemy : EnemyClass, IStunable
 
     }
 
-    public void OnDestroy()
+    public void OnDisable()
     {
         if(playerCharacter != null)
         {

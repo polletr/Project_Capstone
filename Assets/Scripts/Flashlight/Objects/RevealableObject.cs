@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(Outline))]
@@ -22,6 +23,8 @@ public class RevealableObject : MonoBehaviour, IRevealable
 
 
     private EventInstance revealSound;
+
+    bool originalTrigger;
 
     public bool IsRevealed { get; set; }
 
@@ -43,6 +46,7 @@ public class RevealableObject : MonoBehaviour, IRevealable
             renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
         }
 
+        originalTrigger = GetComponent<Collider>().isTrigger;
         outline = GetComponent<Outline>();
         revealSound = AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.FlashlightRevealing);
 
@@ -133,13 +137,18 @@ public class RevealableObject : MonoBehaviour, IRevealable
             objectRevealed.Invoke();
             IsRevealed = true;
 
+            if (TryGetComponent(out NavMeshObstacle obstacle))
+            {
+                obstacle.enabled = true;
+            }
+
             if (TryGetComponent(out DisapearObject disapearObject))
             {
                 disapearObject.enabled = true;
             }
             else
             {
-                GetComponent<Collider>().isTrigger = false;
+                GetComponent<Collider>().isTrigger = originalTrigger;
             }
         }
     }

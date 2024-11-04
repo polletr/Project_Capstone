@@ -8,7 +8,6 @@ public class AudioHandler : MonoBehaviour
 {
     [SerializeField] EventReference audioClip;
 
-    EventInstance bgAudioInstance;
     EventInstance audioInstance;
 
 
@@ -22,6 +21,14 @@ public class AudioHandler : MonoBehaviour
         audioInstance = AudioManagerFMOD.Instance.CreateEventInstance(audioClip);
         audioInstance.start();
     }
+
+    public void Play3DAudio()
+    {
+        audioInstance = AudioManagerFMOD.Instance.CreateEventInstance(audioClip);
+        audioInstance.set3DAttributes(RuntimeUtils.To3DAttributes(gameObject));
+        audioInstance.start();
+    }
+
 
     public void StopAudioInstance()
     {
