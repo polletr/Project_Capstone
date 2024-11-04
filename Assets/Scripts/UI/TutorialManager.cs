@@ -23,9 +23,7 @@ public class TutorialManager : MonoBehaviour
 
     private CountdownTimer _countdownTimer;
 
-    private Action currentFunction;
-    private UnityAction currentTutorialEvent;
-
+    private TextMeshProUGUI currnetText;
     private void Awake()
     {
         _tutorialtext.text = "";
@@ -45,6 +43,8 @@ public class TutorialManager : MonoBehaviour
 
         Event.SetTutorialText += SetRechargeText;
         Event.SetTutorialTextTimer += SetTextTimer;
+        Event.SetReloadTextTimer += SetRechargeTextTimer;
+        
     }
 
     private void OnDisable()
@@ -59,25 +59,36 @@ public class TutorialManager : MonoBehaviour
 
         Event.SetTutorialText -= SetRechargeText;
         Event.SetTutorialTextTimer -= SetTextTimer;
+        Event.SetReloadTextTimer -= SetRechargeTextTimer;
     }
 
     private void Update()
     {
         _countdownTimer.Tick(Time.deltaTime);
-        if (_countdownTimer.IsFinished)
+        if (_countdownTimer.IsFinished && currnetText != null)
         {
-            _tutorialtext.text = "";
+            currnetText.text = "";
             _countdownTimer.Stop();
             _countdownTimer.Reset();
         }
     }
 
-    public void SetTextTimer(string text)
+    private void SetRechargeTextTimer(string text)
     {
         _countdownTimer.Reset();
         _countdownTimer.Start();
         _rechargetext.text = text;
+        currnetText = _rechargetext;
     }
+    
+    private void SetTextTimer(string text)
+    {
+        _countdownTimer.Reset();
+        _countdownTimer.Start();
+        _tutorialtext.text = text;
+        currnetText = _tutorialtext;
+    }
+  
 
     private void SetText(string text)
     {
@@ -90,7 +101,7 @@ public class TutorialManager : MonoBehaviour
 
     private void StunText()
     {
-        SetText("Hold down left mouse to stun");
+        SetText("Press and Hold left mouse to stun");
         TutorialEvent.OnStun += RemoveStunText;
     }
 
@@ -105,7 +116,6 @@ public class TutorialManager : MonoBehaviour
     {
         SetText("Press F to turn ON flashlight");
         TutorialEvent.OnTurnOnFlashlight += RemoveFlashlightOnText;
-
     }
 
     private void FlashlightOffText()
@@ -163,6 +173,8 @@ public class TutorialManager : MonoBehaviour
         TutorialEvent.OnDisappear -= RemoveDisappearText;
         _tutorialtext.text = "";
     }
+    
+    
 
     #endregion
 }

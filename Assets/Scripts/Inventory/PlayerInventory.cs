@@ -41,6 +41,7 @@ public class PlayerInventory : MonoBehaviour
         if (_openDoorIDs.Contains(door.OpenID))
         {
             door.OpenDoor();
+            Event.SetTutorialTextTimer.Invoke("Key has been used");
             _openDoorIDs.Remove(door.OpenID);
         }
         else
@@ -66,6 +67,7 @@ public class PlayerInventory : MonoBehaviour
             case Key key:
                 if (!_openDoorIDs.Contains(key.OpenID))
                     _openDoorIDs.Add(key.OpenID);
+                Event.OnKeyPickup.Invoke(key.OpenID);
                 item.Collect();
                 break;
             case FlashlightPickup flashlightPickup:

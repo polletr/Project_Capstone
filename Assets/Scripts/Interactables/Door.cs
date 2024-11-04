@@ -44,6 +44,16 @@ public class Door : Interactable
         playerCamera = Camera.main.gameObject;
         currentHealth = doorHealth;
     }
+    
+    private void OnEnable()
+    {
+        Event.OnKeyPickup += KeyPickup;
+    }
+    private void OnDisable()
+    {
+        Event.OnKeyPickup -= KeyPickup;
+    }
+    
 
     private void Update()
     {
@@ -223,11 +233,20 @@ public class Door : Interactable
     public void OnLockOrUnlockDoor(bool islockedDoor)
     {
         isLocked = islockedDoor;
-        if (indicatorHandler != null)
-            indicatorHandler.IndicatorUI.SetLockedIndicator(islockedDoor);
+        if(indicatorHandler != null && indicatorHandler.IndicatorUI != null) 
+            indicatorHandler.IndicatorUI.SetLockedIndicator(isLocked);
 
         if (!isLocked)
             AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.UnlockDoor, transform.position);
+    }
+    
+    private void KeyPickup(int keyID)
+    {
+        if (keyID == OpenID)
+        {
+            if(indicatorHandler != null && indicatorHandler.IndicatorUI != null) 
+                indicatorHandler.IndicatorUI.SetLockedIndicator(false);
+        }
     }
 
 }
