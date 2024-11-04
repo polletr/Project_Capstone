@@ -41,6 +41,7 @@ public class PlayerInventory : MonoBehaviour
         if (_openDoorIDs.Contains(door.OpenID))
         {
             door.OpenDoor();
+            Event.SetTutorialTextTimer.Invoke("Key has been used");
             _openDoorIDs.Remove(door.OpenID);
         }
         else
