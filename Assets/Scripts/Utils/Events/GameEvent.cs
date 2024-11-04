@@ -35,6 +35,7 @@ public class GameEvent : ScriptableObject
 
     public UnityAction<string> SetTutorialText;
     public UnityAction<string> SetTutorialTextTimer;
+    public UnityAction<string> SetReloadTextTimer;
 
     public UnityAction<PlayerController> PlayerExitedSafeZone;
     public UnityAction<int> PlayerEnteredSafeZone;

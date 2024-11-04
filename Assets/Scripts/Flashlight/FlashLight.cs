@@ -422,7 +422,7 @@ public class FlashLight : MonoBehaviour
 
         CurrentAbility?.OnStopAbility();
         BatteryLife = MaxBatteryLife + extraCharge;
-        Event.SetTutorialTextTimer?.Invoke("Battery Recharged");
+        Event.SetReloadTextTimer?.Invoke("Battery Recharged");
         TurnOnLight();
     }
 
