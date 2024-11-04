@@ -49,9 +49,6 @@ public abstract class PlayerBaseState
         // Calculate the local movement direction relative to the player's forward direction
         var localDirection = Player.transform.InverseTransformDirection(direction);
 
-        // Set the animator parameters based on the local direction
-        PlayerAnimator.animator.SetFloat("Horizontal", localDirection.x * GetMovementAnimValue());
-        PlayerAnimator.animator.SetFloat("Vertical", localDirection.z * GetMovementAnimValue());
     }
 
     public virtual void HandleMovement(Vector2 dir)
