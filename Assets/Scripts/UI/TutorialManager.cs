@@ -122,7 +122,7 @@ public class TutorialManager : MonoBehaviour
 
     private void SwapAbilityText()
     {
-        SetText("Press Q to swap abilities");
+        SetText("Press 1-2-3 or roll mouse wheel to swap abilities");
         TutorialEvent.OnSwapAbility += RemoveSwapText;
     }
 
