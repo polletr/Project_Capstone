@@ -15,6 +15,7 @@ public class GameEvent : ScriptableObject
 
     public UnityAction<Door> OnTryToUnlockDoor;
     public UnityAction<ICollectable> OnInteractItem;
+    public UnityAction<int> OnKeyPickup;
 
     public UnityAction<float> OnBatteryAdded;
     public UnityAction<float> OnCrankAdded;
