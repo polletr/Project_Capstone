@@ -107,7 +107,7 @@ public class TutorialManager : MonoBehaviour
 
     private void DisappearText()
     {
-        SetText("Hold down left mouse button to make highlighted objects disappear");
+        SetText("Hold down left mouse button with the flashlight on to make highlighted objects disappear");
         TutorialEvent.OnDisappear += RemoveDisappearText;
 
     }
@@ -126,13 +126,13 @@ public class TutorialManager : MonoBehaviour
 
     private void RevealText()
     {
-        SetText("Hold down left mouse button to reveal hidden objects");
+        SetText("Hold down left mouse button with the flashlight on to reveal hidden objects");
         TutorialEvent.OnReveal += RemoveRevealText;
     }
 
     private void SwapAbilityText()
     {
-        SetText("Press 1-2-3 or roll mouse wheel to swap abilities");
+        SetText("Press 1-2-3 or mouse wheel to swap abilities");
         TutorialEvent.OnSwapAbility += RemoveSwapText;
     }
 

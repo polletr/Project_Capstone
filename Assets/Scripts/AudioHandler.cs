@@ -37,6 +37,7 @@ public class AudioHandler : MonoBehaviour
 
         if (playbackState == PLAYBACK_STATE.PLAYING)
         {
+            Debug.Log("Stopping Audio");
             audioInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         }
     }
