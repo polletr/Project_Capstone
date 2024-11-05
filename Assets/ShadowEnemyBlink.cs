@@ -18,6 +18,7 @@ public class ShadowEnemyBlink : EnemyClass, IStunable
 
     private PlayerController playerCharacter;
 
+    public bool CanApplyEffect { get; set; }
 
     private void Awake()
     {
@@ -35,7 +36,7 @@ public class ShadowEnemyBlink : EnemyClass, IStunable
 
         currentAudio.set3DAttributes(attributes);
         currentAudio.start();
-
+        CanApplyEffect = true;
         SetTransparency(startTransparency);
 
     }

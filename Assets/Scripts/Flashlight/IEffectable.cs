@@ -1,5 +1,7 @@
 public interface IEffectable
 {
+    public bool CanApplyEffect { get; set; }
+
     void ApplyEffect() { }
 
     void RemoveEffect() { }

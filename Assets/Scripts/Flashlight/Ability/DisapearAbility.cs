@@ -4,7 +4,6 @@ using UnityEngine;
 public class DisapearAbility : FlashlightAbility
 {
    
-    [SerializeField] private float interactRange = 3f;
     
     private DisapearObject currentObj;
     
@@ -42,7 +41,7 @@ public class DisapearAbility : FlashlightAbility
         while (!isRevealed)
         {
           
-            if (Physics.Raycast(Flashlight.RayCastOrigin.position, Flashlight.RayCastOrigin.forward, out var hit, interactRange))
+            if (Physics.Raycast(Flashlight.RayCastOrigin.position, Flashlight.RayCastOrigin.forward, out var hit, InteractRange))
             {
                 if (hit.collider.TryGetComponent(out DisapearObject obj))
                 {

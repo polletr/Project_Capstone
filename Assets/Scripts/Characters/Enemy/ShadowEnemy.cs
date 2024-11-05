@@ -19,6 +19,7 @@ public class ShadowEnemy : EnemyClass, IStunable
 
     public UnityEvent OnStunEnemy;
 
+    public bool CanApplyEffect { get;  set; }
 
     public float MaxIdleTime
     {
@@ -125,7 +126,7 @@ public class ShadowEnemy : EnemyClass, IStunable
         Paralised = false;
 
         ChangeState(IdleState);
-
+        CanApplyEffect = true;
 
     }
 

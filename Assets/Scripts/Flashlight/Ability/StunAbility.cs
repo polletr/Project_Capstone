@@ -6,7 +6,6 @@ public class StunAbility : FlashlightAbility
 {
     [field: Header("Stun Ability Settings")]
     [SerializeField] private float effectRadius;
-    [SerializeField] private float stunRange;
 
     [Header("Build Up Properties")]
     [SerializeField] private Color buildUpColor;
@@ -42,7 +41,7 @@ public class StunAbility : FlashlightAbility
             PlayerBatteryUIHandler.Instance.FlickerBatteryUIOnce();
 
         var ray = new Ray(Flashlight.RayCastOrigin.position, Flashlight.RayCastOrigin.forward);
-        RaycastHit[] hits = Physics.SphereCastAll(ray, effectRadius, stunRange);
+        RaycastHit[] hits = Physics.SphereCastAll(ray, effectRadius, InteractRange);
 
         if (hits.Length > 0)
         {

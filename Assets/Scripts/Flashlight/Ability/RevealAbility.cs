@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class RevealAbility : FlashlightAbility
 {
-    [SerializeField] private float revealRange = 3f;
     
     private RevealableObject currentObj;
     
@@ -39,7 +38,7 @@ public class RevealAbility : FlashlightAbility
         var isRevealed = false;
         while (!isRevealed)
         {
-            if (Physics.Raycast(Flashlight.RayCastOrigin.position, Flashlight.RayCastOrigin.forward, out var hit, revealRange))
+            if (Physics.Raycast(Flashlight.RayCastOrigin.position, Flashlight.RayCastOrigin.forward, out var hit, InteractRange))
             {
                 if (hit.collider.TryGetComponent(out RevealableObject obj))
                 {

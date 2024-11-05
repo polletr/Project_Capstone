@@ -17,6 +17,9 @@ public abstract class FlashlightAbility : MonoBehaviour
     [field: SerializeField] public Color AbilityColor { get; protected set; }
     [field: SerializeField] public float AbilitySpotAngle { get; protected set; }
     [field: SerializeField] public float AbilityInnerSpotAngle { get; protected set; }
+    [field: SerializeField] public float InteractRange { get; protected set; }
+
+
 
     // Ability flashlight settings
     [field: Header("Flashlight Settings")]
@@ -27,6 +30,10 @@ public abstract class FlashlightAbility : MonoBehaviour
     [field: SerializeField] public float BaseSpotAngle { get; protected set; } = 60;
     [field: SerializeField] public float BaseInnerSpotAngle { get; protected set; } = 30;
     [field: SerializeField] public float BaseRange { get; protected set; } = 10;
+    [field: SerializeField] public float CloseRangeIntensity { get; protected set; }
+    [field: SerializeField] public float CloseRangeInnerAngle { get; protected set; }
+
+
 
     [field: SerializeField] public PickupData AbilityPickupData { get; private set; }
    

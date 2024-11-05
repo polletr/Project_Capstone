@@ -11,7 +11,7 @@ public class PlayerAttackState : PlayerBaseState
     }
     public override void ExitState()
     {
-    
+        HandleFlashlightSphereCast();
     }
 
     public override void StateFixedUpdate()
@@ -28,10 +28,6 @@ public class PlayerAttackState : PlayerBaseState
         } 
     }
 
-    protected override void HandleFlashlightSphereCast()
-    {
-
-    }
     
     public override void HandleFlashlightPower()
     {

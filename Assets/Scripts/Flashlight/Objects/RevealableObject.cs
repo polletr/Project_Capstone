@@ -27,6 +27,8 @@ public class RevealableObject : MonoBehaviour, IRevealable
     bool originalTrigger;
 
     public bool IsRevealed { get; set; }
+    public bool CanApplyEffect { get; set; }
+
 
     private float revealTimer;
     private float currentObjTransp;
@@ -35,6 +37,8 @@ public class RevealableObject : MonoBehaviour, IRevealable
 
     private void Awake()
     {
+        originalTrigger = GetComponent<Collider>().isTrigger;
+
         // Find and store all MeshRenderers in the object's hierarchy
         meshRenderers.AddRange(GetComponentsInChildren<MeshRenderer>());
 
@@ -42,11 +46,8 @@ public class RevealableObject : MonoBehaviour, IRevealable
         foreach (var renderer in meshRenderers)
         {
             originalMaterials[renderer] = renderer.materials;
-            renderer.material = revealMaterial;
-            renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
         }
 
-        originalTrigger = GetComponent<Collider>().isTrigger;
         outline = GetComponent<Outline>();
         revealSound = AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.FlashlightRevealing);
 
@@ -54,6 +55,15 @@ public class RevealableObject : MonoBehaviour, IRevealable
 
     void OnEnable()
     {
+        // Store original materials for each MeshRenderer
+        foreach (var renderer in meshRenderers)
+        {
+            renderer.material = revealMaterial;
+            renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+        }
+        CanApplyEffect = true;
+
+
         IsRevealed = false;
         GetComponent<Collider>().isTrigger = true;
         revealTimer = 0f;
@@ -63,14 +73,20 @@ public class RevealableObject : MonoBehaviour, IRevealable
 
     }
 
+    void OnDisable()
+    {
+        CanApplyEffect = true;
+    }
+
     public void ApplyEffect()
     {
+        Debug.Log("ApplyEffect");
+
         if (!IsRevealed)
         {
             OnApplyEffect.Invoke();
             outline.AppyOutlineEffect();
         }
-
     }
 
     public void RemoveEffect()
@@ -100,6 +116,8 @@ public class RevealableObject : MonoBehaviour, IRevealable
     {
         if (!IsRevealed)
         {
+            CanApplyEffect = false;
+
             // Set dissolve material for all renderers
             SetMaterials(dissolveMaterial);
 
@@ -146,10 +164,7 @@ public class RevealableObject : MonoBehaviour, IRevealable
             {
                 disapearObject.enabled = true;
             }
-            else
-            {
-                GetComponent<Collider>().isTrigger = originalTrigger;
-            }
+            GetComponent<Collider>().isTrigger = originalTrigger;
         }
     }
 
@@ -180,6 +195,7 @@ public class RevealableObject : MonoBehaviour, IRevealable
         }
 
         SetMaterials(revealMaterial);
+        CanApplyEffect = true;
         IsRevealed = false;
     }
 

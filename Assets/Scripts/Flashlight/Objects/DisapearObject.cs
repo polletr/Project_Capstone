@@ -24,12 +24,14 @@ public class DisapearObject : MonoBehaviour, IHideable
 
     private EventInstance revealSound;
 
+    public bool CanApplyEffect { get;  set; }
     public bool IsHidden { get; set; }
 
     private float revealTimer;
     private float currentObjTransp = 0f;
 
     private Outline outline;
+
 
     private void Awake()
     {
@@ -54,11 +56,18 @@ public class DisapearObject : MonoBehaviour, IHideable
         IsHidden = false;
         GetComponent<Collider>().isTrigger = false;
         revealTimer = 0f;
+        CanApplyEffect = true;
 
         if (TryGetComponent(out RevealableObject revealableObject))
             revealableObject.enabled = false;
 
     }
+
+    void OnDisable()
+    {
+        CanApplyEffect = true;
+    }
+
 
 
     public void ApplyEffect()
@@ -84,6 +93,7 @@ public class DisapearObject : MonoBehaviour, IHideable
     {
         if (!IsHidden)
         {
+            CanApplyEffect = false;
             // Set dissolve material for all renderers
             SetMaterials(dissolveMaterial);
 
@@ -156,7 +166,6 @@ public class DisapearObject : MonoBehaviour, IHideable
         
         SetOriginalMaterials();
         
-        IsHidden = false;
     }
 
     private void SetMaterials(Material material)
@@ -182,6 +191,8 @@ public class DisapearObject : MonoBehaviour, IHideable
                 renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
             }
         }
+        CanApplyEffect = true;
+
     }
-    
+
 }
