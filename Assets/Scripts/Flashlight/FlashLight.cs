@@ -45,11 +45,6 @@ public class FlashLight : MonoBehaviour
             }
             else
             {
-                if (ObjectPickupUIHandler.Instance && IsFlashlightOn)
-                {
-                    ObjectPickupUIHandler.Instance.PickedUpObject(CurrentAbility.AbilityPickupData, 0.3f);
-                }
-
                 CurrentAbility.SetLight(Light);
             }
         }
@@ -315,9 +310,14 @@ public class FlashLight : MonoBehaviour
         CurrentAbility = flashlightAbilities[currentIndex];
         TutorialEvent.OnSwapAbility?.Invoke();
 
-        for (var i = 0; i < effectedObjs.Count; i++)
+        if (ObjectPickupUIHandler.Instance)
         {
-            RemoveCurrentAbilityEffect(effectedObjs[i]);
+            ObjectPickupUIHandler.Instance.PickedUpObject(CurrentAbility.AbilityPickupData, 0.3f);
+        }
+
+        foreach (var t in effectedObjs)
+        {
+            RemoveCurrentAbilityEffect(t);
         }
 
     }
