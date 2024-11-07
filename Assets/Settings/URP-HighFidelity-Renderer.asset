@@ -1,20 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-6557696948701272811
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a4a3c9fc53e47eeb28b368324d7020f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _active: 1
-  _shader: {fileID: 4800000, guid: 3fc4e2bbb04b44788d407966b1b80a45, type: 3}
-  _fps: 60
 --- !u!114 &-5858074207134209864
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51,10 +36,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _active: 1
   _shader: {fileID: 4800000, guid: 27668d75c3bc9f041b7aad866245687b, type: 3}
+  _material: {fileID: 0}
+  _isActive: 0
   _vignette: 0.33
   _flickering: {x: 5.5, y: 10}
   _jolt: {x: -0.01, y: 0.07}
   _fps: 16
+  _noiseClip:
+    _data: []
+  _noiseTex: {fileID: 0}
+  _grainTex: {fileID: 0}
+  _frame: 0
+  _vig: 0
+  _tiling: {x: 0, y: 0, z: 0, w: 0}
+  _joltValue: {x: 0, y: 0, z: 0, w: 0}
   _clips:
   - _data:
     - {fileID: 0}
@@ -230,22 +225,6 @@ MonoBehaviour:
   - {fileID: 2800000, guid: a3714648300b3b44485f260b524e1c44, type: 3}
   - {fileID: 2800000, guid: 53d0a40090903854a9938b5dbb5b3f91, type: 3}
   - {fileID: 2800000, guid: 1ca4b48f9aafafe42bd9b04e1c387b3e, type: 3}
---- !u!114 &-2815270985465519820
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579ed0c7e645ec2469610460c45b7ca1, type: 3}
-  m_Name: FlowFx
-  m_EditorClassIdentifier: 
-  m_Active: 1
-  _event: 600
-  _pass: {fileID: -6557696948701272811}
-  _blitShader: {fileID: 4800000, guid: c17132b1f77d20942aa75f8429c0f8bc, type: 3}
 --- !u!114 &-1878332245247344467
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -309,12 +288,10 @@ MonoBehaviour:
     probeVolumeBlendStatesCS: {fileID: 0}
   m_RendererFeatures:
   - {fileID: -1878332245247344467}
-  - {fileID: -2815270985465519820}
-  - {fileID: 744356559657011725}
   - {fileID: 6502000272673268274}
-  m_RendererFeatureMap: adc0de57c6d2eee53421dd64f425eed80d8a96e4587c540a32e22e86ccbe3b5a
+  m_RendererFeatureMap: adc0de57c6d2eee532e22e86ccbe3b5a
   m_UseNativeRenderPass: 0
-  xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
+  xrSystemData: {fileID: 0}
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   m_AssetVersion: 2
   m_OpaqueLayerMask:

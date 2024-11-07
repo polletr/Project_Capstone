@@ -22,7 +22,7 @@ public class ShadowEnemyBlink : EnemyClass, IStunable
 
     private void Awake()
     {
-        playerCharacter = FindObjectOfType<PlayerController>();
+        playerCharacter = Object.FindAnyObjectByType<PlayerController>();
         BodyMaterial.SetFloat("_Transparency", 0.9f);
         EyeMaterial.SetFloat("_Transparency", 0.9f);
         currentAudio = AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.ShadowIdle);
