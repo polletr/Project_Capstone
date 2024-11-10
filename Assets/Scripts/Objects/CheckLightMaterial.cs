@@ -28,6 +28,11 @@ public class CheckLightMaterial : MonoBehaviour
         lightController = GetComponentInChildren<Light>();
     }
 
+    private void Update()
+    {
+        ChangeLight(lightController.enabled);
+    }
+
     public void ChangeLight(bool lightPower)
     {
         if (lightPower)

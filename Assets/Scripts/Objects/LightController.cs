@@ -44,16 +44,16 @@ public class LightController : MonoBehaviour
         gameObject.layer = LayerMask.NameToLayer("LightController");
         checkLight = GetComponentInParent<CheckLightMaterial>();
 
+        foreach (Light light in GetComponentsInChildren<Light>())
+        {
+            childLights.Add(light);
+        }
+
         if (lightSource == null)
         {
             Debug.LogError("Error: No Light component found on " + gameObject.name);
             enabled = false;
             return;
-        }
-
-        foreach (Light light in GetComponentsInChildren<Light>())
-        {
-            childLights.Add(light);
         }
 
         originalIntensity = lightSource.intensity;
@@ -135,6 +135,12 @@ public class LightController : MonoBehaviour
 
             // Randomly turn the light on or off for a more dramatic effect
             lightSource.enabled = (Random.value > 0.3f); // 70% chance to stay on
+
+            foreach (Light light in childLights)
+            {
+                light.enabled = (Random.value > 0.3f); // 70% chance to stay on;
+            }
+
 
             timer += flickerTimer;
 
