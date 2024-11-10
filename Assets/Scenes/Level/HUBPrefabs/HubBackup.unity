@@ -13,7 +13,7 @@ OcclusionCullingSettings:
 --- !u!104 &2
 RenderSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 9
+  serializedVersion: 10
   m_Fog: 0
   m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   m_FogMode: 3
@@ -38,13 +38,12 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 12
-  m_GIWorkflowMode: 1
+  serializedVersion: 13
+  m_BakeOnSceneLoad: 0
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -67,9 +66,6 @@ LightmapSettings:
     m_LightmapParameters: {fileID: 0}
     m_LightmapsBakeMode: 1
     m_TextureCompression: 1
-    m_FinalGather: 0
-    m_FinalGatherFiltering: 1
-    m_FinalGatherRayCount: 256
     m_ReflectionCompression: 2
     m_MixedBakeMode: 2
     m_BakeBackend: 1
@@ -183,7 +179,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 882129737928793925, guid: bd03a9e8cceb04e9ba9ec3ecb2e640b5,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 4c6ce45adb9e7584dae763848a5fa9a1, type: 2}
     - target: {fileID: 919132149155446097, guid: bd03a9e8cceb04e9ba9ec3ecb2e640b5,
@@ -335,6 +331,25 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 182629963}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &193540366
+MonoBehaviour:
+  m_ObjectHideFlags: 8
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cc439e4caf02ae4486689bd41401d0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  checkRadius: 5
+  circleUIMinDistance: 2
+  circleUIMaxDistance: 10
+  triggerCol: {fileID: 0}
+  objectFlare: {fileID: 0}
+  <TargetUIPos>k__BackingField: {fileID: 0}
+  <IndicatorUI>k__BackingField: {fileID: 0}
 --- !u!43 &442333932
 Mesh:
   m_ObjectHideFlags: 0
@@ -492,8 +507,8 @@ Mesh:
   m_CookingOptions: 30
   m_BakedConvexCollisionMesh: 
   m_BakedTriangleCollisionMesh: 
-  m_MeshMetrics[0]: 1
-  m_MeshMetrics[1]: 1
+  'm_MeshMetrics[0]': 1
+  'm_MeshMetrics[1]': 1
   m_MeshOptimizationFlags: 1
   m_StreamData:
     serializedVersion: 2
@@ -668,7 +683,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 270807114719398380, guid: 6c96370f214a3394b96096ad92a3e7cf,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 35409dd7b7b5da64185a126aa401675c, type: 2}
     - target: {fileID: 272274847702132553, guid: 6c96370f214a3394b96096ad92a3e7cf,
@@ -788,12 +803,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1965887899136066074, guid: 6c96370f214a3394b96096ad92a3e7cf,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: dd3f3b9ec49efcb49910752098a55f30, type: 2}
     - target: {fileID: 2198402084838446932, guid: 6c96370f214a3394b96096ad92a3e7cf,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: dd3f3b9ec49efcb49910752098a55f30, type: 2}
     - target: {fileID: 2933185270008931670, guid: 6c96370f214a3394b96096ad92a3e7cf,
@@ -948,7 +963,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4401498542396391306, guid: 6c96370f214a3394b96096ad92a3e7cf,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: dd3f3b9ec49efcb49910752098a55f30, type: 2}
     - target: {fileID: 4491685646403985292, guid: 6c96370f214a3394b96096ad92a3e7cf,
@@ -978,7 +993,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4650408648202337032, guid: 6c96370f214a3394b96096ad92a3e7cf,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 5d373e873e8c75348bdd5486f934a604, type: 2}
     - target: {fileID: 4809643113143862056, guid: 6c96370f214a3394b96096ad92a3e7cf,
@@ -1073,7 +1088,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5142846993722278132, guid: 6c96370f214a3394b96096ad92a3e7cf,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 5d373e873e8c75348bdd5486f934a604, type: 2}
     - target: {fileID: 5313434843788856621, guid: 6c96370f214a3394b96096ad92a3e7cf,
@@ -1093,7 +1108,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6091685604900934559, guid: 6c96370f214a3394b96096ad92a3e7cf,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 35409dd7b7b5da64185a126aa401675c, type: 2}
     - target: {fileID: 6256357513897144970, guid: 6c96370f214a3394b96096ad92a3e7cf,
@@ -1213,7 +1228,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7484794806154103772, guid: 6c96370f214a3394b96096ad92a3e7cf,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: dd3f3b9ec49efcb49910752098a55f30, type: 2}
     - target: {fileID: 7518054416751157483, guid: 6c96370f214a3394b96096ad92a3e7cf,
@@ -1273,7 +1288,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7999149551807809802, guid: 6c96370f214a3394b96096ad92a3e7cf,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: dd3f3b9ec49efcb49910752098a55f30, type: 2}
     - target: {fileID: 8246876205657164070, guid: 6c96370f214a3394b96096ad92a3e7cf,
@@ -1708,8 +1723,8 @@ Mesh:
   m_CookingOptions: 30
   m_BakedConvexCollisionMesh: 
   m_BakedTriangleCollisionMesh: 
-  m_MeshMetrics[0]: 1
-  m_MeshMetrics[1]: 1
+  'm_MeshMetrics[0]': 1
+  'm_MeshMetrics[1]': 1
   m_MeshOptimizationFlags: 1
   m_StreamData:
     serializedVersion: 2
@@ -1947,8 +1962,8 @@ Mesh:
   m_CookingOptions: 30
   m_BakedConvexCollisionMesh: 
   m_BakedTriangleCollisionMesh: 
-  m_MeshMetrics[0]: 1
-  m_MeshMetrics[1]: 1
+  'm_MeshMetrics[0]': 1
+  'm_MeshMetrics[1]': 1
   m_MeshOptimizationFlags: 1
   m_StreamData:
     serializedVersion: 2
@@ -2019,9 +2034,8 @@ Light:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 866151557}
   m_Enabled: 1
-  serializedVersion: 10
+  serializedVersion: 11
   m_Type: 0
-  m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 0.5
   m_Range: 0.5
@@ -2071,8 +2085,12 @@ Light:
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
+  m_ForceVisible: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+  m_LightUnit: 1
+  m_LuxAtDistance: 1
+  m_EnableSpotReflector: 1
 --- !u!1 &873371882
 GameObject:
   m_ObjectHideFlags: 0
@@ -2347,8 +2365,8 @@ Mesh:
   m_CookingOptions: 30
   m_BakedConvexCollisionMesh: 
   m_BakedTriangleCollisionMesh: 
-  m_MeshMetrics[0]: 1
-  m_MeshMetrics[1]: 1
+  'm_MeshMetrics[0]': 1
+  'm_MeshMetrics[1]': 1
   m_MeshOptimizationFlags: 1
   m_StreamData:
     serializedVersion: 2
@@ -2512,8 +2530,8 @@ Mesh:
   m_CookingOptions: 30
   m_BakedConvexCollisionMesh: 
   m_BakedTriangleCollisionMesh: 
-  m_MeshMetrics[0]: 1
-  m_MeshMetrics[1]: 1
+  'm_MeshMetrics[0]': 1
+  'm_MeshMetrics[1]': 1
   m_MeshOptimizationFlags: 1
   m_StreamData:
     serializedVersion: 2
@@ -2572,7 +2590,7 @@ MonoBehaviour:
   maxFlickerDuration: 6
   flickerFrequency: 0.1
   constantFlickering: 1
-  guidingLight: 1
+  GuidingLight: 0
 --- !u!135 &1195617557
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -2652,9 +2670,8 @@ Light:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1195617554}
   m_Enabled: 1
-  serializedVersion: 10
+  serializedVersion: 11
   m_Type: 2
-  m_Shape: 0
   m_Color: {r: 0.990566, g: 0.7242346, b: 0.7242346, a: 1}
   m_Intensity: 2
   m_Range: 10
@@ -2704,8 +2721,12 @@ Light:
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
+  m_ForceVisible: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+  m_LightUnit: 1
+  m_LuxAtDistance: 1
+  m_EnableSpotReflector: 1
 --- !u!43 &1284617264
 Mesh:
   m_ObjectHideFlags: 0
@@ -2863,8 +2884,8 @@ Mesh:
   m_CookingOptions: 30
   m_BakedConvexCollisionMesh: 
   m_BakedTriangleCollisionMesh: 
-  m_MeshMetrics[0]: 1
-  m_MeshMetrics[1]: 1
+  'm_MeshMetrics[0]': 1
+  'm_MeshMetrics[1]': 1
   m_MeshOptimizationFlags: 1
   m_StreamData:
     serializedVersion: 2
@@ -2985,9 +3006,8 @@ Light:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1536264147}
   m_Enabled: 1
-  serializedVersion: 10
+  serializedVersion: 11
   m_Type: 0
-  m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 1
   m_Range: 3
@@ -3037,8 +3057,12 @@ Light:
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
+  m_ForceVisible: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+  m_LightUnit: 1
+  m_LuxAtDistance: 1
+  m_EnableSpotReflector: 1
 --- !u!1 &1598756184
 GameObject:
   m_ObjectHideFlags: 0
@@ -3259,7 +3283,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4228132227631372088, guid: 337f4e68c0817cb4ab74d125c894e222,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 16425503f45705c4e82a20e0ea4a4c04, type: 2}
     - target: {fileID: 4751798423927375386, guid: 337f4e68c0817cb4ab74d125c894e222,
@@ -3314,7 +3338,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4925821392784850551, guid: 337f4e68c0817cb4ab74d125c894e222,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 4eb72cd0f39119f4498569a2564eec8f, type: 2}
     - target: {fileID: 5384642491238816928, guid: 337f4e68c0817cb4ab74d125c894e222,
@@ -3324,7 +3348,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7001777475325773293, guid: 337f4e68c0817cb4ab74d125c894e222,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 16425503f45705c4e82a20e0ea4a4c04, type: 2}
     m_RemovedComponents: []
@@ -3495,8 +3519,8 @@ Mesh:
   m_CookingOptions: 30
   m_BakedConvexCollisionMesh: 
   m_BakedTriangleCollisionMesh: 
-  m_MeshMetrics[0]: 1
-  m_MeshMetrics[1]: 1
+  'm_MeshMetrics[0]': 1
+  'm_MeshMetrics[1]': 1
   m_MeshOptimizationFlags: 1
   m_StreamData:
     serializedVersion: 2
@@ -3802,8 +3826,8 @@ Mesh:
   m_CookingOptions: 30
   m_BakedConvexCollisionMesh: 
   m_BakedTriangleCollisionMesh: 
-  m_MeshMetrics[0]: 1
-  m_MeshMetrics[1]: 1
+  'm_MeshMetrics[0]': 1
+  'm_MeshMetrics[1]': 1
   m_MeshOptimizationFlags: 1
   m_StreamData:
     serializedVersion: 2
