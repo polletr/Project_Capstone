@@ -35,6 +35,7 @@ public class RevealableObject : MonoBehaviour, IRevealable
 
     private Outline outline;
 
+    [SerializeField] bool applyOutline = true;
     private void Awake()
     {
         originalTrigger = GetComponent<Collider>().isTrigger;
@@ -85,7 +86,8 @@ public class RevealableObject : MonoBehaviour, IRevealable
         if (!IsRevealed)
         {
             OnApplyEffect.Invoke();
-            outline.AppyOutlineEffect();
+            if (applyOutline)
+                outline.AppyOutlineEffect();
         }
     }
 
@@ -94,7 +96,8 @@ public class RevealableObject : MonoBehaviour, IRevealable
         if (!IsRevealed)
         {
             OnRemoveEffect.Invoke();
-            outline.RemoveOutlineEffect();
+            if (applyOutline)
+                outline.RemoveOutlineEffect();
         }
     }
 
