@@ -32,6 +32,7 @@ public class DisapearObject : MonoBehaviour, IHideable
 
     private Outline outline;
 
+    [SerializeField] bool applyOutline = true;
 
     private void Awake()
     {
@@ -73,13 +74,15 @@ public class DisapearObject : MonoBehaviour, IHideable
     public void ApplyEffect()
     {
         OnApplyEffect.Invoke();
-        outline.AppyOutlineEffect();
+        if (applyOutline)
+            outline.AppyOutlineEffect();
     }
 
     public void RemoveEffect()
     {
         OnRemoveEffect.Invoke();
-        outline.RemoveOutlineEffect();
+        if (applyOutline)
+            outline.RemoveOutlineEffect();
     }
 
     public void HideObj(out bool revealed)
