@@ -24,7 +24,6 @@ public class Outline : MonoBehaviour {
     SilhouetteOnly
   }
 
-  [SerializeField] private bool applyOutline;
   public Mode OutlineMode {
     get { return outlineMode; }
     set {
@@ -98,8 +97,6 @@ public class Outline : MonoBehaviour {
 
     // Apply material properties immediately
     needsUpdate = true;
-    if(applyOutline)
-      AppyOutlineEffect();
   }
 
  public void AppyOutlineEffect() {
