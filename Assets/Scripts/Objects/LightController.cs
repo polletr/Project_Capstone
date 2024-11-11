@@ -4,6 +4,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UIElements;
 using System.Collections.Generic;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(SphereCollider))]
@@ -33,6 +34,7 @@ public class LightController : MonoBehaviour
 
     private CheckLightMaterial checkLight;
 
+    [SerializeField] private UnityEvent OnTurnOffLight;
     private void Awake()
     {
         lightSource = GetComponent<Light>();
@@ -87,6 +89,9 @@ public class LightController : MonoBehaviour
             light.enabled = check;
         }
 
+        if (!lightSource.enabled)
+            OnTurnOffLight.Invoke();
+
     }
 
     public void WaitAndTurnOnLight(float delay)
@@ -108,7 +113,34 @@ public class LightController : MonoBehaviour
         {
             light.enabled = true;
         }
+
     }
+    public void WaitAndTurnOffLight(float delay)
+    {
+        StartCoroutine(WaitAndTurnOffLightCoroutine(delay));
+    }
+
+
+    private IEnumerator WaitAndTurnOffLightCoroutine(float delay)
+    {
+        // Wait for the specified time.
+        yield return new WaitForSeconds(delay);
+
+        AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.LightTurnOn, transform.position);
+
+        lightSource.enabled = false;
+
+        foreach (Light light in childLights)
+        {
+            light.enabled = false;
+        }
+        FlickerLight();
+
+        OnTurnOffLight.Invoke();
+
+
+    }
+
     // Flicker the light for a specified duration
     public void FlickerLight()
     {
