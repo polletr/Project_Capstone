@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using Utilities;
 
 public class ShadowObject : MonoBehaviour, IStunable
 {
@@ -14,6 +15,11 @@ public class ShadowObject : MonoBehaviour, IStunable
 
     Outline outline;
     [SerializeField] bool applyOutline = true;
+    [SerializeField] float cooldownTime;
+
+    Coroutine enemyTransp;
+
+    CountdownTimer countdownTimer;
 
     private List<Material> originalMaterials = new List<Material>();  // List to store original materials
 
@@ -44,8 +50,11 @@ public class ShadowObject : MonoBehaviour, IStunable
     public void ApplyStunEffect()
     {
         Debug.Log("Enemy Received Stun");
-        StartCoroutine(EnemyTransparency(0f));
-        StunObject.Invoke();
+        if (enemyTransp != null)
+        {
+            StartCoroutine(EnemyTransparency(0f));
+            StunObject.Invoke();
+        }
     }
 
     public void ApplyEffect()
@@ -58,6 +67,20 @@ public class ShadowObject : MonoBehaviour, IStunable
     {
         if (applyOutline)
             outline.RemoveOutlineEffect();
+    }
+
+    private IEnumerator StunCooldown()
+    {
+        countdownTimer = new CountdownTimer(cooldownTime);
+        countdownTimer.Start();
+        while (!countdownTimer.IsFinished)
+        {
+            countdownTimer.Tick(Time.deltaTime);
+            yield return null;
+        }
+        StartCoroutine(EnemyTransparency(0.9f));
+
+        yield return null;
     }
 
     private IEnumerator EnemyTransparency(float targetTransp)
@@ -90,5 +113,15 @@ public class ShadowObject : MonoBehaviour, IStunable
         {
             mat.SetFloat("_Transparency", targetTransp);
         }
+        if (targetTransp <= 0f)
+        {
+            GetComponent<Collider>().enabled = false;
+        }
+        else
+        {
+            GetComponent<Collider>().enabled = true;
+        }
+
+        StartCoroutine(StunCooldown());
     }
 }
