@@ -3,17 +3,17 @@ using UnityEngine;
 
 namespace Flashlight.Ability
 {
-    public class RevealAbility : FlashlightAbility
+    public class DisappearAbility : FlashlightAbility
     {
-        private RevealableObject currentObj;
-    
+        private DisappearObject currentObj;
+
         private Coroutine visualReveal;
         private Coroutine revealCoroutine;
 
         public override void OnUseAbility()
         {
             visualReveal = StartCoroutine(ChangeRevealLight());
-            revealCoroutine = StartCoroutine(UseRevealAbility());
+            revealCoroutine = StartCoroutine(UseDisappearAbility());
         }
 
         public override void OnStopAbility()
@@ -24,44 +24,46 @@ namespace Flashlight.Ability
             if (revealCoroutine != null)
             {
                 StopCoroutine(revealCoroutine);
-                if (currentObj && !currentObj.IsRevealed)
+                if (currentObj && !currentObj.IsHidden)
                 {
-                    currentObj.UnRevealObj();
+                    currentObj.UnHideObj();
                     currentObj = null;
                 }
             }
 
+
             Flashlight.ResetLight(0.5f);
         }
 
-        private IEnumerator UseRevealAbility()
+        private IEnumerator UseDisappearAbility()
         {
             var isRevealed = false;
             while (!isRevealed)
             {
-                if (Physics.Raycast(Flashlight.RayCastOrigin.position, Flashlight.RayCastOrigin.forward, out var hit, InteractRange))
+                if (Physics.Raycast(Flashlight.RayCastOrigin.position, Flashlight.RayCastOrigin.forward, out var hit,
+                        InteractRange))
                 {
-                    if (hit.collider.TryGetComponent(out RevealableObject obj))
+                    if (hit.collider.TryGetComponent(out DisappearObject obj))
                     {
-                        if (currentObj == null)
+                        if (!currentObj)
                         {
                             currentObj = obj;
                         }
                         else if (currentObj != obj)
                         {
-                            currentObj.UnRevealObj();
+                            currentObj.UnHideObj();
                             currentObj = null;
                             OnStopAbility();
                             break;
                         }
 
-                        currentObj.RevealObj(out isRevealed);
+                        currentObj.HideObj(out isRevealed);
                     }
                     else
                     {
                         if (currentObj != null)
                         {
-                            currentObj.UnRevealObj();
+                            currentObj.UnHideObj();
                             currentObj = null;
                         }
 
@@ -72,7 +74,7 @@ namespace Flashlight.Ability
 
                 yield return null;
             }
-            
+
             Flashlight.Light.intensity = FinalIntensity;
             Flashlight.Light.color = FinalColor;
             Flashlight.Light.spotAngle = FinalSpotAngle;
@@ -80,28 +82,29 @@ namespace Flashlight.Ability
             
             currentObj = null;
             Flashlight.ConsumeBattery(Cost);
+            
             Flashlight.StartCoroutine(Flashlight.ZeroOutLight(Cooldown));
-        
+            
             if (!PlayerBatteryUIHandler.Instance)
                 PlayerBatteryUIHandler.Instance.FlickerBatteryUIOnce();
-        
-            tutorialEvents.OnReveal?.Invoke();
+
+            tutorialEvents.OnDisappear?.Invoke();
             StopAllCoroutines();
         }
 
         private IEnumerator ChangeRevealLight()
         {
             var timer = 0f;
-        
+
             var startIntensity = Flashlight.Light.intensity;
             var startColor = Flashlight.Light.color;
-       
-        
-            while (Flashlight.Light.intensity < AbilityBuildUpTime)
+
+
+            while (timer < AbilityBuildUpTime)
             {
                 Flashlight.Light.intensity = Mathf.Lerp(startIntensity, BuildupIntensity, timer / AbilityBuildUpTime);
-                Flashlight.Light.color = Color.Lerp(startColor,         BuildupColor, timer / AbilityBuildUpTime);
-            
+                Flashlight.Light.color = Color.Lerp(startColor, BuildupColor, timer / AbilityBuildUpTime);
+
                 timer += Time.deltaTime;
                 yield return null;
             }

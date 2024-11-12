@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Flashlight.Ability;
 using UnityEngine;
 
 public class PlayerInventory : MonoBehaviour

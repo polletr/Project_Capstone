@@ -69,7 +69,7 @@ public class RevealableObject : MonoBehaviour, IRevealable
         GetComponent<Collider>().isTrigger = true;
         revealTimer = 0f;
 
-        if (TryGetComponent(out DisapearObject disapearObject))
+        if (TryGetComponent(out DisappearObject disapearObject))
             disapearObject.enabled = false;
 
     }
@@ -163,7 +163,7 @@ public class RevealableObject : MonoBehaviour, IRevealable
                 obstacle.enabled = true;
             }
 
-            if (TryGetComponent(out DisapearObject disapearObject))
+            if (TryGetComponent(out DisappearObject disapearObject))
             {
                 disapearObject.enabled = true;
             }

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Linq;
 using System.Collections.Generic;
+using Flashlight.Ability;
 using UnityEngine;
 using Utilities;
 using Random = UnityEngine.Random;
@@ -118,6 +119,7 @@ public class FlashLight : MonoBehaviour
 
     private void Update()
     {
+        Debug.Log(CurrentAbility != null && !IsBatteryDead() && IsFlashlightOn && CanUseAbility);
         flickerTimer?.Tick(Time.deltaTime);
         // Decrease BatteryLife continuously over time based on Cost per second
         if (IsFlashlightOn && !IsBatteryDead())
@@ -357,7 +359,10 @@ public class FlashLight : MonoBehaviour
         }
         effectedObjs.Clear();
         HandleRayCast();
+
         CanUseAbility = true;
+        Debug.Log("Reset Light State");
+       // StopAllCoroutines();
     }
 
     private void TurnOffLight()
@@ -431,7 +436,7 @@ public class FlashLight : MonoBehaviour
         // Check if the object is IHideable and CurrentAbility is DisapearAbility
         else if (hideObj is MonoBehaviour hideComponent && hideComponent.enabled)
         {
-            if (CurrentAbility is DisapearAbility)
+            if (CurrentAbility is DisappearAbility)
             {
                 hideObj.ApplyEffect();
                 effectedObjs.Add(hideObj);
@@ -461,7 +466,7 @@ public class FlashLight : MonoBehaviour
         }
 
         // Check if the object is IHideable and the ability is not DisapearAbility
-        else if (obj is IHideable && CurrentAbility is not DisapearAbility)
+        else if (obj is IHideable && CurrentAbility is not DisappearAbility)
         {
             obj.RemoveEffect();
             effectedObjs.Remove(obj);
@@ -527,6 +532,7 @@ public class FlashLight : MonoBehaviour
 
     public IEnumerator ZeroOutLight(float cooldown, float zeroDownTime = 0.5f)
     {
+        CanUseAbility = false;
         var delayTimer = 0f;
 
         // Store the initial properties of the flashlight
@@ -549,7 +555,5 @@ public class FlashLight : MonoBehaviour
         }
 
         ResetLight(cooldown);
-
-        CanUseAbility = true;
     }
 }

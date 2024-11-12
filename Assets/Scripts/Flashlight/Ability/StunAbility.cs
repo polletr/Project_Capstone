@@ -1,96 +1,89 @@
-using FMOD.Studio;
 using System.Collections;
+using FMOD.Studio;
 using UnityEngine;
 
-public class StunAbility : FlashlightAbility
+namespace Flashlight.Ability
 {
-    [field: Header("Stun Ability Settings")]
-    [SerializeField] private float effectRadius;
-
-    [Header("Build Up Properties")]
-    [SerializeField] private Color buildUpColor;
-    [SerializeField] private float buildUpIntensity;
-    [SerializeField] private float buildUpSpotAngle;
-    [SerializeField] private float buildUpInnerSpotAngle;
-
-    private EventInstance flashSound;
-
-    public override void OnUseAbility()
+    public class StunAbility : FlashlightAbility
     {
-        StartCoroutine(StartStunAttack());
-    }
+        [field: Header("Stun Ability Settings")] [SerializeField]
+        private float stunRadius;
 
+        private EventInstance flashSound;
 
-    public override void OnStopAbility()
-    {
-        StopAllCoroutines();
-        Flashlight.ResetLight(0.5f);
-    }
-
-    private void Stun()
-    {
-
-
-//set light to stun flash properties 
-        Flashlight.Light.intensity = AbilityIntensity;
-        Flashlight.Light.color = AbilityColor;
-        Flashlight.Light.spotAngle = AbilitySpotAngle;
-        Flashlight.Light.innerSpotAngle = AbilityInnerSpotAngle;
-
-        if (!PlayerBatteryUIHandler.Instance)
-            PlayerBatteryUIHandler.Instance.FlickerBatteryUIOnce();
-
-        var ray = new Ray(Flashlight.RayCastOrigin.position, Flashlight.RayCastOrigin.forward);
-        RaycastHit[] hits = Physics.SphereCastAll(ray, effectRadius, InteractRange);
-
-        if (hits.Length > 0)
+        public override void OnUseAbility()
         {
-            foreach (var hit in hits)
-            {
-                var obj = hit.collider.gameObject;
-                Debug.Log("Hit object: " + obj.name);
+            StartCoroutine(StartStunAttack());
+        }
 
-                if (obj.TryGetComponent(out IStunable thing))
+
+        public override void OnStopAbility()
+        {
+            StopAllCoroutines();
+            Flashlight.ResetLight(0.5f);
+        }
+
+        private void Stun()
+        {
+            //set light to stun flash properties 
+            Flashlight.Light.intensity = FinalIntensity;
+            Flashlight.Light.color = FinalColor;
+            Flashlight.Light.spotAngle = FinalSpotAngle;
+            Flashlight.Light.innerSpotAngle = FinalInnerSpotAngle;
+
+            if (!PlayerBatteryUIHandler.Instance)
+                PlayerBatteryUIHandler.Instance.FlickerBatteryUIOnce();
+
+            var ray = new Ray(Flashlight.RayCastOrigin.position, Flashlight.RayCastOrigin.forward);
+            var hits = Physics.SphereCastAll(ray, stunRadius, InteractRange);
+
+            if (hits.Length > 0)
+            {
+                foreach (var hit in hits)
                 {
+                    var obj = hit.collider.gameObject;
+
+                    if (!obj.TryGetComponent(out IStunable thing)) continue;
+                
                     thing.ApplyStunEffect();
-                    Debug.Log("Apply Stun from Flashlight on " + obj.name);
                 }
             }
+
+            flashSound = AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.FlashlightStun);
+            flashSound.start();
+            Flashlight.ConsumeBattery(Cost);
+
+
+            //set light to stun flash properties 
+            Flashlight.StartCoroutine(Flashlight.ZeroOutLight(Cooldown));
+            PlayerBatteryUIHandler.Instance.FlickerBatteryUIOnce();
+
+            tutorialEvents.OnStun?.Invoke();
         }
-        flashSound = AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.FlashlightStun);
-        flashSound.start();
-        Flashlight.ConsumeBattery(Cost);
 
-        
-        //set light to stun flash properties 
-        Flashlight.StartCoroutine(Flashlight.ZeroOutLight(Cooldown));
-        PlayerBatteryUIHandler.Instance.FlickerBatteryUIOnce();
-        
-        tutorialEvents.OnStun?.Invoke();
-    }
-    
-    private IEnumerator StartStunAttack()
-    {
-        var timer = 0f;
-
-        // Store the initial properties of the flashlight
-        var initialIntensity = Flashlight.Light.intensity;
-        var flashlightColor = Flashlight.Light.color;
-        var lightSpotAngle = Flashlight.Light.spotAngle;
-        var initialInnerSpotAngle = Flashlight.Light.innerSpotAngle;
-
-
-        while (timer < AbilityBuildUpTime)
+        private IEnumerator StartStunAttack()
         {
-            Flashlight.Light.intensity = Mathf.Lerp(initialIntensity, buildUpIntensity, timer / AbilityBuildUpTime);
-            Flashlight.Light.color = Color.Lerp(flashlightColor, buildUpColor, timer / AbilityBuildUpTime);
-            Flashlight.Light.spotAngle = Mathf.Lerp(lightSpotAngle, buildUpSpotAngle, timer / AbilityBuildUpTime);
-            Flashlight.Light.innerSpotAngle = Mathf.Lerp(initialInnerSpotAngle, buildUpInnerSpotAngle, timer / AbilityBuildUpTime);
+            var timer = 0f;
 
-            timer += Time.deltaTime;
-            yield return null;
+            // Store the initial properties of the flashlight
+            var initialIntensity = Flashlight.Light.intensity;
+            var flashlightColor = Flashlight.Light.color;
+            var lightSpotAngle = Flashlight.Light.spotAngle;
+            var initialInnerSpotAngle = Flashlight.Light.innerSpotAngle;
+
+
+            while (timer < AbilityBuildUpTime)
+            {
+                Flashlight.Light.intensity = Mathf.Lerp(initialIntensity, BuildupIntensity, timer / AbilityBuildUpTime);
+                Flashlight.Light.color = Color.Lerp(flashlightColor, BuildupColor, timer / AbilityBuildUpTime);
+                Flashlight.Light.spotAngle = Mathf.Lerp(lightSpotAngle, BuildupSpotAngle, timer / AbilityBuildUpTime);
+                Flashlight.Light.innerSpotAngle = Mathf.Lerp(initialInnerSpotAngle, BuildupInnerSpotAngle, timer / AbilityBuildUpTime);
+
+                timer += Time.deltaTime;
+                yield return null;
+            }
+
+            Stun();
         }
-        
-        Stun();
     }
 }

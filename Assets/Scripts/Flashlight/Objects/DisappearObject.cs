@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 [RequireComponent(typeof(Outline))]
 
-public class DisapearObject : MonoBehaviour, IHideable
+public class DisappearObject : MonoBehaviour, IHideable
 {
        private List<MeshRenderer> meshRenderers = new ();
        private Dictionary<MeshRenderer, Material[]> originalMaterials = new Dictionary<MeshRenderer, Material[]>();
@@ -110,34 +110,30 @@ public class DisapearObject : MonoBehaviour, IHideable
             revealTimer += Time.deltaTime;
             currentObjTransp = Mathf.Lerp(0, 1f, revealTimer / revealTime);
 
-            foreach (var renderer in meshRenderers)
+            foreach (var material in meshRenderers.SelectMany(renderer => renderer.materials))
             {
-                foreach (var material in renderer.materials)
-                {
-                    material.SetFloat("_DissolveAmount", currentObjTransp);
-                }
+                material.SetFloat("_DissolveAmount", currentObjTransp);
             }
         }
 
-        if (currentObjTransp >= 0.75f)
+        if (!(currentObjTransp >= 0.75f)) return;
+        
+        revealSound.stop(STOP_MODE.IMMEDIATE);
+        AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.FlashlightReveal, this.transform.position);
+        objectRevealed.Invoke();
+        IsHidden = true;
+        if (TryGetComponent(out NavMeshObstacle obstacle))
         {
-           revealSound.stop(STOP_MODE.IMMEDIATE);
-            AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.FlashlightReveal, this.transform.position);
-            objectRevealed.Invoke();
-            IsHidden = true;
-            if (TryGetComponent(out NavMeshObstacle obstacle))
-            {
-                obstacle.enabled = false;
-            }
+            obstacle.enabled = false;
+        }
 
-            if (TryGetComponent(out RevealableObject revealableObject))
-            {
-                revealableObject.enabled = true;
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
+        if (TryGetComponent(out RevealableObject revealableObject))
+        {
+            revealableObject.enabled = true;
+        }
+        else
+        {
+            Destroy(gameObject);
         }
     }
 

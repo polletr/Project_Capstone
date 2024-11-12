@@ -1,4 +1,5 @@
 using System;
+using Flashlight.Ability;
 using UnityEngine;
 
 public class AbilityPickup : Interactable, ICollectable
