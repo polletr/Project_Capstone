@@ -125,9 +125,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Event: {fileID: 11400000, guid: 821642c9ec9c5474b88bc1b575e70ddf, type: 2}
+  FlashlightPickupData:
+    <PickupName>k__BackingField: Flashlight
+    <PickupSprite>k__BackingField: {fileID: 21300000, guid: 1bbf53598653c2b4c96a1a0a80be31b4,
+      type: 3}
   OnCollect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6144744107208216849}
+        m_TargetAssemblyTypeName: FlashlightPickup, Assembly-CSharp
+        m_MethodName: ShowFlashlightPickupUI
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2494631619658082292
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -315,6 +331,9 @@ MonoBehaviour:
   flickerFrequency: 0.1
   constantFlickering: 1
   GuidingLight: 0
+  OnTurnOffLight:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!54 &5090949143307093714
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -624,6 +643,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8128603771704374342}
     m_Modifications:
+    - target: {fileID: 810758099242640964, guid: cb4def0ef6635ee48bb65600353fa8a7,
+        type: 3}
+      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      value: 1801810542
+      objectReference: {fileID: 0}
     - target: {fileID: 2574007300551752097, guid: cb4def0ef6635ee48bb65600353fa8a7,
         type: 3}
       propertyPath: m_AdditionalShaderChannelsFlag
