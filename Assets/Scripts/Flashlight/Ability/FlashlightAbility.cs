@@ -25,11 +25,12 @@ public abstract class FlashlightAbility : MonoBehaviour
     [field: Header("Flashlight Settings")]
     [field: SerializeField]
     public float BaseIntensity { get; protected set; } = 25;
-
     [field: SerializeField] public Color BaseColor { get; protected set; }
     [field: SerializeField] public float BaseSpotAngle { get; protected set; } = 60;
     [field: SerializeField] public float BaseInnerSpotAngle { get; protected set; } = 30;
     [field: SerializeField] public float BaseRange { get; protected set; } = 10;
+ 
+    
     [field: SerializeField] public float CloseRangeIntensity { get; protected set; }
     [field: SerializeField] public float CloseRangeInnerAngle { get; protected set; }
 

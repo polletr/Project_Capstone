@@ -46,4 +46,14 @@ public class PlayerSettings : ScriptableObject
     public float BobFrequency = 0.2f;
     public float BobAmplitude;
     public float BobResetSpeed;
+
+
+    [Header("Cinematic Camera")]
+    public float CinematicCameraSensitivityMouse = 1.0f;
+    public float CinematicClampAngleUp = -50.0f;
+    public float CinematicClampAngleDown = 40.0f;
+    public float CinematicClampAngleLeft = -50.0f;
+    public float CinematicClampAngleRight = 50.0f;
+
+
 }

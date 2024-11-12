@@ -149,15 +149,6 @@ public abstract class PlayerBaseState
             IsRunning = check;
     }
 
-    public virtual void HandleCrouch(bool check)
-    {
-        IsCrouching = check;
-        PlayerAnimator.animator.SetBool("isCrouching", check);
-
-        if (IsCrouching)
-            IsRunning = false;
-    }
-
     protected virtual void HandleFlashlightSphereCast()
     {
         if (Player.HasFlashlight)

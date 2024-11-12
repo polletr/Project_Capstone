@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour
     public Vector3 DefaultCameraLocalPosition { get; private set; }
 
     [field: SerializeField] public bool HasFlashlight { get; set; }
+    [field: SerializeField] public Transform LookTarget { get; set; }
+    [field: SerializeField] public bool CanLookAround { get; set; }
     public CharacterController characterController { get; private set; }
     public FlashLight flashlight { get; private set; }
     public Interactable interactableObj { get; set; }
@@ -32,6 +34,7 @@ public class PlayerController : MonoBehaviour
     public PlayerDeathState DeathState { get; private set; }
     public PlayerInteractState InteractState { get; private set; }
     public PlayerMoveState MoveState { get; private set; }
+    public PlayerCinematicState CinematicState { get; private set; }
 
     public PlayerRechargeState RechargeState { get; private set; }
     [field: SerializeField] public bool DynamicMov { get; private set; }
@@ -270,6 +273,7 @@ public class PlayerController : MonoBehaviour
         DeathState = new PlayerDeathState(this);
         InteractState = new PlayerInteractState(this);
         MoveState = new PlayerMoveState(this);
+        CinematicState = new PlayerCinematicState(this);
         RechargeState = new PlayerRechargeState(this);
     }
 

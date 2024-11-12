@@ -57,12 +57,6 @@ public class InputManager : Singleton<InputManager>
         action.Player.Attack.performed += (_) => player.HandleAttack(true);
         action.Player.Attack.canceled += (_) => player.HandleAttack(false);
 
-        action.Player.Crouch.performed += (_) => player.currentState?.HandleCrouch(true);
-        action.Player.Crouch.canceled += (_) => player.currentState?.HandleCrouch(false);
-
-        action.Player.Run.canceled += (_) => player.currentState?.HandleRun(true);
-        action.Player.Run.performed += (_) => player.currentState?.HandleRun(true);
-
         action.Player.Interact.performed += OnInteract;
 
         action.Player.RechargeFlashlight.performed += OnRechargeFlashlight;
@@ -82,13 +76,6 @@ public class InputManager : Singleton<InputManager>
 
         action.Player.Attack.canceled  -= (_) => player.HandleAttack(false);
         action.Player.Attack.performed -= (_) => player.HandleAttack(true);
-
-        
-        action.Player.Crouch.performed -= (_) => player.currentState?.HandleCrouch(true);
-        action.Player.Crouch.canceled -= (_) => player.currentState?.HandleCrouch(false);
-
-        action.Player.Run.performed -= (_) => player.currentState?.HandleRun(true);
-        action.Player.Run.canceled -= (_) => player.currentState?.HandleRun(true);
 
         action.Player.Interact.performed -= OnInteract;
 
