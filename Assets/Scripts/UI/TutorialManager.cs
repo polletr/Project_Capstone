@@ -1,8 +1,5 @@
-using System;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Events;
 using Utilities;
 
 public class TutorialManager : MonoBehaviour
@@ -44,7 +41,7 @@ public class TutorialManager : MonoBehaviour
         Event.SetTutorialText += SetRechargeText;
         Event.SetTutorialTextTimer += SetTextTimer;
         Event.SetReloadTextTimer += SetRechargeTextTimer;
-        
+
     }
 
     private void OnDisable()
@@ -80,7 +77,7 @@ public class TutorialManager : MonoBehaviour
         _rechargetext.text = text;
         currnetText = _rechargetext;
     }
-    
+
     private void SetTextTimer(string text)
     {
         _countdownTimer.Reset();
@@ -88,12 +85,12 @@ public class TutorialManager : MonoBehaviour
         _tutorialtext.text = text;
         currnetText = _tutorialtext;
     }
-  
+
 
     private void SetText(string text)
     {
         _tutorialtext.text = text;
-    } 
+    }
     private void SetRechargeText(string text)
     {
         _rechargetext.text = text;
@@ -149,32 +146,32 @@ public class TutorialManager : MonoBehaviour
         TutorialEvent.OnReveal -= RemoveRevealText;
         _tutorialtext.text = "";
     }
-    
+
     private void RemoveFlashlightOffText()
     {
         TutorialEvent.OnTurnOffFlashlight -= RemoveFlashlightOffText;
         _tutorialtext.text = "";
     }
-    
+
     private void RemoveFlashlightOnText()
     {
         TutorialEvent.OnTurnOnFlashlight -= RemoveFlashlightOnText;
         _tutorialtext.text = "";
     }
-    
+
     private void RemoveStunText()
     {
         TutorialEvent.OnStun -= RemoveStunText;
         _tutorialtext.text = "";
     }
-    
+
     private void RemoveDisappearText()
     {
         TutorialEvent.OnDisappear -= RemoveDisappearText;
         _tutorialtext.text = "";
     }
-    
-    
+
+
 
     #endregion
 }

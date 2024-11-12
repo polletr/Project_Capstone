@@ -25,6 +25,7 @@ public class InputManager : Singleton<InputManager>
 
     private void OnEnable()
     {
+        action.Enable();
         EnablePlayerInput();
         if (pauseMenu != null)
         {
@@ -32,7 +33,6 @@ public class InputManager : Singleton<InputManager>
             pauseMenu.OnResume.AddListener(TogglePause);
         }
 
-        action.Enable();
     }
 
     private void OnDisable()
@@ -43,7 +43,6 @@ public class InputManager : Singleton<InputManager>
             action.Menu.Pause.performed -= (val) => TogglePause();
             pauseMenu.OnResume.RemoveListener(TogglePause);
         }
-
         action.Disable();
     }
 

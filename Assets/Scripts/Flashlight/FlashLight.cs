@@ -363,7 +363,7 @@ public class FlashLight : MonoBehaviour
     private void TurnOffLight()
     {
         Light.enabled = IsFlashlightOn = false;
-
+        flickerCoroutine = null;
         //Remove effect on things
         for (var i = effectedObjs.Count - 1; i >= 0; i--)
         {
