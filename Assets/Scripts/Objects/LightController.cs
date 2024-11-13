@@ -191,6 +191,9 @@ public class LightController : MonoBehaviour
     {
 
         constantFlickeringSound.start();
+
+        bool currentEnabled = lightSource.enabled;
+
         while (constantFlickering)
         {
             // Start the flicker effect for `flickerDuration` seconds
@@ -206,6 +209,8 @@ public class LightController : MonoBehaviour
                 // Short delay between each flicker within the flicker effect
                 yield return new WaitForSeconds(Random.Range(0.05f, 0.2f));
             }
+            lightSource.enabled = currentEnabled;
+            lightSource.intensity = originalIntensity;
 
             // Wait for the specified interval before starting the next flicker session
             yield return new WaitForSeconds(constantFlickerInterval);
