@@ -35,6 +35,7 @@ public class LightController : MonoBehaviour
     private CheckLightMaterial checkLight;
 
     [SerializeField] private UnityEvent OnTurnOffLight;
+    [SerializeField] private float constantFlickerInterval;
     private void Awake()
     {
         lightSource = GetComponent<Light>();
@@ -188,22 +189,29 @@ public class LightController : MonoBehaviour
     // Constant flicker coroutine
     private IEnumerator ConstantFlickerCoroutine()
     {
-        
+
         constantFlickeringSound.start();
         while (constantFlickering)
         {
-            // Randomize the intensity
-            lightSource.intensity = Random.Range(0.5f, originalIntensity);
+            // Start the flicker effect for `flickerDuration` seconds
+            float flickerEndTime = Time.time + 1f;
+            while (Time.time < flickerEndTime)
+            {
+                // Randomize the intensity
+                lightSource.intensity = Random.Range(0.5f, originalIntensity);
 
-            // Randomize the time interval for the next flicker
-            float flickerTimer = Random.Range(flickerFrequency, flickerFrequency * 2);
+                // Randomly turn the light on or off
+                lightSource.enabled = (Random.value > 0.1f); // 90% chance to stay on
 
-            // Randomly turn the light on or off
-            lightSource.enabled = (Random.value > 0.1f); // 90% chance to stay on
+                // Short delay between each flicker within the flicker effect
+                yield return new WaitForSeconds(Random.Range(0.05f, 0.2f));
+            }
 
-            // Wait for the next flicker
-            yield return new WaitForSeconds(flickerTimer);
+            // Wait for the specified interval before starting the next flicker session
+            yield return new WaitForSeconds(constantFlickerInterval);
         }
+        constantFlickeringSound.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+
     }
 
     private void StopConstantFlickering()
