@@ -375,7 +375,7 @@ PrefabInstance:
     - target: {fileID: 8899544617467568975, guid: bedc4c315612c0d429f32fda2e727742,
         type: 3}
       propertyPath: <HasFlashlight>k__BackingField
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
@@ -470,7 +470,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 7
   m_TargetDisplay: 0
 --- !u!224 &46502968
 RectTransform:
@@ -1133,8 +1133,8 @@ Transform:
   m_GameObject: {fileID: 542919356}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 13.284, y: 0.2, z: -23.047}
-  m_LocalScale: {x: 0.6301379, y: 0.6301379, z: 0.6301379}
+  m_LocalPosition: {x: 13.284, y: 0.01, z: -23.047}
+  m_LocalScale: {x: 0.6134266, y: 0.6134266, z: 0.6134266}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -3247,6 +3247,8 @@ GameObject:
   - component: {fileID: 1170868901}
   - component: {fileID: 1170868902}
   - component: {fileID: 1170868903}
+  - component: {fileID: 1170868904}
+  - component: {fileID: 1170868905}
   m_Layer: 0
   m_Name: Listeners
   m_TagString: Untagged
@@ -3338,6 +3340,98 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GlobalEvent: {fileID: 11400000, guid: de5a7254d12c1df4a8c4107a971e8db3, type: 2}
+  OnTriggerGlobalEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 29968018}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+--- !u!114 &1170868904
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1170868899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40644858560f5c441836dd38798473e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalEvent: {fileID: 11400000, guid: c56371a247e225c42a6c7f3a378c4112, type: 2}
+  OnTriggerGlobalEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 29968017}
+        m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
+        m_MethodName: DisablePlayerInput
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 238350188}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: Respawn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 29968018}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1864753164}
+        m_TargetAssemblyTypeName: TutorialManager, Assembly-CSharp
+        m_MethodName: RemoveAllText
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1170868905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1170868899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40644858560f5c441836dd38798473e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalEvent: {fileID: 11400000, guid: 9bd66388540a2c44491b6280df191e62, type: 2}
   OnTriggerGlobalEvent:
     m_PersistentCalls:
       m_Calls:

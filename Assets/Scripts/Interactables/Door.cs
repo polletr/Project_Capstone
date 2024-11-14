@@ -13,8 +13,8 @@ public class Door : Interactable
     [SerializeField] private UnityEvent OnUnlock;
     [SerializeField] private UnityEvent OnInteractLocked;
 
-    [SerializeField] private float rotationAngle = 90f;  // Angle to open the door
-    [SerializeField] private float rotationSpeed = 2f;   // Speed of rotation
+    [SerializeField] private float rotationAngle = 90f; // Angle to open the door
+    [SerializeField] private float rotationSpeed = 2f; // Speed of rotation
 
     [SerializeField] private float doorHealth = 10f;
     [SerializeField] private float distanceToCheckUIPos = 5f;
@@ -44,21 +44,24 @@ public class Door : Interactable
         playerCamera = Camera.main.gameObject;
         currentHealth = doorHealth;
     }
-    
+
     private void OnEnable()
     {
         Event.OnKeyPickup += KeyPickup;
     }
+
     private void OnDisable()
     {
         Event.OnKeyPickup -= KeyPickup;
     }
-    
+
 
     private void Update()
     {
-        if (playerCamera == null|| indicatorHandler == null || indicatorHandler.IndicatorUI == null) return;
-        
+        if (playerCamera == null)
+            playerCamera = Camera.main.gameObject;
+        if (playerCamera == null || indicatorHandler == null || indicatorHandler.IndicatorUI == null) return;
+
         var distanceToPlayer = Vector3.Distance(playerCamera.transform.position, transform.position);
         if (distanceToPlayer < distanceToCheckUIPos)
         {
@@ -130,8 +133,8 @@ public class Door : Interactable
             // Player is in front of the door, open backwards
             return Quaternion.Euler(0, rotationAngle, 0) * closedRotation;
         }
-
     }
+
     private void CheckDirectionUI()
     {
         // Open the door forward relative to the player
@@ -147,10 +150,10 @@ public class Door : Interactable
 
     public void TakeDamage(float damage, GameObject user)
     {
-
         if (!IsOpen)
         {
-            AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.TenseLockedDoor, transform.position);
+            AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.TenseLockedDoor,
+                transform.position);
             shakeEffect.ShakeObject();
             currentHealth -= damage;
         }
@@ -168,11 +171,10 @@ public class Door : Interactable
         AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.EasyLockedDoor, transform.position);
         shakeEffect.ShakeObject();
         OnInteractLocked.Invoke();
-        if(indicatorHandler != null && indicatorHandler.IndicatorUI != null) 
+        if (indicatorHandler != null && indicatorHandler.IndicatorUI != null)
             indicatorHandler.IndicatorUI.SetLockedIndicator(true);
-
     }
-    
+
     public void OpenDoor()
     {
         AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.UnlockDoor, transform.position);
@@ -186,9 +188,11 @@ public class Door : Interactable
         //if (Rotating) yield break;
 
         if (IsOpen)
-            AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.OpenDoor, this.transform.position);
+            AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.OpenDoor,
+                this.transform.position);
         else
-            AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.CloseDoor, this.transform.position);
+            AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.CloseDoor,
+                this.transform.position);
 
 
         Rotating = true;
@@ -227,26 +231,24 @@ public class Door : Interactable
     {
         CloseDoor(speed);
         //Think about opening sounds dependant on the speed
-
     }
 
     public void OnLockOrUnlockDoor(bool islockedDoor)
     {
         isLocked = islockedDoor;
-        if(indicatorHandler != null && indicatorHandler.IndicatorUI != null) 
+        if (indicatorHandler != null && indicatorHandler.IndicatorUI != null)
             indicatorHandler.IndicatorUI.SetLockedIndicator(isLocked);
 
         if (!isLocked)
             AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.UnlockDoor, transform.position);
     }
-    
+
     private void KeyPickup(int keyID)
     {
         if (keyID == OpenID)
         {
-            if(indicatorHandler != null && indicatorHandler.IndicatorUI != null) 
+            if (indicatorHandler != null && indicatorHandler.IndicatorUI != null)
                 indicatorHandler.IndicatorUI.SetLockedIndicator(false);
         }
     }
-
 }

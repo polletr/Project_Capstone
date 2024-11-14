@@ -6328,6 +6328,12 @@ MonoBehaviour:
       Data3: 267280295
       Data4: 628840989
     Path: event:/SFX/Objects/SuddenAppear
+--- !u!1 &916314032 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3282532627807805087, guid: 0a5c5ef2b78a49949b806cc84899287e,
+    type: 3}
+  m_PrefabInstance: {fileID: 1066139426091637062}
+  m_PrefabAsset: {fileID: 0}
 --- !u!43 &952294581
 Mesh:
   m_ObjectHideFlags: 0
@@ -12668,7 +12674,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <ScenesToLoad>k__BackingField:
-  - L2_Reception
+  - L2_CleanReception
   <CheckPoint>k__BackingField: {fileID: 1615373108}
   Event: {fileID: 11400000, guid: 821642c9ec9c5474b88bc1b575e70ddf, type: 2}
 --- !u!4 &2123811865
@@ -13101,6 +13107,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2126114749617392788, guid: 0a5c5ef2b78a49949b806cc84899287e,
         type: 3}
+      propertyPath: OnOpen.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2126114749617392788, guid: 0a5c5ef2b78a49949b806cc84899287e,
+        type: 3}
       propertyPath: OnUnlock.m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -13111,6 +13122,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2126114749617392788, guid: 0a5c5ef2b78a49949b806cc84899287e,
         type: 3}
+      propertyPath: OnOpen.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2126114749617392788, guid: 0a5c5ef2b78a49949b806cc84899287e,
+        type: 3}
+      propertyPath: OnOpen.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 916314032}
+    - target: {fileID: 2126114749617392788, guid: 0a5c5ef2b78a49949b806cc84899287e,
+        type: 3}
       propertyPath: OnUnlock.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 1
       objectReference: {fileID: 0}
@@ -13119,6 +13140,16 @@ PrefabInstance:
       propertyPath: OnUnlock.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1072056980}
+    - target: {fileID: 2126114749617392788, guid: 0a5c5ef2b78a49949b806cc84899287e,
+        type: 3}
+      propertyPath: OnOpen.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2126114749617392788, guid: 0a5c5ef2b78a49949b806cc84899287e,
+        type: 3}
+      propertyPath: OnOpen.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetActive
+      objectReference: {fileID: 0}
     - target: {fileID: 2126114749617392788, guid: 0a5c5ef2b78a49949b806cc84899287e,
         type: 3}
       propertyPath: OnUnlock.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -13201,6 +13232,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2126114749617392788, guid: 0a5c5ef2b78a49949b806cc84899287e,
         type: 3}
+      propertyPath: OnOpen.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UnityEngine.GameObject, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 2126114749617392788, guid: 0a5c5ef2b78a49949b806cc84899287e,
+        type: 3}
       propertyPath: OnUnlock.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: GlobalEventTrigger, Assembly-CSharp
       objectReference: {fileID: 0}
@@ -13244,6 +13280,11 @@ PrefabInstance:
       propertyPath: OnInteractLocked.m_PersistentCalls.m_Calls.Array.data[3].m_Arguments.m_ObjectArgument
       value: 
       objectReference: {fileID: 673675658}
+    - target: {fileID: 2126114749617392788, guid: 0a5c5ef2b78a49949b806cc84899287e,
+        type: 3}
+      propertyPath: OnOpen.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 2126114749617392788, guid: 0a5c5ef2b78a49949b806cc84899287e,
         type: 3}
       propertyPath: OnUnlock.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName

@@ -487,7 +487,7 @@ PrefabInstance:
     - target: {fileID: 6144744107208216849, guid: 88a488f3ffe540a4fbda153fb0d552bf,
         type: 3}
       propertyPath: OnCollect.m_PersistentCalls.m_Calls.Array.size
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6144744107208216849, guid: 88a488f3ffe540a4fbda153fb0d552bf,
         type: 3}
@@ -512,6 +512,11 @@ PrefabInstance:
     - target: {fileID: 6144744107208216849, guid: 88a488f3ffe540a4fbda153fb0d552bf,
         type: 3}
       propertyPath: OnCollect.m_PersistentCalls.m_Calls.Array.data[4].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6144744107208216849, guid: 88a488f3ffe540a4fbda153fb0d552bf,
+        type: 3}
+      propertyPath: OnCollect.m_PersistentCalls.m_Calls.Array.data[5].m_Mode
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6144744107208216849, guid: 88a488f3ffe540a4fbda153fb0d552bf,
@@ -541,6 +546,11 @@ PrefabInstance:
       objectReference: {fileID: 1072056978}
     - target: {fileID: 6144744107208216849, guid: 88a488f3ffe540a4fbda153fb0d552bf,
         type: 3}
+      propertyPath: OnCollect.m_PersistentCalls.m_Calls.Array.data[5].m_Target
+      value: 
+      objectReference: {fileID: 2123811864}
+    - target: {fileID: 6144744107208216849, guid: 88a488f3ffe540a4fbda153fb0d552bf,
+        type: 3}
       propertyPath: OnCollect.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
@@ -562,6 +572,11 @@ PrefabInstance:
     - target: {fileID: 6144744107208216849, guid: 88a488f3ffe540a4fbda153fb0d552bf,
         type: 3}
       propertyPath: OnCollect.m_PersistentCalls.m_Calls.Array.data[4].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6144744107208216849, guid: 88a488f3ffe540a4fbda153fb0d552bf,
+        type: 3}
+      propertyPath: OnCollect.m_PersistentCalls.m_Calls.Array.data[5].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6144744107208216849, guid: 88a488f3ffe540a4fbda153fb0d552bf,
@@ -591,6 +606,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6144744107208216849, guid: 88a488f3ffe540a4fbda153fb0d552bf,
         type: 3}
+      propertyPath: OnCollect.m_PersistentCalls.m_Calls.Array.data[5].m_MethodName
+      value: EnteredScene
+      objectReference: {fileID: 0}
+    - target: {fileID: 6144744107208216849, guid: 88a488f3ffe540a4fbda153fb0d552bf,
+        type: 3}
       propertyPath: OnCollect.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: UnityEngine.GameObject, UnityEngine
       objectReference: {fileID: 0}
@@ -613,6 +633,11 @@ PrefabInstance:
         type: 3}
       propertyPath: OnCollect.m_PersistentCalls.m_Calls.Array.data[4].m_TargetAssemblyTypeName
       value: GlobalEventTrigger, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 6144744107208216849, guid: 88a488f3ffe540a4fbda153fb0d552bf,
+        type: 3}
+      propertyPath: OnCollect.m_PersistentCalls.m_Calls.Array.data[5].m_TargetAssemblyTypeName
+      value: LevelData, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 6144744107208216849, guid: 88a488f3ffe540a4fbda153fb0d552bf,
         type: 3}
@@ -652,6 +677,11 @@ PrefabInstance:
     - target: {fileID: 6144744107208216849, guid: 88a488f3ffe540a4fbda153fb0d552bf,
         type: 3}
       propertyPath: OnCollect.m_PersistentCalls.m_Calls.Array.data[4].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 6144744107208216849, guid: 88a488f3ffe540a4fbda153fb0d552bf,
+        type: 3}
+      propertyPath: OnCollect.m_PersistentCalls.m_Calls.Array.data[5].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 6918138643916639770, guid: 88a488f3ffe540a4fbda153fb0d552bf,
@@ -2001,99 +2031,6 @@ Transform:
   - {fileID: 1848432647}
   m_Father: {fileID: 497800005}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &238915410
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 238915411}
-  - component: {fileID: 238915413}
-  - component: {fileID: 238915412}
-  m_Layer: 0
-  m_Name: EnterTrigger
-  m_TagString: Untagged
-  m_Icon: {fileID: -5487077368411116049, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &238915411
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 238915410}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.2755005, z: -0, w: 0.9613009}
-  m_LocalPosition: {x: -4.9254637, y: 12.067652, z: 6.1677647}
-  m_LocalScale: {x: 1, y: 1, z: 3.7684999}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1147643347}
-  m_LocalEulerAnglesHint: {x: 0, y: -31.984, z: 0}
---- !u!114 &238915412
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 238915410}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8214ab74778e58248a42cb516beb014a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  OnTriggerEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Door, Assembly-CSharp
-        m_MethodName: OnLockOrUnlockDoor
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 4
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: AudioHandler, Assembly-CSharp
-        m_MethodName: PlayAudioInstance
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 4
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
---- !u!65 &238915413
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 238915410}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &267668923
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5803,31 +5740,7 @@ MonoBehaviour:
   GlobalEvent: {fileID: 11400000, guid: 0b605a9d625aaaa49a00f63e3ca44c1e, type: 2}
   OnTriggerGlobalEvent:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Door, Assembly-CSharp
-        m_MethodName: OnCloseDoor
-        m_Mode: 4
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 4
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Door, Assembly-CSharp
-        m_MethodName: OnLockOrUnlockDoor
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 4
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
+      m_Calls: []
 --- !u!43 &923595081
 Mesh:
   m_ObjectHideFlags: 0
@@ -7092,7 +7005,6 @@ Transform:
   - {fileID: 2123811865}
   - {fileID: 1615373108}
   - {fileID: 569811602}
-  - {fileID: 238915411}
   - {fileID: 2082571225}
   - {fileID: 1598756187}
   - {fileID: 2040571566}
@@ -12913,6 +12825,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ScenesToLoad>k__BackingField:
   - L2_Reception
+  - H3
   <CheckPoint>k__BackingField: {fileID: 1615373108}
   Event: {fileID: 11400000, guid: 821642c9ec9c5474b88bc1b575e70ddf, type: 2}
 --- !u!4 &2123811865

@@ -203,7 +203,7 @@ public class PlayerController : MonoBehaviour
         _enemiesChasing.Clear();
     }
 
-    private void Respawn()
+    public void Respawn()
     {
         transform.position = CheckPoint.position;
     }

@@ -70,7 +70,7 @@ public class FlashLight : MonoBehaviour
     private HashSet<IEffectable> effectedObjsThisFrame = new();
 
     private Coroutine flickerCoroutine;
-
+    private Coroutine resetCoroutine;
     private void Awake()
     {
         Light = GetComponent<Light>();
@@ -119,7 +119,6 @@ public class FlashLight : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(CurrentAbility != null && !IsBatteryDead() && IsFlashlightOn && CanUseAbility);
         flickerTimer?.Tick(Time.deltaTime);
         // Decrease BatteryLife continuously over time based on Cost per second
         if (IsFlashlightOn && !IsBatteryDead())
@@ -255,8 +254,12 @@ public class FlashLight : MonoBehaviour
 
     public void ResetLight(float cooldown)
     {
+        if (resetCoroutine != null)
+        {
+            StopCoroutine(resetCoroutine);
+        }
         // Reset the flashlight to its default state and ready for use
-        StartCoroutine(ResetLightState(cooldown));
+        resetCoroutine = StartCoroutine(ResetLightState(cooldown));
     }
 
     public void HandleAbility()
@@ -553,6 +556,7 @@ public class FlashLight : MonoBehaviour
             delayTimer += Time.deltaTime;
             yield return null;
         }
+
 
         ResetLight(cooldown);
     }

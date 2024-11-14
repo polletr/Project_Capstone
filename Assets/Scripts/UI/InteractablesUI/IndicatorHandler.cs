@@ -44,13 +44,19 @@ public class IndicatorHandler : MonoBehaviour
 
     private void Update()
     {
-        if (playerTarget == null) return;
+        if (playerTarget == null || !cam.CompareTag("MainCamera"))
+        {
+            IndicatorUI.SetCircleIndicator(0);
+            IndicatorUI.TriggerTextIndicator(false);
+            return;
+        }
 
         UpdateIndicators();
     }
 
     private void UpdateIndicators()
     {
+        
         var distance = Vector3.Distance(playerTarget.position, transform.position);
 
         IndicatorUI.SetCircleIndicator(distance < circleUIMaxDistance
@@ -70,7 +76,8 @@ public class IndicatorHandler : MonoBehaviour
     {
         if (playerTarget == null && other.TryGetComponent(out PlayerController player))
         {
-            playerTarget = player.transform;
+            if (player.enabled)
+                playerTarget = player.transform;
         }
     }
 }

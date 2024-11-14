@@ -25,9 +25,7 @@ public class UIInteractableIndicator : MonoBehaviour
 
     private void Update()
     {
-        if (targetPos == null) { Debug.LogError("Missing Target set in IndicatorHandler"); return; }
-
-        Vector3 screenPosition = cam.WorldToScreenPoint(targetPos);
+        var screenPosition = cam.WorldToScreenPoint(targetPos);
 
         if (screenPosition.z > 0 && transform.position != screenPosition)
             transform.position = screenPosition;

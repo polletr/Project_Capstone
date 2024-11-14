@@ -55,7 +55,6 @@ public class AutomaticDoorClose : MonoBehaviour
         if (door != null && door.IsOpen)
         {
             door.OnCloseDoor();
-            Debug.Log("Door is closing.");
         }
 
         closeDoorCoroutine = null;

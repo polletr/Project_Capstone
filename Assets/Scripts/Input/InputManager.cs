@@ -25,7 +25,6 @@ public class InputManager : Singleton<InputManager>
 
     private void OnEnable()
     {
-        action.Enable();
         EnablePlayerInput();
         if (pauseMenu != null)
         {
@@ -33,6 +32,7 @@ public class InputManager : Singleton<InputManager>
             pauseMenu.OnResume.AddListener(TogglePause);
         }
 
+        action.Enable();
     }
 
     private void OnDisable()
@@ -43,6 +43,7 @@ public class InputManager : Singleton<InputManager>
             action.Menu.Pause.performed -= (val) => TogglePause();
             pauseMenu.OnResume.RemoveListener(TogglePause);
         }
+
         action.Disable();
     }
 
@@ -64,17 +65,18 @@ public class InputManager : Singleton<InputManager>
         action.Player.Flashlight.performed += OnFlashlightPower;
 
         action.Player.ChangeAbility.performed += OnChangeAbility;
-        
+
         action.Player.ChangeAbilityMouse.performed += HandleScrollAbility;
     }
 
     public void DisablePlayerInput()
     {
+        Movement = Vector2.zero;
         action.Player.Move.performed -= OnMove;
 
         action.Player.PointerMove.performed -= OnPointerMove;
 
-        action.Player.Attack.canceled  -= (_) => player.HandleAttack(false);
+        action.Player.Attack.canceled -= (_) => player.HandleAttack(false);
         action.Player.Attack.performed -= (_) => player.HandleAttack(true);
 
         action.Player.Interact.performed -= OnInteract;
@@ -84,9 +86,10 @@ public class InputManager : Singleton<InputManager>
         action.Player.Flashlight.performed -= OnFlashlightPower;
 
         action.Player.ChangeAbility.performed -= OnChangeAbility;
-        
+
         action.Player.ChangeAbilityMouse.performed -= HandleScrollAbility;
     }
+
     #endregion
 
     /// <summary>
@@ -95,7 +98,10 @@ public class InputManager : Singleton<InputManager>
 
     #region Player Game Input
 
-    private void OnMove(InputAction.CallbackContext context) => Movement = context.ReadValue<Vector2>();
+    private void OnMove(InputAction.CallbackContext context)
+    {
+        Movement = context.ReadValue<Vector2>();
+    }
 
     private void OnPointerMove(InputAction.CallbackContext context)
     {
@@ -110,18 +116,19 @@ public class InputManager : Singleton<InputManager>
 
     private void OnFlashlightPower(InputAction.CallbackContext context) => player.currentState?.HandleFlashlightPower();
 
-    private void OnChangeAbility(InputAction.CallbackContext context) => player.HandleChangeAbility((int)context.ReadValue<float>());
-    
+    private void OnChangeAbility(InputAction.CallbackContext context) =>
+        player.HandleChangeAbility((int)context.ReadValue<float>());
+
     private void HandleScrollAbility(InputAction.CallbackContext context)
     {
         var scrollValue = context.ReadValue<Vector2>();
         if (scrollValue.y > 0 || scrollValue.x > 0)
         {
-            player.HandleChangeAbility(1,true);
+            player.HandleChangeAbility(1, true);
         }
         else if (scrollValue.y < 0 || scrollValue.x < 0)
         {
-            player.HandleChangeAbility(-1,true);
+            player.HandleChangeAbility(-1, true);
         }
     }
 

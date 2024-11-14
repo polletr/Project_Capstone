@@ -58,6 +58,12 @@ public class TutorialManager : MonoBehaviour
         Event.SetTutorialTextTimer -= SetTextTimer;
         Event.SetReloadTextTimer -= SetRechargeTextTimer;
     }
+    
+    public void RemoveAllText()
+    {
+        _tutorialtext.text = "";
+        _rechargetext.text = "";
+    }
 
     private void Update()
     {
