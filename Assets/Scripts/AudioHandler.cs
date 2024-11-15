@@ -3,6 +3,8 @@ using FMODUnity;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.Rendering;
 
 public class AudioHandler : MonoBehaviour
 {
@@ -10,7 +12,12 @@ public class AudioHandler : MonoBehaviour
 
     EventInstance audioInstance;
 
+    [SerializeField] UnityEvent PlayFromStart;
 
+    private void Start()
+    {
+        PlayFromStart.Invoke();
+    }
     public void PlayOneShotAudio(Transform soundPoint)
     {
         AudioManagerFMOD.Instance.PlayOneShot(audioClip, soundPoint.position);
