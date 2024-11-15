@@ -3,6 +3,7 @@ using UnityEngine;
 public class PlayerAnimator : MonoBehaviour
 {
     public readonly int IdleHash = Animator.StringToHash("Idle");
+    public readonly int RechargeHash = Animator.StringToHash("Recharge");
     public  readonly int RunHash = Animator.StringToHash("Run");
     public  readonly int WalkHash = Animator.StringToHash("Walk");
 

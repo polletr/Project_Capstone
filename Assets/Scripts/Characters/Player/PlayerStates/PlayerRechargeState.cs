@@ -20,7 +20,7 @@ public class PlayerRechargeState : PlayerBaseState
         progress = 0;
         maxTime = Player.flashlight.MaxBatteryLife;
         ButtonMashBoost = Player.Settings.FlashlightReloadTime;
-        // playerAnimator.animator.Play(playerAnimator.DieHash);
+        Player.playerAnimator.animator.CrossFade(Player.playerAnimator.RechargeHash, 0.5f);
         Player.ReloadAnimation = Player.StartCoroutine(ReloadAnimation());
         
         Player.playerFootsteps.getPlaybackState(out var playbackState);
