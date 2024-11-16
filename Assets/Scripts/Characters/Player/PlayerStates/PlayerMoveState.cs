@@ -9,7 +9,7 @@ public class PlayerMoveState : PlayerBaseState
 
     public override void EnterState()
     {
-        PlayerAnimator.animator.Play(PlayerAnimator.IdleHash);
+
     }
     public override void ExitState()
     {
@@ -32,6 +32,8 @@ public class PlayerMoveState : PlayerBaseState
                 Player.AddEnemyToChaseList(enemy);
             }
         }
+
+
 
     }
     

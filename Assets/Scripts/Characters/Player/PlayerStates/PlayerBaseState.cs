@@ -190,6 +190,7 @@ public abstract class PlayerBaseState
         {
             Quaternion targetRotation = Quaternion.LookRotation(Player.PlayerCam.transform.forward) * flashlightRotationOffset;
 
+
             if (Player.xRotation < Player.Settings.FlashlightAngleDown)
                 targetRotation = Quaternion.LookRotation(Player.CameraHolder.transform.forward) * flashlightRotationOffset;
 

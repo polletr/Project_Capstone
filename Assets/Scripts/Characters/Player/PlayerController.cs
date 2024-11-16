@@ -10,7 +10,6 @@ public class PlayerController : MonoBehaviour
     public GameEvent Event;
 
     [field: SerializeField] public Transform CameraHolder { get; private set; }
-    [field: SerializeField] public Transform DeathCamPos { get; private set; }
     [field: SerializeField] public Transform Hand { get; private set; }
 
     public Camera PlayerCam { get; private set; }
@@ -46,8 +45,6 @@ public class PlayerController : MonoBehaviour
     public EventInstance playerFootsteps { get; private set; }
     public EventInstance playerBreathing { get; private set; }
     public EventInstance playerHeartbeat { get; private set; }
-
-    private float _minEnemyDistance;
 
     // private bool _canRegenHealth = true;
     private List<EnemyClass> _enemiesChasing = new();
@@ -151,6 +148,7 @@ public class PlayerController : MonoBehaviour
         {
             case false when flashlight.gameObject.activeSelf:
                 flashlight.gameObject.SetActive(false);
+
                 break;
             case true when !flashlight.gameObject.activeSelf:
                 flashlight.gameObject.SetActive(true);

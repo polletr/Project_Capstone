@@ -11,6 +11,7 @@ public class PlayerRechargeState : PlayerBaseState
     }
 
     private float progress; // Reference to the progress bar UI.
+    private float lerpSpeed;
     private float ButtonMashBoost; // Extra progress per button press.
     private float maxTime; // Max value for the progress bar.
 
@@ -18,9 +19,13 @@ public class PlayerRechargeState : PlayerBaseState
     public override void EnterState()
     {
         progress = 0;
+        lerpSpeed = 2f;
         maxTime = Player.flashlight.MaxBatteryLife;
         ButtonMashBoost = Player.Settings.FlashlightReloadTime;
-        Player.playerAnimator.animator.CrossFade(Player.playerAnimator.RechargeHash, 0.5f);
+        Player.playerAnimator.animator.Play(Player.playerAnimator.RechargeHash);
+
+        /*        Player.playerAnimator.animator.CrossFade(Player.playerAnimator.RechargeHash, 0.5f);
+        */
         Player.ReloadAnimation = Player.StartCoroutine(ReloadAnimation());
         
         Player.playerFootsteps.getPlaybackState(out var playbackState);
@@ -33,8 +38,10 @@ public class PlayerRechargeState : PlayerBaseState
     public override void ExitState()
     {
         Player.StopCoroutine(Player.ReloadAnimation);
+
         // player.PlayerCam.transform.parent = player.CameraHolder;
         Player.Event.OnFinishRecharge?.Invoke();
+
     }
 
     public override void StateFixedUpdate()
@@ -45,10 +52,18 @@ public class PlayerRechargeState : PlayerBaseState
     {
         if(progress >= maxTime)
         {
+            Player.playerAnimator.animator.Play(Player.playerAnimator.IdleHash);
+
             Player.ChangeState(Player.MoveState);
         }
         
         progress += Player.Settings.FlashlightReloadTime * Time.deltaTime;
+
+        if (Player.playerAnimator.animator.speed > 1f)
+        {
+            // Lerp the speed back to 1 slowly
+            Player.playerAnimator.animator.speed = Mathf.Lerp(Player.playerAnimator.animator.speed, 1f, lerpSpeed * Time.deltaTime);
+        }
     }
     
 
@@ -78,5 +93,6 @@ public class PlayerRechargeState : PlayerBaseState
     public override void HandleRecharge()
     {
         progress += ButtonMashBoost + Player.playerInventory.CrankCollected;
+        Player.playerAnimator.animator.speed = 2f;
     }
 }
