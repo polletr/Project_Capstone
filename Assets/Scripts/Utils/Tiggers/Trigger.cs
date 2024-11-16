@@ -8,9 +8,14 @@ public class Trigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            OnTriggerEvent.Invoke();
-            Destroy(gameObject);
+          TriggerEvent(); 
         }
+    }
+    
+    public void TriggerEvent()
+    {
+        OnTriggerEvent.Invoke();
+        Destroy(gameObject);
     }
 
 }

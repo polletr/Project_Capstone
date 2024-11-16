@@ -88,6 +88,9 @@ public class PlayerController : MonoBehaviour
         Event.SetNewSpawn -= SetSpawn;
         Event.OnPlayerRespawn -= Respawn;
         Event.OnLevelChange -= WipeEnemyList;
+        
+        if(playerFootsteps.isValid())
+            playerFootsteps.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
     }
 
     private void Update()
