@@ -50,7 +50,7 @@ public class ShadowObject : MonoBehaviour, IStunable
     public void ApplyStunEffect()
     {
         Debug.Log("Enemy Received Stun");
-        if (enemyTransp != null)
+        if (enemyTransp == null)
         {
             StartCoroutine(EnemyTransparency(0f));
             StunObject.Invoke();
