@@ -1723,13 +1723,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 238915410}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.2755005, z: -0, w: 0.9613009}
-  m_LocalPosition: {x: -4.9254637, y: 12.067652, z: 6.1677647}
+  m_LocalRotation: {x: -0, y: -0.077910185, z: -0, w: 0.9969604}
+  m_LocalPosition: {x: -5.406, y: 12.067652, z: 4.705}
   m_LocalScale: {x: 1, y: 1, z: 3.7684999}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1147643347}
-  m_LocalEulerAnglesHint: {x: 0, y: -31.984, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -8.937, z: 0}
 --- !u!114 &238915412
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1745,10 +1745,10 @@ MonoBehaviour:
   OnTriggerEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Door, Assembly-CSharp
-        m_MethodName: OnLockOrUnlockDoor
-        m_Mode: 6
+      - m_Target: {fileID: 2123811864}
+        m_TargetAssemblyTypeName: LevelData, Assembly-CSharp
+        m_MethodName: EnteredScene
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -12707,9 +12707,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65dc311369b96a34ea226836e2c1fd75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <ScenesToLoad>k__BackingField:
-  - L2_Reception
-  - L1_DormClean
+  <ScenesToLoad>k__BackingField: []
   <CheckPoint>k__BackingField: {fileID: 1615373108}
   Event: {fileID: 11400000, guid: 821642c9ec9c5474b88bc1b575e70ddf, type: 2}
 --- !u!4 &2123811865
