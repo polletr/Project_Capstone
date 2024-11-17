@@ -7,6 +7,7 @@ public class CinematicHandler : Singleton<CinematicHandler>
 {
     [SerializeField] private List<TimelineAsset> deathCinematics = new();
     [field: SerializeField] public TimelineAsset oneSecTransition;
+    [field: SerializeField] public TimelineAsset threeSecTransition;
 
     private PlayableDirector director;
 
@@ -23,6 +24,21 @@ public class CinematicHandler : Singleton<CinematicHandler>
         return time;
         }
     }
+
+    public float ThreeSecDuration
+    {
+        get
+        {
+            if (!oneSecTransition || director.state != PlayState.Playing)
+            {
+                return 0f;
+            }
+
+            var time = (float)oneSecTransition.duration;
+            return time;
+        }
+    }
+
 
     protected override void Awake()
     {
@@ -44,5 +60,12 @@ public class CinematicHandler : Singleton<CinematicHandler>
         director.playableAsset = oneSecTransition;
         director.Play();
     }
+
+    public void PlayThreeSecTransition()
+    {
+        director.playableAsset = threeSecTransition;
+        director.Play();
+    }
+
 
 }
