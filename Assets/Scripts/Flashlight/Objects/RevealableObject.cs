@@ -70,7 +70,9 @@ public class RevealableObject : MonoBehaviour, IRevealable
         revealTimer = 0f;
 
         if (TryGetComponent(out DisappearObject disapearObject))
+        {
             disapearObject.enabled = false;
+        }
 
     }
 
@@ -141,34 +143,37 @@ public class RevealableObject : MonoBehaviour, IRevealable
                     material.SetFloat("_DissolveAmount", currentObjTransp);
                 }
             }
+
+            if (currentObjTransp <= 0f)
+            {
+                // After revealing, set original materials and stop sound
+                SetOriginalMaterials();
+                if (GetComponent<IndicatorHandler>() != null)
+                {
+                    GetComponent<IndicatorHandler>().enabled = true;
+                }
+
+                revealSound.stop(STOP_MODE.IMMEDIATE);
+                AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.FlashlightReveal,
+                    this.transform.position);
+                objectRevealed.Invoke();
+                IsRevealed = true;
+
+                if (TryGetComponent(out NavMeshObstacle obstacle))
+                {
+                    obstacle.enabled = true;
+                }
+
+                if (TryGetComponent(out DisappearObject disapearObject))
+                {
+                    Debug.Log("Disapear enabled" + IsRevealed);
+                    disapearObject.enabled = true;
+                }
+
+                GetComponent<Collider>().isTrigger = originalTrigger;
+            }
         }
 
-        if (currentObjTransp <= 0f)
-        {
-            // After revealing, set original materials and stop sound
-            SetOriginalMaterials();
-            if (GetComponent<IndicatorHandler>() != null)
-            {
-                GetComponent<IndicatorHandler>().enabled = true;
-            }
-
-            revealSound.stop(STOP_MODE.IMMEDIATE);
-            AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.FlashlightReveal,
-                this.transform.position);
-            objectRevealed.Invoke();
-            IsRevealed = true;
-
-            if (TryGetComponent(out NavMeshObstacle obstacle))
-            {
-                obstacle.enabled = true;
-            }
-
-            if (TryGetComponent(out DisappearObject disapearObject))
-            {
-                disapearObject.enabled = true;
-            }
-            GetComponent<Collider>().isTrigger = originalTrigger;
-        }
     }
 
     public void UnRevealObj()

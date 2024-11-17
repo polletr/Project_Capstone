@@ -479,25 +479,25 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 532701225}
     m_Modifications:
-    - target: {fileID: 3440060333745486182, guid: 88a488f3ffe540a4fbda153fb0d552bf,
+    - target: {fileID: 73680591101555408, guid: 88a488f3ffe540a4fbda153fb0d552bf,
         type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.17
+      propertyPath: m_Radius
+      value: 0.36
       objectReference: {fileID: 0}
-    - target: {fileID: 3440060333745486182, guid: 88a488f3ffe540a4fbda153fb0d552bf,
+    - target: {fileID: 73680591101555408, guid: 88a488f3ffe540a4fbda153fb0d552bf,
         type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.01
-      objectReference: {fileID: 0}
-    - target: {fileID: 3440060333745486182, guid: 88a488f3ffe540a4fbda153fb0d552bf,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.036
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3906796842648510895, guid: 88a488f3ffe540a4fbda153fb0d552bf,
         type: 3}
       propertyPath: m_Name
       value: FlashlightPickup
+      objectReference: {fileID: 0}
+    - target: {fileID: 5949768031005980402, guid: 88a488f3ffe540a4fbda153fb0d552bf,
+        type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 6144744107208216849, guid: 88a488f3ffe540a4fbda153fb0d552bf,
         type: 3}
@@ -699,6 +699,11 @@ PrefabInstance:
       propertyPath: OnCollect.m_PersistentCalls.m_Calls.Array.data[5].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 6517589288547571055, guid: 88a488f3ffe540a4fbda153fb0d552bf,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6918138643916639770, guid: 88a488f3ffe540a4fbda153fb0d552bf,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -864,11 +869,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -2.812
       objectReference: {fileID: 0}
-    - target: {fileID: 8820582113285826839, guid: 88a488f3ffe540a4fbda153fb0d552bf,
-        type: 3}
-      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
-      value: 1801810542
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -877,10 +877,6 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 11712020}
-    - targetCorrespondingSourceObject: {fileID: 3090085162155746672, guid: 88a488f3ffe540a4fbda153fb0d552bf,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 11712022}
   m_SourcePrefab: {fileID: 100100000, guid: 88a488f3ffe540a4fbda153fb0d552bf, type: 3}
 --- !u!4 &11712018 stripped
 Transform:
@@ -916,33 +912,6 @@ MonoBehaviour:
   PlayFromStart:
     m_PersistentCalls:
       m_Calls: []
---- !u!1 &11712021 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3090085162155746672, guid: 88a488f3ffe540a4fbda153fb0d552bf,
-    type: 3}
-  m_PrefabInstance: {fileID: 11712017}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &11712022
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 11712021}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f1ad9b7ff5b67742a7bb50ddaa8976c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  minFlickerDuration: 1
-  maxFlickerDuration: 3
-  flickerFrequency: 0.1
-  constantFlickering: 1
-  GuidingLight: 0
-  OnTurnOffLight:
-    m_PersistentCalls:
-      m_Calls: []
-  constantFlickerInterval: 3
 --- !u!1001 &52972262
 PrefabInstance:
   m_ObjectHideFlags: 0

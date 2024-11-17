@@ -4596,6 +4596,12 @@ Transform:
   - {fileID: 1502004970}
   m_Father: {fileID: 1147643347}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &518420356 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7984662813392477478, guid: 0a5c5ef2b78a49949b806cc84899287e,
+    type: 3}
+  m_PrefabInstance: {fileID: 1066139426091637062}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &532701224
 GameObject:
   m_ObjectHideFlags: 0
@@ -6116,33 +6122,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40644858560f5c441836dd38798473e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalEvent: {fileID: 11400000, guid: 0b605a9d625aaaa49a00f63e3ca44c1e, type: 2}
+  GlobalEvent: {fileID: 11400000, guid: c56371a247e225c42a6c7f3a378c4112, type: 2}
   OnTriggerGlobalEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Door, Assembly-CSharp
-        m_MethodName: OnCloseDoor
-        m_Mode: 4
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 4
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Door, Assembly-CSharp
-        m_MethodName: OnLockOrUnlockDoor
+      - m_Target: {fileID: 518420356}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
-          m_FloatArgument: 4
+          m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 1
+          m_BoolArgument: 0
         m_CallState: 2
 --- !u!1001 &876305430
 PrefabInstance:
@@ -6267,9 +6261,19 @@ PrefabInstance:
       propertyPath: m_Center.z
       value: -0.0000000010586586
       objectReference: {fileID: 0}
+    - target: {fileID: 4126479038886119126, guid: e5ffd160c02c8084589301b19d6fa4cc,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4157614264159099024, guid: e5ffd160c02c8084589301b19d6fa4cc,
         type: 3}
       propertyPath: <OpenID>k__BackingField
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5638278666956099887, guid: e5ffd160c02c8084589301b19d6fa4cc,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5752064071351908588, guid: e5ffd160c02c8084589301b19d6fa4cc,
@@ -6327,14 +6331,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -96.428
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4157614264159099024, guid: e5ffd160c02c8084589301b19d6fa4cc, type: 3}
+    - {fileID: 12325932320889345, guid: e5ffd160c02c8084589301b19d6fa4cc, type: 3}
+    - {fileID: 8104088828662842321, guid: e5ffd160c02c8084589301b19d6fa4cc, type: 3}
+    - {fileID: 5836856051415248684, guid: e5ffd160c02c8084589301b19d6fa4cc, type: 3}
+    - {fileID: 4011796879850162493, guid: e5ffd160c02c8084589301b19d6fa4cc, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2293465678663127946, guid: e5ffd160c02c8084589301b19d6fa4cc,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 898903624}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e5ffd160c02c8084589301b19d6fa4cc, type: 3}
 --- !u!4 &898903622 stripped
 Transform:
@@ -6348,28 +6353,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 898903621}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &898903624
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 898903623}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9610a663f429e814e9b4619e7657be12, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audioClip:
-    Guid:
-      Data1: -749441939
-      Data2: 1293581042
-      Data3: 267280295
-      Data4: 628840989
-    Path: event:/SFX/Objects/SuddenAppear
-  PlayFromStart:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &916314032 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3282532627807805087, guid: 0a5c5ef2b78a49949b806cc84899287e,
@@ -9117,6 +9100,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1865113456}
     m_Modifications:
+    - target: {fileID: 1506980463554712914, guid: e5ffd160c02c8084589301b19d6fa4cc,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2293465678663127946, guid: e5ffd160c02c8084589301b19d6fa4cc,
         type: 3}
       propertyPath: m_Name
@@ -9147,9 +9135,19 @@ PrefabInstance:
       propertyPath: m_Center.z
       value: 0.0000000029291012
       objectReference: {fileID: 0}
+    - target: {fileID: 4126479038886119126, guid: e5ffd160c02c8084589301b19d6fa4cc,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4157614264159099024, guid: e5ffd160c02c8084589301b19d6fa4cc,
         type: 3}
       propertyPath: <OpenID>k__BackingField
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5638278666956099887, guid: e5ffd160c02c8084589301b19d6fa4cc,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5752064071351908588, guid: e5ffd160c02c8084589301b19d6fa4cc,
@@ -9207,14 +9205,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -96.429
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4157614264159099024, guid: e5ffd160c02c8084589301b19d6fa4cc, type: 3}
+    - {fileID: 12325932320889345, guid: e5ffd160c02c8084589301b19d6fa4cc, type: 3}
+    - {fileID: 8104088828662842321, guid: e5ffd160c02c8084589301b19d6fa4cc, type: 3}
+    - {fileID: 4011796879850162493, guid: e5ffd160c02c8084589301b19d6fa4cc, type: 3}
+    - {fileID: 5836856051415248684, guid: e5ffd160c02c8084589301b19d6fa4cc, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2293465678663127946, guid: e5ffd160c02c8084589301b19d6fa4cc,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1508978436}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e5ffd160c02c8084589301b19d6fa4cc, type: 3}
 --- !u!4 &1508978434 stripped
 Transform:
@@ -9228,28 +9227,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1508978433}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1508978436
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1508978435}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9610a663f429e814e9b4619e7657be12, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audioClip:
-    Guid:
-      Data1: -749441939
-      Data2: 1293581042
-      Data3: 267280295
-      Data4: 628840989
-    Path: event:/SFX/Objects/SuddenAppear
-  PlayFromStart:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!43 &1515606790
 Mesh:
   m_ObjectHideFlags: 0
@@ -13388,7 +13365,7 @@ PrefabInstance:
     - target: {fileID: 2126114749617392788, guid: 0a5c5ef2b78a49949b806cc84899287e,
         type: 3}
       propertyPath: OnOpen.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2126114749617392788, guid: 0a5c5ef2b78a49949b806cc84899287e,
         type: 3}
@@ -13659,6 +13636,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7214779882695575847, guid: 0a5c5ef2b78a49949b806cc84899287e,
+        type: 3}
+      propertyPath: checkRadius
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 7214779882695575847, guid: 0a5c5ef2b78a49949b806cc84899287e,
+        type: 3}
+      propertyPath: circleUIMaxDistance
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7428255570018174018, guid: 0a5c5ef2b78a49949b806cc84899287e,
         type: 3}

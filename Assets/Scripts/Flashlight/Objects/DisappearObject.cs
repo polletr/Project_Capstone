@@ -52,7 +52,7 @@ public class DisappearObject : MonoBehaviour, IHideable
 
     }
 
-    void OnEnable()
+    private void OnEnable()
     {
         IsHidden = false;
         GetComponent<Collider>().isTrigger = false;
@@ -62,11 +62,14 @@ public class DisappearObject : MonoBehaviour, IHideable
         if (TryGetComponent(out RevealableObject revealableObject))
             revealableObject.enabled = false;
 
+        Debug.Log("Disapear enabled");
     }
 
-    void OnDisable()
+    private void OnDisable()
     {
         CanApplyEffect = true;
+
+        Debug.Log("Disapear disabled");
     }
 
 
@@ -114,27 +117,29 @@ public class DisappearObject : MonoBehaviour, IHideable
             {
                 material.SetFloat("_DissolveAmount", currentObjTransp);
             }
+
+            if (!(currentObjTransp >= 0.75f)) return;
+
+            revealSound.stop(STOP_MODE.IMMEDIATE);
+            AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.FlashlightReveal,
+                this.transform.position);
+            objectRevealed.Invoke();
+            IsHidden = true;
+            if (TryGetComponent(out NavMeshObstacle obstacle))
+            {
+                obstacle.enabled = false;
+            }
+
+            if (TryGetComponent(out RevealableObject revealableObject))
+            {
+                revealableObject.enabled = true;
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
 
-        if (!(currentObjTransp >= 0.75f)) return;
-        
-        revealSound.stop(STOP_MODE.IMMEDIATE);
-        AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.FlashlightReveal, this.transform.position);
-        objectRevealed.Invoke();
-        IsHidden = true;
-        if (TryGetComponent(out NavMeshObstacle obstacle))
-        {
-            obstacle.enabled = false;
-        }
-
-        if (TryGetComponent(out RevealableObject revealableObject))
-        {
-            revealableObject.enabled = true;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
     }
 
     public void UnHideObj()

@@ -44,7 +44,7 @@ public class IndicatorHandler : MonoBehaviour
 
     private void Update()
     {
-        if (playerTarget == null || !cam.CompareTag("MainCamera"))
+        if (playerTarget == null || !playerTarget.gameObject.activeSelf)
         {
             IndicatorUI.SetCircleIndicator(0);
             IndicatorUI.TriggerTextIndicator(false);
