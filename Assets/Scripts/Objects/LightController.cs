@@ -176,6 +176,8 @@ public class LightController : MonoBehaviour
 
             timer += flickerTimer;
 
+            AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.LightFlickerOnce, transform.position);
+
             // Wait for the next flicker
             yield return new WaitForSeconds(flickerTimer);
         }
