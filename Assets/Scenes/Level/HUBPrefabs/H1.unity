@@ -5747,6 +5747,7 @@ GameObject:
   m_Component:
   - component: {fileID: 673675658}
   - component: {fileID: 673675659}
+  - component: {fileID: 673675660}
   m_Layer: 0
   m_Name: AudioHandler
   m_TagString: Untagged
@@ -5762,12 +5763,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 673675657}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.844, y: 13.51, z: 4.649}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 13.364468, y: 2.0373487, z: -23.150764}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1147643347}
+  m_Father: {fileID: 2082571225}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &673675659
 MonoBehaviour:
@@ -5791,6 +5792,40 @@ MonoBehaviour:
   PlayFromStart:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &673675660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 673675657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9610a663f429e814e9b4619e7657be12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioClip:
+    Guid:
+      Data1: -27730571
+      Data2: 1077866362
+      Data3: 470747525
+      Data4: 268208358
+    Path: event:/BackgroundMusic/EmptyAmbiance
+  PlayFromStart:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 673675660}
+        m_TargetAssemblyTypeName: AudioHandler, Assembly-CSharp
+        m_MethodName: PlayAudioInstance
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!43 &748770943
 Mesh:
   m_ObjectHideFlags: 0
@@ -7660,7 +7695,6 @@ Transform:
   - {fileID: 1598756187}
   - {fileID: 2040571566}
   - {fileID: 1366862392}
-  - {fileID: 673675658}
   - {fileID: 1845185371}
   - {fileID: 821244888}
   m_Father: {fileID: 0}
@@ -12754,7 +12788,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 7181863312218253194, guid: bc4f9f77ad71dfa4bb2d1d46d968e38e,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 673675658}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bc4f9f77ad71dfa4bb2d1d46d968e38e, type: 3}
 --- !u!4 &2082571225 stripped
