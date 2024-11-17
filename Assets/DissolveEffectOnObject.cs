@@ -64,6 +64,7 @@ public class DissolveEffectOnObject : MonoBehaviour
     private IEnumerator AppearCoroutine()
     {
         float currentDissolveAmount = 1f;
+        AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.SmoothAppear, transform.position);
 
         while (currentDissolveAmount > 0f)
         {
@@ -89,7 +90,7 @@ public class DissolveEffectOnObject : MonoBehaviour
     private IEnumerator DissolveCoroutine()
     {
         float currentDissolveAmount = 0f;
-
+        AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.SmoothAppear, transform.position);
         while (currentDissolveAmount < 1f)
         {
             currentDissolveAmount += Time.deltaTime / timer;
