@@ -46,6 +46,7 @@ public class AudioHandler : MonoBehaviour
         {
             Debug.Log("Stopping Audio");
             audioInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            audioInstance.release();
         }
     }
 

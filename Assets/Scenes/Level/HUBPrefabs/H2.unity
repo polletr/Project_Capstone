@@ -1615,18 +1615,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 130870660}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &130870662 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1061081898554759911, guid: 2e06eeb84c03b3043b12268473195e6f,
-    type: 3}
-  m_PrefabInstance: {fileID: 130870660}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f1ad9b7ff5b67742a7bb50ddaa8976c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &215890881
 GameObject:
   m_ObjectHideFlags: 0
@@ -1691,7 +1679,7 @@ PrefabInstance:
     - target: {fileID: 796343690554978233, guid: 95328615bc0790946b2df2cd463f12ba,
         type: 3}
       propertyPath: OnClose.m_PersistentCalls.m_Calls.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 796343690554978233, guid: 95328615bc0790946b2df2cd463f12ba,
         type: 3}
@@ -1702,7 +1690,7 @@ PrefabInstance:
         type: 3}
       propertyPath: OnClose.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 130870662}
+      objectReference: {fileID: 267668924}
     - target: {fileID: 796343690554978233, guid: 95328615bc0790946b2df2cd463f12ba,
         type: 3}
       propertyPath: OnClose.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -1711,12 +1699,17 @@ PrefabInstance:
     - target: {fileID: 796343690554978233, guid: 95328615bc0790946b2df2cd463f12ba,
         type: 3}
       propertyPath: OnClose.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: TurnOnOffLight
+      value: OnLockOrUnlockDoor
       objectReference: {fileID: 0}
     - target: {fileID: 796343690554978233, guid: 95328615bc0790946b2df2cd463f12ba,
         type: 3}
       propertyPath: OnClose.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: LightController, Assembly-CSharp
+      value: Door, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 796343690554978233, guid: 95328615bc0790946b2df2cd463f12ba,
+        type: 3}
+      propertyPath: OnClose.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 796343690554978233, guid: 95328615bc0790946b2df2cd463f12ba,
         type: 3}
@@ -2513,6 +2506,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 95328615bc0790946b2df2cd463f12ba, type: 3}
+--- !u!114 &267668924 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 796343690554978233, guid: 95328615bc0790946b2df2cd463f12ba,
+    type: 3}
+  m_PrefabInstance: {fileID: 267668923}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99eeb0eacf757e54b82f91551d5bc944, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &267668925 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2146151112081368828, guid: 95328615bc0790946b2df2cd463f12ba,
@@ -4179,7 +4184,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &497800005
 Transform:
   m_ObjectHideFlags: 0
@@ -4214,7 +4219,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &532701225
 Transform:
   m_ObjectHideFlags: 0
