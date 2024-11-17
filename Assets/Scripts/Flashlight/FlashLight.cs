@@ -4,6 +4,7 @@ using System.Linq;
 using System.Collections.Generic;
 using Flashlight.Ability;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Utilities;
 using Random = UnityEngine.Random;
 
@@ -30,6 +31,14 @@ public class FlashLight : MonoBehaviour
     [SerializeField] private float minCloseDistance;
 
     [field: SerializeField] public LayerMask IgrnoreMask { get; private set; }
+    
+    [Header("flashlight Ability Bulb")]
+    [SerializeField] private Material disappearBulbMaterial;
+    [SerializeField] private Material revealBulbMaterial;
+    [SerializeField] private Material stunBulbMaterial;
+    [SerializeField] private MeshRenderer flashlightBulb;
+    
+    
 
     private FlashlightAbility _currentAbility;
 
@@ -313,6 +322,8 @@ public class FlashLight : MonoBehaviour
 
         // Stop current ability and set the new one
         CurrentAbility = flashlightAbilities[currentIndex];
+        AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.FlashlightSwapAbility, transform.position);
+        ChangeMaterial();
         TutorialEvent.OnSwapAbility?.Invoke();
 
         if (ObjectPickupUIHandler.Instance)
@@ -327,6 +338,21 @@ public class FlashLight : MonoBehaviour
 
     }
 
+    private void ChangeMaterial()
+    {
+        switch (CurrentAbility)
+        {
+            case RevealAbility:
+                flashlightBulb.material = revealBulbMaterial;
+                break;
+            case DisappearAbility:
+                flashlightBulb.material = disappearBulbMaterial;
+                break;
+            case StunAbility:
+                flashlightBulb.material = stunBulbMaterial;
+                break;
+        }
+    }
 
     public void StopUsingFlashlight()
     {
