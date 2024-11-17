@@ -160,20 +160,19 @@ public class LightController : MonoBehaviour
         StopConstantFlickering();
         while (timer < maxTime)
         {
+            lightSource.enabled = (Random.value > 0.05f); // 70% chance to stay on
             // Randomize the intensity
-            lightSource.intensity = Random.Range(0.2f, originalIntensity); // Adjust the max intensity as needed
+            lightSource.intensity = Random.Range(0f, originalIntensity); // Adjust the max intensity as needed
 
             // Randomize the time interval for the next flicker
             float flickerTimer = Random.Range(flickerFrequency, flickerFrequency * 2);
 
             // Randomly turn the light on or off for a more dramatic effect
-            lightSource.enabled = (Random.value > 0.3f); // 70% chance to stay on
 
             foreach (Light light in childLights)
             {
-                light.enabled = (Random.value > 0.3f); // 70% chance to stay on;
+                light.enabled = (Random.value > 0.05f); // 70% chance to stay on;
             }
-
 
             timer += flickerTimer;
 

@@ -512,11 +512,6 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
-    - target: {fileID: 8899544617467568975, guid: bedc4c315612c0d429f32fda2e727742,
-        type: 3}
-      propertyPath: <HasFlashlight>k__BackingField
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 7250169301349691989, guid: bedc4c315612c0d429f32fda2e727742, type: 3}
@@ -2647,7 +2642,7 @@ PlayableDirector:
   m_GameObject: {fileID: 864876159}
   m_Enabled: 1
   serializedVersion: 3
-  m_PlayableAsset: {fileID: 11400000, guid: 8e63a26eccfef2243a6d350a1c7f005c, type: 2}
+  m_PlayableAsset: {fileID: 11400000, guid: 80d5d4705797f0e46a6f6d9ec75c9bcc, type: 2}
   m_InitialState: 1
   m_WrapMode: 2
   m_DirectorUpdateMode: 1
@@ -2848,6 +2843,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8b9ac9adaf728f04fb2456ca2c8233c1, type: 2}
   - {fileID: 11400000, guid: 41273b7263f6f4946b46c18127c75e71, type: 2}
   oneSecTransition: {fileID: 11400000, guid: 8e63a26eccfef2243a6d350a1c7f005c, type: 2}
+  threeSecTransition: {fileID: 11400000, guid: 80d5d4705797f0e46a6f6d9ec75c9bcc, type: 2}
 --- !u!1 &886818446
 GameObject:
   m_ObjectHideFlags: 0
@@ -3509,6 +3505,7 @@ GameObject:
   - component: {fileID: 1170868903}
   - component: {fileID: 1170868904}
   - component: {fileID: 1170868905}
+  - component: {fileID: 1170868906}
   m_Layer: 0
   m_Name: Listeners
   m_TagString: Untagged
@@ -3706,6 +3703,34 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 1
+        m_CallState: 2
+--- !u!114 &1170868906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1170868899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40644858560f5c441836dd38798473e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalEvent: {fileID: 11400000, guid: 98527ea7641dfb04cb5085eb4a3eb34f, type: 2}
+  OnTriggerGlobalEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 864876163}
+        m_TargetAssemblyTypeName: CinematicHandler, Assembly-CSharp
+        m_MethodName: PlayThreeSecTransition
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
         m_CallState: 2
 --- !u!20 &1179583650 stripped
 Camera:
@@ -4069,7 +4094,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 11
   m_Type: 1
-  m_Color: {r: 0.28155038, g: 0.29467657, b: 0.3490566, a: 1}
+  m_Color: {r: 0.26860094, g: 0.27114528, b: 0.2830189, a: 1}
   m_Intensity: 0.2
   m_Range: 10
   m_SpotAngle: 30
