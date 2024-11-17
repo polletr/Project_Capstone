@@ -6,7 +6,7 @@ using UnityEngine.Events;
 public class Door : Interactable
 {
     [field: SerializeField] public int OpenID { get; private set; }
-    public bool IsOpen { get; private set; }
+    public bool IsOpen = false;
     [SerializeField] private bool isLocked;
     [SerializeField] private UnityEvent OnOpen;
     [SerializeField] private UnityEvent OnClose;
