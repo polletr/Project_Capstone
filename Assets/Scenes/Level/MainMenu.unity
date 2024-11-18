@@ -2745,8 +2745,8 @@ GameObject:
   m_Component:
   - component: {fileID: 304219931}
   - component: {fileID: 304219930}
-  - component: {fileID: 304219929}
   - component: {fileID: 304219932}
+  - component: {fileID: 304219933}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2754,14 +2754,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &304219929
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 304219928}
-  m_Enabled: 1
 --- !u!20 &304219930
 Camera:
   m_ObjectHideFlags: 0
@@ -2872,6 +2864,20 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!114 &304219933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 304219928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nonRigidbodyVelocity: 0
+  attenuationObject: {fileID: 0}
 --- !u!4 &328754380 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1854106897262376099, guid: f7afc3d7adcad8b4e8faae10fa305e84,
@@ -6197,7 +6203,7 @@ PrefabInstance:
     - target: {fileID: 2364245825709186473, guid: bc4f9f77ad71dfa4bb2d1d46d968e38e,
         type: 3}
       propertyPath: PlayFromStart.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: Play3DAudio
+      value: PlayAudioInstance
       objectReference: {fileID: 0}
     - target: {fileID: 2364245825709186473, guid: bc4f9f77ad71dfa4bb2d1d46d968e38e,
         type: 3}

@@ -203,6 +203,8 @@ public class LightController : MonoBehaviour
 
         while (constantFlickering)
         {
+            AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.LightFlickerOnce, transform.position);
+
             // Start the flicker effect for `flickerDuration` seconds
             float flickerEndTime = Time.time + 1f;
             while (Time.time < flickerEndTime)
