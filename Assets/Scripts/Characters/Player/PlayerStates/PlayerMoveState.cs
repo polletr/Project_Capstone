@@ -9,7 +9,7 @@ public class PlayerMoveState : PlayerBaseState
 
     public override void EnterState()
     {
-
+        Player.playerAnimator.animator.Play(Player.playerAnimator.IdleHash);
     }
     public override void ExitState()
     {
