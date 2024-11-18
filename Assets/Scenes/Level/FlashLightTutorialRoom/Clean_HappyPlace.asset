@@ -43,19 +43,65 @@ MonoBehaviour:
   active: 1
   postExposure:
     m_OverrideState: 1
-    m_Value: 0.2
+    m_Value: 1
   contrast:
     m_OverrideState: 0
     m_Value: 19
   colorFilter:
     m_OverrideState: 0
-    m_Value: {r: 1, g: 1, b: 1, a: 1}
+    m_Value: {r: 0.4509804, g: 0.5803922, b: 0.47058824, a: 1}
   hueShift:
     m_OverrideState: 0
     m_Value: -180
   saturation:
     m_OverrideState: 1
     m_Value: 24.1
+--- !u!114 &-2484112404289913724
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c01700fd266d6914ababb731e09af2eb, type: 3}
+  m_Name: DepthOfField
+  m_EditorClassIdentifier: 
+  active: 1
+  mode:
+    m_OverrideState: 1
+    m_Value: 2
+  gaussianStart:
+    m_OverrideState: 0
+    m_Value: 10
+  gaussianEnd:
+    m_OverrideState: 0
+    m_Value: 30
+  gaussianMaxRadius:
+    m_OverrideState: 0
+    m_Value: 1
+  highQualitySampling:
+    m_OverrideState: 0
+    m_Value: 0
+  focusDistance:
+    m_OverrideState: 1
+    m_Value: 4
+  aperture:
+    m_OverrideState: 1
+    m_Value: 10
+  focalLength:
+    m_OverrideState: 0
+    m_Value: 50
+  bladeCount:
+    m_OverrideState: 0
+    m_Value: 5
+  bladeCurvature:
+    m_OverrideState: 0
+    m_Value: 1
+  bladeRotation:
+    m_OverrideState: 0
+    m_Value: 3
 --- !u!114 &-910615442858451655
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -74,10 +120,10 @@ MonoBehaviour:
     m_Value: 1
   threshold:
     m_OverrideState: 1
-    m_Value: 0.6
+    m_Value: 1
   intensity:
     m_OverrideState: 1
-    m_Value: 4
+    m_Value: 2
   scatter:
     m_OverrideState: 0
     m_Value: 0.03
@@ -121,6 +167,7 @@ MonoBehaviour:
   - {fileID: 1929631026525002836}
   - {fileID: -3779976252344261692}
   - {fileID: 9157971792460925051}
+  - {fileID: -2484112404289913724}
 --- !u!114 &1929631026525002836
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -149,10 +196,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97c23e3b12dc18c42a140437e53d3951, type: 3}
   m_Name: Tonemapping
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   mode:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: 2
   neutralHDRRangeReductionMode:
     m_OverrideState: 0
     m_Value: 2
