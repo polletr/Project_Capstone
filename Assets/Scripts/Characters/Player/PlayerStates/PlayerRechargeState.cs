@@ -15,20 +15,21 @@ public class PlayerRechargeState : PlayerBaseState
     private float ButtonMashBoost; // Extra progress per button press.
     private float maxTime; // Max value for the progress bar.
 
-
+    Transform originalRotation;
     public override void EnterState()
     {
         progress = 0;
         lerpSpeed = 2f;
         maxTime = Player.flashlight.MaxBatteryLife;
         ButtonMashBoost = Player.Settings.FlashlightReloadTime;
-        
-        Player.playerAnimator.animator.enabled = true;
+
+       // Player.playerAnimator.animator.enabled = true;
+       originalRotation = Player.PlayerCam.transform;
 
         Player.playerAnimator.animator.Play(Player.playerAnimator.RechargeHash);
         Debug.Log("Recharge state");
 
-       // Player.playerAnimator.animator.CrossFade(Player.playerAnimator.RechargeHash, 0.5f);
+        // Player.playerAnimator.animator.CrossFade(Player.playerAnimator.RechargeHash, 0.5f);
         Player.ReloadAnimation = Player.StartCoroutine(ReloadAnimation());
 
         Player.playerFootsteps.getPlaybackState(out var playbackState);
@@ -42,13 +43,11 @@ public class PlayerRechargeState : PlayerBaseState
     {
         Player.StopCoroutine(Player.ReloadAnimation);
 
-        // player.PlayerCam.transform.parent = player.CameraHolder;
         Player.Event.OnFinishRecharge?.Invoke();
     }
 
     public override void StateFixedUpdate()
     {
-        
     }
 
     public override void StateUpdate()
@@ -56,9 +55,8 @@ public class PlayerRechargeState : PlayerBaseState
         if (progress >= maxTime)
         {
             Player.playerAnimator.animator.Play(Player.playerAnimator.IdleHash);
-            Player.StartCoroutine(BackIdle());
 
-            Player.ChangeState(Player.MoveState);
+            Player.StartCoroutine(ReturnCam());
         }
 
         progress += Player.Settings.FlashlightReloadTime * Time.deltaTime;
@@ -66,20 +64,22 @@ public class PlayerRechargeState : PlayerBaseState
         if (Player.playerAnimator.animator.speed > 1f)
         {
             // Lerp the speed back to 1 slowly
-            Player.playerAnimator.animator.speed = Mathf.Lerp(Player.playerAnimator.animator.speed, 1f, lerpSpeed * Time.deltaTime);
+            Player.playerAnimator.animator.speed =
+                Mathf.Lerp(Player.playerAnimator.animator.speed, 1f, lerpSpeed * Time.deltaTime);
         }
 
-    
-        // Camera rotation logic
-        var targetRotation = new Vector3(50, 0, 0); // Target rotation in Euler angles
-        var currentRotation = Player.PlayerCam.transform.rotation.eulerAngles;
 
-        // Check if the rotation is close to the target (prevent jitter)
-        if (Mathf.Approximately(Vector3.Distance(currentRotation, targetRotation), 0f)) return;
+        var targetRotation = Quaternion.Euler(50, 0, 0); // Target rotation as a Quaternion (local space)
+        var currentRotation = Player.PlayerCam.transform.localRotation;
+
+// Check if the rotation is close to the target (prevent jitter)
+        if (Quaternion.Angle(currentRotation, targetRotation) < 0.01f) return;
+
+// Spherically interpolate towards the target rotation
+        Player.PlayerCam.transform.localRotation = Quaternion.Slerp(currentRotation, targetRotation, lerpSpeed * Time.deltaTime);
         
-        // Lerp towards the target rotation
-        var smoothedRotation = Vector3.Lerp(currentRotation, targetRotation, lerpSpeed * Time.deltaTime);
-        Player.PlayerCam.transform.rotation = Quaternion.Euler(smoothedRotation);
+        
+
     }
 
 
@@ -95,13 +95,32 @@ public class PlayerRechargeState : PlayerBaseState
 
     private IEnumerator BackIdle()
     {
-        while(Player.playerAnimator.enabled)
+        while (Player.playerAnimator.enabled)
         {
             yield return new WaitForSeconds(0.1f);
             Player.playerAnimator.animator.enabled = false;
+        }
+    }
 
+    private IEnumerator ReturnCam()
+    {
+        float threshold = 0.01f; // Angle threshold to stop rotating
+        while (Quaternion.Angle(Player.PlayerCam.transform.localRotation, originalRotation.localRotation) > threshold)
+        {
+            // Smoothly interpolate back to the original rotation
+            Player.PlayerCam.transform.localRotation = Quaternion.Slerp(
+                Player.PlayerCam.transform.localRotation,
+                originalRotation.localRotation,
+                0.1f * Time.deltaTime);
+
+            yield return null; // Wait for the next frame
         }
 
+        // Ensure the rotation matches exactly at the end
+        Player.PlayerCam.transform.localRotation = originalRotation.localRotation;
+
+        // Transition to the next state
+        Player.ChangeState(Player.MoveState);
     }
 
     public override void HandleMovement(Vector2 dir)
@@ -110,6 +129,7 @@ public class PlayerRechargeState : PlayerBaseState
 
     public override void HandleLookAround(Vector2 dir, InputDevice device)
     {
+       
     }
 
 
@@ -128,6 +148,6 @@ public class PlayerRechargeState : PlayerBaseState
     public override void HandleRecharge()
     {
         progress += ButtonMashBoost + Player.playerInventory.CrankCollected;
-        Player.playerAnimator.animator.speed = 2f;
+        Player.playerAnimator.animator.speed = 5f;
     }
 }
