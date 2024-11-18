@@ -12,6 +12,8 @@ public abstract class PlayerBaseState
     protected PlayerAnimator PlayerAnimator { get; set; }
     public InputManager InputManager { get; set; }
 
+    protected CameraController CamController;
+
     protected float BobTimer;
 
     private Vector3 direction;
@@ -21,6 +23,7 @@ public abstract class PlayerBaseState
         Player = playerController;
         PlayerAnimator = Player.playerAnimator;
         InputManager = Player.inputManager;
+        CamController = Player.camController;
     }
 
 
