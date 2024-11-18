@@ -23,6 +23,8 @@ public class PlayerRechargeState : PlayerBaseState
         maxTime = Player.flashlight.MaxBatteryLife;
         ButtonMashBoost = Player.Settings.FlashlightReloadTime;
         
+        Player.playerAnimator.animator.enabled = true;
+
         Player.playerAnimator.animator.Play(Player.playerAnimator.RechargeHash);
         Debug.Log("Recharge state");
 
@@ -54,6 +56,7 @@ public class PlayerRechargeState : PlayerBaseState
         if (progress >= maxTime)
         {
             Player.playerAnimator.animator.Play(Player.playerAnimator.IdleHash);
+            Player.StartCoroutine(BackIdle());
 
             Player.ChangeState(Player.MoveState);
         }
@@ -88,6 +91,17 @@ public class PlayerRechargeState : PlayerBaseState
                                                  "Tap R to boost recharge");
             yield return new WaitForSeconds(0.1f);
         }
+    }
+
+    private IEnumerator BackIdle()
+    {
+        while(Player.playerAnimator.enabled)
+        {
+            yield return new WaitForSeconds(0.1f);
+            Player.playerAnimator.animator.enabled = false;
+
+        }
+
     }
 
     public override void HandleMovement(Vector2 dir)
