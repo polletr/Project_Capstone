@@ -1,36 +1,102 @@
 using UnityEngine;
+using System.Collections;
+using System.Data.SqlTypes;
+using Unity.Mathematics;
 
 public class CameraController : MonoBehaviour
-{
-    [SerializeField] Transform _camera;
-    [SerializeField] float cameraSensitivity = 200.0f;
-    [SerializeField] float cameraAcceleration = 5.0f;
+{   
+    [SerializeField] private float rotationSpeed = 2f;
+    [Header("Reference")] 
+    [SerializeField] private Transform camera;
 
-    float rotation_x_axis;
-    float rotation_y_axis;
+    private Quaternion? startRotationHead;
+    private Quaternion? startRotationCamera;
 
-    float inputY;
-    float inputX;
-
-    private void Update()
+    private IEnumerator RotateToLookAt(Transform target)
     {
-        rotation_x_axis += inputY * cameraSensitivity * Time.deltaTime;
-        rotation_y_axis += inputX * cameraSensitivity * Time.deltaTime;
-        rotation_x_axis = Mathf.Clamp(rotation_x_axis, -90f, 90f);
+        // Calculate the direction to the target and the target rotation for the head (X axis only)
+        Vector3 directionToTarget = target.position - camera.transform.position;
+       // directionToTarget.y = 0; // Remove Y component to keep the head level
+        
+        Quaternion targetRotationHead = Quaternion.LookRotation(directionToTarget);
+        Quaternion lookAt = camera.transform.rotation;
+        for (int i = 0; i < 100; i++)
+        {
 
-        transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(0, rotation_y_axis, 0), cameraAcceleration * Time.deltaTime);
-        _camera.localRotation = Quaternion.Euler(-rotation_x_axis, 0, 0);
+            camera.transform.rotation = Quaternion.Slerp( lookAt,targetRotationHead, i / 99f);
+            yield return null;
+        }
+        
+        //transform.rotation = Quaternion.Euler(0, camera.transform.rotation.y, 0);
+        Debug.Log($"Camera local rotation is {camera.transform.localRotation} and the rotation is {camera.transform.rotation}");
+        var newEuler = camera.transform.eulerAngles;
+        transform.localRotation = Quaternion.Euler(0, newEuler.y, 0);
+        camera.transform.localRotation = Quaternion.Euler(newEuler.x, 0, newEuler.z);
+        //camera.transform.eulerAngles = Quaternion.Euler(camera.transform) = new Quaternion(camera.transform.localRotation.x, 0, camera.transform.localRotation.z, camera.transform.localRotation.w);
+        yield return null;
+        Debug.Log($"NEW Camera local rotation is {camera.transform.localRotation} and the rotation is {camera.transform.rotation}");
+        // Store initial rotations
+        // startRotationHead = transform.localRotation;
+        // startRotationCamera = camera.localRotation;
+        //
+        // // Lerp camera's Y rotation to zero
+        // while (Mathf.Abs(camera.localRotation.eulerAngles.x) > 0.01f)
+        // {
+        //     float newCameraYRotation = Mathf.LerpAngle(camera.localRotation.eulerAngles.x, 0, rotationSpeed * Time.deltaTime);
+        //     camera.localRotation = Quaternion.Euler(newCameraYRotation,camera.localRotation.eulerAngles.y, camera.localRotation.eulerAngles.z);
+        //     yield return null;
+        // }
+        //
+        // // Lerp head's X rotation to look at the target
+        // while (Quaternion.Angle(transform.localRotation, targetRotationHead) > 0.01f)
+        // {
+        //     transform.localRotation = Quaternion.Slerp(transform.localRotation, targetRotationHead, rotationSpeed * Time.deltaTime);
+        //     yield return null;
+        // }
+
+        // Ensure final alignment
+        // transform.localRotation = targetRotationHead;
     }
 
-    public void HandleMouseInput(Vector2 input)
+    private IEnumerator ReturnToStart()
     {
-        inputY = input.y;
-        inputX = input.x;
+        yield return null;
+        StopAllCoroutines();
+        if (!startRotationHead.HasValue || !startRotationCamera.HasValue) yield break;
+
+        // Lerp head back to its original X rotation
+        while (Quaternion.Angle(transform.localRotation, startRotationHead.Value) > 0.01f)
+        {
+            transform.localRotation = Quaternion.Slerp(transform.localRotation, startRotationHead.Value, rotationSpeed * Time.deltaTime);
+            yield return null;
+        }
+
+        // Lerp camera's Y rotation back to its original value
+        while (Mathf.Abs(camera.localRotation.eulerAngles.y - startRotationCamera.Value.eulerAngles.y) > 0.01f)
+        {
+            float newCameraYRotation = Mathf.LerpAngle(camera.localRotation.eulerAngles.y, startRotationCamera.Value.eulerAngles.y, rotationSpeed * Time.deltaTime);
+            camera.localRotation = Quaternion.Euler(camera.localRotation.eulerAngles.x, newCameraYRotation, camera.localRotation.eulerAngles.z);
+            yield return null;
+        }
+
+        // Ensure final alignment
+        transform.localRotation = startRotationHead.Value;
+        camera.localRotation = startRotationCamera.Value;
+
+        startRotationHead = null;
+        startRotationCamera = null;
     }
 
-    public void HandleGamepadInput(Vector2 input)
+    public void LookAtTarget(Transform target)
     {
-
+        StartCoroutine(RotateToLookAt(target));
     }
 
+    public void RotateBack()
+    {
+        if (startRotationHead.HasValue && startRotationCamera.HasValue)
+        {
+            StartCoroutine(ReturnToStart());
+        }
+    }
 }

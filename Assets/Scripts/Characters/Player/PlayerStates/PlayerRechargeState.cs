@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 public class PlayerRechargeState : PlayerBaseState
 {
     public PlayerRechargeState
-        (PlayerController playerController, Transform targetRotation) : base(playerController)
+        (PlayerController playerController) : base(playerController)
     {
     }
 
@@ -22,13 +22,13 @@ public class PlayerRechargeState : PlayerBaseState
         lerpSpeed = 2f;
         maxTime = Player.flashlight.MaxBatteryLife;
         ButtonMashBoost = Player.Settings.FlashlightReloadTime;
-        
-        Player.playerAnimator.animator.enabled = true;
 
+        Player.playerAnimator.animator.enabled = true;
+        CamController.LookAtTarget(Player.RechargeRotation);
         Player.playerAnimator.animator.Play(Player.playerAnimator.RechargeHash);
         Debug.Log("Recharge state");
 
-       // Player.playerAnimator.animator.CrossFade(Player.playerAnimator.RechargeHash, 0.5f);
+        // Player.playerAnimator.animator.CrossFade(Player.playerAnimator.RechargeHash, 0.5f);
         Player.ReloadAnimation = Player.StartCoroutine(ReloadAnimation());
 
         Player.playerFootsteps.getPlaybackState(out var playbackState);
@@ -40,6 +40,8 @@ public class PlayerRechargeState : PlayerBaseState
 
     public override void ExitState()
     {
+
+       CamController.RotateBack();
         Player.StopCoroutine(Player.ReloadAnimation);
 
         // player.PlayerCam.transform.parent = player.CameraHolder;
@@ -48,7 +50,6 @@ public class PlayerRechargeState : PlayerBaseState
 
     public override void StateFixedUpdate()
     {
-        
     }
 
     public override void StateUpdate()
@@ -66,20 +67,23 @@ public class PlayerRechargeState : PlayerBaseState
         if (Player.playerAnimator.animator.speed > 1f)
         {
             // Lerp the speed back to 1 slowly
-            Player.playerAnimator.animator.speed = Mathf.Lerp(Player.playerAnimator.animator.speed, 1f, lerpSpeed * Time.deltaTime);
+            Player.playerAnimator.animator.speed =
+                Mathf.Lerp(Player.playerAnimator.animator.speed, 1f, lerpSpeed * Time.deltaTime);
         }
 
-    
-        // Camera rotation logic
-        var targetRotation = new Vector3(50, 0, 0); // Target rotation in Euler angles
-        var currentRotation = Player.PlayerCam.transform.rotation.eulerAngles;
+     
+        /*
+        var targetRotation = Quaternion.Euler(50, 0, 0); // Target rotation as a Quaternion (local space)
+        var currentRotation = Player.PlayerCam.transform.localRotation;
 
-        // Check if the rotation is close to the target (prevent jitter)
-        if (Mathf.Approximately(Vector3.Distance(currentRotation, targetRotation), 0f)) return;
-        
-        // Lerp towards the target rotation
-        var smoothedRotation = Vector3.Lerp(currentRotation, targetRotation, lerpSpeed * Time.deltaTime);
-        Player.PlayerCam.transform.rotation = Quaternion.Euler(smoothedRotation);
+// Check if the rotation is close to the target (prevent jitter)
+        if (Quaternion.Angle(currentRotation, targetRotation) < 0.01f) return;
+
+// Spherically interpolate towards the target rotation
+        Player.PlayerCam.transform.localRotation = Quaternion.Slerp(currentRotation, targetRotation, lerpSpeed * Time.deltaTime);
+        */
+
+
     }
 
 
@@ -95,13 +99,11 @@ public class PlayerRechargeState : PlayerBaseState
 
     private IEnumerator BackIdle()
     {
-        while(Player.playerAnimator.enabled)
+        while (Player.playerAnimator.animator.enabled)
         {
             yield return new WaitForSeconds(0.1f);
             Player.playerAnimator.animator.enabled = false;
-
         }
-
     }
 
     public override void HandleMovement(Vector2 dir)

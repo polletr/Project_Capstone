@@ -11,12 +11,12 @@ public class PlayerController : MonoBehaviour
 
     [field: SerializeField] public Transform CameraHolder { get; private set; }
     [field: SerializeField] public Transform Hand { get; private set; }
+    [field: SerializeField] public Transform RechargeRotation { get; private set; }
 
     public Camera PlayerCam { get; private set; }
     public Vector3 DefaultCameraLocalPosition { get; private set; }
 
     [field: SerializeField] public bool HasFlashlight { get; set; }
-    [field: SerializeField] private Transform LookTarget { get; set; }
     public CharacterController characterController { get; private set; }
     public FlashLight flashlight { get; private set; }
     public Interactable interactableObj { get; set; }
@@ -40,6 +40,8 @@ public class PlayerController : MonoBehaviour
     public InputManager inputManager { get; private set; }
     public PlayerAnimator playerAnimator { get; private set; }
     public PlayerInventory playerInventory { get; private set; }
+    
+    public CameraController camController { get; private set; }
 
     public EventInstance playerFootsteps { get; private set; }
     public EventInstance playerBreathing { get; private set; }
@@ -60,6 +62,7 @@ public class PlayerController : MonoBehaviour
         playerAnimator.GetAnimator();
         inputManager = GetComponent<InputManager>();
         playerInventory = GetComponent<PlayerInventory>();
+        camController = GetComponentInChildren<CameraController>();
 
         flashlight = GetComponentInChildren<FlashLight>();
         characterController = GetComponent<CharacterController>();
@@ -274,7 +277,7 @@ public class PlayerController : MonoBehaviour
         InteractState = new PlayerInteractState(this);
         MoveState = new PlayerMoveState(this);
         CinematicState = new PlayerCinematicState(this);
-        RechargeState = new PlayerRechargeState(this,LookTarget);
+        RechargeState = new PlayerRechargeState(this);
     }
 
     private IEnumerator WaitChangeState(PlayerBaseState newState, float waitTime)

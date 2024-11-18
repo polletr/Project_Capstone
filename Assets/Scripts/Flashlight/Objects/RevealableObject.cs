@@ -83,7 +83,6 @@ public class RevealableObject : MonoBehaviour, IRevealable
 
     public void ApplyEffect()
     {
-        Debug.Log("ApplyEffect");
 
         if (!IsRevealed)
         {
@@ -166,7 +165,6 @@ public class RevealableObject : MonoBehaviour, IRevealable
 
                 if (TryGetComponent(out DisappearObject disapearObject))
                 {
-                    Debug.Log("Disapear enabled" + IsRevealed);
                     disapearObject.enabled = true;
                 }
 
