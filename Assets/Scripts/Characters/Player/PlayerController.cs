@@ -16,12 +16,11 @@ public class PlayerController : MonoBehaviour
     public Vector3 DefaultCameraLocalPosition { get; private set; }
 
     [field: SerializeField] public bool HasFlashlight { get; set; }
-    [field: SerializeField] public Transform LookTarget { get; set; }
-    [field: SerializeField] public bool CanLookAround { get; set; }
+    [field: SerializeField] private Transform LookTarget { get; set; }
     public CharacterController characterController { get; private set; }
     public FlashLight flashlight { get; private set; }
     public Interactable interactableObj { get; set; }
-    public Transform CheckPoint { get; private set; }
+    private Transform CheckPoint { get; set; }
 
     public Coroutine ReloadAnimation { get; set; }
 
@@ -275,7 +274,7 @@ public class PlayerController : MonoBehaviour
         InteractState = new PlayerInteractState(this);
         MoveState = new PlayerMoveState(this);
         CinematicState = new PlayerCinematicState(this);
-        RechargeState = new PlayerRechargeState(this);
+        RechargeState = new PlayerRechargeState(this,LookTarget);
     }
 
     private IEnumerator WaitChangeState(PlayerBaseState newState, float waitTime)
