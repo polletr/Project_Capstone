@@ -9948,6 +9948,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1704943654}
+    - targetCorrespondingSourceObject: {fileID: 7033753214196876294, guid: 043e3d1b0d65bd449b3a3b61b24903a1,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1704943655}
   m_SourcePrefab: {fileID: 100100000, guid: 043e3d1b0d65bd449b3a3b61b24903a1, type: 3}
 --- !u!1 &1704943652 stripped
 GameObject:
@@ -9982,6 +9986,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.65480995, y: 0.3048432, z: 0.7599659}
   m_Center: {x: -0.013216972, y: 0.13062227, z: -0.12001705}
+--- !u!114 &1704943655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1704943652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d3af640ebef61241b2641409a6b2cfd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timer: 1
+  dissolveMaterial: {fileID: 2100000, guid: 48dd7fc660f8a41a89619d8ff02c8f17, type: 2}
 --- !u!1001 &1721817947
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10108,6 +10126,41 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1310263432}
     m_Modifications:
+    - target: {fileID: 12325932320889345, guid: e5ffd160c02c8084589301b19d6fa4cc,
+        type: 3}
+      propertyPath: onPlayerInteract.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 12325932320889345, guid: e5ffd160c02c8084589301b19d6fa4cc,
+        type: 3}
+      propertyPath: onPlayerInteract.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 12325932320889345, guid: e5ffd160c02c8084589301b19d6fa4cc,
+        type: 3}
+      propertyPath: onPlayerInteract.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1704943655}
+    - target: {fileID: 12325932320889345, guid: e5ffd160c02c8084589301b19d6fa4cc,
+        type: 3}
+      propertyPath: onPlayerInteract.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 12325932320889345, guid: e5ffd160c02c8084589301b19d6fa4cc,
+        type: 3}
+      propertyPath: onPlayerInteract.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: DisableObj
+      objectReference: {fileID: 0}
+    - target: {fileID: 12325932320889345, guid: e5ffd160c02c8084589301b19d6fa4cc,
+        type: 3}
+      propertyPath: onPlayerInteract.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: DissolveEffectOnObject, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 12325932320889345, guid: e5ffd160c02c8084589301b19d6fa4cc,
+        type: 3}
+      propertyPath: onPlayerInteract.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 2293465678663127946, guid: e5ffd160c02c8084589301b19d6fa4cc,
         type: 3}
       propertyPath: m_Name
