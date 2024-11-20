@@ -21,7 +21,8 @@ public class HeadFollower : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (followObject.transform.position != targetTransform.position)
+        if (targetTransform != null && followObject.transform.position != targetTransform.position)
             followObject.transform.position = targetTransform.position;
+
     }
 }
