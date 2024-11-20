@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
     public Vector3 DefaultCameraLocalPosition { get; private set; }
 
     [field: SerializeField] public bool HasFlashlight { get; set; }
+    [SerializeField] private GameObject playerBody;
     public CharacterController characterController { get; private set; }
     public FlashLight flashlight { get; private set; }
     public Interactable interactableObj { get; set; }
@@ -152,10 +153,11 @@ public class PlayerController : MonoBehaviour
         switch (HasFlashlight)
         {
             case false when flashlight.gameObject.activeSelf:
+                playerBody.gameObject.SetActive(false);
                 flashlight.gameObject.SetActive(false);
-
                 break;
             case true when !flashlight.gameObject.activeSelf:
+                playerBody.gameObject.SetActive(true);
                 flashlight.gameObject.SetActive(true);
                 break;
         }
