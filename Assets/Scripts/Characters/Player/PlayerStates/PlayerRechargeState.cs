@@ -42,7 +42,8 @@ public class PlayerRechargeState : PlayerBaseState
     {
 
        CamController.RotateBack();
-        Player.StopCoroutine(Player.ReloadAnimation);
+       Player.StopCoroutine(Player.ReloadAnimation);
+            Player.StartCoroutine(BackIdle());
 
         // player.PlayerCam.transform.parent = player.CameraHolder;
         Player.Event.OnFinishRecharge?.Invoke();
@@ -57,7 +58,6 @@ public class PlayerRechargeState : PlayerBaseState
         if (progress >= maxTime)
         {
             Player.playerAnimator.animator.Play(Player.playerAnimator.IdleHash);
-            Player.StartCoroutine(BackIdle());
 
             Player.ChangeState(Player.MoveState);
         }

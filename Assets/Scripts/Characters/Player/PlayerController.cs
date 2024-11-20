@@ -64,6 +64,7 @@ public class PlayerController : MonoBehaviour
         inputManager = GetComponent<InputManager>();
         playerInventory = GetComponent<PlayerInventory>();
         camController = GetComponentInChildren<CameraController>();
+        camController.SetInputManager(this,inputManager);
 
         flashlight = GetComponentInChildren<FlashLight>();
         characterController = GetComponent<CharacterController>();

@@ -390,7 +390,6 @@ public class FlashLight : MonoBehaviour
         HandleRayCast();
 
         CanUseAbility = true;
-        Debug.Log("Reset Light State");
        // StopAllCoroutines();
     }
 
