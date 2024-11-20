@@ -14,7 +14,7 @@ public class AudioHandler : MonoBehaviour
 
     [SerializeField] UnityEvent PlayFromStart;
 
-    public GameEvent gameEvent;
+    private GameEvent gameEvent;
 
     private void OnEnable()
     {
@@ -25,8 +25,9 @@ public class AudioHandler : MonoBehaviour
     {
         gameEvent.OnPlayerDeath -= StopAudioInstance;
     }
-    private void Start()
+    private void Awake()
     {
+        gameEvent = LevelManager.Instance.Event;
         PlayFromStart.Invoke();
     }
     public void PlayOneShotAudio(Transform soundPoint)
