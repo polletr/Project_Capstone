@@ -22,7 +22,6 @@ public class GameEvent : ScriptableObject
     public UnityAction<float> OnBatteryAdded;
     public UnityAction<float> OnCrankAdded;
     public UnityAction OnFinishRecharge;
-
     
     /// <summary>
     /// Level Events

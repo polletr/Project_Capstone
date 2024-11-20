@@ -3,6 +3,7 @@ using FMODUnity;
 using System.Collections.Generic;
 using IEnumerator = System.Collections.IEnumerator;
 using UnityEngine;
+using System;
 
 public class PlayerController : MonoBehaviour
 {
@@ -51,6 +52,7 @@ public class PlayerController : MonoBehaviour
     // private bool _canRegenHealth = true;
     private List<EnemyClass> _enemiesChasing = new();
     private float currentEnemyDistance;
+
 
     private void Awake()
     {
@@ -110,7 +112,8 @@ public class PlayerController : MonoBehaviour
 
     public void GetKilled(EnemyClass enemy, Transform face)
     {
-        //Get Killed Logic Here
+        Event.OnPlayerDeath?.Invoke();
+            //Get Killed Logic Here
         DeathState.EnemyFace = face;
         DeathState.EnemyKiller = enemy;
 
@@ -119,6 +122,8 @@ public class PlayerController : MonoBehaviour
 
     public void GetKilled()
     {
+        Event.OnPlayerDeath.Invoke();
+
         currentState?.HandleDeath();
     }
 

@@ -14,6 +14,17 @@ public class AudioHandler : MonoBehaviour
 
     [SerializeField] UnityEvent PlayFromStart;
 
+    public GameEvent gameEvent;
+
+    private void OnEnable()
+    {
+        gameEvent.OnPlayerDeath += StopAudioInstance;
+    }
+
+    private void OnDisable()
+    {
+        gameEvent.OnPlayerDeath -= StopAudioInstance;
+    }
     private void Start()
     {
         PlayFromStart.Invoke();
