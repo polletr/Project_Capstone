@@ -3,15 +3,11 @@ using UnityEngine.SceneManagement;
 
 public class EndMenu : Menu
 {
-    /*[SerializeField] private UIAnimator blackScreenUIAnimator;
-    [SerializeField] private AudioClip buttonClickClip;
-
+    
+    
+    [SerializeField] private UIAnimator blackScreenUIAnimator;
+    
     private void Start() => blackScreenUIAnimator.FadeAnimate();
-
-    public void OnButtonClick()
-    {
-        AudioManager.Instance.PlayAudio(buttonClickClip);
-    }
 
     public void ReturnToMainMenu()
     {
@@ -19,5 +15,5 @@ public class EndMenu : Menu
         blackScreenUIAnimator.FadeAnimate();
     }
 
-    private void LoadMainMenu() => SceneManager.LoadScene(0);*/
+    private void LoadMainMenu() => SceneManager.LoadScene(0);
 }

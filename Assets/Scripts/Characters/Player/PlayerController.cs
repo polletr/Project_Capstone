@@ -216,6 +216,7 @@ public class PlayerController : MonoBehaviour
 
     public void Respawn()
     {
+        inputManager.DisablePlayerInput();
         transform.position = CheckPoint.position;
     }
 

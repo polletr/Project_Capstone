@@ -41,7 +41,8 @@ public abstract class PlayerBaseState
 
     public virtual void StateUpdate()
     {
-        Player.characterController.SimpleMove(direction.normalized * GetSpeed());
+        if(direction.magnitude != 0) 
+            Player.characterController.SimpleMove(direction.normalized * GetSpeed());
 
         StepsSound();
 
