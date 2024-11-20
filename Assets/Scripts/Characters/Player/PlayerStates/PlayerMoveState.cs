@@ -2,21 +2,23 @@ using UnityEngine;
 
 public class PlayerMoveState : PlayerBaseState
 {
-
-    public PlayerMoveState(PlayerController playerController) : base(playerController) { }
-
-    private Vector2 _dir = Vector2.zero;
-
+    public PlayerMoveState(PlayerController playerController) : base(playerController)
+    {
+    }
+    
     public override void EnterState()
     {
-        Player.playerAnimator.animator.Play(Player.playerAnimator.IdleHash);
-    }
-    public override void ExitState()
-    {
-      
+        if (PlayerAnimator.animator.enabled == false)
+            PlayerAnimator.animator.Play(Player.playerAnimator.IdleHash);
     }
 
-    public override void StateFixedUpdate() { }
+    public override void ExitState()
+    {
+    }
+
+    public override void StateFixedUpdate()
+    {
+    }
 
     public override void StateUpdate()
     {
@@ -32,11 +34,8 @@ public class PlayerMoveState : PlayerBaseState
                 Player.AddEnemyToChaseList(enemy);
             }
         }
-
-
-
     }
-    
+
 
     public override void HandleInteract()
     {
@@ -49,7 +48,4 @@ public class PlayerMoveState : PlayerBaseState
         Player.flashlight.ZeroOutBattery();
         Player.ChangeState(Player.RechargeState);
     }
-   
-
-
 }

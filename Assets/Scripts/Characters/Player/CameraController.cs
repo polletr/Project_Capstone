@@ -1,11 +1,11 @@
 using System;
 using UnityEngine;
 using System.Collections;
+using UnityEngine.Serialization;
 
 public class CameraController : MonoBehaviour
 {
-    [SerializeField] private float rotationSpeed = 2f;
-    [Header("Reference"), SerializeField] private Transform camera;
+    [Header("Reference"), SerializeField] private Transform cam;
     
     private PlayerController playerController;
     private InputManager inputManager;
@@ -21,17 +21,17 @@ public class CameraController : MonoBehaviour
     private IEnumerator RotateToLookAt(Transform target)
     {
         inputManager.DisablePlayerInput();
-        startRotationCamera = camera.localRotation;
+        startRotationCamera = cam.localRotation;
         startRotationHead = transform.localRotation;
         // Calculate the direction to the target and the target rotation for the head (X axis only)
-        Vector3 directionToTarget = target.position - camera.transform.position;
+        Vector3 directionToTarget = target.position - cam.transform.position;
         // directionToTarget.y = 0; // Remove Y component to keep the head level
 
         Quaternion targetRotationHead = Quaternion.LookRotation(directionToTarget);
-        Quaternion lookAt = camera.transform.rotation;
+        Quaternion lookAt = cam.transform.rotation;
         for (int i = 0; i < 100; i++)
         {
-            camera.transform.rotation = Quaternion.Slerp(lookAt, targetRotationHead, i / 99f);
+            cam.transform.rotation = Quaternion.Slerp(lookAt, targetRotationHead, i / 99f);
             yield return null;
         }
         
@@ -51,7 +51,7 @@ public class CameraController : MonoBehaviour
         if (startRotationHead.HasValue && startRotationCamera.HasValue)
         {
             Quaternion initialHeadRotation = transform.localRotation;
-            Quaternion initialCameraRotation = camera.localRotation;
+            Quaternion initialCameraRotation = cam.localRotation;
 
             Quaternion targetHeadRotation = startRotationHead.Value;
             Quaternion targetCameraRotation = startRotationCamera.Value;
@@ -59,14 +59,14 @@ public class CameraController : MonoBehaviour
             for (int i = 0; i < 100; i++)
             {
                 transform.localRotation = Quaternion.Slerp(initialHeadRotation, targetHeadRotation, i / 99f);
-                camera.localRotation = Quaternion.Slerp(initialCameraRotation, targetCameraRotation, i / 99f);
+                cam.localRotation = Quaternion.Slerp(initialCameraRotation, targetCameraRotation, i / 99f);
                 
                 yield return null;
             }
 
             // Ensure final rotation matches exactly
             transform.localRotation = targetHeadRotation;
-            camera.localRotation = targetCameraRotation;
+            cam.localRotation = targetCameraRotation;
 
             // Clear start rotations after returning to start
             startRotationHead = null;
