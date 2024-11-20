@@ -89,10 +89,4 @@ public class CameraController : MonoBehaviour
             StartCoroutine(ReturnToStart());
         }
     }
-
-    private void Update()
-    {
-
-        Debug.Log("HandleLookAround" + inputManager.LookAround);
-    }
 }

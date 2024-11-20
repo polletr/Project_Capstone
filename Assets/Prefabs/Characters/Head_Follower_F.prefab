@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1234306177998221224}
   - component: {fileID: 7176256847356603100}
+  - component: {fileID: 8782120993358595161}
   m_Layer: 0
   m_Name: Head_Follower_F
   m_TagString: Untagged
@@ -48,6 +49,40 @@ MonoBehaviour:
   followTarget: {fileID: 0}
   headAimConstraint: {fileID: 7407130286856585807}
   followObject: {fileID: 7788165209183835359}
+--- !u!114 &8782120993358595161
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 743459133190396347}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9610a663f429e814e9b4619e7657be12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioClip:
+    Guid:
+      Data1: -2064527595
+      Data2: 1202290542
+      Data3: 1396153502
+      Data4: -1059120061
+    Path: event:/Enemies/Shadow/Idle
+  PlayFromStart:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8782120993358595161}
+        m_TargetAssemblyTypeName: AudioHandler, Assembly-CSharp
+        m_MethodName: Play3DAudio
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &3316744351354442770
 GameObject:
   m_ObjectHideFlags: 0

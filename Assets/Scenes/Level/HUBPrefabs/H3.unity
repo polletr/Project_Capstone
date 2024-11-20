@@ -1305,6 +1305,7 @@ GameObject:
   - component: {fileID: 238915411}
   - component: {fileID: 238915413}
   - component: {fileID: 238915412}
+  - component: {fileID: 238915414}
   m_Layer: 0
   m_Name: EnterTrigger
   m_TagString: Untagged
@@ -1390,6 +1391,30 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 238915414}
+        m_TargetAssemblyTypeName: AudioHandler, Assembly-CSharp
+        m_MethodName: PlayOneShotAudio
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 238915411}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Transform, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 4
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 1827038678}
+        m_TargetAssemblyTypeName: Door, Assembly-CSharp
+        m_MethodName: OnLockOrUnlockDoor
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 4
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!65 &238915413
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1411,6 +1436,28 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 0.883246}
   m_Center: {x: -5.0319815e-10, y: 0, z: -0.05837719}
+--- !u!114 &238915414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 238915410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9610a663f429e814e9b4619e7657be12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioClip:
+    Guid:
+      Data1: -749441939
+      Data2: 1293581042
+      Data3: 267280295
+      Data4: 628840989
+    Path: event:/SFX/Objects/SuddenAppear
+  PlayFromStart:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!43 &244049363
 Mesh:
   m_ObjectHideFlags: 0
@@ -9842,12 +9889,12 @@ PrefabInstance:
     - target: {fileID: 796343690554978233, guid: 95328615bc0790946b2df2cd463f12ba,
         type: 3}
       propertyPath: OnOpen.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 796343690554978233, guid: 95328615bc0790946b2df2cd463f12ba,
         type: 3}
       propertyPath: OnClose.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 796343690554978233, guid: 95328615bc0790946b2df2cd463f12ba,
         type: 3}
@@ -10077,7 +10124,7 @@ PrefabInstance:
     - target: {fileID: 3501559166066457337, guid: 95328615bc0790946b2df2cd463f12ba,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3501559166066457337, guid: 95328615bc0790946b2df2cd463f12ba,
         type: 3}
@@ -10092,7 +10139,7 @@ PrefabInstance:
     - target: {fileID: 4456298704597427307, guid: 95328615bc0790946b2df2cd463f12ba,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4456298704597427307, guid: 95328615bc0790946b2df2cd463f12ba,
         type: 3}
@@ -10167,7 +10214,7 @@ PrefabInstance:
     - target: {fileID: 5286194235256559337, guid: 95328615bc0790946b2df2cd463f12ba,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5286194235256559337, guid: 95328615bc0790946b2df2cd463f12ba,
         type: 3}

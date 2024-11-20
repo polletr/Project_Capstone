@@ -503,7 +503,7 @@ PrefabInstance:
     - target: {fileID: 6144744107208216849, guid: 88a488f3ffe540a4fbda153fb0d552bf,
         type: 3}
       propertyPath: OnCollect.m_PersistentCalls.m_Calls.Array.size
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6144744107208216849, guid: 88a488f3ffe540a4fbda153fb0d552bf,
         type: 3}
@@ -873,7 +873,19 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3090085162155746672, guid: 88a488f3ffe540a4fbda153fb0d552bf,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 11712022}
+    - targetCorrespondingSourceObject: {fileID: 3090085162155746672, guid: 88a488f3ffe540a4fbda153fb0d552bf,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 11712021}
+    - targetCorrespondingSourceObject: {fileID: 3090085162155746672, guid: 88a488f3ffe540a4fbda153fb0d552bf,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 11712020}
   m_SourcePrefab: {fileID: 100100000, guid: 88a488f3ffe540a4fbda153fb0d552bf, type: 3}
 --- !u!4 &11712018 stripped
 Transform:
@@ -881,6 +893,81 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 11712017}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &11712019 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3090085162155746672, guid: 88a488f3ffe540a4fbda153fb0d552bf,
+    type: 3}
+  m_PrefabInstance: {fileID: 11712017}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &11712020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 11712019}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f1ad9b7ff5b67742a7bb50ddaa8976c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minFlickerDuration: 1
+  maxFlickerDuration: 3
+  flickerFrequency: 0.1
+  constantFlickering: 1
+  GuidingLight: 0
+  OnTurnOffLight:
+    m_PersistentCalls:
+      m_Calls: []
+  constantFlickerInterval: 2
+--- !u!135 &11712021
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 11712019}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &11712022
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 11712019}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &69522434
 GameObject:
   m_ObjectHideFlags: 0
