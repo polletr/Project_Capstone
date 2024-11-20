@@ -199,4 +199,9 @@ public class DisappearObject : MonoBehaviour, IHideable
 
     }
 
+    public void ApplyOutline(bool apply)
+    {
+        applyOutline = apply;
+    }
+
 }

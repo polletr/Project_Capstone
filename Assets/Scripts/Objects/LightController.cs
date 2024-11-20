@@ -214,6 +214,8 @@ public class LightController : MonoBehaviour
 
                 // Randomly turn the light on or off
                 lightSource.enabled = (Random.value > 0.1f); // 90% chance to stay on
+                if (!lightSource.enabled)
+                    OnTurnOffLight.Invoke();
 
                 // Short delay between each flicker within the flicker effect
                 yield return new WaitForSeconds(Random.Range(0.05f, 0.2f));
