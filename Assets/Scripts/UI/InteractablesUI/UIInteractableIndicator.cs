@@ -25,10 +25,14 @@ public class UIInteractableIndicator : MonoBehaviour
 
     private void Update()
     {
-        var screenPosition = cam.WorldToScreenPoint(targetPos);
+        /*var screenPosition = cam.WorldToScreenPoint(targetPos);
 
         if (screenPosition.z > 0 && transform.position != screenPosition)
-            transform.position = screenPosition;
+            transform.position = screenPosition;*/
+        
+        transform.position = targetPos;
+        
+        transform.LookAt(cam.transform.position);
     }
 
     public void SetCircleIndicator(float value)
