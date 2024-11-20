@@ -18,20 +18,24 @@ public class LevelData : MonoBehaviour
 
     private void OnEnable()
     {
-      Event.OnLoadStarterScene += EnteredScene;
+        Event.OnLoadStarterScene += EnteredScene;
     }
 
     private void OnDisable()
     {
-        Event.OnLoadStarterScene -= EnteredScene;        
+        Event.OnLoadStarterScene -= EnteredScene;
     }
 
     public void EnteredScene()
     {
         Event.OnLevelChange?.Invoke(this);
 
-        if(CheckPoint != null)
-        Event.SetNewSpawn?.Invoke(CheckPoint);
+        if (CheckPoint != null)
+            Event.SetNewSpawn?.Invoke(CheckPoint);
     }
 
+    public void LoadSingleScene(string sceneName)
+    {
+        LevelManager.Instance.LoadOnlyScene(sceneName);
+    }
 }
