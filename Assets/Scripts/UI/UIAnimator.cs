@@ -10,7 +10,11 @@ public class UIAnimator : MonoBehaviour
     [SerializeField] private float duration;
     [SerializeField] private Ease ease = Ease.Linear;
 
-    public float Duration => duration;
+    public float Duration
+    {
+        get => duration;
+        set => duration = value;
+    }
 
     private Tween currentTween;
     private Vector2 startPos;

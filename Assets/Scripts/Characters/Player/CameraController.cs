@@ -6,6 +6,7 @@ using UnityEngine.Serialization;
 public class CameraController : MonoBehaviour
 {
     [Header("Reference"), SerializeField] private Transform cam;
+    [SerializeField] private float rotationSpeed = 5f;
     
     private PlayerController playerController;
     private InputManager inputManager;
@@ -29,13 +30,13 @@ public class CameraController : MonoBehaviour
 
         Quaternion targetRotationHead = Quaternion.LookRotation(directionToTarget);
         Quaternion lookAt = cam.transform.rotation;
-        for (int i = 0; i < 100; i++)
+        var timer=0f;
+       while(timer < rotationSpeed)
         {
-            cam.transform.rotation = Quaternion.Slerp(lookAt, targetRotationHead, i / 99f);
+            timer += Time.deltaTime;
+            cam.transform.rotation = Quaternion.Slerp(lookAt, targetRotationHead, timer / rotationSpeed);
             yield return null;
         }
-        
-        
   
 // Update the player's xRotation and yRotation to match the final rotation
   
@@ -48,6 +49,7 @@ public class CameraController : MonoBehaviour
     private IEnumerator ReturnToStart()
     {
         inputManager.DisablePlayerInput();
+        
         if (startRotationHead.HasValue && startRotationCamera.HasValue)
         {
             Quaternion initialHeadRotation = transform.localRotation;
@@ -55,15 +57,15 @@ public class CameraController : MonoBehaviour
 
             Quaternion targetHeadRotation = startRotationHead.Value;
             Quaternion targetCameraRotation = startRotationCamera.Value;
-
-            for (int i = 0; i < 100; i++)
+            var timer=0f;
+            while(timer < rotationSpeed)
             {
-                transform.localRotation = Quaternion.Slerp(initialHeadRotation, targetHeadRotation, i / 99f);
-                cam.localRotation = Quaternion.Slerp(initialCameraRotation, targetCameraRotation, i / 99f);
-                
+                timer += Time.deltaTime;
+                transform.localRotation = Quaternion.Slerp(initialHeadRotation, targetHeadRotation, timer / rotationSpeed);
+                cam.localRotation = Quaternion.Slerp(initialCameraRotation, targetCameraRotation, timer / rotationSpeed);
                 yield return null;
             }
-
+            
             // Ensure final rotation matches exactly
             transform.localRotation = targetHeadRotation;
             cam.localRotation = targetCameraRotation;

@@ -130,6 +130,6 @@ public class PlayerRechargeState : PlayerBaseState
     public override void HandleRecharge()
     {
         progress += ButtonMashBoost + Player.playerInventory.CrankCollected;
-        Player.playerAnimator.animator.speed = 2f;
+        Player.playerAnimator.animator.speed = 3.5f;
     }
 }
