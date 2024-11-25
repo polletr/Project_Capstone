@@ -3952,77 +3952,6 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!1 &821448866
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 821448867}
-  - component: {fileID: 821448869}
-  - component: {fileID: 821448868}
-  m_Layer: 0
-  m_Name: Box Volume
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &821448867
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 821448866}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.0370417, y: 4.3404603, z: 2.9792309}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1884458519}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &821448868
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 821448866}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IsGlobal: 0
-  priority: 0
-  blendDistance: 1
-  weight: 1
-  sharedProfile: {fileID: 11400000, guid: b8190903492dae1408c7c2a1e6cdfc85, type: 2}
---- !u!65 &821448869
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 821448866}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 5.3347187, y: 3.611954, z: 3.8008137}
-  m_Center: {x: 0.12779617, y: 1.305977, z: 0.067484856}
 --- !u!1001 &821780356
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4370,6 +4299,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerSightEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!43 &874588083
 Mesh:
   m_ObjectHideFlags: 0
@@ -6637,6 +6569,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalEvent: {fileID: 11400000, guid: 0b605a9d625aaaa49a00f63e3ca44c1e, type: 2}
   OnTriggerGlobalEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerSightEvent:
     m_PersistentCalls:
       m_Calls: []
 --- !u!4 &1366862392
@@ -11880,7 +11815,6 @@ Transform:
   m_Children:
   - {fileID: 389361372}
   - {fileID: 1415479884}
-  - {fileID: 821448867}
   - {fileID: 1856428894}
   m_Father: {fileID: 1147643347}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
