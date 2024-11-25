@@ -53,6 +53,9 @@ public class PlayerController : MonoBehaviour
     private List<EnemyClass> _enemiesChasing = new();
     private float currentEnemyDistance;
 
+    Coroutine LookAtTargetCoroutine;
+    [SerializeField] float lookAtTargetDuration = 2f;
+    public Transform DebugTarget;
 
     private void Awake()
     {
@@ -106,6 +109,10 @@ public class PlayerController : MonoBehaviour
         currentState?.StateUpdate();
         if (IsAlive())
             CheckEnemies();
+
+        if (Input.GetKeyDown(KeyCode.L))
+            LookAtTarget(DebugTarget);
+
     }
 
     private void FixedUpdate() => currentState?.StateFixedUpdate();
@@ -234,6 +241,66 @@ public class PlayerController : MonoBehaviour
     public void SetSpawn(Transform pos)
     {
         CheckPoint = pos;
+    }
+
+    // Smoothly rotates the player to look at a target
+    public void LookAtTarget(Transform target)
+    {
+        // Check if the coroutine is already running
+        if (LookAtTargetCoroutine == null)
+        {
+            Debug.Log("Starting LookAtTarget coroutine...");
+            inputManager.DisablePlayerInput();
+            LookAtTargetCoroutine = StartCoroutine(SmoothLookAtTarget(target, lookAtTargetDuration));
+        }
+        else
+        {
+            Debug.Log("LookAtTarget coroutine is already running.");
+        }
+    }
+
+    private IEnumerator SmoothLookAtTarget(Transform target, float duration)
+    {
+        // Calculate target directions
+        Vector3 targetDirection = target.position - CameraHolder.position;
+        float targetYaw = Mathf.Atan2(targetDirection.x, targetDirection.z) * Mathf.Rad2Deg; // Y-axis (horizontal)
+        float targetPitch = Mathf.Asin(targetDirection.y / targetDirection.magnitude) * Mathf.Rad2Deg; // X-axis (vertical)
+
+        // Initial rotations
+        float initialYaw = yRotation;
+        float initialPitch = xRotation;
+
+        // Target rotations
+        float targetBodyRotation = targetYaw;
+        float targetCameraRotation = -targetPitch;
+
+        // Interpolation
+        float elapsedTime = 0f;
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            float t = elapsedTime / duration;
+
+            // Interpolate body (y-axis) rotation
+            yRotation = Mathf.Lerp(initialYaw, targetBodyRotation, t);
+            CameraHolder.localRotation = Quaternion.Euler(0, yRotation, 0);
+
+            // Interpolate camera (x-axis) rotation
+            xRotation = Mathf.Lerp(initialPitch, targetCameraRotation, t);
+            //xRotation = Mathf.Clamp(xRotation, Settings.ClampAngleUp, Settings.ClampAngleDown);
+            PlayerCam.transform.localRotation = Quaternion.Euler(-xRotation, 0, 0);
+
+            yield return null;
+        }
+
+        // Finalize the rotation
+        yRotation = targetBodyRotation;
+        xRotation = targetCameraRotation;
+        CameraHolder.localRotation = Quaternion.Euler(0, yRotation, 0);
+        PlayerCam.transform.localRotation = Quaternion.Euler(-xRotation, 0, 0);
+        LookAtTargetCoroutine = null;
+        inputManager.EnablePlayerInput();
+
     }
 
     #region Character Actions

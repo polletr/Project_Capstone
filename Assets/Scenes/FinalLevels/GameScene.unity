@@ -3827,6 +3827,7 @@ GameObject:
   - component: {fileID: 1170868905}
   - component: {fileID: 1170868906}
   - component: {fileID: 1170868907}
+  - component: {fileID: 1170868908}
   m_Layer: 0
   m_Name: Listeners
   m_TagString: Untagged
@@ -3877,6 +3878,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerSightEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1170868902
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3905,6 +3909,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerSightEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1170868903
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3933,6 +3940,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+  OnTriggerSightEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1170868904
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3997,6 +4007,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerSightEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1170868905
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4025,6 +4038,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+  OnTriggerSightEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1170868906
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4053,6 +4069,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerSightEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1170868907
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4085,6 +4104,40 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
         m_MethodName: EnablePlayerInput
         m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnTriggerSightEvent:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &1170868908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1170868899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40644858560f5c441836dd38798473e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalEvent: {fileID: 11400000, guid: 9d898c49d90f15343afb28a294e32ccb, type: 2}
+  OnTriggerGlobalEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerSightEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 238350188}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: LookAtTarget
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

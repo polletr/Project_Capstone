@@ -5,4 +5,5 @@ using UnityEngine.Events;
 public class GlobalEventSO : ScriptableObject
 {
    public UnityAction OnTriggerGlobalEvent;
+    public UnityAction<Transform> OnTriggerSightEvent;
 }
