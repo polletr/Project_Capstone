@@ -60,7 +60,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: db520cee4472e42f99cc555aa1565786,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 6916c97a6ec2ea6478c5097530df385a, type: 2}
     - target: {fileID: 919132149155446097, guid: db520cee4472e42f99cc555aa1565786,
@@ -71,5 +71,75 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: db520cee4472e42f99cc555aa1565786,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 214067669651839338}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: db520cee4472e42f99cc555aa1565786,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8266620627954797018}
   m_SourcePrefab: {fileID: 100100000, guid: db520cee4472e42f99cc555aa1565786, type: 3}
+--- !u!1 &898798192969900762 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: db520cee4472e42f99cc555aa1565786,
+    type: 3}
+  m_PrefabInstance: {fileID: 51868224839933835}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &214067669651839338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 898798192969900762}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd527a0b08c6d2443af73fc7a5de1bfb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnApplyEffect:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8266620627954797018}
+        m_TargetAssemblyTypeName: DissolveEffectOnObject, Assembly-CSharp
+        m_MethodName: DisableObj
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnRemoveEffect:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8266620627954797018}
+        m_TargetAssemblyTypeName: DissolveEffectOnObject, Assembly-CSharp
+        m_MethodName: EnableObj
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &8266620627954797018
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 898798192969900762}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d3af640ebef61241b2641409a6b2cfd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timer: 1
+  dissolveMaterial: {fileID: 2100000, guid: 48dd7fc660f8a41a89619d8ff02c8f17, type: 2}
