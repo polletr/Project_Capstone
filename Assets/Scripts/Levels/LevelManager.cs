@@ -1,3 +1,4 @@
+using System;   
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,13 +7,15 @@ using UnityEngine.SceneManagement;
 public class LevelManager : Singleton<LevelManager>
 {
     public GameEvent Event;
-    [field: SerializeField] public string MasterScene { get; private set; }
-    [field: SerializeField] public string StartingScene { get; private set; }
+    [field: SerializeField] public SceneNames MasterScene { get; private set; }
+    [field: SerializeField] public SceneNames StartingScene { get; private set; }
 
     [SerializeField] private float _loadingWaitTime = 1f;
 
-    private string _currentScene;
-    private List<string> _currentLoadedScenes = new();
+    private int _currentScene;
+    private List<int> _currentLoadedScenes = new();
+    private int masterSceneindex;
+    
 
     private void OnEnable()
     {
@@ -28,7 +31,8 @@ public class LevelManager : Singleton<LevelManager>
 
     private void Start()
     {
-        _currentScene = StartingScene;
+        masterSceneindex = Convert.ToInt32(MasterScene);
+        _currentScene = Convert.ToInt32(StartingScene);
         LoadStartScene();
     }
 
@@ -43,7 +47,7 @@ public class LevelManager : Singleton<LevelManager>
         //unload all scenes except the master scene , current scene and  the scenes to load
         foreach (var scene in GetActiveScenes())
         {
-            if (scene != MasterScene && scene != _currentScene && !level.ScenesToLoad.Contains(scene))
+            if (scene != masterSceneindex && scene != _currentScene && !level.ScenesToLoad.Contains((SceneNames)scene))
             {
                 SceneManager.UnloadSceneAsync(scene);
             }
@@ -52,24 +56,25 @@ public class LevelManager : Singleton<LevelManager>
         //load the new scenes   
         foreach (var scene in level.ScenesToLoad)
         {
-            if (!SceneManager.GetSceneByName(scene).isLoaded) //check if the scene is already loaded
+            if (!SceneManager.GetSceneByBuildIndex((int)scene).isLoaded) //check if the scene is already loaded
             {
-                SceneManager.LoadSceneAsync(scene, LoadSceneMode.Additive);
+                var sceneIndex = Convert.ToInt32(scene);
+                SceneManager.LoadSceneAsync(sceneIndex, LoadSceneMode.Additive);
             }
         }
     }
 
     /// <summary>
-    /// Load a scene without anyother scene
+    /// Load a scene without any other scene
     /// use for final scene
     /// </summary>
-    public void LoadOnlyScene(string sceneName)
+    public void LoadOnlyScene(int sceneName)
     {
         SceneManager.LoadScene(sceneName);
     }
 
     /// <summary>
-    /// Load the first scene using the MasterScene and the StartingScene names
+    /// Load the first scene by adding the StartingScene to the MasterScene 
     /// </summary>
     private void LoadStartScene()
     {
@@ -88,7 +93,7 @@ public class LevelManager : Singleton<LevelManager>
         // Unload all active scenes except the MasterScene
         foreach (var scene in GetActiveScenes())
         {
-            if (scene == MasterScene) continue;
+            if (scene == masterSceneindex) continue;
 
             AsyncOperation unloadOp = SceneManager.UnloadSceneAsync(scene);
 
@@ -107,12 +112,12 @@ public class LevelManager : Singleton<LevelManager>
 
     #region Check Methods
 
-    private List<string> GetActiveScenes()
+    private List<int> GetActiveScenes()
     {
         _currentLoadedScenes.Clear();
         for (var i = 0; i < SceneManager.loadedSceneCount; i++)
         {
-            _currentLoadedScenes.Add(SceneManager.GetSceneAt(i).name);
+            _currentLoadedScenes.Add(SceneManager.GetSceneAt(i).buildIndex);
         }
         return _currentLoadedScenes;
     }
