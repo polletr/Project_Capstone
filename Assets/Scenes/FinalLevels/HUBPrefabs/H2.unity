@@ -1798,7 +1798,7 @@ PrefabInstance:
     - target: {fileID: 2146151112081368828, guid: 95328615bc0790946b2df2cd463f12ba,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 11.691634
+      value: 11.703418
       objectReference: {fileID: 0}
     - target: {fileID: 2146151112081368828, guid: 95328615bc0790946b2df2cd463f12ba,
         type: 3}
@@ -2029,6 +2029,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Textures0.Array.size
       value: 104
+      objectReference: {fileID: 0}
+    - target: {fileID: 7860641321513475736, guid: 95328615bc0790946b2df2cd463f12ba,
+        type: 3}
+      propertyPath: m_SelectedEdges.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7860641321513475736, guid: 95328615bc0790946b2df2cd463f12ba,
+        type: 3}
+      propertyPath: m_SelectedFaces.Array.size
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7860641321513475736, guid: 95328615bc0790946b2df2cd463f12ba,
         type: 3}
@@ -2452,6 +2462,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7860641321513475736, guid: 95328615bc0790946b2df2cd463f12ba,
         type: 3}
+      propertyPath: m_SelectedVertices.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7860641321513475736, guid: 95328615bc0790946b2df2cd463f12ba,
+        type: 3}
       propertyPath: m_Textures0.Array.data[100].x
       value: -0.0000017393269
       objectReference: {fileID: 0}
@@ -2679,7 +2694,7 @@ PrefabInstance:
         type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 0cfcc07abc773524cad3ee6b5639ada7, type: 2}
+      objectReference: {fileID: 2100000, guid: a3942e8983f9ad74d818fa16cc2ec42a, type: 2}
     - target: {fileID: 8529495640812175061, guid: 95328615bc0790946b2df2cd463f12ba,
         type: 3}
       propertyPath: 'm_Materials.Array.data[1]'
@@ -2688,7 +2703,7 @@ PrefabInstance:
     - target: {fileID: 8529495640812175061, guid: 95328615bc0790946b2df2cd463f12ba,
         type: 3}
       propertyPath: m_SelectedEditorRenderState
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8976164147795249242, guid: 95328615bc0790946b2df2cd463f12ba,
         type: 3}
@@ -7295,10 +7310,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40644858560f5c441836dd38798473e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalEvent: {fileID: 11400000, guid: 0b605a9d625aaaa49a00f63e3ca44c1e, type: 2}
+  GlobalEvent: {fileID: 11400000, guid: 09f50d6b55aac4947abedde99048b961, type: 2}
   OnTriggerGlobalEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 267668924}
+        m_TargetAssemblyTypeName: Door, Assembly-CSharp
+        m_MethodName: OnOpenDoor
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 4
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnTriggerSightEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -7478,18 +7505,28 @@ PrefabInstance:
     - target: {fileID: 2095272179484061901, guid: abe1644e14f4df945bbcd917df03a42f,
         type: 3}
       propertyPath: OnTriggerEvent.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2095272179484061901, guid: abe1644e14f4df945bbcd917df03a42f,
         type: 3}
       propertyPath: OnTriggerEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2095272179484061901, guid: abe1644e14f4df945bbcd917df03a42f,
+        type: 3}
+      propertyPath: OnTriggerEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2095272179484061901, guid: abe1644e14f4df945bbcd917df03a42f,
         type: 3}
       propertyPath: OnTriggerEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 267668924}
+    - target: {fileID: 2095272179484061901, guid: abe1644e14f4df945bbcd917df03a42f,
+        type: 3}
+      propertyPath: OnTriggerEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 267668924}
     - target: {fileID: 2095272179484061901, guid: abe1644e14f4df945bbcd917df03a42f,
         type: 3}
       propertyPath: OnTriggerEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -7497,23 +7534,58 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2095272179484061901, guid: abe1644e14f4df945bbcd917df03a42f,
         type: 3}
+      propertyPath: OnTriggerEvent.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2095272179484061901, guid: abe1644e14f4df945bbcd917df03a42f,
+        type: 3}
       propertyPath: OnTriggerEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: TurnOnOffLight
+      value: OnCloseDoor
+      objectReference: {fileID: 0}
+    - target: {fileID: 2095272179484061901, guid: abe1644e14f4df945bbcd917df03a42f,
+        type: 3}
+      propertyPath: OnTriggerEvent.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: OnLockOrUnlockDoor
       objectReference: {fileID: 0}
     - target: {fileID: 2095272179484061901, guid: abe1644e14f4df945bbcd917df03a42f,
         type: 3}
       propertyPath: OnTriggerEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: LightController, Assembly-CSharp
+      value: Door, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2095272179484061901, guid: abe1644e14f4df945bbcd917df03a42f,
+        type: 3}
+      propertyPath: OnTriggerEvent.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: Door, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2095272179484061901, guid: abe1644e14f4df945bbcd917df03a42f,
+        type: 3}
+      propertyPath: OnTriggerEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2095272179484061901, guid: abe1644e14f4df945bbcd917df03a42f,
+        type: 3}
+      propertyPath: OnTriggerEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_FloatArgument
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2095272179484061901, guid: abe1644e14f4df945bbcd917df03a42f,
+        type: 3}
+      propertyPath: OnTriggerEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_FloatArgument
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2095272179484061901, guid: abe1644e14f4df945bbcd917df03a42f,
         type: 3}
       propertyPath: OnTriggerEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 2095272179484061901, guid: abe1644e14f4df945bbcd917df03a42f,
+        type: 3}
+      propertyPath: OnTriggerEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 3647452554587854701, guid: abe1644e14f4df945bbcd917df03a42f,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 13.118
+      value: 12.36121
       objectReference: {fileID: 0}
     - target: {fileID: 3647452554587854701, guid: abe1644e14f4df945bbcd917df03a42f,
         type: 3}
@@ -8294,7 +8366,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 0cfcc07abc773524cad3ee6b5639ada7, type: 2}
+  - {fileID: 2100000, guid: a3942e8983f9ad74d818fa16cc2ec42a, type: 2}
   - {fileID: 2100000, guid: 43bff66c4d9d3d4498b6336113dc77fc, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -8308,7 +8380,7 @@ MeshRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
+  m_SelectedEditorRenderState: 2
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -8747,8 +8819,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1147643346}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 17.208467, y: -11.4726515, z: -27.799765}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -1.3286626, y: -11.47265, z: -35.575775}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -8762,7 +8834,7 @@ Transform:
   - {fileID: 2040571566}
   - {fileID: 1366862392}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1 &1182060965
 GameObject:
   m_ObjectHideFlags: 0
@@ -13884,7 +13956,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 0cfcc07abc773524cad3ee6b5639ada7, type: 2}
+  - {fileID: 2100000, guid: a3942e8983f9ad74d818fa16cc2ec42a, type: 2}
   - {fileID: 2100000, guid: 43bff66c4d9d3d4498b6336113dc77fc, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -13898,7 +13970,7 @@ MeshRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
+  m_SelectedEditorRenderState: 2
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -15841,9 +15913,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65dc311369b96a34ea226836e2c1fd75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <ScenesToLoad>k__BackingField:
-  - NewReception
-  - H3
+  <ScenesToLoad>k__BackingField: 0000000000000000
   <CheckPoint>k__BackingField: {fileID: 1615373108}
   Event: {fileID: 11400000, guid: 821642c9ec9c5474b88bc1b575e70ddf, type: 2}
 --- !u!4 &2123811865

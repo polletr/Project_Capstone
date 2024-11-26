@@ -1,11 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class LevelData : MonoBehaviour
 {
-    public string CurrentSceneName { get; private set; }
+    public int CurrentSceneName { get; private set; }
 
-    [field: SerializeField] public List<string> ScenesToLoad { get; private set; } = new List<string>();
+    [field: SerializeField] public List<SceneNames> ScenesToLoad { get; private set; } = new ();
 
     [field: SerializeField] public Transform CheckPoint { get; private set; }
 
@@ -13,7 +14,7 @@ public class LevelData : MonoBehaviour
 
     private void Awake()
     {
-        CurrentSceneName = gameObject.scene.name;
+        CurrentSceneName = gameObject.scene.buildIndex;
     }
 
     private void OnEnable()
@@ -34,8 +35,9 @@ public class LevelData : MonoBehaviour
             Event.SetNewSpawn?.Invoke(CheckPoint);
     }
 
-    public void LoadSingleScene(string sceneName)
+    public void LoadSingleScene(SceneNames sceneName)
     {
-        LevelManager.Instance.LoadOnlyScene(sceneName);
+        var sceneToLoad = Convert.ToInt32(sceneName);
+        LevelManager.Instance.LoadOnlyScene(sceneToLoad);
     }
 }

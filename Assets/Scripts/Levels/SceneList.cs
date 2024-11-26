@@ -1,10 +1,9 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "ScriptableObjects/SceneList")]
+[CreateAssetMenu(menuName = "GameSO/SceneList")]
 public class SceneList : ScriptableObject
 {
     private static SceneList _instance;
-
     public static SceneList Instance
     {
         get
@@ -19,4 +18,7 @@ public class SceneList : ScriptableObject
             return _instance;
         }
     }
+    
+    public SceneNames[] scenes;
+    
 }
