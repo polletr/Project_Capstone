@@ -13,8 +13,9 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
             // If the instance is not already set, create a new instance
             if (_instance == null)
             {
-                var singletonObject = new GameObject(typeof(T).Name);
-                _instance = singletonObject.AddComponent<T>();
+                /*var singletonObject = new GameObject(typeof(T).Name);
+                _instance = singletonObject.AddComponent<T>();*/
+                Debug.LogWarning($"No instance of {typeof(T).Name} found in the scene.");
             }
 
             // Return the instance

@@ -73,7 +73,16 @@ public class PlayerDeathState : PlayerBaseState
                 Debug.Log("Blackscreen start");
                 hasFaded = true;
             }
-        }      
+        }
+        else
+        {
+            if (blackscreenTimer.IsFinished)
+            {
+                Player.Event.OnFadeBlackScreen?.Invoke();
+                Debug.Log("Blackscreen start");
+                hasFaded = true;
+            }
+        }     
     }
 
     public override void HandleMovement(Vector2 dir)

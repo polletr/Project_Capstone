@@ -3907,6 +3907,7 @@ GameObject:
   - component: {fileID: 1170868906}
   - component: {fileID: 1170868907}
   - component: {fileID: 1170868908}
+  - component: {fileID: 1170868909}
   m_Layer: 0
   m_Name: Listeners
   m_TagString: Untagged
@@ -4225,6 +4226,37 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1170868909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1170868899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40644858560f5c441836dd38798473e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalEvent: {fileID: 11400000, guid: 2fea4059e5bcdbb419776c25f0c6bfd4, type: 2}
+  OnTriggerGlobalEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 238350188}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: GetKilled
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnTriggerSightEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!20 &1179583650 stripped
 Camera:
   m_CorrespondingSourceObject: {fileID: 653003732799981319, guid: bedc4c315612c0d429f32fda2e727742,

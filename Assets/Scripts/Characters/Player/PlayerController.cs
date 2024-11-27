@@ -322,7 +322,6 @@ public class PlayerController : MonoBehaviour
     {
         if (HasFlashlight && flashlight.BatteryLife < flashlight.MaxBatteryLife * 0.5f)
         {
-            Debug.Log("Recharging Flashlight");
             currentState?.HandleRecharge();
         }
     }

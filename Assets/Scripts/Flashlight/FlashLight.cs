@@ -145,6 +145,30 @@ public class FlashLight : MonoBehaviour
         }
         // Turn off the flashlight
     }
+/// <summary>
+///Based ont the hit point of the player set the intensity and angle of the light to the center of the screen unless we look down
+/// </summary>
+    public void SetLightSettings(Transform hitPoint)
+{
+    // Set the light to the center of the screen
+    Light.transform.LookAt(hitPoint);
+    
+    // Calculate the intensity based on the distance
+    var distance = Vector3.Distance(hitPoint.position, transform.position);
+    Debug.Log(distance);
+    if (distance > minCloseDistance)
+    {
+        //Debug.Log("very far");
+        Light.intensity = CurrentAbility.BaseIntensity;
+    }
+    else
+    {
+        //Debug.Log("very close");
+        Light.intensity = CurrentAbility.CloseRangeIntensity;
+    }
+    
+        
+    }
 
 
     private void CollectAbility(FlashlightAbility ability)
@@ -190,6 +214,7 @@ public class FlashLight : MonoBehaviour
             //CheckDistance(minCloseDistance);
             return;
         }
+        //if(CanUseAbility) SetLightSettings(hit.transform);
 
         var obj = hit.collider.gameObject;
 

@@ -26,7 +26,6 @@ public class PlayerRechargeState : PlayerBaseState
         Player.playerAnimator.animator.enabled = true;
         CamController.LookAtTarget(Player.RechargeRotation);
         Player.playerAnimator.animator.Play(Player.playerAnimator.RechargeHash);
-        Debug.Log("Recharge state");
 
         // Player.playerAnimator.animator.CrossFade(Player.playerAnimator.RechargeHash, 0.5f);
         Player.ReloadAnimation = Player.StartCoroutine(ReloadAnimation());

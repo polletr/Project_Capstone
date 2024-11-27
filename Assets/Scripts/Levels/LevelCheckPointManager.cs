@@ -9,7 +9,7 @@ public class LevelCheckPointManager : MonoBehaviour
     {
         Event.OnTriggerCheckpoint += SetCheckpointEvent;
         Event.OnLoadCheckPointEvents += LoadCheckpointEvents;
-        Event.OnLevelChange += RestCheckpointEvent;
+      //  Event.OnLevelChange += RestCheckpointEvent;
     }
     
     private void OnDisable()
@@ -23,10 +23,10 @@ public class LevelCheckPointManager : MonoBehaviour
         checkpointEvent = newGlobalEvent;
     }
     
-    private void RestCheckpointEvent(LevelData level)
+    /*private void RestCheckpointEvent(LevelData level)
     {
         checkpointEvent = null;
-    }
+    }*/
 
     private void LoadCheckpointEvents()
     {
