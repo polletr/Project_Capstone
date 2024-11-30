@@ -22,7 +22,7 @@ public class ObjectPickupUIHandler : Singleton<ObjectPickupUIHandler>
     {
         Event.OnPlayerDeath += ClearQueue;
     }
-    
+
     private void OnDisable()
     {
         Event.OnPlayerDeath -= ClearQueue;
@@ -33,16 +33,16 @@ public class ObjectPickupUIHandler : Singleton<ObjectPickupUIHandler>
         itemDisplayImage = GetComponentInChildren<Image>();
         itemDisplayText = GetComponentInChildren<TextMeshProUGUI>();
         uiAnimator = GetComponentInChildren<UIAnimator>();
-        
+
         if (uiAnimator == null) Debug.Log("UIAnimator is null on ObjectPickupUIHandler");
-        if (itemDisplayImage == null) Debug.Log("Image is null on ObjectPickupUIHandler"); 
+        if (itemDisplayImage == null) Debug.Log("Image is null on ObjectPickupUIHandler");
         if (itemDisplayText == null) Debug.Log("Text is null on ObjectPickupUIHandler");
     }
 
     public void PickedUpObject(PickupData pickup, float time = 0)
     {
         pickedUpObjects.Enqueue(pickup);
-        
+
         if (!isProcessing)
         {
             StartCoroutine(HandlePickedUpObject(time));
@@ -51,15 +51,15 @@ public class ObjectPickupUIHandler : Singleton<ObjectPickupUIHandler>
 
     private IEnumerator HandlePickedUpObject(float time)
     {
-        var delay = time == 0?  waitTime : time;   
+        var delay = time == 0 ? waitTime : time;
         isProcessing = true;
-        
+
         while (pickedUpObjects.Count > 0)
         {
             var pickup = pickedUpObjects.Dequeue();
-            
-            yield return new WaitForSeconds(CinematicHandler.Instance.OneSecDuration);
-            
+
+            yield return new WaitForSeconds(CinematicHandler.Instance ? CinematicHandler.Instance.OneSecDuration : 1);
+
             MoveIn(pickup);
 
             // Wait for the animation to finish moving in
@@ -69,11 +69,11 @@ public class ObjectPickupUIHandler : Singleton<ObjectPickupUIHandler>
             yield return new WaitForSeconds(delay);
 
             MoveBack();
-            
+
             // Wait for the animation to finish moving back
             yield return new WaitUntil(() => !isAnimating);
         }
-        
+
         isProcessing = false;
     }
 
@@ -86,7 +86,7 @@ public class ObjectPickupUIHandler : Singleton<ObjectPickupUIHandler>
         uiAnimator.OnAnimateFinished.AddListener(OnMoveFinished);
         uiAnimator.MoveInAnimate(true); // Start move in animation
     }
-    
+
     private void MoveBack()
     {
         isAnimating = true;
@@ -99,11 +99,11 @@ public class ObjectPickupUIHandler : Singleton<ObjectPickupUIHandler>
         uiAnimator.OnAnimateFinished.RemoveListener(OnMoveFinished);
         isAnimating = false;
     }
-    
+
     private void ClearQueue()
     {
         if (!isProcessing) return;
-        
+
         uiAnimator.MoveInAnimate(false);
         pickedUpObjects.Clear();
         isAnimating = false;

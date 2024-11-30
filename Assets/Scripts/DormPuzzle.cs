@@ -1,26 +1,26 @@
+using System;
 using UnityEngine;
 using System.Collections.Generic;
 using Random = UnityEngine.Random;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 
-public class DormPuzzle : MonoBehaviour
+public class DormPuzzle : Singleton<DormPuzzle>
 {
     [SerializeField] private GameObject[] patients;
+    [SerializeField] private ClipBoard[] clipBoards;
     [SerializeField] private int minPatients = 2;
-    
+
     private int maxPatients;
     private readonly List<int> activePatients = new();
     private readonly List<int> playerChoice = new();
-   
-    [Header("Events")]
-    public UnityEvent OnPuzzleSolved;
+
+    [Header("Events")] public UnityEvent OnPuzzleSolved;
 
     public UnityEvent OnPuzzleFailed;
 
     private void Start()
     {
-        maxPatients = Random.Range(minPatients, patients.Length - 1);
+        maxPatients = Random.Range(minPatients, patients.Length); 
         PickRandomPattern();
     }
 
@@ -32,14 +32,15 @@ public class DormPuzzle : MonoBehaviour
             Debug.Log("Correct Choice");
 
             if (playerChoice.Count != activePatients.Count) return;
-            
+
             OnPuzzleSolved.Invoke();
             Debug.Log("Puzzle Solved");
         }
         else
         {
             Debug.Log("Wrong Choice");
-           OnPuzzleFailed.Invoke(); 
+            OnPuzzleFailed.Invoke();
+            clipBoards[patientIndex].ShowDeceasedText();
         }
     }
 
