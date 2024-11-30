@@ -41,7 +41,7 @@ public abstract class PlayerBaseState
 
     public virtual void StateUpdate()
     {
-        if(direction.magnitude != 0) 
+        if (direction.magnitude != 0)
             Player.characterController.SimpleMove(direction.normalized * GetSpeed());
 
         StepsSound();
@@ -52,7 +52,6 @@ public abstract class PlayerBaseState
 
         // Calculate the local movement direction relative to the player's forward direction
         var localDirection = Player.transform.InverseTransformDirection(direction);
-
     }
 
     public virtual void HandleMovement(Vector2 dir)
@@ -94,7 +93,8 @@ public abstract class PlayerBaseState
         }
 
         // Smoothly interpolate the z-axis tilt
-        float smoothTilt = Mathf.LerpAngle(Player.PlayerCam.transform.localEulerAngles.z, targetTilt, Player.Settings.TiltSpeed * Time.deltaTime);
+        float smoothTilt = Mathf.LerpAngle(Player.PlayerCam.transform.localEulerAngles.z, targetTilt,
+            Player.Settings.TiltSpeed * Time.deltaTime);
 
         // Update camera's local rotation on Z-axis for tilt effect
         Player.PlayerCam.transform.localRotation = Quaternion.Euler(
@@ -127,16 +127,20 @@ public abstract class PlayerBaseState
             // Reset to the original position when not moving
             Player.PlayerCam.transform.localPosition = new Vector3(
                 Player.PlayerCam.transform.localPosition.x,
-                Mathf.Lerp(Player.PlayerCam.transform.localPosition.y, 0f, Player.Settings.BobResetSpeed * Time.deltaTime),
+                Mathf.Lerp(Player.PlayerCam.transform.localPosition.y, 0f,
+                    Player.Settings.BobResetSpeed * Time.deltaTime),
                 Player.PlayerCam.transform.localPosition.z
             );
         }
     }
-    public virtual void HandleRecharge() { }
+
+    public virtual void HandleRecharge()
+    {
+    }
 
     public virtual void HandleAttack(bool held)
     {
-            Player.ChangeState(Player.AttackState);
+        Player.ChangeState(Player.AttackState);
     }
 
     public virtual void HandleMove()
@@ -192,16 +196,31 @@ public abstract class PlayerBaseState
         // Only update the flashlight's rotation if the player is holding it
         if (Player.HasFlashlight)
         {
-            Quaternion targetRotation = Quaternion.LookRotation(Player.PlayerCam.transform.forward) * flashlightRotationOffset;
+            Quaternion targetRotation =
+                Quaternion.LookRotation(Player.PlayerCam.transform.forward) * flashlightRotationOffset;
 
 
             if (Player.xRotation < Player.Settings.FlashlightAngleDown)
-                targetRotation = Quaternion.LookRotation(Player.CameraHolder.transform.forward) * flashlightRotationOffset;
+            {
+                targetRotation = Quaternion.LookRotation(Player.CameraHolder.transform.forward) *
+                                 flashlightRotationOffset;
+                //Player.flashlight.SetLightSettings(Vector3.zero);
+            }
+            else
+            {
+                if (Player.flashlight.FlaslighHitPos != null)
+                {
+                    Player.flashlight.SetLightSettings(Player.flashlight.FlaslighHitPos);
+                    Debug.Log("Tranform:" + Player.flashlight.Light.gameObject.name);
+                }
+            }
 
             // Smoothly rotate the hand towards the target rotation with the specified delay
-            Player.Hand.rotation = Quaternion.Slerp(Player.Hand.rotation, targetRotation, Player.Settings.flashlightFollowDelay * Time.deltaTime);
+            Player.Hand.rotation = Quaternion.Slerp(Player.Hand.rotation, targetRotation,
+                Player.Settings.flashlightFollowDelay * Time.deltaTime);
         }
     }
+
     public virtual void HandleDeath()
     {
         Player.ChangeState(Player.DeathState);
