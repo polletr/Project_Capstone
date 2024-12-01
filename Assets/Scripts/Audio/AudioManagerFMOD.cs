@@ -7,6 +7,7 @@ using UnityEngine;
 public class AudioManagerFMOD : Singleton<AudioManagerFMOD>
 {
     public SFXEvents SFXEvents;
+    public GameEvent GameEvent;
 
 
     private List<EventInstance> eventInstances = new List<EventInstance>();
