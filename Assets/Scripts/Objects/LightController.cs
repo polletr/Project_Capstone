@@ -230,7 +230,7 @@ public class LightController : MonoBehaviour
 
     }
 
-    private void StopConstantFlickering()
+    public void StopConstantFlickering()
     {
         PLAYBACK_STATE playbackState;
         constantFlickeringSound.getPlaybackState(out playbackState);
