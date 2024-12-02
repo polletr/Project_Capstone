@@ -78,6 +78,8 @@ public class IndicatorHandler : MonoBehaviour
         {
             if (player.enabled)
                 playerTarget = player.transform;
+            
+            Destroy(triggerCol);
         }
     }
 }
