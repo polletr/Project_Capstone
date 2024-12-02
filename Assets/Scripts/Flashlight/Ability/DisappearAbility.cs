@@ -85,7 +85,7 @@ namespace Flashlight.Ability
             
             Flashlight.StartCoroutine(Flashlight.ZeroOutLight(Cooldown));
             
-            if (!PlayerBatteryUIHandler.Instance)
+            if (PlayerBatteryUIHandler.Instance == null)
                 PlayerBatteryUIHandler.Instance.FlickerBatteryUIOnce();
 
             tutorialEvents.OnDisappear?.Invoke();
