@@ -27,7 +27,7 @@ public class AudioHandler : MonoBehaviour
     }
     private void Awake()
     {
-        gameEvent = LevelManager.Instance.Event;
+        gameEvent = AudioManagerFMOD.Instance.GameEvent;
         PlayFromStart.Invoke();
     }
     public void PlayOneShotAudio(Transform soundPoint)

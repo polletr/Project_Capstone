@@ -5,26 +5,34 @@ using UnityEngine.UI;
 
 public class MainMenu : Menu
 {
-    [SerializeField]
-    private GameObject creditsMenu;
-    [SerializeField]
-    private GameObject controlsMenu;
-
     public GameEvent gameEvent;
+    public PlayerSettings playerSettings;
+
+    [Header("Audio"), SerializeField] private Image MuteButtonImage;
     
+    [Header("Sensitivity"),SerializeField]
+    private Slider sensitivitySlider;
+    
+
+    private FMOD.Studio.Bus masterBus;
 
     private void Start()
     {
+        masterBus = FMODUnity.RuntimeManager.GetBus("bus:/"); //Get the master bus later
         _startActive = true;
+        MuteButtonImage.enabled = _isMusted = PlayerPrefs.GetInt("Muted") == 1;
+        playerSettings.cameraSensitivityMouse =  PlayerPrefs.GetFloat("MouseSensitivity", 25);
+        sensitivitySlider.value = playerSettings.cameraSensitivityMouse;
+        SetSensitivity();
+        masterBus.setMute(_isMusted);
     }
 
-    public void OnPlay() 
+    public void OnPlay()
     {
-
-        Cursor.lockState = CursorLockMode.Locked;//Move this from here later
-        Cursor.visible = false;//Move this from here later
+        Cursor.lockState = CursorLockMode.Locked; //Move this from here later
+        Cursor.visible = false; //Move this from here later
         SceneManager.LoadScene("GameScene");
-    } 
+    }
 
     public void PlayClickSound()
     {
@@ -36,10 +44,16 @@ public class MainMenu : Menu
         Application.OpenURL("https://forms.gle/9ptFvdmDXz5eSe5y9");
     }
 
-/*    public void OnToggleMute()
+    public void OnToggleMute()
     {
-        _isMusted = !_isMusted;
-        MuteButtonImage.sprite = !_isMusted ? MuteSprite : UnMuteSprite;
+        MuteButtonImage.enabled = _isMusted = !_isMusted;
+        PlayerPrefs.SetInt("Muted", _isMusted ? 1 : 0);
+        masterBus.setMute(_isMusted);
     }
-*/
+
+    public void SetSensitivity()
+    {
+        playerSettings.cameraSensitivityMouse = sensitivitySlider.value;
+        PlayerPrefs.SetFloat("MouseSensitivity", sensitivitySlider.value);
+    }
 }
