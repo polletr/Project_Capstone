@@ -15752,7 +15752,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mode: 1
-  size: {x: 28.760002, y: 11.959706, z: 37.487095}
+  size: {x: 28.760002, y: 12.258602, z: 37.487095}
   overrideRendererFilters: 0
   minRendererVolumeSize: 0.1
   objectLayerMask:
@@ -15792,7 +15792,7 @@ Transform:
   m_GameObject: {fileID: 1894790914}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.55733585, y: 3.7042844, z: -15.618544}
+  m_LocalPosition: {x: 0.55733585, y: 3.5548368, z: -15.618544}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -18275,6 +18275,11 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 1.33
       objectReference: {fileID: 0}
+    - target: {fileID: 1355437946965012535, guid: ee25bbc6c3432854aad5a942d3a0c7a9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1436702271407650939, guid: ee25bbc6c3432854aad5a942d3a0c7a9,
         type: 3}
       propertyPath: door
@@ -18425,6 +18430,11 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 17792463}
+    - target: {fileID: 2269961736907419301, guid: ee25bbc6c3432854aad5a942d3a0c7a9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2334917314918912632, guid: ee25bbc6c3432854aad5a942d3a0c7a9,
         type: 3}
       propertyPath: m_Mesh
@@ -19215,6 +19225,11 @@ PrefabInstance:
       propertyPath: m_LODs.Array.data[0].renderers.Array.data[1].renderer
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 7178121251732348067, guid: ee25bbc6c3432854aad5a942d3a0c7a9,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7196839364301071592, guid: ee25bbc6c3432854aad5a942d3a0c7a9,
         type: 3}
       propertyPath: m_Mesh
@@ -19512,6 +19527,7 @@ PrefabInstance:
       objectReference: {fileID: 298514228}
     m_RemovedComponents:
     - {fileID: 5045227054712634848, guid: ee25bbc6c3432854aad5a942d3a0c7a9, type: 3}
+    - {fileID: 5686236866943570928, guid: ee25bbc6c3432854aad5a942d3a0c7a9, type: 3}
     m_RemovedGameObjects:
     - {fileID: 615084190225367155, guid: ee25bbc6c3432854aad5a942d3a0c7a9, type: 3}
     m_AddedGameObjects:
@@ -19519,7 +19535,11 @@ PrefabInstance:
         type: 3}
       insertIndex: 0
       addedObject: {fileID: 1070661450}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7195039805700356075, guid: ee25bbc6c3432854aad5a942d3a0c7a9,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1443455974716710030}
   m_SourcePrefab: {fileID: 100100000, guid: ee25bbc6c3432854aad5a942d3a0c7a9, type: 3}
 --- !u!4 &1443455974716710028 stripped
 Transform:
@@ -19527,6 +19547,39 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1443455974716710027}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1443455974716710029 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7195039805700356075, guid: ee25bbc6c3432854aad5a942d3a0c7a9,
+    type: 3}
+  m_PrefabInstance: {fileID: 1443455974716710027}
+  m_PrefabAsset: {fileID: 0}
+--- !u!54 &1443455974716710030
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1443455974716710029}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 14
+  m_CollisionDetection: 0
 --- !u!1 &4193925328595341192 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2426916668346349219, guid: ee25bbc6c3432854aad5a942d3a0c7a9,
