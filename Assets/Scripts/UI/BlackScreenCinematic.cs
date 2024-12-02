@@ -19,7 +19,7 @@ public class BlackScreenCinematic : MonoBehaviour
     }
     
 
-    private void FadeIn()
+    public void FadeIn()
     {
         //fade in
         canvasGroup.DOFade(1, duration).SetEase(ease).OnComplete(() =>
@@ -32,6 +32,15 @@ public class BlackScreenCinematic : MonoBehaviour
     {
         canvasGroup.DOFade(0, duration).SetEase(ease).OnComplete(() =>
         {
+            OnFadeOutComplete?.Invoke();
+        });
+    }
+
+    public void FadeInAndOut()
+    {
+        canvasGroup.DOFade(1, duration).SetEase(ease).SetLoops(1,LoopType.Yoyo).OnComplete(() =>
+        {
+            Debug.Log("Faded wowwwwwww");
             OnFadeOutComplete?.Invoke();
         });
     }

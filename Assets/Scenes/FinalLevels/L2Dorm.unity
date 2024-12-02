@@ -3913,6 +3913,51 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 234142452}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &235749543
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 235749544}
+  - component: {fileID: 235749545}
+  m_Layer: 0
+  m_Name: OpenChildDoor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &235749544
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 235749543}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 465739214}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &235749545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 235749543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bb60af3893a7bc4496cfcf153c018ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalEvent: {fileID: 11400000, guid: 061c2a02dfcb5a6499b449688959efab, type: 2}
 --- !u!1 &262311226
 GameObject:
   m_ObjectHideFlags: 0
@@ -7362,7 +7407,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 235749544}
   m_Father: {fileID: 306367262}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &465739216
@@ -11845,7 +11891,7 @@ PrefabInstance:
     - target: {fileID: 6348791766205615323, guid: 97791e1c44ad7eb41a786b3bf869e4a8,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -30.287003
+      value: -30.593
       objectReference: {fileID: 0}
     - target: {fileID: 6348791766205615323, guid: 97791e1c44ad7eb41a786b3bf869e4a8,
         type: 3}
@@ -19660,7 +19706,7 @@ PrefabInstance:
     - target: {fileID: 6348791766205615323, guid: 97791e1c44ad7eb41a786b3bf869e4a8,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -30.287003
+      value: -30.69
       objectReference: {fileID: 0}
     - target: {fileID: 6348791766205615323, guid: 97791e1c44ad7eb41a786b3bf869e4a8,
         type: 3}
@@ -22782,6 +22828,18 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 465739217}
+        m_TargetAssemblyTypeName: GlobalEventTrigger, Assembly-CSharp
+        m_MethodName: OnTriggerGlobalEvent
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 235749545}
         m_TargetAssemblyTypeName: GlobalEventTrigger, Assembly-CSharp
         m_MethodName: OnTriggerGlobalEvent
         m_Mode: 1
@@ -35428,7 +35486,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mode: 1
-  size: {x: 14.048951, y: 8.00501, z: 40.795334}
+  size: {x: 14.048951, y: 8.00501, z: 40.489334}
   overrideRendererFilters: 0
   minRendererVolumeSize: 0.1
   objectLayerMask:
@@ -35468,7 +35526,7 @@ Transform:
   m_GameObject: {fileID: 1831806143}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.4424756, y: 1.5005038, z: -47.18467}
+  m_LocalPosition: {x: 3.4424756, y: 1.5005038, z: -47.33767}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
