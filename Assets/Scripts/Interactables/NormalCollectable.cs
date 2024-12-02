@@ -4,7 +4,6 @@ public class NormalCollectable : Interactable , ICollectable
 {
     public void Collect()
     {
-        AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.PickUpBatteries, transform.position);
         gameObject.SetActive(false);
     }
 
@@ -12,5 +11,7 @@ public class NormalCollectable : Interactable , ICollectable
     {
         base.OnInteract();
         Event.OnInteractItem?.Invoke(this);
+        
+        Collect();
     }
 }
