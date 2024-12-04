@@ -22,7 +22,9 @@ public class PlayerRechargeState : PlayerBaseState
         lerpSpeed = 2f;
         maxTime = Player.flashlight.MaxBatteryLife;
         ButtonMashBoost = Player.Settings.FlashlightReloadTime;
-
+        
+        Player.flashlight.Light.enabled = false;
+        
         Player.playerAnimator.animator.enabled = true;
         CamController.LookAtTarget(Player.RechargeRotation);
         Player.playerAnimator.animator.Play(Player.playerAnimator.RechargeHash);

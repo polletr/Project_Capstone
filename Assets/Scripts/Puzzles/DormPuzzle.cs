@@ -9,8 +9,9 @@ public class DormPuzzle : Singleton<DormPuzzle>
     [SerializeField] private GameObject[] patients;
     [SerializeField] private ClipBoard[] clipBoards;
     [SerializeField] private int minPatients = 2;
-
-    private int maxPatients;
+    [SerializeField] private int maxPatients = 4;
+    
+    private int currentPatients;
     private readonly List<int> activePatients = new();
     private readonly List<int> playerChoice = new();
 
@@ -20,7 +21,7 @@ public class DormPuzzle : Singleton<DormPuzzle>
 
     private void Start()
     {
-        maxPatients = Random.Range(minPatients, patients.Length); 
+        currentPatients = Random.Range(minPatients, maxPatients); 
         PickRandomPattern();
     }
 
@@ -54,7 +55,7 @@ public class DormPuzzle : Singleton<DormPuzzle>
         playerChoice.Clear();
         activePatients.Clear();
 
-        while (activePatients.Count < maxPatients)
+        while (activePatients.Count < currentPatients)
         {
             var randomPatient = Random.Range(0, patients.Length);
 

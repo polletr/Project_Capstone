@@ -26,19 +26,21 @@ public class FlashLight : MonoBehaviour
 
     [field: SerializeField] public float MaxBatteryLife { get; private set; } = 100;
 
+    [field: SerializeField, Header("Light Settings")] public Light Light{ get; private set; }
+    [SerializeField, Range(0,2)] private float minCloseDistance;
+    [SerializeField, Range(1,3)] private float maxCloseDistance;
 
     [SerializeField] private List<FlashlightAbility> flashlightAbilities;
-    [SerializeField] private float minCloseDistance;
 
     [field: SerializeField] public LayerMask IgrnoreMask { get; private set; }
-    
-    [Header("flashlight Ability Bulb")]
-    [SerializeField] private Material disappearBulbMaterial;
+
+    [Header("flashlight Ability Bulb")] [SerializeField]
+    private Material disappearBulbMaterial;
+
     [SerializeField] private Material revealBulbMaterial;
     [SerializeField] private Material stunBulbMaterial;
     [SerializeField] private MeshRenderer flashlightBulb;
-    
-    
+
 
     private FlashlightAbility _currentAbility;
 
@@ -62,14 +64,14 @@ public class FlashLight : MonoBehaviour
 
     public float TotalBatteryLife => MaxBatteryLife + extraCharge;
     public float CrankBoost => extracrank;
-    
+
 
     public Transform RayCastOrigin => player.PlayerCam.transform;
-    public Light Light { get; private set; }
     public bool CanUseAbility { get; private set; } = true;
     public bool IsFlashlightOn { get; private set; }
+    public Vector3 FlaslighHitPos { get; set; }
 
-    private float extraCharge;  
+    private float extraCharge;
     private float extracrank;
 
     private CountdownTimer flickerTimer;
@@ -80,9 +82,11 @@ public class FlashLight : MonoBehaviour
 
     private Coroutine flickerCoroutine;
     private Coroutine resetCoroutine;
+
     private void Awake()
     {
-        Light = GetComponent<Light>();
+       // Light = GetComponent<Light>();
+       //Light = GetComponentInChildren<Light>();
         flickerTimer = new CountdownTimer(1f);
         IsFlashlightOn = Light.enabled;
 
@@ -145,31 +149,40 @@ public class FlashLight : MonoBehaviour
         }
         // Turn off the flashlight
     }
-/// <summary>
-///Based ont the hit point of the player set the intensity and angle of the light to the center of the screen unless we look down
-/// </summary>
-    public void SetLightSettings(Transform hitPoint)
-{
-    // Set the light to the center of the screen
-    Light.transform.LookAt(hitPoint);
-    
-    // Calculate the intensity based on the distance
-    var distance = Vector3.Distance(hitPoint.position, transform.position);
-    Debug.Log(distance);
-    if (distance > minCloseDistance)
-    {
-        //Debug.Log("very far");
-        Light.intensity = CurrentAbility.BaseIntensity;
-    }
-    else
-    {
-        //Debug.Log("very close");
-        Light.intensity = CurrentAbility.CloseRangeIntensity;
-    }
-    
-        
-    }
 
+    /// <summary>
+    ///Based ont the hit point of the player set the intensity and angle of the light to the center of the screen unless we look down
+    /// </summary>
+    public void SetLightSettings(Vector3 hitPoint,bool center = true)
+    {
+
+        var newRotation =  Quaternion.Euler(Vector3.zero) ;
+
+        if (center)
+        {
+            Light.transform.localRotation = Quaternion.Slerp(Light.transform.localRotation, newRotation,player.Settings.flashlightFollowDelay * Time.deltaTime);
+        }
+        else
+        {
+          Light.transform.LookAt(this.transform.forward *100);
+        }
+       
+
+        // Calculate the intensity based on the distance
+        var distance = Vector3.Distance(hitPoint, transform.position);
+        Debug.Log(distance);
+        if (distance > minCloseDistance)
+        {
+            //Debug.Log("very far");
+            Light.intensity = CurrentAbility.BaseIntensity;
+        }
+        else
+        {
+            //Debug.Log("very close");
+            Light.intensity = CurrentAbility.CloseRangeIntensity;
+        }
+    }
+    
 
     private void CollectAbility(FlashlightAbility ability)
     {
@@ -201,6 +214,7 @@ public class FlashLight : MonoBehaviour
                 RemoveCurrentAbilityEffect(effectedObjs[i]);
                 continue;
             }
+
             effectedObjs[i].RemoveEffect();
             effectedObjs.Remove(effectedObjs[i]);
         }
@@ -209,22 +223,26 @@ public class FlashLight : MonoBehaviour
 
         effectedObjsThisFrame.Clear();
 
-        if (!Physics.Raycast(RayCastOrigin.position, RayCastOrigin.forward, out var hit, CurrentAbility.InteractRange))
+        if (Physics.Raycast(RayCastOrigin.position, RayCastOrigin.forward, out var hit))
         {
-            //CheckDistance(minCloseDistance);
+            FlaslighHitPos = hit.point;
+            if (Vector3.Distance(hit.point, transform.position) > CurrentAbility.InteractRange)
+            {
+                return;
+            }
+        }
+        else
+        {
             return;
         }
-        //if(CanUseAbility) SetLightSettings(hit.transform);
-
+       
         var obj = hit.collider.gameObject;
 
         //CheckDistance(hit.distance);
 
         if (!obj.TryGetComponent(out IEffectable effectable)) return;
         effectedObjsThisFrame.Add(effectable);
-
-
-        // Try to get both IRevealable and IMovable components
+        
         var hasRevealable = obj.TryGetComponent(out IRevealable revealObj);
         var hashideable = obj.TryGetComponent(out IHideable hideObj);
 
@@ -232,7 +250,7 @@ public class FlashLight : MonoBehaviour
         if (hasRevealable && revealObj is MonoBehaviour revealComponent && revealComponent.enabled)
         {
             if (!revealObj.CanApplyEffect)
-            return;
+                return;
         }
 
         // Check if revealObj is enabled
@@ -260,14 +278,17 @@ public class FlashLight : MonoBehaviour
     private void CheckDistance(float distance)
     {
         // Calculate intensity based on distance
-        float intensity = Mathf.Lerp(CurrentAbility.CloseRangeIntensity, CurrentAbility.BaseIntensity, distance / minCloseDistance);
+        float intensity = Mathf.Lerp(CurrentAbility.CloseRangeIntensity, CurrentAbility.BaseIntensity,
+            distance / minCloseDistance);
         Light.intensity = Mathf.Clamp(intensity, CurrentAbility.CloseRangeIntensity, CurrentAbility.BaseIntensity);
         Debug.Log(Light.intensity);
 
         // Calculate inner angle based on distance
-        float angle = Mathf.Lerp(CurrentAbility.CloseRangeInnerAngle, CurrentAbility.BaseInnerSpotAngle, distance / minCloseDistance);
+        float angle = Mathf.Lerp(CurrentAbility.CloseRangeInnerAngle, CurrentAbility.BaseInnerSpotAngle,
+            distance / minCloseDistance);
         Light.spotAngle = Mathf.Clamp(angle, CurrentAbility.CloseRangeInnerAngle, CurrentAbility.BaseInnerSpotAngle);
     }
+
     private void OnDrawGizmos()
     {
         if (!Application.isPlaying) return;
@@ -292,6 +313,7 @@ public class FlashLight : MonoBehaviour
         {
             StopCoroutine(resetCoroutine);
         }
+
         // Reset the flashlight to its default state and ready for use
         resetCoroutine = StartCoroutine(ResetLightState(cooldown));
     }
@@ -347,7 +369,8 @@ public class FlashLight : MonoBehaviour
 
         // Stop current ability and set the new one
         CurrentAbility = flashlightAbilities[currentIndex];
-        AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.FlashlightSwapAbility, transform.position);
+        AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.FlashlightSwapAbility,
+            transform.position);
         ChangeMaterial();
         TutorialEvent.OnSwapAbility?.Invoke();
 
@@ -360,7 +383,6 @@ public class FlashLight : MonoBehaviour
         {
             RemoveCurrentAbilityEffect(t);
         }
-
     }
 
     private void ChangeMaterial()
@@ -411,11 +433,12 @@ public class FlashLight : MonoBehaviour
             timer += Time.deltaTime;
             yield return null;
         }
+
         effectedObjs.Clear();
         HandleRayCast();
 
         CanUseAbility = true;
-       // StopAllCoroutines();
+        // StopAllCoroutines();
     }
 
     private void TurnOffLight()
@@ -523,17 +546,13 @@ public class FlashLight : MonoBehaviour
         {
             obj.RemoveEffect();
             effectedObjs.Remove(obj);
-
         }
         // Check if the object is IHideable and the ability is not DisapearAbility
         else if (obj is IStunable && CurrentAbility is not StunAbility)
         {
             obj.RemoveEffect();
             effectedObjs.Remove(obj);
-
         }
-
-
     }
 
     private IEnumerator Flicker(float maxTime, Action onFlickerEnd)
