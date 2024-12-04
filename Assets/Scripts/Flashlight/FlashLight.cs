@@ -4,7 +4,6 @@ using System.Linq;
 using System.Collections.Generic;
 using Flashlight.Ability;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Utilities;
 using Random = UnityEngine.Random;
 
@@ -13,10 +12,11 @@ public class FlashLight : MonoBehaviour
     public GameEvent Event;
     public TutorialEvents TutorialEvent;
 
-    [field: Header("Base Flashlight Settings")] [SerializeField]
+
+    [Header("Base Flashlight Settings"), SerializeField]
     private Color lightColor;
 
-    [field: Header("Battery Settings")] [SerializeField]
+    [field: Header("Battery Settings"), SerializeField]
     private float baseCost;
 
     [SerializeField] private float minFlickerTime = 0.1f; // Minimum time between flickers
@@ -26,9 +26,11 @@ public class FlashLight : MonoBehaviour
 
     [field: SerializeField] public float MaxBatteryLife { get; private set; } = 100;
 
-    [field: SerializeField, Header("Light Settings")] public Light Light{ get; private set; }
-    [SerializeField, Range(0,2)] private float minCloseDistance;
-    [SerializeField, Range(1,3)] private float maxCloseDistance;
+    [field: SerializeField, Header("Light Settings")]
+    public Light Light { get; private set; }
+
+    [SerializeField, Range(0, 2)] private float minCloseDistance;
+    [SerializeField, Range(1, 3)] private float maxCloseDistance;
 
     [SerializeField] private List<FlashlightAbility> flashlightAbilities;
 
@@ -36,11 +38,10 @@ public class FlashLight : MonoBehaviour
 
     [Header("flashlight Ability Bulb")] [SerializeField]
     private Material disappearBulbMaterial;
-
     [SerializeField] private Material revealBulbMaterial;
-    [SerializeField] private Material stunBulbMaterial;
     [SerializeField] private MeshRenderer flashlightBulb;
 
+    [Header("Delay "), SerializeField] private float swapDelay = 0.5f;
 
     private FlashlightAbility _currentAbility;
 
@@ -75,6 +76,7 @@ public class FlashLight : MonoBehaviour
     private float extracrank;
 
     private CountdownTimer flickerTimer;
+    private CountdownTimer swapTimer;
     private PlayerController player;
 
     private List<IEffectable> effectedObjs = new();
@@ -85,9 +87,11 @@ public class FlashLight : MonoBehaviour
 
     private void Awake()
     {
-       // Light = GetComponent<Light>();
-       //Light = GetComponentInChildren<Light>();
+        // Light = GetComponent<Light>();
+        //Light = GetComponentInChildren<Light>();
         flickerTimer = new CountdownTimer(1f);
+        swapTimer = new CountdownTimer(0.5f);
+        swapTimer.Start();
         IsFlashlightOn = Light.enabled;
 
         player = GetComponentInParent<PlayerController>();
@@ -109,6 +113,7 @@ public class FlashLight : MonoBehaviour
         }
 
         CurrentAbility = flashlightAbilities[0];
+        ChangeMaterial();
         Light.intensity = CurrentAbility.BaseIntensity;
         Light.color = CurrentAbility.BaseColor;
         Light.spotAngle = CurrentAbility.BaseSpotAngle;
@@ -133,6 +138,7 @@ public class FlashLight : MonoBehaviour
     private void Update()
     {
         flickerTimer?.Tick(Time.deltaTime);
+        swapTimer?.Tick(Time.deltaTime);
         // Decrease BatteryLife continuously over time based on Cost per second
         if (IsFlashlightOn && !IsBatteryDead())
             Drain(baseCost * Time.deltaTime);
@@ -153,20 +159,20 @@ public class FlashLight : MonoBehaviour
     /// <summary>
     ///Based ont the hit point of the player set the intensity and angle of the light to the center of the screen unless we look down
     /// </summary>
-    public void SetLightSettings(Vector3 hitPoint,bool center = true)
+    public void SetLightSettings(Vector3 hitPoint, bool center = true)
     {
-
-        var newRotation =  Quaternion.Euler(Vector3.zero) ;
+        var newRotation = Quaternion.Euler(Vector3.zero);
 
         if (center)
         {
-            Light.transform.localRotation = Quaternion.Slerp(Light.transform.localRotation, newRotation,player.Settings.flashlightFollowDelay * Time.deltaTime);
+            Light.transform.localRotation = Quaternion.Slerp(Light.transform.localRotation, newRotation,
+                player.Settings.flashlightFollowDelay * Time.deltaTime);
         }
         else
         {
-          Light.transform.LookAt(this.transform.forward *100);
+            Light.transform.LookAt(this.transform.forward * 100);
         }
-       
+
 
         // Calculate the intensity based on the distance
         var distance = Vector3.Distance(hitPoint, transform.position);
@@ -182,7 +188,7 @@ public class FlashLight : MonoBehaviour
             Light.intensity = CurrentAbility.CloseRangeIntensity;
         }
     }
-    
+
 
     private void CollectAbility(FlashlightAbility ability)
     {
@@ -235,14 +241,14 @@ public class FlashLight : MonoBehaviour
         {
             return;
         }
-       
+
         var obj = hit.collider.gameObject;
 
         //CheckDistance(hit.distance);
 
         if (!obj.TryGetComponent(out IEffectable effectable)) return;
         effectedObjsThisFrame.Add(effectable);
-        
+
         var hasRevealable = obj.TryGetComponent(out IRevealable revealObj);
         var hashideable = obj.TryGetComponent(out IHideable hideObj);
 
@@ -333,7 +339,8 @@ public class FlashLight : MonoBehaviour
 
     public void HandleChangeAbility(int index, bool isScroll = false)
     {
-        if (!IsFlashlightOn || !CurrentAbility || IsBatteryDead()) return;
+        if (!IsFlashlightOn || !CurrentAbility || IsBatteryDead() || !swapTimer.IsFinished) return;
+
 
         var currentIndex = flashlightAbilities.IndexOf(CurrentAbility);
 
@@ -345,6 +352,8 @@ public class FlashLight : MonoBehaviour
         if (isScroll)
         {
             // determine scroll direction
+            swapTimer.Reset(swapDelay);
+            swapTimer.Start();
             switch (index)
             {
                 case > 0: // Scroll up
@@ -365,6 +374,10 @@ public class FlashLight : MonoBehaviour
                 Debug.Log("No ability found in slot");
                 return;
             }
+            else if (currentIndex == flashlightAbilities.IndexOf(CurrentAbility))
+            {
+                return;
+            }
         }
 
         // Stop current ability and set the new one
@@ -374,7 +387,7 @@ public class FlashLight : MonoBehaviour
         ChangeMaterial();
         TutorialEvent.OnSwapAbility?.Invoke();
 
-        if (ObjectPickupUIHandler.Instance)
+        if (ObjectPickupUIHandler.Instance != null)
         {
             ObjectPickupUIHandler.Instance.PickedUpObject(CurrentAbility.AbilityPickupData, 0.3f);
         }
@@ -395,9 +408,9 @@ public class FlashLight : MonoBehaviour
             case DisappearAbility:
                 flashlightBulb.material = disappearBulbMaterial;
                 break;
-            case StunAbility:
+            /*case StunAbility:
                 flashlightBulb.material = stunBulbMaterial;
-                break;
+                break;*/
         }
     }
 
@@ -414,7 +427,7 @@ public class FlashLight : MonoBehaviour
         CanUseAbility = false;
         player.currentState?.HandleMove();
 
-        var currentlIntensity = Light.intensity;
+        var currentIntensity = Light.intensity;
         var currentColor = Light.color;
         var currentRange = Light.range;
         var currentSpotAngle = Light.spotAngle;
@@ -423,7 +436,7 @@ public class FlashLight : MonoBehaviour
         var timer = 0f;
         while (timer < cooldown)
         {
-            Light.intensity = Mathf.Lerp(currentlIntensity, CurrentAbility.BaseIntensity, timer / cooldown);
+            Light.intensity = Mathf.Lerp(currentIntensity, CurrentAbility.BaseIntensity, timer / cooldown);
             Light.color = Color.Lerp(currentColor, CurrentAbility.BaseColor, timer / cooldown);
             Light.range = Mathf.Lerp(currentRange, CurrentAbility.BaseRange, timer / cooldown);
             Light.spotAngle = Mathf.Lerp(currentSpotAngle, CurrentAbility.BaseSpotAngle, timer / cooldown);
