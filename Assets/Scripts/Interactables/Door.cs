@@ -26,9 +26,7 @@ public class Door : Interactable
     private Quaternion closedRotation;
 
     private GameObject playerCamera;
-
-    private NavMeshObstacle doorObstacle; // Assign in Inspector
-
+    
     private ShakeEffect shakeEffect;
 
     private float currentHealth;
@@ -39,7 +37,6 @@ public class Door : Interactable
     {
         shakeEffect = GetComponent<ShakeEffect>();
         // Save the door's closed rotation
-        doorObstacle = GetComponent<NavMeshObstacle>();
         closedRotation = transform.localRotation;
         playerCamera = Camera.main.gameObject;
         currentHealth = doorHealth;
@@ -208,16 +205,7 @@ public class Door : Interactable
 
         // Ensure the rotation is exactly the target rotation at the end
         transform.localRotation = targetRotation;
-
-        if (IsOpen)
-        {
-            doorObstacle.carving = false;
-        }
-        else
-        {
-            doorObstacle.carving = true;
-        }
-
+        
         Rotating = false;
     }
 
