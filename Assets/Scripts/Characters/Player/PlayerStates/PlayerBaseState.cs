@@ -196,7 +196,15 @@ public abstract class PlayerBaseState
 
 
             if (Player.xRotation < Player.Settings.FlashlightAngleDown)
+            {
                 targetRotation = Quaternion.LookRotation(Player.CameraHolder.transform.forward) * flashlightRotationOffset;
+                Player.flashlight.SetLightSettings(Player.flashlight.FlaslighHitPos,false);
+            }
+            else
+            {
+                Player.flashlight.SetLightSettings(Player.flashlight.FlaslighHitPos);
+            }
+
 
             // Smoothly rotate the hand towards the target rotation with the specified delay
             Player.Hand.rotation = Quaternion.Slerp(Player.Hand.rotation, targetRotation, Player.Settings.flashlightFollowDelay * Time.deltaTime);
