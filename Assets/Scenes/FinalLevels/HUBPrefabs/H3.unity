@@ -1467,7 +1467,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 238915411}
-  - component: {fileID: 238915413}
   - component: {fileID: 238915412}
   m_Layer: 0
   m_Name: EnterTrigger
@@ -1485,7 +1484,7 @@ Transform:
   m_GameObject: {fileID: 238915410}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.01192328, z: -0, w: 0.99992895}
-  m_LocalPosition: {x: -7.631, y: 12.067652, z: 4.617}
+  m_LocalPosition: {x: -6.528, y: 12.067652, z: 4.617}
   m_LocalScale: {x: 1, y: 1, z: 3.7684999}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1530,51 +1529,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 1361082858}
-        m_TargetAssemblyTypeName: DissolveEffectOnObject, Assembly-CSharp
-        m_MethodName: DisableObj
-        m_Mode: 1
+      - m_Target: {fileID: 1361082860}
+        m_TargetAssemblyTypeName: AudioHandler, Assembly-CSharp
+        m_MethodName: PlayOneShotAudio
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 1361082859}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Transform, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 4
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 1513337310}
-        m_TargetAssemblyTypeName: LightController, Assembly-CSharp
-        m_MethodName: StopConstantFlickering
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 4
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
---- !u!65 &238915413
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 238915410}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 0.883246}
-  m_Center: {x: -5.0319815e-10, y: 0, z: -0.05837719}
 --- !u!1 &459030390
 GameObject:
   m_ObjectHideFlags: 0
@@ -2301,6 +2267,46 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Center.z
       value: -0.45256275
+      objectReference: {fileID: 0}
+    - target: {fileID: 7797933001229772877, guid: 9bf52bc74103d8341aaa19f6a70e95ef,
+        type: 3}
+      propertyPath: isLocked
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7797933001229772877, guid: 9bf52bc74103d8341aaa19f6a70e95ef,
+        type: 3}
+      propertyPath: OnOpen.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7797933001229772877, guid: 9bf52bc74103d8341aaa19f6a70e95ef,
+        type: 3}
+      propertyPath: OnOpen.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7797933001229772877, guid: 9bf52bc74103d8341aaa19f6a70e95ef,
+        type: 3}
+      propertyPath: OnOpen.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 238915412}
+    - target: {fileID: 7797933001229772877, guid: 9bf52bc74103d8341aaa19f6a70e95ef,
+        type: 3}
+      propertyPath: OnOpen.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7797933001229772877, guid: 9bf52bc74103d8341aaa19f6a70e95ef,
+        type: 3}
+      propertyPath: OnOpen.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: TriggerEvent
+      objectReference: {fileID: 0}
+    - target: {fileID: 7797933001229772877, guid: 9bf52bc74103d8341aaa19f6a70e95ef,
+        type: 3}
+      propertyPath: OnOpen.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Trigger, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7797933001229772877, guid: 9bf52bc74103d8341aaa19f6a70e95ef,
+        type: 3}
+      propertyPath: OnOpen.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 8361582353904228221, guid: 9bf52bc74103d8341aaa19f6a70e95ef,
         type: 3}
@@ -4696,6 +4702,11 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
+    - target: {fileID: 1045572376475204886, guid: 48f056514d9a60b4bb6d48bd87778012,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 85feea083588a4244b8968959a54b035, type: 2}
     - target: {fileID: 1149084504264769928, guid: 48f056514d9a60b4bb6d48bd87778012,
         type: 3}
       propertyPath: m_StaticEditorFlags
@@ -5119,6 +5130,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1361082858}
+    - targetCorrespondingSourceObject: {fileID: 1429830337962840557, guid: 48f056514d9a60b4bb6d48bd87778012,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1361082860}
   m_SourcePrefab: {fileID: 100100000, guid: 48f056514d9a60b4bb6d48bd87778012, type: 3}
 --- !u!1 &1361082857 stripped
 GameObject:
@@ -5146,6 +5161,28 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1361082856}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1361082860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1361082857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9610a663f429e814e9b4619e7657be12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioClip:
+    Guid:
+      Data1: -410451848
+      Data2: 1229224269
+      Data3: -825406793
+      Data4: 94874446
+    Path: event:/Enemies/StepFather/StepFatherSecret
+  PlayFromStart:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1366862390
 GameObject:
   m_ObjectHideFlags: 0
@@ -5878,14 +5915,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dce0e97a353339e419939fc73e7fb361, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  delay: 0.5
+  delay: 1.5
   OnTrigger:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 1361082858}
+        m_TargetAssemblyTypeName: DissolveEffectOnObject, Assembly-CSharp
+        m_MethodName: DisableObj
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -5894,17 +5931,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 1513337310}
+        m_TargetAssemblyTypeName: LightController, Assembly-CSharp
+        m_MethodName: StopConstantFlickering
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
 --- !u!4 &1838188987
 Transform:
