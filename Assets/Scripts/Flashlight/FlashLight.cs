@@ -551,10 +551,7 @@ public class FlashLight : MonoBehaviour
     {
         if (obj == null) return;
 
-        obj.RemoveEffect();
-        effectedObjs.Remove(obj);
-
-/*        // Check if the object is IRevealable and the ability is not RevealAbility
+        // Check if the object is IRevealable and the ability is not RevealAbility
         if (obj is IRevealable && CurrentAbility is not RevealAbility)
         {
             obj.RemoveEffect();
@@ -573,7 +570,8 @@ public class FlashLight : MonoBehaviour
             obj.RemoveEffect();
             effectedObjs.Remove(obj);
         }
-*/    }
+
+    }
 
     private IEnumerator Flicker(float maxTime, Action onFlickerEnd)
     {
