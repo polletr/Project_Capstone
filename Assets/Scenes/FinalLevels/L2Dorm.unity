@@ -20194,12 +20194,12 @@ PrefabInstance:
     - target: {fileID: 2531267137805741120, guid: 2a693b933029ce748862c3ea5d05b06a,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.114
+      value: 2.67
       objectReference: {fileID: 0}
     - target: {fileID: 2531267137805741120, guid: 2a693b933029ce748862c3ea5d05b06a,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -49.575
+      value: -65.459
       objectReference: {fileID: 0}
     - target: {fileID: 2531267137805741120, guid: 2a693b933029ce748862c3ea5d05b06a,
         type: 3}
@@ -20245,6 +20245,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Range
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3452642836625576918, guid: 2a693b933029ce748862c3ea5d05b06a,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3452642836625576918, guid: 2a693b933029ce748862c3ea5d05b06a,
         type: 3}
@@ -20294,6 +20299,18 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!114 &889985626 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1565391924667741282, guid: 2a693b933029ce748862c3ea5d05b06a,
+    type: 3}
+  m_PrefabInstance: {fileID: 889985623}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 889985624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f1ad9b7ff5b67742a7bb50ddaa8976c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &890989401
 GameObject:
   m_ObjectHideFlags: 0
@@ -24885,6 +24902,18 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 889985626}
+        m_TargetAssemblyTypeName: LightController, Assembly-CSharp
+        m_MethodName: TurnOnOffLight
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
         m_CallState: 2
   OnPuzzleFailed:
     m_PersistentCalls:
