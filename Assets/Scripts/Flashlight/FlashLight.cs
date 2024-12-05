@@ -176,7 +176,6 @@ public class FlashLight : MonoBehaviour
 
         // Calculate the intensity based on the distance
         var distance = Vector3.Distance(hitPoint, transform.position);
-        Debug.Log(distance);
         if (distance > minCloseDistance)
         {
             //Debug.Log("very far");
@@ -541,13 +540,21 @@ public class FlashLight : MonoBehaviour
                 effectedObjs.Add(stunObj);
             }
         }
+        else if(obj.TryGetComponent(out IEffectable effectableObj))
+        {
+            effectableObj.ApplyEffect();
+            effectedObjs.Add(effectableObj);
+        }
     }
 
     private void RemoveCurrentAbilityEffect(IEffectable obj)
     {
         if (obj == null) return;
 
-        // Check if the object is IRevealable and the ability is not RevealAbility
+        obj.RemoveEffect();
+        effectedObjs.Remove(obj);
+
+/*        // Check if the object is IRevealable and the ability is not RevealAbility
         if (obj is IRevealable && CurrentAbility is not RevealAbility)
         {
             obj.RemoveEffect();
@@ -566,7 +573,7 @@ public class FlashLight : MonoBehaviour
             obj.RemoveEffect();
             effectedObjs.Remove(obj);
         }
-    }
+*/    }
 
     private IEnumerator Flicker(float maxTime, Action onFlickerEnd)
     {

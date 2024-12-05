@@ -114,10 +114,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1529735713320096095}
   - component: {fileID: 6751404729984822030}
-  - component: {fileID: 1832182446174086369}
   - component: {fileID: 7565214108061448044}
-  - component: {fileID: 6384686617497604088}
   - component: {fileID: 6064627435969191371}
+  - component: {fileID: 1711485600551225601}
   m_Layer: 0
   m_Name: SlimShadow_Blink
   m_TagString: Untagged
@@ -157,28 +156,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <animationCrossFade>k__BackingField: 0.2
---- !u!195 &1832182446174086369
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8934244017677719572}
-  m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 3.5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 1
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 2
-  m_BaseOffset: 0
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
 --- !u!136 &7565214108061448044
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -202,19 +179,6 @@ CapsuleCollider:
   m_Height: 2.2737765
   m_Direction: 1
   m_Center: {x: 0.012275845, y: 0.63688827, z: 0}
---- !u!114 &6384686617497604088
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8934244017677719572}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b56abe239700932499b1a12b7a9bf077, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  detectionRadius: 8
 --- !u!114 &6064627435969191371
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -230,7 +194,35 @@ MonoBehaviour:
   BodyMaterial: {fileID: 2100000, guid: c3148a63354fa442abce19b1a40f9fef, type: 2}
   EyeMaterial: {fileID: 2100000, guid: 37ef587f6a5be4df0b4cb7317dca8b44, type: 2}
   RotationSpeed: 10
+  startTransparency: 0.9
   changeTranspDuration: 0.5
+--- !u!54 &1711485600551225601
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8934244017677719572}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1001 &5641421889817213905
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -296,17 +288,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7088186124465740133, guid: 695293388826b864f8015255c24320f0,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 37ef587f6a5be4df0b4cb7317dca8b44, type: 2}
     - target: {fileID: 7613036386256491356, guid: 695293388826b864f8015255c24320f0,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: c3148a63354fa442abce19b1a40f9fef, type: 2}
     - target: {fileID: 7707009688012122471, guid: 695293388826b864f8015255c24320f0,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: c3148a63354fa442abce19b1a40f9fef, type: 2}
     - target: {fileID: 7748024145728724633, guid: 695293388826b864f8015255c24320f0,

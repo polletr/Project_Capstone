@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShadowEnemyBlink : EnemyClass, IStunable
+public class ShadowEnemyBlink : EnemyClass, IEffectable
 {
     [SerializeField] private Material BodyMaterial;
     [SerializeField] private Material EyeMaterial;
@@ -23,8 +23,6 @@ public class ShadowEnemyBlink : EnemyClass, IStunable
     private void Awake()
     {
         playerCharacter = Object.FindAnyObjectByType<PlayerController>();
-        BodyMaterial.SetFloat("_Transparency", 0.9f);
-        EyeMaterial.SetFloat("_Transparency", 0.9f);
         currentAudio = AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.ShadowIdle);
         // 3D attributes based on the enemy's position and orientation
         FMOD.ATTRIBUTES_3D attributes = new FMOD.ATTRIBUTES_3D
@@ -41,10 +39,14 @@ public class ShadowEnemyBlink : EnemyClass, IStunable
 
     }
 
+    private void Update()
+    {
+        RotateToPlayer();
+    }
+
     public void ApplyEffect()
     {
-        if (EnemyTransparencyRoutine == null)
-            EnemyTransparencyRoutine = StartCoroutine(EnemyTransparency(0f));
+        SetTransparency(0f);
     }
 
     public void ApplyStunEffect()
@@ -100,6 +102,7 @@ public class ShadowEnemyBlink : EnemyClass, IStunable
         {
             DisableEnemy();
         }
+        EnemyTransparencyRoutine = null;
     }
 
     public void DisableEnemy()
