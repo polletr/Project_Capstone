@@ -32,7 +32,7 @@ public class IndicatorHandler : MonoBehaviour
 
         cam = Camera.main;
         var UI = GetComponentInChildren<UIInteractableIndicator>();
-        IndicatorUI = UI ? UI : IndicatorUI;
+        IndicatorUI = UI == null? IndicatorUI : UI;
 
         objectFlare = GetComponentInChildren<ObjectFlare>();
 
