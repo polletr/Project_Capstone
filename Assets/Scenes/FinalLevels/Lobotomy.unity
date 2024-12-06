@@ -4587,6 +4587,7 @@ GameObject:
   m_Component:
   - component: {fileID: 926927959}
   - component: {fileID: 926927960}
+  - component: {fileID: 926927961}
   m_Layer: 0
   m_Name: Listeners
   m_TagString: Untagged
@@ -4625,6 +4626,37 @@ MonoBehaviour:
   OnTriggerGlobalEvent:
     m_PersistentCalls:
       m_Calls: []
+  OnTriggerSightEvent:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &926927961
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 926927958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40644858560f5c441836dd38798473e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalEvent: {fileID: 11400000, guid: 7ddd84b9065e6534381d6bec5da75ad0, type: 2}
+  OnTriggerGlobalEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1644582639}
+        m_TargetAssemblyTypeName: BlackScreenCinematic, Assembly-CSharp
+        m_MethodName: FadeIn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnTriggerSightEvent:
     m_PersistentCalls:
       m_Calls: []

@@ -1101,7 +1101,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6668870391087767637, guid: 6b17d59191d1d5c4992f74cbed04e779,
         type: 3}
+      propertyPath: onPlayerInteract.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6668870391087767637, guid: 6b17d59191d1d5c4992f74cbed04e779,
+        type: 3}
       propertyPath: onPlayerInteract.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1976105950}
+    - target: {fileID: 6668870391087767637, guid: 6b17d59191d1d5c4992f74cbed04e779,
+        type: 3}
+      propertyPath: onPlayerInteract.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 1976105950}
     - target: {fileID: 6668870391087767637, guid: 6b17d59191d1d5c4992f74cbed04e779,
@@ -1111,7 +1121,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6668870391087767637, guid: 6b17d59191d1d5c4992f74cbed04e779,
         type: 3}
+      propertyPath: onPlayerInteract.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6668870391087767637, guid: 6b17d59191d1d5c4992f74cbed04e779,
+        type: 3}
       propertyPath: onPlayerInteract.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnTriggerGlobalEvent
+      objectReference: {fileID: 0}
+    - target: {fileID: 6668870391087767637, guid: 6b17d59191d1d5c4992f74cbed04e779,
+        type: 3}
+      propertyPath: onPlayerInteract.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
       value: OnTriggerGlobalEvent
       objectReference: {fileID: 0}
     - target: {fileID: 6668870391087767637, guid: 6b17d59191d1d5c4992f74cbed04e779,
@@ -1121,7 +1141,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6668870391087767637, guid: 6b17d59191d1d5c4992f74cbed04e779,
         type: 3}
+      propertyPath: onPlayerInteract.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: GlobalEventTrigger, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 6668870391087767637, guid: 6b17d59191d1d5c4992f74cbed04e779,
+        type: 3}
       propertyPath: onPlayerInteract.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 6668870391087767637, guid: 6b17d59191d1d5c4992f74cbed04e779,
+        type: 3}
+      propertyPath: onPlayerInteract.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 6687974848189512928, guid: 6b17d59191d1d5c4992f74cbed04e779,
@@ -1432,7 +1462,11 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1513337307}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1483714586046747023, guid: 6b17d59191d1d5c4992f74cbed04e779,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 119945381}
   m_SourcePrefab: {fileID: 100100000, guid: 6b17d59191d1d5c4992f74cbed04e779, type: 3}
 --- !u!4 &119945376 stripped
 Transform:
@@ -1458,6 +1492,33 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 119945375}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &119945380 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1483714586046747023, guid: 6b17d59191d1d5c4992f74cbed04e779,
+    type: 3}
+  m_PrefabInstance: {fileID: 119945375}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &119945381
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 119945380}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.3848302, y: 1.4441459, z: 0.555143}
+  m_Center: {x: -0.14142422, y: 0.8339497, z: -0.00000756979}
 --- !u!1 &238915410
 GameObject:
   m_ObjectHideFlags: 0
@@ -3992,7 +4053,7 @@ MonoBehaviour:
   lowestSubdivLevelOverride: 0
   highestSubdivLevelOverride: 7
   overridesSubdivLevels: 0
-  mightNeedRebaking: 0
+  mightNeedRebaking: 1
   cachedTransform:
     e00: 1
     e01: 0
@@ -4061,6 +4122,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1976105949}
+  - {fileID: 1674703219}
   m_Father: {fileID: 1366862392}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1072056979
@@ -5945,6 +6007,51 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1147643347}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1674703218
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1674703219}
+  - component: {fileID: 1674703220}
+  m_Layer: 0
+  m_Name: OneSecTransition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1674703219
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1674703218}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1072056977}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1674703220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1674703218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bb60af3893a7bc4496cfcf153c018ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalEvent: {fileID: 11400000, guid: fa82e9c93b81e9648b037031ff87f635, type: 2}
 --- !u!43 &1699491274
 Mesh:
   m_ObjectHideFlags: 0

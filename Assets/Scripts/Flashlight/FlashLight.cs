@@ -231,6 +231,7 @@ public class FlashLight : MonoBehaviour
         if (Physics.Raycast(RayCastOrigin.position, RayCastOrigin.forward, out var hit))
         {
             FlaslighHitPos = hit.point;
+          //Debug.Log($"{hit.collider.gameObject.name} was hit in {hit.collider.gameObject.scene.name} scene");
             if (Vector3.Distance(hit.point, transform.position) > CurrentAbility.InteractRange)
             {
                 return;
@@ -293,25 +294,7 @@ public class FlashLight : MonoBehaviour
             distance / minCloseDistance);
         Light.spotAngle = Mathf.Clamp(angle, CurrentAbility.CloseRangeInnerAngle, CurrentAbility.BaseInnerSpotAngle);
     }
-
-    private void OnDrawGizmos()
-    {
-        if (!Application.isPlaying) return;
-
-        // Set the color for the Gizmos
-        Gizmos.color = Color.red;
-
-        // Ray and range definition
-        var origin = player.PlayerCam.transform.position;
-        var direction = player.PlayerCam.transform.forward * Light.range;
-
-        // Calculate the end point of the SphereCast
-        var endPoint = origin + direction;
-
-        // Draw the line representing the ray of the SphereCast
-        Gizmos.DrawLine(origin, endPoint);
-    }
-
+    
     public void ResetLight(float cooldown)
     {
         if (resetCoroutine != null)
