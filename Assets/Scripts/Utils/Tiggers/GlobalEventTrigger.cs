@@ -9,6 +9,7 @@ public class GlobalEventTrigger : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             GlobalEvent.OnTriggerGlobalEvent?.Invoke();
+
             Destroy(gameObject);
         }
     }
@@ -16,5 +17,10 @@ public class GlobalEventTrigger : MonoBehaviour
     public void OnTriggerGlobalEvent()
     {
         GlobalEvent.OnTriggerGlobalEvent?.Invoke();
+    }
+
+    public void OnTriggerSightEvent(Transform transform)
+    {
+        GlobalEvent.OnTriggerSightEvent?.Invoke(transform);
     }
 }

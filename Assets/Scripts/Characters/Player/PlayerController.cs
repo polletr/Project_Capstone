@@ -110,9 +110,6 @@ public class PlayerController : MonoBehaviour
         if (IsAlive())
             CheckEnemies();
 
-        if (Input.GetKeyDown(KeyCode.L))
-            LookAtTarget(DebugTarget);
-
     }
 
     private void FixedUpdate() => currentState?.StateFixedUpdate();
@@ -261,6 +258,7 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator SmoothLookAtTarget(Transform target, float duration)
     {
+        Debug.Log("Looking at:" + target.transform.position);
         // Calculate target directions
         Vector3 targetDirection = target.position - CameraHolder.position;
         float targetYaw = Mathf.Atan2(targetDirection.x, targetDirection.z) * Mathf.Rad2Deg; // Y-axis (horizontal)

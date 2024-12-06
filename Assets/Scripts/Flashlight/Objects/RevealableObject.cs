@@ -177,7 +177,8 @@ public class RevealableObject : MonoBehaviour, IRevealable
     public void UnRevealObj()
     {
         StopAllCoroutines();
-        StartCoroutine(UnRevealCoroutine());
+        if(this.gameObject.activeSelf)
+            StartCoroutine(UnRevealCoroutine());
     }
 
     private IEnumerator UnRevealCoroutine()
