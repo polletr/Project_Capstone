@@ -8,7 +8,7 @@ public class PlayerMoveState : PlayerBaseState
     
     public override void EnterState()
     {
-        if (PlayerAnimator.animator.enabled == false)
+        if (PlayerAnimator.animator.isActiveAndEnabled)
             PlayerAnimator.animator.Play(Player.playerAnimator.IdleHash);
     }
 

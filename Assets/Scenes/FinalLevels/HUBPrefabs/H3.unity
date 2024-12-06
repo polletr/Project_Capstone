@@ -2188,6 +2188,21 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -0.95
       objectReference: {fileID: 0}
+    - target: {fileID: 3751085805374409545, guid: 9bf52bc74103d8341aaa19f6a70e95ef,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.288
+      objectReference: {fileID: 0}
+    - target: {fileID: 3751085805374409545, guid: 9bf52bc74103d8341aaa19f6a70e95ef,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.384
+      objectReference: {fileID: 0}
+    - target: {fileID: 3751085805374409545, guid: 9bf52bc74103d8341aaa19f6a70e95ef,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.061
+      objectReference: {fileID: 0}
     - target: {fileID: 4697808452260994336, guid: 9bf52bc74103d8341aaa19f6a70e95ef,
         type: 3}
       propertyPath: m_Name
@@ -2268,6 +2283,21 @@ PrefabInstance:
       propertyPath: m_Center.z
       value: -0.45256275
       objectReference: {fileID: 0}
+    - target: {fileID: 5682833284735451657, guid: 9bf52bc74103d8341aaa19f6a70e95ef,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.102
+      objectReference: {fileID: 0}
+    - target: {fileID: 5682833284735451657, guid: 9bf52bc74103d8341aaa19f6a70e95ef,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.383
+      objectReference: {fileID: 0}
+    - target: {fileID: 5682833284735451657, guid: 9bf52bc74103d8341aaa19f6a70e95ef,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.086
+      objectReference: {fileID: 0}
     - target: {fileID: 7797933001229772877, guid: 9bf52bc74103d8341aaa19f6a70e95ef,
         type: 3}
       propertyPath: isLocked
@@ -2334,6 +2364,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f9daa7488afa32245990b4fa3e900fb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &636129831 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7797933001229772877, guid: 9bf52bc74103d8341aaa19f6a70e95ef,
+    type: 3}
+  m_PrefabInstance: {fileID: 636129828}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99eeb0eacf757e54b82f91551d5bc944, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!43 &680930793
@@ -3376,8 +3418,8 @@ GameObject:
   m_Component:
   - component: {fileID: 873371883}
   - component: {fileID: 873371884}
-  - component: {fileID: 873371885}
   - component: {fileID: 873371886}
+  - component: {fileID: 873371887}
   m_Layer: 0
   m_Name: Listeners
   m_TagString: Untagged
@@ -3431,49 +3473,6 @@ MonoBehaviour:
   OnTriggerSightEvent:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &873371885
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 873371882}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40644858560f5c441836dd38798473e3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GlobalEvent: {fileID: 11400000, guid: 09f50d6b55aac4947abedde99048b961, type: 2}
-  OnTriggerGlobalEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Door, Assembly-CSharp
-        m_MethodName: 
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Door, Assembly-CSharp
-        m_MethodName: 
-        m_Mode: 4
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 4
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  OnTriggerSightEvent:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &873371886
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3490,7 +3489,7 @@ MonoBehaviour:
   OnTriggerGlobalEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 636129831}
         m_TargetAssemblyTypeName: Door, Assembly-CSharp
         m_MethodName: OnLockOrUnlockDoor
         m_Mode: 6
@@ -3502,7 +3501,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 636129831}
         m_TargetAssemblyTypeName: Door, Assembly-CSharp
         m_MethodName: OnOpenDoor
         m_Mode: 4
@@ -3510,10 +3509,29 @@ MonoBehaviour:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
-          m_FloatArgument: 3
+          m_FloatArgument: 2
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
+  OnTriggerSightEvent:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &873371887
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 873371882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40644858560f5c441836dd38798473e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalEvent: {fileID: 0}
+  OnTriggerGlobalEvent:
+    m_PersistentCalls:
+      m_Calls: []
   OnTriggerSightEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -5192,7 +5210,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1366862392}
-  - component: {fileID: 1366862391}
   m_Layer: 0
   m_Name: EventManager
   m_TagString: Untagged
@@ -5200,25 +5217,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1366862391
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1366862390}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40644858560f5c441836dd38798473e3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GlobalEvent: {fileID: 11400000, guid: 0b605a9d625aaaa49a00f63e3ca44c1e, type: 2}
-  OnTriggerGlobalEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  OnTriggerSightEvent:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!4 &1366862392
 Transform:
   m_ObjectHideFlags: 0
