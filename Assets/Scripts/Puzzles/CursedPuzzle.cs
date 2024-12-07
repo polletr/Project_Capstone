@@ -4,24 +4,24 @@ using Utilities;
 
 public class CursedPuzzle : MonoBehaviour
 {
-    [Header("Objects Per Puzzle")]
-    [SerializeField] private int ObjectsCount = 2;
-    
-    [Header("Timer")]
-    [SerializeField] private float timeToSolve = 10f;
+    [Header("Objects Per Puzzle")] [SerializeField]
+    private int ObjectsCount = 2;
+
+    [Header("Timer")] [SerializeField] private float timeToSolve = 10f;
     [SerializeField] private bool useTimer = true;
 
-    [Header("Events")] 
+    [Header("Events")] public UnityEvent OnPuzzleMidway;
     public UnityEvent OnPuzzleSolved;
     public UnityEvent OnPuzzleFailed;
 
-  
-  private CountdownTimer timer;
-    
+
+    private CountdownTimer timer;
+
     private void Start()
     {
         timer = new CountdownTimer(timeToSolve);
     }
+
     public void ObjectDisappeared()
     {
         ObjectsCount--;
@@ -31,16 +31,24 @@ public class CursedPuzzle : MonoBehaviour
             OnPuzzleSolved.Invoke();
         }
     }
+
     private void Update()
     {
         if (useTimer)
         {
-           timer.Tick(Time.deltaTime);
-          if(timer.IsFinished)
-            OnPuzzleFailed.Invoke();
+            timer.Tick(Time.deltaTime);
+            if (timer.Progress == 0.5f)
+            {
+                OnPuzzleMidway.Invoke();
+            }
+
+            if (timer.IsFinished)
+            {
+                OnPuzzleFailed.Invoke();
+            }
         }
     }
-    
+
     public void StartTimer()
     {
         timer.Start();
