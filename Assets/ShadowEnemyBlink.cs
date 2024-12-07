@@ -61,7 +61,7 @@ public class ShadowEnemyBlink : EnemyClass, IEffectable
 
     public void SetTransparency(float value)
     {
-        if (EnemyTransparencyRoutine == null)
+        if (EnemyTransparencyRoutine == null && gameObject.activeSelf)
             EnemyTransparencyRoutine = StartCoroutine(EnemyTransparency(value));
     }
 
