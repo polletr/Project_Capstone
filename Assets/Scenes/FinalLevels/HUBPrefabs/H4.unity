@@ -1134,7 +1134,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 1968863026}
+  m_Mesh: {fileID: 1199107776}
 --- !u!33 &47665816
 MeshFilter:
   m_ObjectHideFlags: 10
@@ -3372,7 +3372,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 378095661}
+  m_Mesh: {fileID: 434614538}
 --- !u!33 &303549744
 MeshFilter:
   m_ObjectHideFlags: 10
@@ -4391,7 +4391,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 1171422501}
+  m_Mesh: {fileID: 1815746363}
 --- !u!33 &336166274
 MeshFilter:
   m_ObjectHideFlags: 10
@@ -6480,7 +6480,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 1171422501}
+  m_Mesh: {fileID: 378095661}
 --- !u!33 &432444947
 MeshFilter:
   m_ObjectHideFlags: 10
@@ -25583,7 +25583,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 1815746363}
+  m_Mesh: {fileID: 1586277587}
 --- !u!33 &978808324
 MeshFilter:
   m_ObjectHideFlags: 10
@@ -38825,6 +38825,87 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1283271152
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1283271155}
+  - component: {fileID: 1283271154}
+  - component: {fileID: 1283271153}
+  m_Layer: 0
+  m_Name: EnterTrigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1283271153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1283271152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8214ab74778e58248a42cb516beb014a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnTriggerEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: LevelData, Assembly-CSharp
+        m_MethodName: EnteredScene
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 4
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!65 &1283271154
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1283271152}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 3.7721446}
+  m_Center: {x: -6.6138664e-11, y: 0, z: 0.00055480027}
+--- !u!4 &1283271155
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1283271152}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 9.606, y: 0.624, z: -41.8072}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!43 &1295562397
 Mesh:
   m_ObjectHideFlags: 0
@@ -39738,7 +39819,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 1372349535}
+  m_Mesh: {fileID: 1968863026}
 --- !u!33 &1371704908
 MeshFilter:
   m_ObjectHideFlags: 10
@@ -61097,7 +61178,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 434614538}
+  m_Mesh: {fileID: 657745375}
 --- !u!33 &1994266526
 MeshFilter:
   m_ObjectHideFlags: 10
@@ -62918,7 +62999,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65dc311369b96a34ea226836e2c1fd75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <ScenesToLoad>k__BackingField: 
+  <ScenesToLoad>k__BackingField: 0d000000
   <CheckPoint>k__BackingField: {fileID: 1615373108}
   Event: {fileID: 11400000, guid: 821642c9ec9c5474b88bc1b575e70ddf, type: 2}
 --- !u!4 &2123811865
@@ -63245,4 +63326,5 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1147643347}
+  - {fileID: 1283271155}
   - {fileID: 1240433398}
