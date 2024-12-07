@@ -145,7 +145,6 @@ public class PlayerController : MonoBehaviour
         playerHeartbeat =
             AudioManagerFMOD.Instance.CreateEventInstance(AudioManagerFMOD.Instance.SFXEvents.PlayerHeartbeat);
         RuntimeManager.StudioSystem.setParameterByName("EnemyDistance", 1);
-        playerHeartbeat.start();
     }
 
     private void PlayBreathing()

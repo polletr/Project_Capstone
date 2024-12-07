@@ -14,11 +14,14 @@ public class DissolveEffectOnObject : MonoBehaviour
 
     private Dictionary<MeshRenderer, Material[]> originalMaterials = new Dictionary<MeshRenderer, Material[]>();
     private List<MeshRenderer> meshRenderers = new List<MeshRenderer>();
+    private List<SkinnedMeshRenderer> skinnedMeshRenderers = new List<SkinnedMeshRenderer>();
+
 
     private void Awake()
     {
         // Cache all MeshRenderers and their materials
         meshRenderers = GetComponentsInChildren<MeshRenderer>().ToList();
+        skinnedMeshRenderers = GetComponentsInChildren<SkinnedMeshRenderer>().ToList();
         foreach (var renderer in meshRenderers)
         {
             originalMaterials[renderer] = renderer.materials;
@@ -57,6 +60,17 @@ public class DissolveEffectOnObject : MonoBehaviour
             }
             renderer.materials = dissolveMats;
         }
+
+        foreach (var renderer in skinnedMeshRenderers)
+        {
+            Material[] dissolveMats = new Material[renderer.materials.Length];
+            for (int i = 0; i < dissolveMats.Length; i++)
+            {
+                dissolveMats[i] = new Material(dissolveMaterial); // Create a new instance of the dissolve material
+            }
+            renderer.materials = dissolveMats;
+        }
+
         AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.SmoothAppear, transform.position);
 
         // Start the dissolve effect
@@ -95,6 +109,14 @@ public class DissolveEffectOnObject : MonoBehaviour
         {
             currentDissolveAmount += Time.deltaTime / timer;
             foreach (var renderer in meshRenderers)
+            {
+                foreach (var material in renderer.materials)
+                {
+                    material.SetFloat("_DissolveAmount", Mathf.Clamp01(currentDissolveAmount));
+                }
+            }
+
+            foreach (var renderer in skinnedMeshRenderers)
             {
                 foreach (var material in renderer.materials)
                 {

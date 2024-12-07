@@ -11890,6 +11890,11 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5757770295480779162, guid: ca5a2d88474a23f4b9e6b0a1c32f9158,
+        type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 15c551de20fdef748804dd3942e61e5c, type: 2}
     - target: {fileID: 6581273899272979897, guid: ca5a2d88474a23f4b9e6b0a1c32f9158,
         type: 3}
       propertyPath: m_StaticEditorFlags
@@ -20559,7 +20564,12 @@ PrefabInstance:
     - target: {fileID: 3834004240544140460, guid: 9399daae9a0182a4a966af5d2423f9b3,
         type: 3}
       propertyPath: m_Intensity
-      value: 7.27
+      value: 2.55
+      objectReference: {fileID: 0}
+    - target: {fileID: 3834004240544140460, guid: 9399daae9a0182a4a966af5d2423f9b3,
+        type: 3}
+      propertyPath: m_SpotAngle
+      value: 109.382286
       objectReference: {fileID: 0}
     - target: {fileID: 3834004240544140460, guid: 9399daae9a0182a4a966af5d2423f9b3,
         type: 3}
@@ -25229,7 +25239,7 @@ PrefabInstance:
     - target: {fileID: 7378301800914902466, guid: b070163bd4423c34bbfd9c8b03b124ff,
         type: 3}
       propertyPath: m_Lightmapping
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7378301800914902466, guid: b070163bd4423c34bbfd9c8b03b124ff,
         type: 3}
@@ -25404,6 +25414,18 @@ MonoBehaviour:
       - m_Target: {fileID: 488159672}
         m_TargetAssemblyTypeName: AudioHandler, Assembly-CSharp
         m_MethodName: StopAudioInstance
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 2034967482}
+        m_TargetAssemblyTypeName: DissolveEffectOnObject, Assembly-CSharp
+        m_MethodName: DisableObj
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -26200,7 +26222,7 @@ PrefabInstance:
     - target: {fileID: 7378301800914902466, guid: b070163bd4423c34bbfd9c8b03b124ff,
         type: 3}
       propertyPath: m_Lightmapping
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7801422574503307045, guid: b070163bd4423c34bbfd9c8b03b124ff,
         type: 3}
@@ -39353,7 +39375,7 @@ PrefabInstance:
     - target: {fileID: 7378301800914902466, guid: b070163bd4423c34bbfd9c8b03b124ff,
         type: 3}
       propertyPath: m_Lightmapping
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7378301800914902466, guid: b070163bd4423c34bbfd9c8b03b124ff,
         type: 3}
@@ -39722,11 +39744,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
-      objectReference: {fileID: 0}
-    - target: {fileID: 7378301800914902466, guid: b070163bd4423c34bbfd9c8b03b124ff,
-        type: 3}
-      propertyPath: m_Lightmapping
-      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7378301800914902466, guid: b070163bd4423c34bbfd9c8b03b124ff,
         type: 3}
@@ -40555,6 +40572,11 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 3e7ed23e8d5819643ba786f4aff976f5, type: 2}
+    - target: {fileID: 4455723985120912466, guid: 652334ccd7ac00040b64a92c8a2c8986,
+        type: 3}
+      propertyPath: 'm_Materials.Array.data[3]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 15c551de20fdef748804dd3942e61e5c, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 4455723985193507060, guid: 652334ccd7ac00040b64a92c8a2c8986, type: 3}
@@ -41446,6 +41468,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2034967481}
+  - component: {fileID: 2034967482}
   m_Layer: 0
   m_Name: Paitents
   m_TagString: Untagged
@@ -41474,6 +41497,20 @@ Transform:
   - {fileID: 783568162}
   m_Father: {fileID: 1152148052}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2034967482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2034967480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d3af640ebef61241b2641409a6b2cfd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timer: 1
+  dissolveMaterial: {fileID: 2100000, guid: 48dd7fc660f8a41a89619d8ff02c8f17, type: 2}
 --- !u!1 &2046146805
 GameObject:
   m_ObjectHideFlags: 0
