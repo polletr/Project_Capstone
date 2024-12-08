@@ -48,24 +48,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Event: {fileID: 11400000, guid: 821642c9ec9c5474b88bc1b575e70ddf, type: 2}
   TutorialEvent: {fileID: 11400000, guid: 83c8ad025fa11d44283340cb1b2188ec, type: 2}
-  lightColor: {r: 1, g: 0.9660924, b: 0.7075472, a: 1}
-  baseCost: 0.5
-  minFlickerTime: 0.05
-  maxFlickerTime: 0.2
   <BatteryLife>k__BackingField: 20
   <MaxBatteryLife>k__BackingField: 100
+  baseCost: 0.5
   <Light>k__BackingField: {fileID: 0}
+  <InteractRange>k__BackingField: 5
+  <CloseRangeInnerAngle>k__BackingField: 5
+  <CloseRangeIntensity>k__BackingField: 0.02
   minCloseDistance: 1
   maxCloseDistance: 3
-  flashlightAbilities: []
-  <IgrnoreMask>k__BackingField:
-    serializedVersion: 2
-    m_Bits: 516
+  minFlickerTime: 0.05
+  maxFlickerTime: 0.2
+  <BaseIntensity>k__BackingField: 20
+  <BaseColor>k__BackingField: {r: 1, g: 0.95686275, b: 0.8039216, a: 1}
+  <BaseSpotAngle>k__BackingField: 60
+  <BaseInnerSpotAngle>k__BackingField: 30
+  <BuildupIntensity>k__BackingField: 50
+  <BuildupColor>k__BackingField: {r: 1, g: 0.95686275, b: 0.40784314, a: 1}
+  <BuildupSpotAngle>k__BackingField: 80
+  <BuildupInnerSpotAngle>k__BackingField: 60
+  <FinalIntensity>k__BackingField: 100
+  <FinalColor>k__BackingField: {r: 1, g: 0.95686275, b: 0.16470589, a: 1}
+  <FinalSpotAngle>k__BackingField: 100
+  <FinalInnerSpotAngle>k__BackingField: 80
   disappearBulbMaterial: {fileID: 2100000, guid: 42f98e91015e61a4998239154ee12d3b,
     type: 2}
   revealBulbMaterial: {fileID: 2100000, guid: 059df50a95594b24988e832211f68570, type: 2}
   flashlightBulb: {fileID: 4490948321009854143}
-  swapDelay: 2
+  flashlightAbilities: []
+  <IgnoreMask>k__BackingField:
+    serializedVersion: 2
+    m_Bits: 516
 --- !u!1001 &918415323014187697
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -6,7 +6,7 @@ namespace Flashlight.Ability
     public class RevealAbility : FlashlightAbility
     {
         private RevealableObject currentObj;
-    
+
         private Coroutine visualReveal;
         private Coroutine revealCoroutine;
 
@@ -39,7 +39,8 @@ namespace Flashlight.Ability
             var isRevealed = false;
             while (!isRevealed)
             {
-                if (Physics.Raycast(Flashlight.RayCastOrigin.position, Flashlight.RayCastOrigin.forward, out var hit, InteractRange))
+                if (Physics.Raycast(Flashlight.RayCastOrigin.position, Flashlight.RayCastOrigin.forward, out var hit,
+                        Flashlight.InteractRange))
                 {
                     if (hit.collider.TryGetComponent(out RevealableObject obj))
                     {
@@ -72,19 +73,19 @@ namespace Flashlight.Ability
 
                 yield return null;
             }
-            
-            Flashlight.Light.intensity = FinalIntensity;
-            Flashlight.Light.color = FinalColor;
-            Flashlight.Light.spotAngle = FinalSpotAngle;
-            Flashlight.Light.innerSpotAngle = FinalInnerSpotAngle;
-            
+
+            Flashlight.Light.intensity = Flashlight.FinalIntensity;
+            Flashlight.Light.color = Flashlight.FinalColor;
+            Flashlight.Light.spotAngle = Flashlight.FinalSpotAngle;
+            Flashlight.Light.innerSpotAngle = Flashlight.FinalInnerSpotAngle;
+
             currentObj = null;
             Flashlight.ConsumeBattery(Cost);
             Flashlight.StartCoroutine(Flashlight.ZeroOutLight(Cooldown));
-        
+
             if (!PlayerBatteryUIHandler.Instance)
                 PlayerBatteryUIHandler.Instance.FlickerBatteryUIOnce();
-        
+
             tutorialEvents.OnReveal?.Invoke();
             StopAllCoroutines();
         }
@@ -92,17 +93,17 @@ namespace Flashlight.Ability
         private IEnumerator ChangeRevealLight()
         {
             var timer = 0f;
-        
+
             var startIntensity = Flashlight.Light.intensity;
             var startColor = Flashlight.Light.color;
-       
-        
-            while (Flashlight.Light.intensity < AbilityBuildUpTime)
+
+
+            while (timer < AbilityBuildUpTime)
             {
-                Flashlight.Light.intensity = Mathf.Lerp(startIntensity, BuildupIntensity, timer / AbilityBuildUpTime);
-                Flashlight.Light.color = Color.Lerp(startColor,         BuildupColor, timer / AbilityBuildUpTime);
-            
                 timer += Time.deltaTime;
+                Flashlight.Light.intensity = Mathf.Lerp(startIntensity, Flashlight.BuildupIntensity, timer / AbilityBuildUpTime);
+                Flashlight.Light.color = Color.Lerp(startColor, Flashlight.BuildupColor, timer / AbilityBuildUpTime);
+
                 yield return null;
             }
         }

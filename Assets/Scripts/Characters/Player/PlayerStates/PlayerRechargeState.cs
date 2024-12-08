@@ -71,20 +71,6 @@ public class PlayerRechargeState : PlayerBaseState
             Player.playerAnimator.animator.speed =
                 Mathf.Lerp(Player.playerAnimator.animator.speed, 1f, lerpSpeed * Time.deltaTime);
         }
-
-     
-        /*
-        var targetRotation = Quaternion.Euler(50, 0, 0); // Target rotation as a Quaternion (local space)
-        var currentRotation = Player.PlayerCam.transform.localRotation;
-
-// Check if the rotation is close to the target (prevent jitter)
-        if (Quaternion.Angle(currentRotation, targetRotation) < 0.01f) return;
-
-// Spherically interpolate towards the target rotation
-        Player.PlayerCam.transform.localRotation = Quaternion.Slerp(currentRotation, targetRotation, lerpSpeed * Time.deltaTime);
-        */
-
-
     }
 
 
@@ -92,8 +78,8 @@ public class PlayerRechargeState : PlayerBaseState
     {
         while (true)
         {
-            Player.Event.SetTutorialText?.Invoke("Recharging: " + progress.ToString("F0") + "\n" +
-                                                 "Tap R to boost recharge");
+            Player.Event.SetTutorialText?.Invoke(progress.ToString("F0")+"%"+ "\n" +
+                                                 "Tap R rapidly");
             yield return new WaitForSeconds(0.1f);
         }
     }

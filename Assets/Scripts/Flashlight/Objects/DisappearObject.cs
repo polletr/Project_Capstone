@@ -61,15 +61,11 @@ public class DisappearObject : MonoBehaviour, IHideable
 
         if (TryGetComponent(out RevealableObject revealableObject))
             revealableObject.enabled = false;
-
-        Debug.Log("Disapear enabled");
     }
 
     private void OnDisable()
     {
         CanApplyEffect = true;
-
-        Debug.Log("Disapear disabled");
     }
 
 

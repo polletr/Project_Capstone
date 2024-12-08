@@ -324,12 +324,6 @@ public class PlayerController : MonoBehaviour
     }
 
     //if the flashlight is on, change the flashlight ability to value
-    public void HandleChangeAbility(int value, bool isScroll = false)
-    {
-        if (!flashlight || !flashlight.IsFlashlightOn) return;
-
-        flashlight.HandleChangeAbility(value, isScroll);
-    }
 
     private void HandleFlashlightPickUp()
     {

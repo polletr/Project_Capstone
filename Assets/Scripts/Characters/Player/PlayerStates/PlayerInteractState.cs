@@ -45,6 +45,8 @@ public class PlayerInteractState : PlayerBaseState
 
     public override void HandleRecharge()
     {
+        Player.flashlight.ZeroOutBattery();
+        Player.ChangeState(Player.RechargeState);
     }
 
     public override void HandleAttack(bool held)
