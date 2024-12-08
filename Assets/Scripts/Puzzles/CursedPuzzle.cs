@@ -10,7 +10,14 @@ public class CursedPuzzle : MonoBehaviour
     [Header("Timer")] [SerializeField] private float timeToSolve = 10f;
     [SerializeField] private bool useTimer = true;
 
-    [Header("Events")] public UnityEvent OnPuzzleMidway;
+    [Header("Events")]
+
+    public UnityEvent OnPuzzle75;
+    public UnityEvent OnPuzzle50;
+    public UnityEvent OnPuzzle25;
+    public UnityEvent OnPuzzle10;
+
+
     public UnityEvent OnPuzzleSolved;
     public UnityEvent OnPuzzleFailed;
 
@@ -34,17 +41,33 @@ public class CursedPuzzle : MonoBehaviour
 
     private void Update()
     {
-        if (useTimer)
+
+        if (useTimer && timer.IsRunning)
         {
             timer.Tick(Time.deltaTime);
-            if (timer.Progress == 0.5f)
+            // Check if progress crosses specific thresholds
+
+            if (timer.Progress > 0.24f && timer.Progress <= 0.25f)
             {
-                OnPuzzleMidway.Invoke();
+                OnPuzzle75.Invoke();
+            }
+            if (timer.Progress > 0.49f && timer.Progress <= 0.5f)
+            {
+                OnPuzzle50.Invoke();
+            }
+            if (timer.Progress > 0.74f && timer.Progress <= 0.75f)
+            {
+                OnPuzzle25.Invoke();
+            }
+            if (timer.Progress > 0.89f && timer.Progress <= 0.90f)
+            {
+                OnPuzzle10.Invoke();
             }
 
-            if (timer.IsFinished)
+            if (timer.IsFinished && ObjectsCount > 0)
             {
                 OnPuzzleFailed.Invoke();
+                timer.Stop();
             }
         }
     }

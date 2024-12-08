@@ -154,7 +154,7 @@ public class ShadowEnemy : EnemyClass, IStunable
 
     public void ApplyEffect()
     {
-        currentState?.HandleParalise();
+        //currentState?.HandleParalise();
     }
 
     public void RemoveEffect()
