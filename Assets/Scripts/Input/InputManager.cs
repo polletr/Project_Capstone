@@ -63,15 +63,13 @@ public class InputManager : Singleton<InputManager>
         action.Player.RechargeFlashlight.performed += OnRechargeFlashlight;
 
         action.Player.Flashlight.performed += OnFlashlightPower;
-
-        action.Player.ChangeAbility.performed += OnChangeAbility;
-
-        action.Player.ChangeAbilityMouse.performed += HandleScrollAbility;
+        
     }
 
     public void DisablePlayerInput()
     {
         Movement = Vector2.zero;
+        LookAround = Vector2.zero;
         action.Player.Move.performed -= OnMove;
 
         action.Player.PointerMove.performed -= OnPointerMove;
@@ -84,10 +82,6 @@ public class InputManager : Singleton<InputManager>
         action.Player.RechargeFlashlight.performed -= OnRechargeFlashlight;
 
         action.Player.Flashlight.performed -= OnFlashlightPower;
-
-        action.Player.ChangeAbility.performed -= OnChangeAbility;
-
-        action.Player.ChangeAbilityMouse.performed -= HandleScrollAbility;
     }
 
     #endregion
@@ -115,23 +109,6 @@ public class InputManager : Singleton<InputManager>
     private void OnRechargeFlashlight(InputAction.CallbackContext context) => player.HandleRecharge();
 
     private void OnFlashlightPower(InputAction.CallbackContext context) => player.currentState?.HandleFlashlightPower();
-
-    private void OnChangeAbility(InputAction.CallbackContext context) =>
-        player.HandleChangeAbility((int)context.ReadValue<float>());
-
-    private void HandleScrollAbility(InputAction.CallbackContext context)
-    {
-        var scrollValue = context.ReadValue<Vector2>();
-        if (scrollValue.y > 0 || scrollValue.x > 0)
-        {
-            player.HandleChangeAbility(1, true);
-        }
-        else if (scrollValue.y < 0 || scrollValue.x < 0)
-        {
-            player.HandleChangeAbility(-1, true);
-        }
-    }
-
     #endregion
 
     /// <summary>

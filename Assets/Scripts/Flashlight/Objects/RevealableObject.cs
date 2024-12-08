@@ -83,7 +83,6 @@ public class RevealableObject : MonoBehaviour, IRevealable
 
     public void ApplyEffect()
     {
-
         if (!IsRevealed)
         {
             OnApplyEffect.Invoke();

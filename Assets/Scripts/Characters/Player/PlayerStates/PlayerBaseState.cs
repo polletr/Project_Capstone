@@ -147,12 +147,6 @@ public abstract class PlayerBaseState
     {
     }
 
-    public virtual void HandleRun(bool check)
-    {
-        if (!IsCrouching)
-            IsRunning = check;
-    }
-
     protected virtual void HandleFlashlightSphereCast()
     {
         if (Player.HasFlashlight)
@@ -198,11 +192,11 @@ public abstract class PlayerBaseState
             if (Player.xRotation < Player.Settings.FlashlightAngleDown)
             {
                 targetRotation = Quaternion.LookRotation(Player.CameraHolder.transform.forward) * flashlightRotationOffset;
-                Player.flashlight.SetLightSettings(Player.flashlight.FlaslighHitPos,false);
+                Player.flashlight.SetLightSettings(Player.flashlight.FlashlightHitPos,false);
             }
             else
             {
-                Player.flashlight.SetLightSettings(Player.flashlight.FlaslighHitPos);
+                Player.flashlight.SetLightSettings(Player.flashlight.FlashlightHitPos);
             }
 
 

@@ -26,16 +26,16 @@ namespace Flashlight.Ability
         private void Stun()
         {
             //set light to stun flash properties 
-            Flashlight.Light.intensity = FinalIntensity;
+            /*Flashlight.Light.intensity = FinalIntensity;
             Flashlight.Light.color = FinalColor;
             Flashlight.Light.spotAngle = FinalSpotAngle;
-            Flashlight.Light.innerSpotAngle = FinalInnerSpotAngle;
+            Flashlight.Light.innerSpotAngle = FinalInnerSpotAngle;*/
 
             if (!PlayerBatteryUIHandler.Instance)
                 PlayerBatteryUIHandler.Instance.FlickerBatteryUIOnce();
 
             var ray = new Ray(Flashlight.RayCastOrigin.position, Flashlight.RayCastOrigin.forward);
-            var hits = Physics.SphereCastAll(ray, stunRadius, InteractRange);
+            var hits = Physics.SphereCastAll(ray, stunRadius,    Flashlight.InteractRange);
 
             if (hits.Length > 0)
             {
@@ -74,10 +74,10 @@ namespace Flashlight.Ability
 
             while (timer < AbilityBuildUpTime)
             {
-                Flashlight.Light.intensity = Mathf.Lerp(initialIntensity, BuildupIntensity, timer / AbilityBuildUpTime);
+                /*Flashlight.Light.intensity = Mathf.Lerp(initialIntensity, BuildupIntensity, timer / AbilityBuildUpTime);
                 Flashlight.Light.color = Color.Lerp(flashlightColor, BuildupColor, timer / AbilityBuildUpTime);
                 Flashlight.Light.spotAngle = Mathf.Lerp(lightSpotAngle, BuildupSpotAngle, timer / AbilityBuildUpTime);
-                Flashlight.Light.innerSpotAngle = Mathf.Lerp(initialInnerSpotAngle, BuildupInnerSpotAngle, timer / AbilityBuildUpTime);
+                Flashlight.Light.innerSpotAngle = Mathf.Lerp(initialInnerSpotAngle, BuildupInnerSpotAngle, timer / AbilityBuildUpTime);*/
 
                 timer += Time.deltaTime;
                 yield return null;
