@@ -134,6 +134,7 @@ public class PostProcessingController : MonoBehaviour
     // Optional reset method to revert to the original profile
     public void ResetToOriginalProfile(float transitionDuration)
     {
+        StopAllCoroutines();
         StartCoroutine(LerpAllEffectsToNewProfile(originalProfile, transitionDuration));
     }
 }
