@@ -1767,15 +1767,51 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: PostProcessingController, Assembly-CSharp
-          m_MethodName: StartFullProfileTransition
-          m_Mode: 4
+        - m_Target: {fileID: 1099005312}
+          m_TargetAssemblyTypeName: ShakeEffect, Assembly-CSharp
+          m_MethodName: ShakeObject
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 15
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1099005311}
+          m_TargetAssemblyTypeName: ShakeEffect, Assembly-CSharp
+          m_MethodName: ShakeObject
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1099005314}
+          m_TargetAssemblyTypeName: ShakeEffect, Assembly-CSharp
+          m_MethodName: ShakeObject
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1099005313}
+          m_TargetAssemblyTypeName: ShakeEffect, Assembly-CSharp
+          m_MethodName: ShakeObject
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
@@ -1897,6 +1933,10 @@ PlayableDirector:
   - key: {fileID: 2187235919191343431, guid: 85eb4de5b51f10c4cbe1ab42b0c9f200, type: 2}
     value: {fileID: 320517194}
   - key: {fileID: 4285806671548441880, guid: 85eb4de5b51f10c4cbe1ab42b0c9f200, type: 2}
+    value: {fileID: 320517194}
+  - key: {fileID: 6226389749120353748, guid: 85eb4de5b51f10c4cbe1ab42b0c9f200, type: 2}
+    value: {fileID: 320517194}
+  - key: {fileID: -8953408608054093429, guid: 85eb4de5b51f10c4cbe1ab42b0c9f200, type: 2}
     value: {fileID: 320517194}
   m_ExposedReferences:
     m_References: []
@@ -7791,7 +7831,23 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 83849398}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: -3279226336729068547, guid: 63f92e17935352c4e96a39a14efaf94a,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1099005312}
+    - targetCorrespondingSourceObject: {fileID: 4376772007921754718, guid: 63f92e17935352c4e96a39a14efaf94a,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1099005311}
+    - targetCorrespondingSourceObject: {fileID: 2467369513935940282, guid: 63f92e17935352c4e96a39a14efaf94a,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1099005314}
+    - targetCorrespondingSourceObject: {fileID: 6472464652590595532, guid: 63f92e17935352c4e96a39a14efaf94a,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1099005313}
   m_SourcePrefab: {fileID: 100100000, guid: 63f92e17935352c4e96a39a14efaf94a, type: 3}
 --- !u!4 &1045081536 stripped
 Transform:
@@ -8021,6 +8077,94 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1083991706}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1099005307 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4376772007921754718, guid: 63f92e17935352c4e96a39a14efaf94a,
+    type: 3}
+  m_PrefabInstance: {fileID: 1045081535}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1099005308 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -3279226336729068547, guid: 63f92e17935352c4e96a39a14efaf94a,
+    type: 3}
+  m_PrefabInstance: {fileID: 1045081535}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1099005309 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6472464652590595532, guid: 63f92e17935352c4e96a39a14efaf94a,
+    type: 3}
+  m_PrefabInstance: {fileID: 1045081535}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1099005310 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2467369513935940282, guid: 63f92e17935352c4e96a39a14efaf94a,
+    type: 3}
+  m_PrefabInstance: {fileID: 1045081535}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1099005311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1099005307}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f40dc4cfaaacb904590d9737cb978af6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shakeIntensity: 0.05
+  shakeDuration: 1
+  shakeX: 1
+  shakeY: 0
+--- !u!114 &1099005312
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1099005308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f40dc4cfaaacb904590d9737cb978af6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shakeIntensity: 0.05
+  shakeDuration: 1
+  shakeX: 1
+  shakeY: 0
+--- !u!114 &1099005313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1099005309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f40dc4cfaaacb904590d9737cb978af6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shakeIntensity: 0.05
+  shakeDuration: 1
+  shakeX: 1
+  shakeY: 0
+--- !u!114 &1099005314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1099005310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f40dc4cfaaacb904590d9737cb978af6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shakeIntensity: 0.05
+  shakeDuration: 1
+  shakeX: 1
+  shakeY: 0
 --- !u!1001 &1100422001
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9124,17 +9268,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 8716eebb30b874d4dae80d6f603fad49,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.03204362
+      value: 0.034
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8716eebb30b874d4dae80d6f603fad49,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.03663119
+      value: 0.034
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8716eebb30b874d4dae80d6f603fad49,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.025756171
+      value: 0.017
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8716eebb30b874d4dae80d6f603fad49,
         type: 3}
