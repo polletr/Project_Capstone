@@ -524,6 +524,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ChildRoom
       objectReference: {fileID: 0}
+    - target: {fileID: 3523812577243566375, guid: 6b17d59191d1d5c4992f74cbed04e779,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3531729889705319971, guid: 6b17d59191d1d5c4992f74cbed04e779,
         type: 3}
       propertyPath: m_StaticEditorFlags
@@ -1570,8 +1575,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 5.214874, y: 4.060643, z: 10.322583}
-  m_Center: {x: -0.006224631, y: 1.5303206, z: 4.661292}
+  m_Size: {x: 5.214874, y: 4.060643, z: 12.133595}
+  m_Center: {x: -0.006224631, y: 1.5303206, z: 3.755786}
 --- !u!1001 &217117441
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2174,8 +2179,48 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8134943722613769561, guid: d9830af8b21e1444db49970ae870cdf4,
         type: 3}
+      propertyPath: OnOpen.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8134943722613769561, guid: d9830af8b21e1444db49970ae870cdf4,
+        type: 3}
+      propertyPath: OnOpen.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8134943722613769561, guid: d9830af8b21e1444db49970ae870cdf4,
+        type: 3}
+      propertyPath: OnOpen.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 217117442}
+    - target: {fileID: 8134943722613769561, guid: d9830af8b21e1444db49970ae870cdf4,
+        type: 3}
+      propertyPath: OnOpen.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8134943722613769561, guid: d9830af8b21e1444db49970ae870cdf4,
+        type: 3}
+      propertyPath: OnOpen.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetActive
+      objectReference: {fileID: 0}
+    - target: {fileID: 8134943722613769561, guid: d9830af8b21e1444db49970ae870cdf4,
+        type: 3}
       propertyPath: OnInteractLocked.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8134943722613769561, guid: d9830af8b21e1444db49970ae870cdf4,
+        type: 3}
+      propertyPath: OnOpen.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UnityEngine.GameObject, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 8134943722613769561, guid: d9830af8b21e1444db49970ae870cdf4,
+        type: 3}
+      propertyPath: OnOpen.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8134943722613769561, guid: d9830af8b21e1444db49970ae870cdf4,
+        type: 3}
+      propertyPath: OnOpen.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 8692326059203071552, guid: d9830af8b21e1444db49970ae870cdf4,
         type: 3}
@@ -2835,7 +2880,7 @@ PrefabInstance:
     - target: {fileID: 7797933001229772877, guid: 9bf52bc74103d8341aaa19f6a70e95ef,
         type: 3}
       propertyPath: OnClose.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7797933001229772877, guid: 9bf52bc74103d8341aaa19f6a70e95ef,
         type: 3}
@@ -6353,12 +6398,12 @@ PrefabInstance:
     - target: {fileID: 3647452554587854701, guid: abe1644e14f4df945bbcd917df03a42f,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.529
+      value: 0.67
       objectReference: {fileID: 0}
     - target: {fileID: 3647452554587854701, guid: abe1644e14f4df945bbcd917df03a42f,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -66.585
+      value: -66.963
       objectReference: {fileID: 0}
     - target: {fileID: 3647452554587854701, guid: abe1644e14f4df945bbcd917df03a42f,
         type: 3}
