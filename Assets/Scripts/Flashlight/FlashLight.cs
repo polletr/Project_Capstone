@@ -3,10 +3,16 @@ using System.Collections;
 using System.Linq;
 using System.Collections.Generic;
 using Flashlight.Ability;
+using JetBrains.Annotations;
 using UnityEngine;
 using Utilities;
 using Random = UnityEngine.Random;
 
+public enum FlashLightAbilityName
+{
+    Reveal,
+    Disappear
+}
 public class FlashLight : MonoBehaviour
 {
     public GameEvent Event;
@@ -78,6 +84,7 @@ public class FlashLight : MonoBehaviour
 // Flashlight Abilities
     [SerializeField] private List<FlashlightAbility> flashlightAbilities;
 
+    [SerializeField] private Dictionary<FlashLightAbilityName, FlashlightAbility> flashlightAbilitiesDictionary;
 // Delay Settings
     //[Header("Delay"), SerializeField] private float swapDelay = 0.5f;
 
@@ -109,6 +116,7 @@ public class FlashLight : MonoBehaviour
     private PlayerController player;
     private List<IEffectable> effectedObjs = new();
     private HashSet<IEffectable> effectedObjsThisFrame = new();
+    private GameObject effectedObject;
 
     private Coroutine flickerCoroutine;
     private Coroutine resetCoroutine;
@@ -240,6 +248,68 @@ public class FlashLight : MonoBehaviour
         Destroy(ability.gameObject); // Destroy the ability
     }
 
+    private bool RayToPlayerCheck()
+    {
+        Ray ray = new Ray(RayCastOrigin.position, RayCastOrigin.forward * InteractRange);
+        return (effectedObject.GetComponent<Collider>().bounds.IntersectRay(ray));
+
+    }
+    public void HandleRayCastProperly()
+    {
+        //logic: you cast a ray and then turn on whatever you need when an object is hit
+        //when an object is hit, you then check if the ray from the player still intersects with it; you do this instead of casting a ray into the scene and seeing if it hits anything
+        if (IsBatteryDead() || !IsFlashlightOn) return;
+        if (effectedObject != null)
+        {
+            Ray ray = new Ray(RayCastOrigin.position, RayCastOrigin.forward * InteractRange);
+            bool objectEffected = (effectedObject.GetComponent<Collider>().bounds.IntersectRay(ray));
+            if (objectEffected)
+            {
+                ApplyCurrentAbilityEffect(effectedObject);
+                return;
+            }
+            else
+            {
+                effectedObject.GetComponent<IEffectable>().RemoveEffect();
+                effectedObject = null;
+            }
+        }
+        
+        if (Physics.Raycast(RayCastOrigin.position, RayCastOrigin.forward, out var hit))
+        {
+            FlashlightHitPos = hit.point;
+            //Debug.Log($"{hit.collider.gameObject.name} was hit in {hit.collider.gameObject.scene.name} scene");
+            if (Vector3.Distance(hit.point, transform.position) > InteractRange)
+            {
+                return;
+            }
+        }
+        else
+        {
+            return;
+        }
+        var obj = hit.collider.gameObject;
+        if (obj.TryGetComponent(out IEffectable effectable))
+        {
+            effectedObject = obj;
+            var revealAbility = flashlightAbilities.Find(ability => ability is RevealAbility);
+            var disappearAbility = flashlightAbilities.Find(ability => ability is DisappearAbility);
+            if (obj.TryGetComponent(out RevealableObject revealableObject) && revealAbility != null)
+            {
+                if(revealableObject.enabled)
+                    CurrentAbility = revealAbility;
+            } 
+            else if (obj.TryGetComponent(out DisappearObject disappearObject) && disappearAbility != null)
+            {
+                if(disappearObject.enabled)
+                    CurrentAbility = disappearAbility;
+            }
+            ApplyCurrentAbilityEffect(effectedObject);
+        }
+            
+            
+        
+    }
     public void HandleRayCast()
     {
         // Remove effects from objects that were affected in the last frame but are not in this frame
@@ -280,7 +350,7 @@ public class FlashLight : MonoBehaviour
         effectedObjsThisFrame.Add(effectable);
 
         var hasRevealable = obj.TryGetComponent(out IRevealable revealObj);
-        var hashideable = obj.TryGetComponent(out IHideable hideObj);
+        var hasHideable = obj.TryGetComponent(out IHideable hideObj);
 
         // Check if revealObj is enabled
         if (hasRevealable && revealObj is MonoBehaviour revealComponent && revealComponent.enabled)
@@ -293,7 +363,7 @@ public class FlashLight : MonoBehaviour
         }
 
         // Check if revealObj is enabled
-        if (hashideable && hideObj is MonoBehaviour hideComponent && hideComponent.enabled)
+        if (hasHideable && hideObj is MonoBehaviour hideComponent && hideComponent.enabled)
         {
             var disappearAbility = flashlightAbilities.Find(ability => ability is DisappearAbility);
             if (!hideObj.CanApplyEffect || disappearAbility == null)
@@ -305,7 +375,7 @@ public class FlashLight : MonoBehaviour
         // Apply the reveal effect if not revealed && check if it has a hidable component
         if (hasRevealable && revealObj.IsRevealed)
         {
-            if (!hashideable)
+            if (!hasHideable)
             {
                 return;
             }
@@ -332,6 +402,10 @@ public class FlashLight : MonoBehaviour
     {
         if (CurrentAbility != null && !IsBatteryDead() && IsFlashlightOn && CanUseAbility)
         {
+            if (effectedObject != null)
+            {
+                effectedObject.GetComponent<EffectableObj>().RemoveEffect();
+            }
             CurrentAbility.OnUseAbility();
             CanUseAbility = false;
         }
@@ -346,6 +420,7 @@ public class FlashLight : MonoBehaviour
         if (CurrentAbility != null && IsFlashlightOn)
         {
             CurrentAbility.OnStopAbility();
+            HandleRayCastProperly();
         }
     }
 
@@ -373,8 +448,14 @@ public class FlashLight : MonoBehaviour
             yield return null;
         }
 
-        effectedObjs.Clear();
-        HandleRayCast();
+        if (effectedObject != null)
+        {
+            effectedObject.GetComponent<IEffectable>().RemoveEffect();
+            effectedObject = null;
+        }
+            
+        //effectedObjs.Clear();
+        HandleRayCastProperly();
 
         CanUseAbility = true;
     }
@@ -386,8 +467,9 @@ public class FlashLight : MonoBehaviour
         //Remove effect on things
         for (var i = effectedObjs.Count - 1; i >= 0; i--)
         {
-            effectedObjs[i].RemoveEffect();
-            effectedObjs.Remove(effectedObjs[i]);
+            effectedObject.GetComponent<IEffectable>().RemoveEffect();
+            //effectedObjs[i].RemoveEffect();
+            //effectedObjs.Remove(effectedObjs[i]);
         }
     }
 
@@ -440,19 +522,19 @@ public class FlashLight : MonoBehaviour
         if (revealObj is MonoBehaviour revealComponent && revealComponent.enabled)
         {
             revealObj.ApplyEffect();
-            effectedObjs.Add(revealObj);
+            //effectedObjs.Add(revealObj);
         }
 
         // Check if the object is IHideable and CurrentAbility is DisapearAbility
         else if (hideObj is MonoBehaviour hideComponent && hideComponent.enabled)
         {
             hideObj.ApplyEffect();
-            effectedObjs.Add(hideObj);
+           // effectedObjs.Add(hideObj);
         }
         else if (obj.TryGetComponent(out IEffectable effectableObj))
         {
             effectableObj.ApplyEffect();
-            effectedObjs.Add(effectableObj);
+            //effectedObjs.Add(effectableObj);
         }
     }
 

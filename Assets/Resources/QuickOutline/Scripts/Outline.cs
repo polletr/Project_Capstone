@@ -79,6 +79,7 @@ public class Outline : MonoBehaviour {
   private Material outlineFillMaterial;
 
   private bool needsUpdate;
+  private bool applied = false;
 
   void Awake() {
 
@@ -99,18 +100,23 @@ public class Outline : MonoBehaviour {
     needsUpdate = true;
   }
 
- public void AppyOutlineEffect() {
+ public void AppyOutlineEffect()
+ {
+   if (applied)
+     return;
     foreach (var renderer in renderers) {
 
       // Append outline shaders
       var materials = renderer.sharedMaterials.ToList();
-
+      
       materials.Add(outlineMaskMaterial);
       materials.Add(outlineFillMaterial);
 
       renderer.materials = materials.ToArray();
     }
-  }
+
+    applied = true;
+ }
 
   void OnValidate() {
 
@@ -137,8 +143,10 @@ public class Outline : MonoBehaviour {
     }
   }
 
- public void RemoveOutlineEffect() 
+ public void RemoveOutlineEffect()
  {
+   if (!applied)
+     return;
     foreach (var renderer in renderers) 
     {
         if (renderer == null)
@@ -151,7 +159,9 @@ public class Outline : MonoBehaviour {
 
       renderer.materials = materials.ToArray();
     }
-  }
+
+    applied = false;
+ }
 
   void OnDestroy() {
 

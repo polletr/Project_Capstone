@@ -8,7 +8,7 @@ using UnityEngine.AI;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(Outline))]
-public class RevealableObject : MonoBehaviour, IRevealable
+public class RevealableObject : EffectableObj, IRevealable
 {
     private List<MeshRenderer> meshRenderers = new List<MeshRenderer>();
     private Dictionary<MeshRenderer, Material[]> originalMaterials = new Dictionary<MeshRenderer, Material[]>();
@@ -18,8 +18,6 @@ public class RevealableObject : MonoBehaviour, IRevealable
     [SerializeField] private float revealTime;
     [SerializeField] private float unRevealTime;
     [SerializeField] private UnityEvent objectRevealed;
-    [SerializeField] private UnityEvent OnApplyEffect;
-    [SerializeField] private UnityEvent OnRemoveEffect;
 
 
     private EventInstance revealSound;
@@ -83,8 +81,10 @@ public class RevealableObject : MonoBehaviour, IRevealable
 
     public void ApplyEffect()
     {
+        
         if (!IsRevealed)
         {
+            Debug.Log("Applying revealeable");
             OnApplyEffect.Invoke();
             if (applyOutline)
                 outline.AppyOutlineEffect();
@@ -93,8 +93,10 @@ public class RevealableObject : MonoBehaviour, IRevealable
 
     public void RemoveEffect()
     {
+        
         if (!IsRevealed)
         {
+            Debug.Log("Removing revealeable");
             OnRemoveEffect.Invoke();
             if (applyOutline)
                 outline.RemoveOutlineEffect();
@@ -182,6 +184,8 @@ public class RevealableObject : MonoBehaviour, IRevealable
 
     private IEnumerator UnRevealCoroutine()
     {
+        if (applyOutline)
+            outline.RemoveOutlineEffect();
         revealTimer = 0f;
         revealSound.stop(STOP_MODE.IMMEDIATE);
 
@@ -229,5 +233,8 @@ public class RevealableObject : MonoBehaviour, IRevealable
                 renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
             }
         }
+        if (applyOutline)
+            outline.RemoveOutlineEffect();
+        
     }
 }

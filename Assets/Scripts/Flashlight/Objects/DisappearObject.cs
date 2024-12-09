@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 [RequireComponent(typeof(Outline))]
 
-public class DisappearObject : MonoBehaviour, IHideable
+public class DisappearObject : EffectableObj, IHideable
 {
        private List<MeshRenderer> meshRenderers = new ();
        private Dictionary<MeshRenderer, Material[]> originalMaterials = new Dictionary<MeshRenderer, Material[]>();
@@ -18,8 +18,6 @@ public class DisappearObject : MonoBehaviour, IHideable
     [SerializeField] private float revealTime;
     [SerializeField] private float unRevealTime;
     [SerializeField] private UnityEvent objectRevealed;
-    [SerializeField] private UnityEvent OnApplyEffect;
-    [SerializeField] private UnityEvent OnRemoveEffect;
 
 
     private EventInstance revealSound;
@@ -70,15 +68,18 @@ public class DisappearObject : MonoBehaviour, IHideable
 
 
 
-    public void ApplyEffect()
+    public override void ApplyEffect()
     {
+        
+        Debug.Log("Applying disappearable");
         OnApplyEffect.Invoke();
         if (applyOutline)
             outline.AppyOutlineEffect();
     }
 
-    public void RemoveEffect()
+    public override void RemoveEffect()
     {
+        Debug.Log("Removing disappearable");
         OnRemoveEffect.Invoke();
         if (applyOutline)
             outline.RemoveOutlineEffect();
@@ -146,6 +147,8 @@ public class DisappearObject : MonoBehaviour, IHideable
 
     private IEnumerator UnhideCoroutine()
     {
+        if (applyOutline)
+            outline.RemoveOutlineEffect();
         revealTimer = 0f;
         revealSound.stop(STOP_MODE.IMMEDIATE);
 
@@ -192,6 +195,8 @@ public class DisappearObject : MonoBehaviour, IHideable
             }
         }
         CanApplyEffect = true;
+        if (applyOutline)
+            outline.RemoveOutlineEffect();
 
     }
 

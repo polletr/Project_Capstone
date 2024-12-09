@@ -9,13 +9,13 @@ public class EffectableObj : MonoBehaviour, IEffectable
     public UnityEvent OnRemoveEffect;
 
 
-    public void ApplyEffect() 
+    public virtual void ApplyEffect() 
     {
         Debug.Log("Apply");
         OnApplyEffect.Invoke();
     }
 
-    public void RemoveEffect()
+    public virtual void RemoveEffect()
     {
         Debug.Log("remove");
 
