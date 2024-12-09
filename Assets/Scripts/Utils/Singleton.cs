@@ -35,11 +35,7 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
         if (_instance == null)
         {
             _instance = this as T;
-
-            // If the object has a parent, detach it to prevent it from being destroyed
-            if (transform.parent != null)
-                transform.SetParent(null);
-
+            
             // If the instance is set to persist between scenes, don't destroy it
             if (IsPersistent)
                 DontDestroyOnLoad(gameObject);

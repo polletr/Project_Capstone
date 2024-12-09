@@ -43,7 +43,11 @@ public class PlayerBatteryUIHandler : Singleton<PlayerBatteryUIHandler>
 
     private void Update()
     {
-        if (!flashLight.gameObject.activeSelf || !flashLight) return;
+        if (!flashLight.gameObject.activeSelf || !flashLight)
+        {
+            batteryImage.gameObject.SetActive(false);
+            return;
+        }
 
         batteryImage.color = BatteryCharge <= 0 ? batteryLowColor : normalColor;
         var charge = BatteryCharge / flashLight.TotalBatteryLife;
