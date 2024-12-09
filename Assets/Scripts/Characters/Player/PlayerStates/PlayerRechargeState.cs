@@ -78,8 +78,7 @@ public class PlayerRechargeState : PlayerBaseState
     {
         while (true)
         {
-            Player.Event.SetTutorialText?.Invoke(progress.ToString("F0")+"%"+ "\n" +
-                                                 "Tap R");
+            Player.Event.SetTutorialText?.Invoke( "Tap R\n" + progress.ToString("F0")+"%");
             yield return new WaitForSeconds(0.1f);
         }
     }

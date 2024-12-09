@@ -74,7 +74,7 @@ namespace Flashlight.Ability
                 yield return null;
             }
 
-            Flashlight.Light.intensity = Flashlight.FinalIntensity;
+            Flashlight.NewIntensity= Flashlight.FinalIntensity;
             Flashlight.Light.color = Flashlight.FinalColor;
             Flashlight.Light.spotAngle = Flashlight.FinalSpotAngle;
             Flashlight.Light.innerSpotAngle = Flashlight.FinalInnerSpotAngle;
@@ -101,7 +101,7 @@ namespace Flashlight.Ability
             while (timer < AbilityBuildUpTime)
             {
                 timer += Time.deltaTime;
-                Flashlight.Light.intensity = Mathf.Lerp(startIntensity, Flashlight.BuildupIntensity, timer / AbilityBuildUpTime);
+                Flashlight.NewIntensity = Mathf.Lerp(startIntensity, Flashlight.BuildupIntensity, timer / AbilityBuildUpTime);
                 Flashlight.Light.color = Color.Lerp(startColor, Flashlight.BuildupColor, timer / AbilityBuildUpTime);
 
                 yield return null;

@@ -32,14 +32,15 @@ public class FlashLight : MonoBehaviour
     [field: SerializeField] public float CloseRangeIntensity { get; protected set; }
 
     [SerializeField, Range(0, 2)] private float minCloseDistance;
-    [SerializeField, Range(1, 3)] private float maxCloseDistance;
+    [SerializeField, Range(1, 10)] private float maxCloseDistance;
 
     [SerializeField] private float minFlickerTime = 0.1f;
     [SerializeField] private float maxFlickerTime = 0.5f;
 
 // Base Flashlight Settings
-    [field: Header("Base Flashlight Settings"), SerializeField]
-    public float BaseIntensity { get; protected set; } = 25;
+    
+    [field: Header("Base Flashlight Settings")]
+    [field: SerializeField] public float BaseIntensity { get; protected set; }
 
     [field: SerializeField] public Color BaseColor { get; protected set; }
 
@@ -85,6 +86,7 @@ public class FlashLight : MonoBehaviour
     [field: SerializeField] public LayerMask IgnoreMask { get; private set; }
 
 // Public Properties
+    public float NewIntensity { get; set; } = 25;
     public float TotalBatteryLife => MaxBatteryLife + extraCharge;
     public Transform RayCastOrigin => player.PlayerCam.transform;
     private bool CanUseAbility { get; set; } = true;
@@ -139,7 +141,7 @@ public class FlashLight : MonoBehaviour
         }
 
         CurrentAbility = flashlightAbilities[0];
-        Light.intensity = BaseIntensity;
+        Light.intensity  = NewIntensity = BaseIntensity ;
         Light.color = BaseColor;
         Light.spotAngle = BaseSpotAngle;
         Light.innerSpotAngle = BaseInnerSpotAngle;
@@ -199,25 +201,20 @@ public class FlashLight : MonoBehaviour
 
 
         // Calculate the intensity based on the distance
-        var distance = Vector3.Distance(hitPoint, transform.position);
-        //CheckDistance(distance);
+        var distance = Vector3.Distance(hitPoint, Light.transform.position);
+        CheckDistance(distance);
         
     }
     
-    
     private void CheckDistance(float distance)
     {
-        // Calculate intensity based on distance
-        float intensity = Mathf.Lerp(CloseRangeIntensity, BaseIntensity,
-            distance / minCloseDistance);
-        Light.intensity = Mathf.Clamp(intensity, CloseRangeIntensity, BaseIntensity);
-        Debug.Log(Light.intensity);
+        var t = Mathf.InverseLerp(minCloseDistance, maxCloseDistance, distance);
 
-        // Calculate inner angle based on distance
-        float angle = Mathf.Lerp(CloseRangeInnerAngle, BaseInnerSpotAngle,
-            distance / minCloseDistance);
-        Light.spotAngle = Mathf.Clamp(angle, CloseRangeInnerAngle, BaseInnerSpotAngle);
+        var targetIntensity = Mathf.Lerp(CloseRangeIntensity, NewIntensity, t);
+
+        Light.intensity = Mathf.Lerp(Light.intensity, targetIntensity,20f * Time.deltaTime);
     }
+
 
 
     private void CollectAbility(FlashlightAbility ability)
@@ -364,7 +361,7 @@ public class FlashLight : MonoBehaviour
         {
             timer += Time.deltaTime;
 
-            Light.intensity = Mathf.Lerp(currentIntensity, BaseIntensity, timer / cooldown);
+            NewIntensity = Mathf.Lerp(currentIntensity, BaseIntensity, timer / cooldown);
             Light.color = Color.Lerp(currentColor, BaseColor, timer / cooldown);
             Light.spotAngle = Mathf.Lerp(currentSpotAngle, BaseSpotAngle, timer / cooldown);
             Light.innerSpotAngle =
@@ -489,7 +486,7 @@ public class FlashLight : MonoBehaviour
         while (!flickerTimer.IsFinished)
         {
             // Randomize the intensity
-            Light.intensity = Mathf.PerlinNoise(0, BaseIntensity);
+            NewIntensity = Mathf.PerlinNoise(0, BaseIntensity);
 
             // Randomize the time interval for the next flicker
             var time = Random.Range(minFlickerTime, maxFlickerTime);
@@ -549,7 +546,7 @@ public class FlashLight : MonoBehaviour
 
         while (delayTimer < zeroDownTime)
         {
-            Light.intensity = Mathf.Lerp(initialIntensity, 0, delayTimer / zeroDownTime);
+            NewIntensity = Mathf.Lerp(initialIntensity, 0, delayTimer / zeroDownTime);
             Light.color = Color.Lerp(flashlightColor, Color.black, delayTimer / zeroDownTime);
 
             delayTimer += Time.deltaTime;
