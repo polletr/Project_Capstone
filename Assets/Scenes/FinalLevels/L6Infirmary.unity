@@ -35865,7 +35865,7 @@ PrefabInstance:
         type: 3}
       propertyPath: OnTriggerEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 874835468}
+      objectReference: {fileID: 874835471}
     - target: {fileID: 2095272179484061901, guid: abe1644e14f4df945bbcd917df03a42f,
         type: 3}
       propertyPath: OnTriggerEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Target
@@ -35924,7 +35924,7 @@ PrefabInstance:
     - target: {fileID: 2095272179484061901, guid: abe1644e14f4df945bbcd917df03a42f,
         type: 3}
       propertyPath: OnTriggerEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: EndGame
+      value: TriggerEvent
       objectReference: {fileID: 0}
     - target: {fileID: 2095272179484061901, guid: abe1644e14f4df945bbcd917df03a42f,
         type: 3}
@@ -35954,7 +35954,7 @@ PrefabInstance:
     - target: {fileID: 2095272179484061901, guid: abe1644e14f4df945bbcd917df03a42f,
         type: 3}
       propertyPath: OnTriggerEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: ToMenu, Assembly-CSharp
+      value: DelayTrigger, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 2095272179484061901, guid: abe1644e14f4df945bbcd917df03a42f,
         type: 3}
@@ -36134,6 +36134,14 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 874835468}
+    - targetCorrespondingSourceObject: {fileID: 8233318308910117196, guid: abe1644e14f4df945bbcd917df03a42f,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 874835470}
+    - targetCorrespondingSourceObject: {fileID: 8233318308910117196, guid: abe1644e14f4df945bbcd917df03a42f,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 874835471}
   m_SourcePrefab: {fileID: 100100000, guid: abe1644e14f4df945bbcd917df03a42f, type: 3}
 --- !u!4 &874835466 stripped
 Transform:
@@ -36159,6 +36167,47 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e26370de51099b7438583530b2af3af5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &874835470
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 874835467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bb60af3893a7bc4496cfcf153c018ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalEvent: {fileID: 11400000, guid: f7b2f563d550cb24aa34b4decb188d77, type: 2}
+--- !u!114 &874835471
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 874835467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dce0e97a353339e419939fc73e7fb361, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  delay: 1
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 874835468}
+        m_TargetAssemblyTypeName: ToMenu, Assembly-CSharp
+        m_MethodName: EndGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &877470091
 PrefabInstance:
   m_ObjectHideFlags: 0
