@@ -66,10 +66,10 @@ public class IndicatorHandler : MonoBehaviour
 
         if(objectFlare == null) return;
 
-        if (distance < circleUIMaxDistance)
+/*        if (distance < circleUIMaxDistance)
             objectFlare.StopFlare();
         else
-            objectFlare.StartFlare();
+*/            objectFlare.StartFlare();
     }
 
     private void OnTriggerEnter(Collider other)
