@@ -1628,8 +1628,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+      - m_Target: {fileID: 886818447}
+        m_TargetAssemblyTypeName: PauseMenu, Assembly-CSharp
         m_MethodName: SetSensitivity
         m_Mode: 1
         m_Arguments:
@@ -3659,8 +3659,7 @@ Transform:
   m_LocalPosition: {x: -0.75019056, y: 4.895694, z: -34.455418}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1864753165}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &864876162
@@ -4006,6 +4005,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _startActive: 0
   _currentMenu: {fileID: 628576642}
+  playerSettings: {fileID: 11400000, guid: 5cd73456348c74f4b9488ce360895ecd, type: 2}
+  sensitivitySlider: {fileID: 185536700}
   OnPause:
     m_PersistentCalls:
       m_Calls: []
@@ -7698,11 +7699,11 @@ Transform:
   m_GameObject: {fileID: 1864753163}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 213.1341, y: 222.95422, z: 31.380318}
+  m_LocalPosition: {x: 212.38391, y: 227.84991, z: -3.0751}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 864876161}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1888674722
 GameObject:
@@ -8935,6 +8936,7 @@ SceneRoots:
   - {fileID: 260842997}
   - {fileID: 1598756187}
   - {fileID: 1798301154}
+  - {fileID: 1864753165}
   - {fileID: 864876161}
   - {fileID: 2040571565}
   - {fileID: 518364123}

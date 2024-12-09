@@ -16,6 +16,6 @@ public class ToMenu : MonoBehaviour
 
     public void EndGame()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene("EndScene");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("EndMenu");
     }
 }
