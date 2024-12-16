@@ -17,7 +17,7 @@ public class AbilityPickup : Interactable, ICollectable
 
     public void Collect()
     {
-        if(ObjectPickupUIHandler.Instance != null)
+        if(ObjectPickupUIHandler.Instance)
             ObjectPickupUIHandler.Instance.PickedUpObject(abilityPickupData);
         gameObject.SetActive(false);
     }

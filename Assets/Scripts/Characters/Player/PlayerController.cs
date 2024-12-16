@@ -313,6 +313,10 @@ public class PlayerController : MonoBehaviour
         {
             currentState?.HandleAttack(held);
         }
+        else
+        {
+            currentState.HandleAttack(false);
+        }
     }
 
     public void HandleRecharge()

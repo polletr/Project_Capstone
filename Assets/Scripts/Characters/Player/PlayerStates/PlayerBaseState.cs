@@ -136,7 +136,10 @@ public abstract class PlayerBaseState
 
     public virtual void HandleAttack(bool held)
     {
+        if (held)
+        {
             Player.ChangeState(Player.AttackState);
+        }
     }
 
     public virtual void HandleMove()

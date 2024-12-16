@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class ObjectPickupUIHandler : Singleton<ObjectPickupUIHandler>
 {
     public GameEvent Event;
-    [SerializeField] private float waitTime = 1f;
+    [SerializeField] private float waitTime = 2f;
 
     private UIAnimator uiAnimator;
     private Image itemDisplayImage;
