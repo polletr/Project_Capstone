@@ -1,8 +1,11 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
+
 [CreateAssetMenu(menuName = "GameSO/User Container", fileName = "PlayerPrefs"), Serializable]
 public class PlayerSettings : ScriptableObject
 {
+    public bool Startup = true;
     [Header("Movement")]
     [Range(0.1f, 50f)] public float WalkingSpeed;
     [Range(0.1f, 50f)] public float RunningSpeed;
