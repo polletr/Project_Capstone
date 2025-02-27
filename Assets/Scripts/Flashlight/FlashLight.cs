@@ -109,8 +109,7 @@ public class FlashLight : MonoBehaviour
     private CountdownTimer swapTimer;
 
     private PlayerController player;
-    private List<IEffectable> effectedObjs = new();
-    private HashSet<IEffectable> effectedObjsThisFrame = new();
+    private GameObject effectedObject;
 
     private Coroutine flickerCoroutine;
     private Coroutine resetCoroutine;
@@ -239,23 +238,6 @@ public class FlashLight : MonoBehaviour
 
     public void HandleRayCast()
     {
-        // Remove effects from objects that were affected in the last frame but are not in this frame
-        
-        for (var i = 0; i < effectedObjs.Count; i++)
-        {
-            if (effectedObjsThisFrame.Contains(effectedObjs[i]))
-            {
-                RemoveCurrentAbilityEffect(effectedObjs[i]);
-                continue;
-            }
-
-            effectedObjs[i].RemoveEffect();
-            effectedObjs.Remove(effectedObjs[i]);
-        }
-
-        if (IsBatteryDead() || !IsFlashlightOn) return;
-
-        effectedObjsThisFrame.Clear();
 
         if (Physics.Raycast(RayCastOrigin.position, RayCastOrigin.forward, out var hit))
         {
@@ -263,18 +245,38 @@ public class FlashLight : MonoBehaviour
             //Debug.Log($"{hit.collider.gameObject.name} was hit in {hit.collider.gameObject.scene.name} scene");
             if (Vector3.Distance(hit.point, transform.position) > InteractRange)
             {
+                //Wrong need to remove outline
                 return;
             }
         }
         else
         {
+            RemoveCurrentAbilityEffect(effectedObject);
             return;
         }
 
+        if (IsBatteryDead() || !IsFlashlightOn)
+        {
+
+
+        }
+
+
         var obj = hit.collider.gameObject;
-        
+
         if (!obj.TryGetComponent(out IEffectable effectable)) return;
-        effectedObjsThisFrame.Add(effectable);
+        effectedObject = obj;
+
+        Ray ray = new Ray(RayCastOrigin.position, RayCastOrigin.forward * InteractRange);
+        bool objectEffected = (effectedObject.GetComponent<Collider>().bounds.IntersectRay(ray));
+
+        if (objectEffected)
+        {
+            ApplyCurrentAbilityEffect(effectedObject);
+        }
+
+
+
 
         var hasRevealable = obj.TryGetComponent(out IRevealable revealObj);
         var hashideable = obj.TryGetComponent(out IHideable hideObj);
@@ -308,10 +310,6 @@ public class FlashLight : MonoBehaviour
             }
         }
 
-        if (!effectedObjs.Contains(effectable))
-        {
-            ApplyCurrentAbilityEffect(obj);
-        }
     }
 
     public void ResetLight(float cooldown)
@@ -370,7 +368,6 @@ public class FlashLight : MonoBehaviour
             yield return null;
         }
 
-        effectedObjs.Clear();
         HandleRayCast();
 
         CanUseAbility = true;
@@ -381,11 +378,6 @@ public class FlashLight : MonoBehaviour
         Light.enabled = IsFlashlightOn = false;
         flickerCoroutine = null;
         //Remove effect on things
-        for (var i = effectedObjs.Count - 1; i >= 0; i--)
-        {
-            effectedObjs[i].RemoveEffect();
-            effectedObjs.Remove(effectedObjs[i]);
-        }
     }
 
     public void ConsumeBattery(float cost)
@@ -437,19 +429,16 @@ public class FlashLight : MonoBehaviour
         if (revealObj is MonoBehaviour revealComponent && revealComponent.enabled)
         {
             revealObj.ApplyEffect();
-            effectedObjs.Add(revealObj);
         }
 
         // Check if the object is IHideable and CurrentAbility is DisapearAbility
         else if (hideObj is MonoBehaviour hideComponent && hideComponent.enabled)
         {
             hideObj.ApplyEffect();
-            effectedObjs.Add(hideObj);
         }
         else if (obj.TryGetComponent(out IEffectable effectableObj))
         {
             effectableObj.ApplyEffect();
-            effectedObjs.Add(effectableObj);
         }
     }
 
@@ -461,20 +450,17 @@ public class FlashLight : MonoBehaviour
         if (obj is IRevealable && CurrentAbility is not RevealAbility)
         {
             obj.RemoveEffect();
-            effectedObjs.Remove(obj);
         }
 
         // Check if the object is IHideable and the ability is not DisapearAbility
         else if (obj is IHideable && CurrentAbility is not DisappearAbility)
         {
             obj.RemoveEffect();
-            effectedObjs.Remove(obj);
         }
         // Check if the object is IHideable and the ability is not DisapearAbility
         else if (obj is IStunable && CurrentAbility is not StunAbility)
         {
             obj.RemoveEffect();
-            effectedObjs.Remove(obj);
         }
     }
 
