@@ -24,7 +24,7 @@ public class DisappearObject : MonoBehaviour, IHideable
 
     private EventInstance revealSound;
 
-    public bool CanApplyEffect { get;  set; }
+    public bool CanApplyEffect { get; set; }
     public bool IsHidden { get; set; }
 
     private float revealTimer;
@@ -65,7 +65,7 @@ public class DisappearObject : MonoBehaviour, IHideable
 
     private void OnDisable()
     {
-        CanApplyEffect = true;
+        CanApplyEffect = false;
     }
 
 
