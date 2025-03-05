@@ -251,7 +251,7 @@ public class FlashLight : MonoBehaviour
         }
         else
         {
-            RemoveCurrentAbilityEffect(effectedObject);
+            // RemoveCurrentAbilityEffect(effectedObject);
             return;
         }
 
