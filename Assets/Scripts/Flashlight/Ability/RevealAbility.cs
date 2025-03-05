@@ -30,6 +30,7 @@ namespace Flashlight.Ability
                     currentObj = null;
                 }
             }
+            Flashlight.CurrentAbility = null;
 
             Flashlight.ResetLight(0.5f);
         }
