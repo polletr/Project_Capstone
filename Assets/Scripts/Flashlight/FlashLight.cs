@@ -98,8 +98,8 @@ public class FlashLight : MonoBehaviour
 
     public FlashlightAbility CurrentAbility
     {
-        get => currentAbility;
-        private set { currentAbility = value; }
+        get;
+        set;
     }
 
     private float extraCharge;
@@ -139,7 +139,6 @@ public class FlashLight : MonoBehaviour
             ability.Initialize(this);
         }
 
-        CurrentAbility = flashlightAbilities[0];
         Light.intensity  = NewIntensity = BaseIntensity ;
         Light.color = BaseColor;
         Light.spotAngle = BaseSpotAngle;
@@ -167,9 +166,6 @@ public class FlashLight : MonoBehaviour
             Drain(baseCost * Time.deltaTime);
 
         if (!IsBatteryDead()) return;
-
-        if (CurrentAbility)
-            CurrentAbility.OnStopAbility();
 
         if (IsFlashlightOn && flickerCoroutine == null)
         {
@@ -275,14 +271,48 @@ public class FlashLight : MonoBehaviour
 
     public void HandleAbility()
     {
-        if (CurrentAbility != null && !IsBatteryDead() && IsFlashlightOn && CanUseAbility)
+        if (Physics.Raycast(RayCastOrigin.position, RayCastOrigin.forward, out var hit,
+        InteractRange))
         {
-            CurrentAbility.OnUseAbility();
-            CanUseAbility = false;
-        }
-        else
-        {
-            player.currentState?.HandleMove();
+            if (hit.collider.TryGetComponent(out DisappearObject obj))
+            {
+                if (flashlightAbilities.Any(a => a is DisappearAbility) && !IsBatteryDead() && IsFlashlightOn && CanUseAbility)
+                {
+                    DisappearAbility disappearAbility = flashlightAbilities.OfType<DisappearAbility>().FirstOrDefault();
+                    if (disappearAbility != null)
+                    {
+                        disappearAbility.OnUseAbility();
+                        CurrentAbility = disappearAbility;
+                    }
+                    CanUseAbility = false;
+                }
+                else
+                {
+                    player.currentState?.HandleMove();
+                }
+            }
+            else if (hit.collider.TryGetComponent(out RevealableObject revealObj))
+            {
+                if (flashlightAbilities.Any(a => a is RevealAbility) && !IsBatteryDead() && IsFlashlightOn && CanUseAbility)
+                {
+                    RevealAbility revealAbility = flashlightAbilities.OfType<RevealAbility>().FirstOrDefault();
+                    if (revealAbility != null)
+                    {
+                        revealAbility.OnUseAbility();
+                        CurrentAbility = revealAbility;
+                    }
+                    CanUseAbility = false;
+                }
+                else
+                {
+                    player.currentState?.HandleMove();
+                }
+            }
+            else
+            {
+                player.currentState?.HandleMove();
+            }
+
         }
     }
 
@@ -437,6 +467,19 @@ public class FlashLight : MonoBehaviour
     private void UpdateExtraCrank(float crank) => extraCharge = crank;
 
     public void ZeroOutBattery() => BatteryLife = 0;
+
+    private bool HasAbility(FlashlightAbility ability)
+    {
+        var hasAbility = ability switch
+        {
+            RevealAbility reveal => false,
+            DisappearAbility disappear => false,
+            StunAbility stun => false,
+            _ => true
+        };
+        return hasAbility;
+    }
+
 
     public IEnumerator ZeroOutLight(float cooldown, float zeroDownTime = 0.5f)
     {
