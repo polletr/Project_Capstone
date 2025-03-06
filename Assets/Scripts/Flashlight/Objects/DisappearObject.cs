@@ -57,6 +57,7 @@ public class DisappearObject : MonoBehaviour, IHideable
         IsHidden = false;
         GetComponent<Collider>().isTrigger = false;
         revealTimer = 0f;
+
         CanApplyEffect = true;
 
         if (TryGetComponent(out RevealableObject revealableObject))
@@ -93,6 +94,7 @@ public class DisappearObject : MonoBehaviour, IHideable
 
     private void HideFunction()
     {
+
         if (!IsHidden)
         {
             CanApplyEffect = false;
@@ -114,7 +116,7 @@ public class DisappearObject : MonoBehaviour, IHideable
                 material.SetFloat("_DissolveAmount", currentObjTransp);
             }
 
-            if (!(currentObjTransp >= 0.75f)) return;
+            if (currentObjTransp < 0.75f) return;
 
             revealSound.stop(STOP_MODE.IMMEDIATE);
             AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.FlashlightReveal,
@@ -163,7 +165,8 @@ public class DisappearObject : MonoBehaviour, IHideable
 
             yield return null;
         }
-        
+        revealTimer = 0f;
+
         SetOriginalMaterials();
         
     }
