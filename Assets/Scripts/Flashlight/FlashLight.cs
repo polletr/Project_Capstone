@@ -214,12 +214,23 @@ public class FlashLight : MonoBehaviour
         if (Physics.Raycast(RayCastOrigin.position, RayCastOrigin.forward, out var hit))
         {
             var obj = hit.collider.gameObject;
+            if (Vector3.Distance(hit.point, transform.position) > InteractRange)
+            {
+                RemoveCurrentAbilityEffect(effectedObject);
+                return;
+            }
 
             if (!obj.TryGetComponent(out IEffectable effectable))
             {
                 RemoveCurrentAbilityEffect(effectedObject);
                 return;
             }
+
+            if (effectedObject != null && effectedObject != obj)
+            {
+                RemoveCurrentAbilityEffect(effectedObject);
+            }
+
             effectedObject = obj;
 
             Ray ray = new Ray(RayCastOrigin.position, RayCastOrigin.forward * InteractRange);
@@ -236,11 +247,6 @@ public class FlashLight : MonoBehaviour
 
             FlashlightHitPos = hit.point;
             //Debug.Log($"{hit.collider.gameObject.name} was hit in {hit.collider.gameObject.scene.name} scene");
-            if (Vector3.Distance(hit.point, transform.position) > InteractRange)
-            {
-                RemoveCurrentAbilityEffect(effectedObject);
-                return;
-            }
         }
         else
         {
@@ -253,8 +259,6 @@ public class FlashLight : MonoBehaviour
             RemoveCurrentAbilityEffect(effectedObject);
             return;
         }
-
-
 
     }
 

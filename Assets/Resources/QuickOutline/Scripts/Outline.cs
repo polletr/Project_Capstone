@@ -80,6 +80,8 @@ public class Outline : MonoBehaviour {
 
   private bool needsUpdate;
 
+    bool applied;
+
   void Awake() {
 
     // Cache renderers
@@ -99,7 +101,10 @@ public class Outline : MonoBehaviour {
     needsUpdate = true;
   }
 
- public void AppyOutlineEffect() {
+ public void AppyOutlineEffect() 
+ {
+        if (applied) return;
+
     foreach (var renderer in renderers) {
 
       // Append outline shaders
@@ -110,6 +115,7 @@ public class Outline : MonoBehaviour {
 
       renderer.materials = materials.ToArray();
     }
+        applied = true;
   }
 
   void OnValidate() {
@@ -151,6 +157,8 @@ public class Outline : MonoBehaviour {
 
       renderer.materials = materials.ToArray();
     }
+
+        applied = false;
   }
 
   void OnDestroy() {
