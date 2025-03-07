@@ -145,6 +145,8 @@ public class Outline : MonoBehaviour {
 
  public void RemoveOutlineEffect() 
  {
+    if (!applied) return;
+
     foreach (var renderer in renderers) 
     {
         if (renderer == null)
@@ -158,7 +160,8 @@ public class Outline : MonoBehaviour {
       renderer.materials = materials.ToArray();
     }
 
-        applied = false;
+    applied = false;
+        Debug.Log("applied" + applied);
   }
 
   void OnDestroy() {

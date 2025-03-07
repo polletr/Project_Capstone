@@ -69,8 +69,6 @@ public class DisappearObject : MonoBehaviour, IHideable
         CanApplyEffect = false;
     }
 
-
-
     public void ApplyEffect()
     {
         OnApplyEffect.Invoke();
@@ -88,15 +86,18 @@ public class DisappearObject : MonoBehaviour, IHideable
     public void HideObj(out bool revealed)
     {
         StopAllCoroutines();
-        HideFunction();
+        StartCoroutine(HideFunction());
         revealed = IsHidden;
     }
 
-    private void HideFunction()
+    private IEnumerator HideFunction()
     {
-
+        outline.RemoveOutlineEffect();
+        currentObjTransp = 0f;
+        revealTimer = 0f;
         if (!IsHidden)
         {
+
             CanApplyEffect = false;
             // Set dissolve material for all renderers
             SetMaterials(dissolveMaterial);
@@ -108,34 +109,40 @@ public class DisappearObject : MonoBehaviour, IHideable
                 revealSound.start();
             }
 
-            revealTimer += Time.deltaTime;
-            currentObjTransp = Mathf.Lerp(0, 1f, revealTimer / revealTime);
-
-            foreach (var material in meshRenderers.SelectMany(renderer => renderer.materials))
+            while (currentObjTransp <0.75f)
             {
-                material.SetFloat("_DissolveAmount", currentObjTransp);
+                revealTimer += Time.deltaTime;
+                currentObjTransp = Mathf.Lerp(0, 0.75f, revealTimer / revealTime);
+
+                foreach (var material in meshRenderers.SelectMany(renderer => renderer.materials))
+                {
+                    material.SetFloat("_DissolveAmount", currentObjTransp);
+                }
+                yield return null;
             }
 
-            if (currentObjTransp < 0.75f) return;
+            if (currentObjTransp >= 0.75f)
+            {
+                revealSound.stop(STOP_MODE.IMMEDIATE);
+                AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.FlashlightReveal,
+                    this.transform.position);
+                objectRevealed.Invoke();
+                IsHidden = true;
+                if (TryGetComponent(out NavMeshObstacle obstacle))
+                {
+                    obstacle.enabled = false;
+                }
 
-            revealSound.stop(STOP_MODE.IMMEDIATE);
-            AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.FlashlightReveal,
-                this.transform.position);
-            objectRevealed.Invoke();
-            IsHidden = true;
-            if (TryGetComponent(out NavMeshObstacle obstacle))
-            {
-                obstacle.enabled = false;
+                if (TryGetComponent(out RevealableObject revealableObject))
+                {
+                    revealableObject.enabled = true;
+                }
+                else
+                {
+                    Destroy(gameObject);
+                }
             }
 
-            if (TryGetComponent(out RevealableObject revealableObject))
-            {
-                revealableObject.enabled = true;
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
         }
 
     }
@@ -143,7 +150,8 @@ public class DisappearObject : MonoBehaviour, IHideable
     public void UnHideObj()
     {
         StopAllCoroutines();
-        StartCoroutine(UnhideCoroutine());
+        if (this.gameObject.activeSelf)
+            StartCoroutine(UnhideCoroutine());
     }
 
     private IEnumerator UnhideCoroutine()
@@ -168,7 +176,8 @@ public class DisappearObject : MonoBehaviour, IHideable
         revealTimer = 0f;
 
         SetOriginalMaterials();
-        
+        CanApplyEffect = true;
+        IsHidden = false;
     }
 
     private void SetMaterials(Material material)
@@ -182,8 +191,10 @@ public class DisappearObject : MonoBehaviour, IHideable
             }
             renderer.materials = materials;
         }
+        RemoveEffect();
+
     }
-    
+
     private void SetOriginalMaterials()
     {
         foreach (var renderer in meshRenderers)
@@ -194,13 +205,6 @@ public class DisappearObject : MonoBehaviour, IHideable
                 renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
             }
         }
-        CanApplyEffect = true;
-
+        RemoveEffect();
     }
-
-    public void ApplyOutline(bool apply)
-    {
-        applyOutline = apply;
-    }
-
 }

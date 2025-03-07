@@ -210,19 +210,32 @@ public class FlashLight : MonoBehaviour
 
     public void HandleRayCast()
     {
+        if (IsBatteryDead() || !IsFlashlightOn)
+        {
+            if (effectedObject != null)
+                RemoveCurrentAbilityEffect(effectedObject);
+
+            StopUsingFlashlight();
+            return;
+        }
 
         if (Physics.Raycast(RayCastOrigin.position, RayCastOrigin.forward, out var hit))
         {
             var obj = hit.collider.gameObject;
-            if (Vector3.Distance(hit.point, transform.position) > InteractRange)
+
+            if (effectedObject != null)
             {
-                RemoveCurrentAbilityEffect(effectedObject);
-                return;
+                if (Vector3.Distance(hit.point, transform.position) > InteractRange)
+                {
+                    RemoveCurrentAbilityEffect(effectedObject);
+                    return;
+                }
             }
 
             if (!obj.TryGetComponent(out IEffectable effectable))
             {
-                RemoveCurrentAbilityEffect(effectedObject);
+                if (effectedObject != null)
+                    RemoveCurrentAbilityEffect(effectedObject);
                 return;
             }
 
@@ -242,7 +255,8 @@ public class FlashLight : MonoBehaviour
             }
             else
             {
-                RemoveCurrentAbilityEffect(effectedObject);
+                if (effectedObject != null)
+                    RemoveCurrentAbilityEffect(effectedObject);
             }
 
             FlashlightHitPos = hit.point;
@@ -250,15 +264,11 @@ public class FlashLight : MonoBehaviour
         }
         else
         {
-            RemoveCurrentAbilityEffect(effectedObject);
+            if (effectedObject != null)
+                RemoveCurrentAbilityEffect(effectedObject);
             return;
         }
 
-        if (IsBatteryDead() || !IsFlashlightOn)
-        {
-            RemoveCurrentAbilityEffect(effectedObject);
-            return;
-        }
 
     }
 
@@ -278,7 +288,7 @@ public class FlashLight : MonoBehaviour
         if (Physics.Raycast(RayCastOrigin.position, RayCastOrigin.forward, out var hit,
         InteractRange))
         {
-            if (hit.collider.TryGetComponent(out DisappearObject obj))
+            if (hit.collider.TryGetComponent(out DisappearObject obj) && obj.enabled)
             {
                 if (flashlightAbilities.Any(a => a is DisappearAbility) && !IsBatteryDead() && IsFlashlightOn && CanUseAbility)
                 {
@@ -295,7 +305,7 @@ public class FlashLight : MonoBehaviour
                     player.currentState?.HandleMove();
                 }
             }
-            else if (hit.collider.TryGetComponent(out RevealableObject revealObj))
+            else if (hit.collider.TryGetComponent(out RevealableObject revealObj) && revealObj.enabled)
             {
                 if (flashlightAbilities.Any(a => a is RevealAbility) && !IsBatteryDead() && IsFlashlightOn && CanUseAbility)
                 {
@@ -322,7 +332,7 @@ public class FlashLight : MonoBehaviour
 
     public void StopUsingFlashlight()
     {
-        if (CurrentAbility != null && IsFlashlightOn)
+        if (CurrentAbility != null)
         {
             CurrentAbility.OnStopAbility();
         }
@@ -424,6 +434,7 @@ public class FlashLight : MonoBehaviour
             effectableObj.RemoveEffect();
         }
 
+        effectedObject = null;
     }
 
     private IEnumerator Flicker(float maxTime, Action onFlickerEnd)

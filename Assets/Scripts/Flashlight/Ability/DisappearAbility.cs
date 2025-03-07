@@ -9,12 +9,11 @@ namespace Flashlight.Ability
         private DisappearObject currentObj;
 
         private Coroutine visualReveal;
-        private Coroutine revealCoroutine;
 
         public override void OnUseAbility()
         {
             visualReveal = StartCoroutine(ChangeRevealLight());
-            revealCoroutine = StartCoroutine(UseDisappearAbility());
+            UseDisappearAbility();
         }
 
         public override void OnStopAbility()
@@ -22,57 +21,31 @@ namespace Flashlight.Ability
             if (visualReveal != null)
                 StopCoroutine(visualReveal);
 
-            if (revealCoroutine != null)
+            if (currentObj && !currentObj.IsHidden)
             {
-                StopCoroutine(revealCoroutine);
-                if (currentObj && !currentObj.IsHidden)
-                {
-                    currentObj.UnHideObj();
-                    currentObj = null;
-                }
+                currentObj.UnHideObj();
+                currentObj = null;
             }
             Flashlight.CurrentAbility = null;
             Flashlight.ResetLight(0.5f);
         }
 
-        private IEnumerator UseDisappearAbility()
+        private void UseDisappearAbility()
         {
             var isRevealed = false;
-            while (!isRevealed)
+            if (Physics.Raycast(Flashlight.RayCastOrigin.position, Flashlight.RayCastOrigin.forward, out var hit,
+                    Flashlight.InteractRange))
             {
-                if (Physics.Raycast(Flashlight.RayCastOrigin.position, Flashlight.RayCastOrigin.forward, out var hit,
-                        Flashlight.InteractRange))
+                if (hit.collider.TryGetComponent(out DisappearObject obj))
                 {
-                    if (hit.collider.TryGetComponent(out DisappearObject obj))
-                    {
-                        if (!currentObj)
-                        {
-                            currentObj = obj;
-                        }
-                        else if (currentObj != obj)
-                        {
-                            currentObj.UnHideObj();
-                            currentObj = null;
-                            OnStopAbility();
-                            break;
-                        }
+                    currentObj = obj;
+                    currentObj.HideObj(out isRevealed);
 
-                        currentObj.HideObj(out isRevealed);
-                    }
-                    else
-                    {
-                        if (currentObj != null)
-                        {
-                            currentObj.UnHideObj();
-                            currentObj = null;
-                        }
-
-                        OnStopAbility();
-                        break;
-                    }
                 }
-
-                yield return null;
+                else
+                {
+                    OnStopAbility();
+                }
             }
 
             Flashlight.NewIntensity = Flashlight.FinalIntensity;
@@ -80,15 +53,13 @@ namespace Flashlight.Ability
             Flashlight.Light.spotAngle = Flashlight.FinalSpotAngle;
             Flashlight.Light.innerSpotAngle = Flashlight.FinalInnerSpotAngle;
 
-            currentObj = null;
             Flashlight.ConsumeBattery(Cost);
-
+            Flashlight.StartCoroutine(Flashlight.ZeroOutLight(Cooldown));
 
             if (PlayerBatteryUIHandler.Instance == null)
                 PlayerBatteryUIHandler.Instance.FlickerBatteryUIOnce();
 
             tutorialEvents.OnDisappear?.Invoke();
-            Flashlight.StartCoroutine(Flashlight.ZeroOutLight(Cooldown));
             StopAllCoroutines();
         }
 

@@ -8,12 +8,11 @@ namespace Flashlight.Ability
         private RevealableObject currentObj;
 
         private Coroutine visualReveal;
-        private Coroutine revealCoroutine;
 
         public override void OnUseAbility()
         {
             visualReveal = StartCoroutine(ChangeRevealLight());
-            revealCoroutine = StartCoroutine(UseRevealAbility());
+            UseRevealAbility();
         }
 
         public override void OnStopAbility()
@@ -21,58 +20,32 @@ namespace Flashlight.Ability
             if (visualReveal != null)
                 StopCoroutine(visualReveal);
 
-            if (revealCoroutine != null)
+            if (currentObj && !currentObj.IsRevealed)
             {
-                StopCoroutine(revealCoroutine);
-                if (currentObj && !currentObj.IsRevealed)
-                {
-                    currentObj.UnRevealObj();
-                    currentObj = null;
-                }
+                currentObj.UnRevealObj();
+                currentObj = null;
             }
+
             Flashlight.CurrentAbility = null;
 
             Flashlight.ResetLight(0.5f);
         }
 
-        private IEnumerator UseRevealAbility()
+        private void UseRevealAbility()
         {
             var isRevealed = false;
-            while (!isRevealed)
+            if (Physics.Raycast(Flashlight.RayCastOrigin.position, Flashlight.RayCastOrigin.forward, out var hit,
+                    Flashlight.InteractRange))
             {
-                if (Physics.Raycast(Flashlight.RayCastOrigin.position, Flashlight.RayCastOrigin.forward, out var hit,
-                        Flashlight.InteractRange))
+                if (hit.collider.TryGetComponent(out RevealableObject obj))
                 {
-                    if (hit.collider.TryGetComponent(out RevealableObject obj))
-                    {
-                        if (currentObj == null)
-                        {
-                            currentObj = obj;
-                        }
-                        else if (currentObj != obj)
-                        {
-                            currentObj.UnRevealObj();
-                            currentObj = null;
-                            OnStopAbility();
-                            break;
-                        }
-
-                        currentObj.RevealObj(out isRevealed);
-                    }
-                    else
-                    {
-                        if (currentObj != null)
-                        {
-                            currentObj.UnRevealObj();
-                            currentObj = null;
-                        }
-
-                        OnStopAbility();
-                        break;
-                    }
+                    currentObj = obj;
+                    currentObj.RevealObj(out isRevealed);
                 }
-
-                yield return null;
+                else
+                {
+                    OnStopAbility();
+                }
             }
 
             Flashlight.NewIntensity= Flashlight.FinalIntensity;
@@ -80,7 +53,6 @@ namespace Flashlight.Ability
             Flashlight.Light.spotAngle = Flashlight.FinalSpotAngle;
             Flashlight.Light.innerSpotAngle = Flashlight.FinalInnerSpotAngle;
 
-            currentObj = null;
             Flashlight.ConsumeBattery(Cost);
             Flashlight.StartCoroutine(Flashlight.ZeroOutLight(Cooldown));
 

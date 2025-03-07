@@ -21,7 +21,6 @@ public class RevealableObject : MonoBehaviour, IRevealable
     [SerializeField] private UnityEvent OnApplyEffect;
     [SerializeField] private UnityEvent OnRemoveEffect;
 
-
     private EventInstance revealSound;
 
     bool originalTrigger;
@@ -56,7 +55,6 @@ public class RevealableObject : MonoBehaviour, IRevealable
 
     void OnEnable()
     {
-        // Store original materials for each MeshRenderer
         foreach (var renderer in meshRenderers)
         {
             renderer.material = revealMaterial;
@@ -67,12 +65,9 @@ public class RevealableObject : MonoBehaviour, IRevealable
 
         IsRevealed = false;
         GetComponent<Collider>().isTrigger = true;
-        revealTimer = 0f;
 
         if (TryGetComponent(out DisappearObject disapearObject))
-        {
             disapearObject.enabled = false;
-        }
 
     }
 
@@ -83,22 +78,16 @@ public class RevealableObject : MonoBehaviour, IRevealable
 
     public void ApplyEffect()
     {
-        if (!IsRevealed)
-        {
-            OnApplyEffect.Invoke();
-            if (applyOutline)
-                outline.AppyOutlineEffect();
-        }
+        OnApplyEffect.Invoke();
+        if (applyOutline)
+            outline.AppyOutlineEffect();
     }
 
     public void RemoveEffect()
     {
-        if (!IsRevealed)
-        {
-            OnRemoveEffect.Invoke();
-            if (applyOutline)
-                outline.RemoveOutlineEffect();
-        }
+        OnRemoveEffect.Invoke();
+        if (applyOutline)
+            outline.RemoveOutlineEffect();
     }
 
     public void SuddenReveal()
@@ -111,16 +100,20 @@ public class RevealableObject : MonoBehaviour, IRevealable
     public void RevealObj(out bool revealed)
     {
         StopAllCoroutines();
-        RevealFunction();
+        StartCoroutine(RevealFunction());
         revealed = IsRevealed;
     }
 
-    private void RevealFunction()
+    private IEnumerator RevealFunction()
     {
+        outline.RemoveOutlineEffect();
+        currentObjTransp = 1f;
+        revealTimer = 0f;
+
         if (!IsRevealed)
         {
-            CanApplyEffect = false;
 
+            CanApplyEffect = false;
             // Set dissolve material for all renderers
             SetMaterials(dissolveMaterial);
 
@@ -131,15 +124,16 @@ public class RevealableObject : MonoBehaviour, IRevealable
                 revealSound.start();
             }
 
-            revealTimer += Time.deltaTime;
-            currentObjTransp = Mathf.Lerp(1f, 0f, revealTimer / revealTime);
-
-            foreach (var renderer in meshRenderers)
+            while (currentObjTransp > 0f)
             {
-                foreach (var material in renderer.materials)
+                revealTimer += Time.deltaTime;
+                currentObjTransp = Mathf.Lerp(1f, 0f, revealTimer / revealTime);
+
+                foreach (var material in meshRenderers.SelectMany(renderer => renderer.materials))
                 {
                     material.SetFloat("_DissolveAmount", currentObjTransp);
                 }
+                yield return null;
             }
 
             if (currentObjTransp <= 0f)
@@ -199,6 +193,7 @@ public class RevealableObject : MonoBehaviour, IRevealable
 
             yield return null;
         }
+        revealTimer = 0f;
 
         SetMaterials(revealMaterial);
         CanApplyEffect = true;
@@ -217,6 +212,8 @@ public class RevealableObject : MonoBehaviour, IRevealable
 
             renderer.materials = materials;
         }
+        RemoveEffect();
+
     }
 
     private void SetOriginalMaterials()
@@ -229,5 +226,7 @@ public class RevealableObject : MonoBehaviour, IRevealable
                 renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
             }
         }
+        RemoveEffect();
+
     }
 }
