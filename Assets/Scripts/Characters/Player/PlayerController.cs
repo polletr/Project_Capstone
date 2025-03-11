@@ -147,7 +147,7 @@ public class PlayerController : MonoBehaviour
         RuntimeManager.StudioSystem.setParameterByName("EnemyDistance", 1);
     }
 
-    private void PlayBreathing()
+    public void PlayBreathing()
     {
         playerBreathing.getPlaybackState(out var playbackState);
 
@@ -221,6 +221,12 @@ public class PlayerController : MonoBehaviour
     {
         inputManager.DisablePlayerInput();
         transform.position = CheckPoint.position;
+    }
+
+    public void DarkPresence(bool kill)
+    {
+        //Increase Vignette on player if true, if false, decrease vignette until a certain threshold, like 0.3f.
+        //Start Heartbeat low and increase over time if true, if false, stop with fading out
     }
 
     public void MoveAgainAfterRespawn()
