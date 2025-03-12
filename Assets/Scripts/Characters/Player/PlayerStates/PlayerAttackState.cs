@@ -33,7 +33,6 @@ public class PlayerAttackState : PlayerBaseState
         } 
     }
 
-    
     public override void HandleFlashlightPower()
     {
 

@@ -219,7 +219,7 @@ public class FlashLight : MonoBehaviour
             return;
         }
 
-        if (Physics.Raycast(RayCastOrigin.position, RayCastOrigin.forward, out var hit))
+        if (Physics.Raycast(RayCastOrigin.position, RayCastOrigin.forward, out var hit, InteractRange))
         {
             var obj = hit.collider.gameObject;
 
@@ -228,6 +228,7 @@ public class FlashLight : MonoBehaviour
                 if (Vector3.Distance(hit.point, transform.position) > InteractRange)
                 {
                     RemoveCurrentAbilityEffect(effectedObject);
+                    Debug.Log("Too Far");
                     return;
                 }
             }
@@ -246,18 +247,12 @@ public class FlashLight : MonoBehaviour
 
             effectedObject = obj;
 
-            Ray ray = new Ray(RayCastOrigin.position, RayCastOrigin.forward * InteractRange);
+/*            Ray ray = new Ray(RayCastOrigin.position, RayCastOrigin.forward * InteractRange);
             bool objectEffected = (effectedObject.GetComponent<Collider>().bounds.IntersectRay(ray));
 
-            if (objectEffected)
-            {
-                ApplyCurrentAbilityEffect(effectedObject);
-            }
-            else
-            {
-                if (effectedObject != null)
-                    RemoveCurrentAbilityEffect(effectedObject);
-            }
+*/
+
+            ApplyCurrentAbilityEffect(effectedObject);
 
             FlashlightHitPos = hit.point;
             //Debug.Log($"{hit.collider.gameObject.name} was hit in {hit.collider.gameObject.scene.name} scene");
@@ -427,6 +422,8 @@ public class FlashLight : MonoBehaviour
     private void RemoveCurrentAbilityEffect(GameObject obj)
     {
         if (obj == null) return;
+
+        CurrentAbility?.OnStopAbility();
 
         // Try to get both IRevealable and IMovable components
         if (obj.TryGetComponent(out IEffectable effectableObj))

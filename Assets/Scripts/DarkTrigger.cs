@@ -3,24 +3,32 @@ using UnityEngine;
 
 public class DarkTrigger : MonoBehaviour
 {
-    PlayerController playerController;
+    DarkPresenceHandler darkPresenceHandler;
 
+    FlashLight flashLight;
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (!other.TryGetComponent<DarkPresenceHandler>(out darkPresenceHandler))
+            return;
+
+        flashLight = other.GetComponentInChildren<FlashLight>();
+
+    }
     private void OnTriggerStay(Collider other)
     {
-        if (!other.GetComponent<PlayerController>())
+        if (darkPresenceHandler == null)
             return;
-        else
-            playerController = other.GetComponent<PlayerController>();
 
-
-        if (!playerController.GetComponentInChildren<FlashLight>().IsFlashlightOn)
-        {
-            playerController.DarkPresence(true);
-        }
-        else
-        {
-            playerController.DarkPresence(false);
-        }
+        darkPresenceHandler.DarkPresence(!flashLight.IsFlashlightOn);
     }
 
+    private void OnTriggerExit(Collider other)
+    {
+        if (darkPresenceHandler == null)
+            return;
+
+        darkPresenceHandler.ReturnToNormal();
+        darkPresenceHandler = null;
+    }
 }

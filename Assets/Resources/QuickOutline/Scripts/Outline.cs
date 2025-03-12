@@ -161,7 +161,6 @@ public class Outline : MonoBehaviour {
     }
 
     applied = false;
-        Debug.Log("applied" + applied);
   }
 
   void OnDestroy() {

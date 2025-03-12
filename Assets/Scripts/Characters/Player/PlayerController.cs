@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using IEnumerator = System.Collections.IEnumerator;
 using UnityEngine;
 using System;
+using System.Threading;
+using Utilities;
 
 public class PlayerController : MonoBehaviour
 {
@@ -55,7 +57,8 @@ public class PlayerController : MonoBehaviour
 
     Coroutine LookAtTargetCoroutine;
     [SerializeField] float lookAtTargetDuration = 2f;
-    public Transform DebugTarget;
+
+    private CountdownTimer darkPresenceTimer;
 
     private void Awake()
     {
@@ -63,6 +66,7 @@ public class PlayerController : MonoBehaviour
         Cursor.visible = false; //Move this from here later
 
         SetSpawn(transform);
+
 
         playerAnimator = GetComponent<PlayerAnimator>();
         playerAnimator.GetAnimator();
@@ -223,11 +227,7 @@ public class PlayerController : MonoBehaviour
         transform.position = CheckPoint.position;
     }
 
-    public void DarkPresence(bool kill)
-    {
-        //Increase Vignette on player if true, if false, decrease vignette until a certain threshold, like 0.3f.
-        //Start Heartbeat low and increase over time if true, if false, stop with fading out
-    }
+
 
     public void MoveAgainAfterRespawn()
     {

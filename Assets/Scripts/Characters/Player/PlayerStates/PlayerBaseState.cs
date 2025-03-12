@@ -144,6 +144,7 @@ public abstract class PlayerBaseState
 
     public virtual void HandleMove()
     {
+
     }
 
     public virtual void HandleInteract()
