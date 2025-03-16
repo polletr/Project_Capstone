@@ -6,7 +6,7 @@ public class LevelData : MonoBehaviour
 {
     public int CurrentSceneName { get; private set; }
 
-    [field: SerializeField] public List<SceneNames> ScenesToLoad { get; private set; } = new ();
+    [field: SerializeField] public List<SceneNames> NextScenes { get; private set; } = new ();
 
     [field: SerializeField] public Transform CheckPoint { get; private set; }
 
@@ -15,16 +15,6 @@ public class LevelData : MonoBehaviour
     private void Awake()
     {
         CurrentSceneName = gameObject.scene.buildIndex;
-    }
-
-    private void OnEnable()
-    {
-        Event.OnLoadStarterScene += EnteredScene;
-    }
-
-    private void OnDisable()
-    {
-        Event.OnLoadStarterScene -= EnteredScene;
     }
 
     public void EnteredScene()
