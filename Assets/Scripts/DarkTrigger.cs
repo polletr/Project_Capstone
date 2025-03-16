@@ -1,3 +1,5 @@
+using NUnit.Framework;
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -6,6 +8,7 @@ public class DarkTrigger : MonoBehaviour
     DarkPresenceHandler darkPresenceHandler;
 
     FlashLight flashLight;
+    [SerializeField] private GameObject[] objectsToDisable;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -14,7 +17,13 @@ public class DarkTrigger : MonoBehaviour
 
         flashLight = other.GetComponentInChildren<FlashLight>();
 
+        foreach (var obj in objectsToDisable)
+        {
+            obj.SetActive(false);
+        }
+
     }
+
     private void OnTriggerStay(Collider other)
     {
         if (darkPresenceHandler == null)
@@ -30,5 +39,11 @@ public class DarkTrigger : MonoBehaviour
 
         darkPresenceHandler.ReturnToNormal();
         darkPresenceHandler = null;
+
+        foreach (var obj in objectsToDisable)
+        {
+            obj.SetActive(true);
+        }
+
     }
 }
