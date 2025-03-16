@@ -28,7 +28,6 @@ public class GameEvent : ScriptableObject
     /// </summary>
     public UnityAction<LevelData> OnLevelChange;
     public UnityAction OnReloadScenes;
-    public UnityAction OnLoadStarterScene;
     public UnityAction<GlobalEventSO> OnTriggerCheckpoint;
     public UnityAction OnLoadCheckPointEvents;
 

@@ -21,5 +21,17 @@ public enum SceneNames
     L5Reception =14,
     L6Infirmary = 15,
     
-    EndMenu = 16
+    EndMenu = 16,
+    
+    TestMaster = 17,
+    LVL1 = 18,
+    LVL2 = 19,
+    LVL3 = 20,
+    LVL4 = 21,
+    LVL5 = 22,
+    LvL6 = 23,
+    
+    LVLDorm = 24
+    
+    
 }

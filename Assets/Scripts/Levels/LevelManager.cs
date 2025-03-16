@@ -47,14 +47,14 @@ public class LevelManager : Singleton<LevelManager>
         //unload all scenes except the master scene , current scene and  the scenes to load
         foreach (var scene in GetActiveScenes())
         {
-            if (scene != masterSceneindex && scene != _currentScene && !level.ScenesToLoad.Contains((SceneNames)scene))
+            if (scene != masterSceneindex && !level.NextScenes.Contains((SceneNames)scene))
             {
                 SceneManager.UnloadSceneAsync(scene);
             }
         }
 
         //load the new scenes   
-        foreach (var scene in level.ScenesToLoad)
+        foreach (var scene in level.NextScenes)
         {
             if (!SceneManager.GetSceneByBuildIndex((int)scene).isLoaded) //check if the scene is already loaded
             {
@@ -78,8 +78,7 @@ public class LevelManager : Singleton<LevelManager>
     /// </summary>
     private void LoadStartScene()
     {
-        var asyncLoad = SceneManager.LoadSceneAsync(_currentScene, LoadSceneMode.Additive);
-        asyncLoad.completed += (_) => { Event.OnLoadStarterScene?.Invoke(); };
+       SceneManager.LoadScene(_currentScene, LoadSceneMode.Additive);
     }
 
 
