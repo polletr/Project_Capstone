@@ -10,7 +10,7 @@ using UnityEngine.Events;
 [RequireComponent(typeof(SphereCollider))]
 public class LightController : MonoBehaviour
 {
-    private Light lightSource;
+    public Light lightSource { get; private set; }
 
     [Header("Flicker Settings")]
     [SerializeField] public float minFlickerDuration = 1f; // Minimum flicker duration

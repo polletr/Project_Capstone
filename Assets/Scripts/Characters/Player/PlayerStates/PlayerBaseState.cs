@@ -247,6 +247,8 @@ public abstract class PlayerBaseState
             if (obj.TryGetComponent(out Interactable thing))
             {
                 Player.interactableObj = thing;
+                Debug.Log(Player.interactableObj.name);
+
                 if (Player.interactableObj.indicatorHandler != null &&
                     Player.interactableObj.indicatorHandler.IndicatorUI != null)
                     Player.interactableObj.indicatorHandler.IndicatorUI.TriggerTextIndicator(true);
