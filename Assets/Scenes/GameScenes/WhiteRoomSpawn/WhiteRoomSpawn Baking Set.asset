@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4881f9a2c4d568047b316028d20a8dca, type: 3}
   m_Name: WhiteRoomSpawn Baking Set
   m_EditorClassIdentifier: 
-  singleSceneMode: 1
+  singleSceneMode: 0
   dialogNoProbeVolumeInSetShown: 1
   settings:
     m_Version: 1
@@ -33,14 +33,15 @@ MonoBehaviour:
         m_Bits: 4294967291
   m_SceneGUIDs:
   - 43601f637926afa4f8c2bab355a3a8cf
+  - 42f43f9166856604782ce2046917adb2
   obsoleteScenesToNotBake: []
   m_LightingScenarios:
   - Default
   cellDescs:
-    m_Keys: 0000000001000000
+    m_Keys: 0300000004000000
     m_Values:
     - position: {x: -1, y: 0, z: -1}
-      index: 0
+      index: 3
       probeCount: 4928
       minSubdiv: 0
       indexChunkCount: 91
@@ -54,7 +55,7 @@ MonoBehaviour:
         hasMinMax: 1
         hasOnlyBiggerBricks: 0
     - position: {x: 0, y: 0, z: -1}
-      index: 1
+      index: 4
       probeCount: 21184
       minSubdiv: 0
       indexChunkCount: 91
@@ -69,13 +70,13 @@ MonoBehaviour:
         hasOnlyBiggerBricks: 0
   m_SerializedPerSceneCellList:
   - sceneGUID: 43601f637926afa4f8c2bab355a3a8cf
-    cellList: 0000000001000000
+    cellList: 0300000004000000
   cellSharedDataAsset:
     m_AssetGUID: 18f67ab14e797924484f12d74c38afde
     m_StreamableAssetPath: APVStreamingAssets\438e1ac2e5d841b4485a9fd27d3c012e\18f67ab14e797924484f12d74c38afde.bytes
     m_ElementSize: 8192
     m_StreamableCellDescs:
-      m_Keys: 0000000001000000
+      m_Keys: 0300000004000000
       m_Values:
       - offset: 0
         elementCount: 1
@@ -86,13 +87,13 @@ MonoBehaviour:
     m_Keys:
     - Default
     m_Values:
-    - sceneHash: -1274023807
+    - sceneHash: 1106192992
       cellDataAsset:
         m_AssetGUID: 5982703860a44be478223929ac62f5e2
         m_StreamableAssetPath: APVStreamingAssets\438e1ac2e5d841b4485a9fd27d3c012e\5982703860a44be478223929ac62f5e2.bytes
         m_ElementSize: 131072
         m_StreamableCellDescs:
-          m_Keys: 0000000001000000
+          m_Keys: 0300000004000000
           m_Values:
           - offset: 0
             elementCount: 1
@@ -104,7 +105,7 @@ MonoBehaviour:
         m_StreamableAssetPath: APVStreamingAssets\438e1ac2e5d841b4485a9fd27d3c012e\700509a22ed8a7142bd0cb2dcc74f99c.bytes
         m_ElementSize: 131072
         m_StreamableCellDescs:
-          m_Keys: 0000000001000000
+          m_Keys: 0300000004000000
           m_Values:
           - offset: 0
             elementCount: 1
@@ -116,7 +117,7 @@ MonoBehaviour:
         m_StreamableAssetPath: APVStreamingAssets\438e1ac2e5d841b4485a9fd27d3c012e\06e6366fe1e8332499d0b361708e359c.bytes
         m_ElementSize: 32768
         m_StreamableCellDescs:
-          m_Keys: 0000000001000000
+          m_Keys: 0300000004000000
           m_Values:
           - offset: 0
             elementCount: 1
@@ -128,7 +129,7 @@ MonoBehaviour:
     m_StreamableAssetPath: APVStreamingAssets\438e1ac2e5d841b4485a9fd27d3c012e\a5f56d8d9635330448c4f449ba59a964.bytes
     m_ElementSize: 16
     m_StreamableCellDescs:
-      m_Keys: 0000000001000000
+      m_Keys: 0300000004000000
       m_Values:
       - offset: 0
         elementCount: 77
@@ -140,7 +141,7 @@ MonoBehaviour:
     m_StreamableAssetPath: APVStreamingAssets\438e1ac2e5d841b4485a9fd27d3c012e\5c7fcc8a0e6cec145bf046df02e2b1c6.bytes
     m_ElementSize: 262144
     m_StreamableCellDescs:
-      m_Keys: 0000000001000000
+      m_Keys: 0300000004000000
       m_Values:
       - offset: 0
         elementCount: 1
@@ -148,11 +149,11 @@ MonoBehaviour:
         elementCount: 3
     m_Asset: {fileID: 0}
   chunkSizeInBricks: 128
-  maxCellPosition: {x: 1, y: 1, z: 0}
-  minCellPosition: {x: -1, y: 0, z: -1}
+  maxCellPosition: {x: 1, y: 1, z: 1}
+  minCellPosition: {x: -1, y: -1, z: -1}
   globalBounds:
-    m_Center: {x: 0, y: 40.5, z: -40.5}
-    m_Extent: {x: 81, y: 40.5, z: 40.5}
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 81, y: 81, z: 81}
   bakedSimplificationLevels: 3
   bakedMinDistanceBetweenProbes: 1
   bakedProbeOcclusion: 1
@@ -201,9 +202,15 @@ MonoBehaviour:
   m_SceneBakeData:
     m_Keys:
     - 43601f637926afa4f8c2bab355a3a8cf
+    - 42f43f9166856604782ce2046917adb2
     m_Values:
     - hasProbeVolume: 1
       bakeScene: 1
       bounds:
         m_Center: {x: 0, y: 40.5, z: -40.5}
         m_Extent: {x: 81, y: 40.5, z: 40.5}
+    - hasProbeVolume: 1
+      bakeScene: 1
+      bounds:
+        m_Center: {x: 0, y: 0, z: 0}
+        m_Extent: {x: 81, y: 81, z: 81}

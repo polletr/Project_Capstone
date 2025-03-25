@@ -3,8 +3,11 @@ using UnityEngine;
 
 public class WhiteRoomPuzzle : Singleton<WhiteRoomPuzzle>
 {
+    public GlobalEventSO openDoor;
+
     [SerializeField] private LightController[] rooms = new LightController[7];
     [SerializeField] private bool[] outterLightCheck = new bool[7];
+    
 
     private bool[] innerLightCheck = new bool[7];
 
@@ -18,7 +21,6 @@ public class WhiteRoomPuzzle : Singleton<WhiteRoomPuzzle>
 
     public void CheckPuzzle(LightController light)
     {
-        Debug.Log("Check");
         int index = Array.IndexOf(rooms, light);
         if (index != -1)
         {
@@ -39,6 +41,7 @@ public class WhiteRoomPuzzle : Singleton<WhiteRoomPuzzle>
     void WinPuzzle()
     {
         Debug.Log("Win Puzzle!");
+        openDoor.OnTriggerGlobalEvent.Invoke();
         //Unlock Exit Door
         //Make sound for the unlock
         //Make all lights flicker
