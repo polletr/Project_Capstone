@@ -41,7 +41,7 @@ public class WhiteRoomPuzzle : Singleton<WhiteRoomPuzzle>
     void WinPuzzle()
     {
         Debug.Log("Win Puzzle!");
-        openDoor.OnTriggerGlobalEvent.Invoke();
+        //openDoor.OnTriggerGlobalEvent.Invoke();
         //Unlock Exit Door
         //Make sound for the unlock
         //Make all lights flicker
