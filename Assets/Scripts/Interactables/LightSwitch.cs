@@ -1,10 +1,14 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class LightSwitch : Interactable
 {
     [SerializeField] private LightController[] lightControllers;
 
     private Animator animator;
+
+    [SerializeField] private UnityEvent<bool> switchOnOff;
+    private bool lightState;
 
     private void Start()
     {
@@ -22,6 +26,8 @@ public class LightSwitch : Interactable
         foreach (LightController light in lightControllers)
         {
             light.TurnOnOffLight(!light.lightSource.enabled);
+            lightState = light.lightSource.enabled;
         }
+        switchOnOff.Invoke(lightState);
     }
 }
