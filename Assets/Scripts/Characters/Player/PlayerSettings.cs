@@ -40,6 +40,7 @@ public class PlayerSettings : ScriptableObject
     public float MaxEnemyDistance = 5.0f;
     public float DropItemTime = 3f;
     public float InteractionRange = 2.0f;
+    public float LookAtRange = 7.0f;
 
 
     [Header("Dynamic Movement")]
