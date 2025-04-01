@@ -85,12 +85,12 @@ public class PlayerController : MonoBehaviour
         ChangeState(MoveState);
         SetupSoundEvents();
         UpdateFlashlight();
+        Event.SetNewSpawn += SetSpawn;
     }
 
     private void OnEnable()
     {
         Event.OnPickupFlashlight += HandleFlashlightPickUp;
-        Event.SetNewSpawn += SetSpawn;
         Event.OnPlayerRespawn += Respawn;
         Event.OnLevelChange += WipeEnemyList;
     }
@@ -98,12 +98,16 @@ public class PlayerController : MonoBehaviour
     private void OnDisable()
     {
         Event.OnPickupFlashlight -= HandleFlashlightPickUp;
-        Event.SetNewSpawn -= SetSpawn;
         Event.OnPlayerRespawn -= Respawn;
         Event.OnLevelChange -= WipeEnemyList;
         
         if(playerFootsteps.isValid())
             playerFootsteps.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+    }
+
+    private void OnDestroy()
+    {
+        Event.SetNewSpawn -= SetSpawn;
     }
 
     private void Update()

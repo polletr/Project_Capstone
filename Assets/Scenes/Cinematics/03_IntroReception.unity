@@ -7376,6 +7376,7 @@ Transform:
   m_Children:
   - {fileID: 1211023447}
   - {fileID: 1018280328}
+  - {fileID: 928789228}
   m_Father: {fileID: 306367262}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &465739216
@@ -9407,7 +9408,7 @@ Transform:
   m_GameObject: {fileID: 718767711}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 20.53, y: 1030.612, z: 36.5}
+  m_LocalPosition: {x: 15.96, y: 1034.24, z: -6.203}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10738,7 +10739,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65dc311369b96a34ea226836e2c1fd75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <ScenesToLoad>k__BackingField: 020000000a000000
+  <NextScenes>k__BackingField: 0400000005000000
   <CheckPoint>k__BackingField: {fileID: 718767712}
   Event: {fileID: 11400000, guid: 821642c9ec9c5474b88bc1b575e70ddf, type: 2}
 --- !u!4 &793334874
@@ -12198,6 +12199,51 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &928789227
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 928789228}
+  - component: {fileID: 928789229}
+  m_Layer: 0
+  m_Name: RespawnPlayer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &928789228
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 928789227}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 465739214}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &928789229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 928789227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bb60af3893a7bc4496cfcf153c018ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalEvent: {fileID: 11400000, guid: f7ed8b3158f1a3a46ab94a2e96cadeed, type: 2}
 --- !u!1001 &947692105
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16238,7 +16284,7 @@ Transform:
   m_GameObject: {fileID: 1491036176}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -21.45, y: 1.16, z: 0}
+  m_LocalPosition: {x: 24.78, y: 1.16, z: -0.52}
   m_LocalScale: {x: 3.0386, y: 1, z: 6.5341}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -19287,6 +19333,30 @@ MonoBehaviour:
           m_CallState: 2
     - m_PersistentCalls:
         m_Calls:
+        - m_Target: {fileID: 793334873}
+          m_TargetAssemblyTypeName: LevelData, Assembly-CSharp
+          m_MethodName: EnteredScene
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 928789229}
+          m_TargetAssemblyTypeName: GlobalEventTrigger, Assembly-CSharp
+          m_MethodName: OnTriggerGlobalEvent
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
         - m_Target: {fileID: 465739218}
           m_TargetAssemblyTypeName: GlobalEventTrigger, Assembly-CSharp
           m_MethodName: OnTriggerGlobalEvent
@@ -19302,18 +19372,6 @@ MonoBehaviour:
         - m_Target: {fileID: 465739219}
           m_TargetAssemblyTypeName: GlobalEventTrigger, Assembly-CSharp
           m_MethodName: OnTriggerGlobalEvent
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-        - m_Target: {fileID: 793334873}
-          m_TargetAssemblyTypeName: LevelData, Assembly-CSharp
-          m_MethodName: EnteredScene
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}

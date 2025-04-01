@@ -1,31 +1,33 @@
 public enum SceneNames
 {
     MainMenu = 0,
-    
-    FirstWhiteRoom = 1,
-    IntroReception = 2,
 
-    P1WhiteRoomSpawn = 3,
-    Reception = 4,
-    P2Dorm = 5,
-    P3MirrorPuzzle = 6,
+    MasterScene = 1,
     
-    P4PaintingPuzzle = 7,
-    P5Infirmary = 8,
-    Lobotomy = 9,
-    ShockTherapy = 10,
+    FirstWhiteRoom = 2,
+    IntroReception = 3,
+
+    P1WhiteRoomSpawn = 4,
+    Reception = 5,
+    P2Dorm = 6,
+    P3MirrorPuzzle = 7,
     
-    EndMenu = 11,
+    P4PaintingPuzzle = 8,
+    P5Infirmary = 9,
+    Lobotomy = 10,
+    ShockTherapy = 11,
     
-    TestMaster = 12,
-    LVL1 = 13,
-    LVL2 = 14,
-    LVL3 = 15,
-    LVL4 = 16,
-    LVL5 = 17,
-    LvL6 = 18,
+    EndMenu = 12,
     
-    LVLDorm = 19
+    TestMaster = 13,
+    LVL1 = 14,
+    LVL2 = 15,
+    LVL3 = 16,
+    LVL4 = 17,
+    LVL5 = 18,
+    LvL6 = 19,
+    
+    LVLDorm = 20
     
     
 }

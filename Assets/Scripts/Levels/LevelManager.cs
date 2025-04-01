@@ -78,8 +78,11 @@ public class LevelManager : Singleton<LevelManager>
     /// </summary>
     private void LoadStartScene()
     {
-       SceneManager.LoadScene(_currentScene, LoadSceneMode.Additive);
+        var asyncLoad = SceneManager.LoadSceneAsync(_currentScene, LoadSceneMode.Additive);
+        asyncLoad.completed += (_) => { Event.OnLoadStarterScene?.Invoke(); };
     }
+
+
 
 
     private void ReloadActiveScenes()

@@ -11,6 +11,7 @@ public class GameEvent : ScriptableObject
     public UnityAction OnFadeBlackScreen;
     public UnityAction OnPlayerRespawn;
 
+
     public UnityAction OnPickupFlashlight;
     public UnityAction<FlashlightAbility> OnPickupAbility;
     public UnityAction<FlashlightAbility> OnRemoveAbility;
@@ -30,6 +31,8 @@ public class GameEvent : ScriptableObject
     public UnityAction OnReloadScenes;
     public UnityAction<GlobalEventSO> OnTriggerCheckpoint;
     public UnityAction OnLoadCheckPointEvents;
+
+    public UnityAction OnLoadStarterScene;
 
     public UnityAction<Transform> SetNewSpawn;
 
