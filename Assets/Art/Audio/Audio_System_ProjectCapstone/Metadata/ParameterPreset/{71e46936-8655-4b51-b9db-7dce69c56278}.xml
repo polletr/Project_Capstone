@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="ParameterPreset" id="{71e46936-8655-4b51-b9db-7dce69c56278}">
+		<property name="name">
+			<value>3D_Range</value>
+		</property>
+		<relationship name="folder">
+			<destination>{022fb35a-3ff1-4f16-a692-28c9edf31891}</destination>
+		</relationship>
+		<relationship name="parameter">
+			<destination>{bb05c4e2-ffd9-4466-a0cf-d0f86d8c6433}</destination>
+		</relationship>
+	</object>
+	<object class="GameParameter" id="{bb05c4e2-ffd9-4466-a0cf-d0f86d8c6433}">
+		<property name="maximum">
+			<value>20</value>
+		</property>
+		<property name="initialValue">
+			<value>20</value>
+		</property>
+		<relationship name="automators">
+			<destination>{29f0c535-6e2d-4e8f-bf5c-1ce61efdd3e3}</destination>
+		</relationship>
+	</object>
+	<object class="Automator" id="{29f0c535-6e2d-4e8f-bf5c-1ce61efdd3e3}">
+		<property name="nameOfPropertyBeingAutomated">
+			<value>cursorPosition</value>
+		</property>
+	</object>
+</objects>

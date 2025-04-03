@@ -1,9 +1,10 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class WhiteRoomPuzzle : Singleton<WhiteRoomPuzzle>
 {
-    public GlobalEventSO openDoor;
+    public UnityEvent OnPuzzleSolved;
 
     [SerializeField] private LightController[] rooms = new LightController[7];
     [SerializeField] private bool[] outterLightCheck = new bool[7];
@@ -41,7 +42,7 @@ public class WhiteRoomPuzzle : Singleton<WhiteRoomPuzzle>
     void WinPuzzle()
     {
         Debug.Log("Win Puzzle!");
-        openDoor.OnTriggerGlobalEvent.Invoke();
+        OnPuzzleSolved.Invoke();
         //Unlock Exit Door
         //Make sound for the unlock
         //Make all lights flicker

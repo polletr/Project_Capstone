@@ -12,6 +12,16 @@ public class LevelData : MonoBehaviour
 
     public GameEvent Event;
 
+    private void OnEnable()
+    {
+        Event.OnLoadStarterScene += EnteredScene;
+    }
+
+    private void OnDisable()
+    {
+        Event.OnLoadStarterScene -= EnteredScene;
+    }
+
     private void Awake()
     {
         CurrentSceneName = gameObject.scene.buildIndex;

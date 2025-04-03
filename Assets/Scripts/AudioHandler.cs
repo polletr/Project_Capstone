@@ -19,16 +19,18 @@ public class AudioHandler : MonoBehaviour
     private void OnEnable()
     {
         gameEvent.OnPlayerDeath += StopAudioInstance;
+        PlayFromStart.Invoke();
     }
 
     private void OnDisable()
     {
+        StopAudioInstance();
         gameEvent.OnPlayerDeath -= StopAudioInstance;
     }
     private void Awake()
     {
         gameEvent = AudioManagerFMOD.Instance.GameEvent;
-        PlayFromStart.Invoke();
+        
     }
     public void PlayOneShotAudio(Transform soundPoint)
     {
@@ -41,10 +43,12 @@ public class AudioHandler : MonoBehaviour
         audioInstance.start();
     }
 
-    public void Play3DAudio()
+    public void Play3DAudio(float range)
     {
         audioInstance = AudioManagerFMOD.Instance.CreateEventInstance(audioClip);
         audioInstance.set3DAttributes(RuntimeUtils.To3DAttributes(gameObject));
+        audioInstance.setParameterByName("3D_Range", range);
+
         audioInstance.start();
     }
 

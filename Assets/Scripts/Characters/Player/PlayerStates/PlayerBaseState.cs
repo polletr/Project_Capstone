@@ -2,6 +2,7 @@ using FMOD.Studio;
 using STOP_MODE = FMOD.Studio.STOP_MODE;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System;
 
 public abstract class PlayerBaseState
 {
@@ -50,10 +51,27 @@ public abstract class PlayerBaseState
 
         CheckInteractionUI();
 
+        CheckLookAtEvent();
+
         // Calculate the local movement direction relative to the player's forward direction
         var localDirection = Player.transform.InverseTransformDirection(direction);
 
     }
+
+    protected virtual void CheckLookAtEvent()
+    {
+        if (Physics.Raycast(Player.PlayerCam.transform.position, Player.PlayerCam.transform.forward, out RaycastHit hit,
+        Player.Settings.LookAtRange))
+        {
+            var obj = hit.collider.gameObject;
+            if (obj.TryGetComponent(out EventLookAtTrigger eventLook))
+            {
+                eventLook.InvokeEvent();
+            }
+
+        }
+    }
+
 
     public virtual void HandleMovement(Vector2 dir)
     {
