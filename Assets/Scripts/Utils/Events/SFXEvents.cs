@@ -57,5 +57,6 @@ public class SFXEvents : ScriptableObject
     [field: SerializeField] public EventReference DocumentsClose { get; private set; }
     [field: SerializeField] public EventReference SmoothAppear { get; private set; }
     [field: SerializeField] public EventReference DragObjects { get; private set; }
+    [field: SerializeField] public EventReference RingingAlarm { get; private set; }
 
 }
