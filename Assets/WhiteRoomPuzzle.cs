@@ -6,14 +6,18 @@ public class WhiteRoomPuzzle : Singleton<WhiteRoomPuzzle>
 {
     public UnityEvent OnPuzzleSolved;
 
-    [SerializeField] private LightController[] rooms = new LightController[7];
-    [SerializeField] private bool[] outterLightCheck = new bool[7];
+    [SerializeField] private LightController[] rooms;
+    [SerializeField] private bool[] outterLightCheck;
     
 
-    private bool[] innerLightCheck = new bool[7];
+    private bool[] innerLightCheck;
 
     private void Start()
     {
+        int length = rooms.Length;
+
+        innerLightCheck = new bool[length];
+
         for (int i = 0; i < innerLightCheck.Length; i++)
         {
             innerLightCheck[i] = true;
@@ -43,8 +47,6 @@ public class WhiteRoomPuzzle : Singleton<WhiteRoomPuzzle>
     {
         Debug.Log("Win Puzzle!");
         OnPuzzleSolved.Invoke();
-        //Unlock Exit Door
-        //Make sound for the unlock
         //Make all lights flicker
     }
 }
