@@ -32,7 +32,8 @@ public class WhiteRoomPuzzle : Singleton<WhiteRoomPuzzle>
             innerLightCheck[index] = light.lightSource.enabled;
         }
 
-        Debug.Log(innerLightCheck[index]);
+        Debug.Log("Inner: " + innerLightCheck[index]);
+        Debug.Log("Outter: " + outterLightCheck[index]);
 
         for (int i = 0; i < rooms.Length; i++)
         {
