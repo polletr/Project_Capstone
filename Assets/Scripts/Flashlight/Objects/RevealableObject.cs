@@ -148,8 +148,8 @@ public class RevealableObject : MonoBehaviour, IRevealable
                 revealSound.stop(STOP_MODE.IMMEDIATE);
                 AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.FlashlightReveal,
                     this.transform.position);
-                objectRevealed.Invoke();
                 IsRevealed = true;
+                objectRevealed.Invoke();
 
                 if (TryGetComponent(out NavMeshObstacle obstacle))
                 {
