@@ -5,24 +5,19 @@ using UnityEngine.Serialization;
 
 public class AppearPuzzle : MonoBehaviour
 {
-    public UnityEvent OnPuzzleSolved; 
+    public UnityEvent OnPuzzleSolved;
     public UnityEvent OnPuzzleFailed;
 
     [SerializeField] private RevealableObject[] revealableObjects;
     [SerializeField] private bool[] objectsToReveal;
 
-    private bool[] innerLightCheck; 
-    
+    private bool[] innerLightCheck;
+
     private void Start()
     {
         int length = revealableObjects.Length;
 
         innerLightCheck = new bool[length];
-
-        for (int i = 0; i < innerLightCheck.Length; i++)
-        {
-            innerLightCheck[i] = false;
-        }
     }
 
     public void CheckPuzzle(RevealableObject obj)
@@ -31,13 +26,16 @@ public class AppearPuzzle : MonoBehaviour
         if (index != -1)
         {
             innerLightCheck[index] = obj.IsRevealed;
+            Debug.Log($"CheckPuzzle: {obj.name} is {innerLightCheck[index]}");
         }
-        Debug.Log("CheckPuzzle: " + obj.name + obj.IsRevealed);
 
         for (int i = 0; i < revealableObjects.Length; i++)
         {
             if (innerLightCheck[i] == objectsToReveal[i])
                 continue;
+            if (objectsToReveal[i] && !innerLightCheck[i])
+                return;
+            
             LosePuzzle();
             return;
         }
@@ -50,6 +48,7 @@ public class AppearPuzzle : MonoBehaviour
         Debug.Log("Win Puzzle!");
         OnPuzzleSolved.Invoke();
     }
+
     void LosePuzzle()
     {
         Debug.Log("Lost Puzzle!");
