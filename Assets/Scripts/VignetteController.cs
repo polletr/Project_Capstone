@@ -5,11 +5,19 @@ using System.Collections;
 
 public class VignetteController : MonoBehaviour
 {
+
+    public GlobalEventTrigger PlayerDeath;
+    
+    [SerializeField] float transitionTimer = 1.5f; // Speed of the effect
+   
+    
     private Volume postProcessVolume; // Reference to the Post Process Volume
     private Vignette vignette; // Vignette effect
     float oldIntensity;
-    [SerializeField] float transitionTimer = 1.5f; // Speed of the effect
-
+    
+    
+    
+    
     void Start()
     {
         if (!TryGetComponent<Volume>(out postProcessVolume))
@@ -52,6 +60,13 @@ public class VignetteController : MonoBehaviour
             yield return null;
         }
 
+        
+        
         vignette.intensity.value = targetIntensity; // Ensure it reaches exact target
+
+        if (vignette.intensity.value >= 1)
+        {
+            PlayerDeath.OnTriggerGlobalEvent();
+        }
     }
 }

@@ -25,6 +25,7 @@ public class InputManager : Singleton<InputManager>
 
     private void OnEnable()
     {
+        Debug.Log("InputManager enabled");
         EnablePlayerInput();
         if (pauseMenu != null)
         {
@@ -55,8 +56,8 @@ public class InputManager : Singleton<InputManager>
 
         action.Player.PointerMove.performed += OnPointerMove;
 
-        action.Player.Attack.performed += (_) => player.HandleAttack(true);
-        action.Player.Attack.canceled += (_) => player.HandleAttack(false);
+        action.Player.Attack.performed += OnFlashlightAbility;
+        action.Player.Attack.canceled += OffFlashlightAbility;
 
         action.Player.Interact.performed += OnInteract;
 
@@ -74,8 +75,8 @@ public class InputManager : Singleton<InputManager>
 
         action.Player.PointerMove.performed -= OnPointerMove;
 
-        action.Player.Attack.canceled -= (_) => player.HandleAttack(false);
-        action.Player.Attack.performed -= (_) => player.HandleAttack(true);
+        action.Player.Attack.canceled -= OffFlashlightAbility;
+        action.Player.Attack.performed -= OnFlashlightAbility;
 
         action.Player.Interact.performed -= OnInteract;
 
@@ -104,7 +105,10 @@ public class InputManager : Singleton<InputManager>
         LookAround = input;
     }
 
-    private void OnInteract(InputAction.CallbackContext context) => player.HandleInteract();
+    private void OnInteract(InputAction.CallbackContext context) => player.HandleInteract();  
+    
+    private void OnFlashlightAbility(InputAction.CallbackContext context) =>  player.HandleAttack(true);
+    private void OffFlashlightAbility(InputAction.CallbackContext context) =>  player.HandleAttack(false);
 
     private void OnRechargeFlashlight(InputAction.CallbackContext context) => player.HandleRecharge();
 

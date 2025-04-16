@@ -1,17 +1,25 @@
+using DG.Tweening;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 
 public class AppearPuzzle : MonoBehaviour
 {
     public UnityEvent OnPuzzleSolved;
+    public UnityEvent OnPuzzleMistaken;
     public UnityEvent OnPuzzleFailed;
 
     [SerializeField] private RevealableObject[] revealableObjects;
     [SerializeField] private bool[] objectsToReveal;
+    [SerializeField] private int maxMistakes = 2;
+
+    [SerializeField] private GameObject darkTrigger;
+    [SerializeField] private float duration = 1;
+    [SerializeField] private List<Transform> darkTriggerPos = new();
 
     private bool[] innerLightCheck;
+    private int numofMistakes;
 
     private void Start()
     {
@@ -25,19 +33,37 @@ public class AppearPuzzle : MonoBehaviour
         int index = Array.IndexOf(revealableObjects, obj);
         if (index != -1)
         {
+            Debug.Log("Object" + obj.name + ": " + obj.IsRevealed);
             innerLightCheck[index] = obj.IsRevealed;
-            Debug.Log($"CheckPuzzle: {obj.name} is {innerLightCheck[index]}");
+            obj.ApplyOutline = false;
         }
 
         for (int i = 0; i < revealableObjects.Length; i++)
         {
-            if (innerLightCheck[i] == objectsToReveal[i])
+            if (objectsToReveal[i] == innerLightCheck[i])
                 continue;
             if (objectsToReveal[i] && !innerLightCheck[i])
-                return;
-            
-            LosePuzzle();
+                continue;
+
+            Debug.Log("Mistake!");
+
+            obj.UnRevealObj();
+            obj.ApplyOutline = true;
+            innerLightCheck[index] = false;
+
+            MoveDarkness();
+            numofMistakes++;
+            // increase darkness
+            OnPuzzleMistaken.Invoke();
+            if (numofMistakes >= maxMistakes)
+                LosePuzzle();
             return;
+        }
+
+        for (var i = 0; i < revealableObjects.Length; i++)
+        {
+            if (objectsToReveal[i] != innerLightCheck[i])
+                return;
         }
 
         WinPuzzle();
@@ -49,9 +75,18 @@ public class AppearPuzzle : MonoBehaviour
         OnPuzzleSolved.Invoke();
     }
 
+
     void LosePuzzle()
     {
         Debug.Log("Lost Puzzle!");
         OnPuzzleFailed.Invoke();
+    }
+
+    private void MoveDarkness()
+    {
+        if (numofMistakes >= darkTriggerPos.Count) return;
+        if (darkTriggerPos[numofMistakes] == null) return;
+
+        darkTrigger.transform.DOMove(darkTriggerPos[numofMistakes].position, duration).SetEase(Ease.InOutSine);
     }
 }

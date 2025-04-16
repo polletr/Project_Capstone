@@ -6,6 +6,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 [RequireComponent(typeof(Outline))]
 public class RevealableObject : MonoBehaviour, IRevealable
@@ -20,6 +21,7 @@ public class RevealableObject : MonoBehaviour, IRevealable
     [SerializeField] private UnityEvent objectRevealed;
     [SerializeField] private UnityEvent OnApplyEffect;
     [SerializeField] private UnityEvent OnRemoveEffect;
+    [field:SerializeField] public bool ApplyOutline {get; set; }= true;
 
     private EventInstance revealSound;
 
@@ -34,7 +36,6 @@ public class RevealableObject : MonoBehaviour, IRevealable
 
     private Outline outline;
 
-    [SerializeField] bool applyOutline = true;
     private void Awake()
     {
         originalTrigger = GetComponent<Collider>().isTrigger;
@@ -79,14 +80,14 @@ public class RevealableObject : MonoBehaviour, IRevealable
     public void ApplyEffect()
     {
         OnApplyEffect.Invoke();
-        if (applyOutline)
+        if (ApplyOutline)
             outline.AppyOutlineEffect();
     }
 
     public void RemoveEffect()
     {
         OnRemoveEffect.Invoke();
-        if (applyOutline)
+        if (ApplyOutline)
             outline.RemoveOutlineEffect();
     }
 
@@ -149,7 +150,7 @@ public class RevealableObject : MonoBehaviour, IRevealable
                 AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.FlashlightReveal,
                     this.transform.position);
                 IsRevealed = true;
-                objectRevealed.Invoke();
+                 objectRevealed.Invoke();
 
                 if (TryGetComponent(out NavMeshObstacle obstacle))
                 {
