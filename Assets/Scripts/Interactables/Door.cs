@@ -1,13 +1,13 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.AI;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
-public class Door : Interactable
+public class Door : Interactable , IUnlockable
 {
     [field: SerializeField] public int OpenID { get; private set; }
-    public bool IsOpen = false;
-    [SerializeField] private bool isLocked;
+    public bool IsOpen;
+    [field: SerializeField] public bool IsLocked{ get; private set; }
     [SerializeField] private UnityEvent OnOpen;
     [SerializeField] private UnityEvent OnClose;
     [SerializeField] private UnityEvent OnUnlock;
@@ -68,7 +68,7 @@ public class Door : Interactable
 
     public override void OnInteract()
     {
-        if (!isLocked)
+        if (!IsLocked)
         {
             if (IsOpen)
             {
@@ -81,9 +81,20 @@ public class Door : Interactable
         }
         else
         {
-            Event.OnTryToUnlockDoor?.Invoke(this);
+            TryToUnlock();
         }
     }
+
+    public void TryToUnlock()
+    {
+       Event.OnTryToUnlock?.Invoke(this);
+    }
+    
+    public void Unlock() => OpenDoor();
+    
+    public void StayLocked() =>LockedDoor();
+    
+    
 
     private void OpenDoor(float speed, GameObject user)
     {
@@ -176,7 +187,7 @@ public class Door : Interactable
     {
         AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.UnlockDoor, transform.position);
         OnUnlock.Invoke();
-        isLocked = false;
+        IsLocked = false;
         OpenDoor(rotationSpeed, playerCamera);
     }
 
@@ -223,11 +234,11 @@ public class Door : Interactable
 
     public void OnLockOrUnlockDoor(bool islockedDoor)
     {
-        isLocked = islockedDoor;
+        IsLocked = islockedDoor;
         if (indicatorHandler != null && indicatorHandler.IndicatorUI != null)
-            indicatorHandler.IndicatorUI.SetLockedIndicator(isLocked);
+            indicatorHandler.IndicatorUI.SetLockedIndicator(IsLocked);
 
-        if (!isLocked)
+        if (!IsLocked)
             AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.UnlockDoor, transform.position);
     }
 
