@@ -13,14 +13,14 @@ public class PlayerInventory : MonoBehaviour
     private float numBatteryCollectedperCheckpoint;
     private float numCrankCollectedperCheckpoint;
 
-    private List<int> _openDoorIDs = new();
+    private List<int> _collectedKeyID = new();
 
     public GameEvent Event;
     
     private void OnEnable()
     {
         Event.OnInteractItem += CollectItem;
-        Event.OnTryToUnlockDoor += TryToOpenDoor;
+        Event.OnTryToUnlock += TryToOpenLock;
         Event.OnLevelChange += RemoveAllKeys;
         Event.OnPlayerDeath += PlayerDiedRemoveAbility;
         Event.OnPlayerDeath += RemoveBattery;
@@ -30,24 +30,24 @@ public class PlayerInventory : MonoBehaviour
     private void OnDisable()
     {
         Event.OnInteractItem -= CollectItem;
-        Event.OnTryToUnlockDoor -= TryToOpenDoor;
+        Event.OnTryToUnlock -= TryToOpenLock;
         Event.OnLevelChange -= RemoveAllKeys;
         Event.OnPlayerDeath -= PlayerDiedRemoveAbility;
         Event.OnPlayerDeath -= RemoveBattery;
         Event.OnLevelChange -= RestAbilityCheckpointCounter;
     }
 
-    private void TryToOpenDoor(Door door)
+    private void TryToOpenLock(IUnlockable locked)
     {
-        if (_openDoorIDs.Contains(door.OpenID))
+        if (_collectedKeyID.Contains(locked.OpenID))
         {
-            door.OpenDoor();
+            locked.Unlock();
             //Event.SetTutorialTextTimer.Invoke("Key has been used");
-            _openDoorIDs.Remove(door.OpenID);
+            _collectedKeyID.Remove(locked.OpenID);
         }
         else
         {
-            door.LockedDoor();
+            locked.StayLocked();
         }
     }
 
@@ -66,8 +66,8 @@ public class PlayerInventory : MonoBehaviour
                 abilityPickup.Collect();
                 break;
             case Key key:
-                if (!_openDoorIDs.Contains(key.OpenID))
-                    _openDoorIDs.Add(key.OpenID);
+                if (!_collectedKeyID.Contains(key.OpenID))
+                    _collectedKeyID.Add(key.OpenID);
                 Event.OnKeyPickup.Invoke(key.OpenID);
                 item.Collect();
                 break;
@@ -111,7 +111,7 @@ public class PlayerInventory : MonoBehaviour
 
     private void RemoveAllKeys(LevelData data)
     {
-        _openDoorIDs.Clear();
+        _collectedKeyID.Clear();
     }
 
     private void PlayerDiedRemoveAbility()
