@@ -19,6 +19,11 @@ public class AudioManagerFMOD : Singleton<AudioManagerFMOD>
         RuntimeManager.PlayOneShot(sound, worldPos);
     }
 
+    public void PlayOneShot2D(EventReference sound)
+    {
+        RuntimeManager.PlayOneShot(sound);
+    }
+
     // Create an EventInstance and store it in the list
     public EventInstance CreateEventInstance(EventReference eventReference)
     {
