@@ -31,7 +31,7 @@ public class MainMenu : Menu
     {
         Cursor.lockState = CursorLockMode.Locked; //Move this from here later
         Cursor.visible = false; //Move this from here later
-        SceneManager.LoadScene("GameScene");
+        SceneManager.LoadScene("01_MasterScene");
     }
 
     public void PlayClickSound()

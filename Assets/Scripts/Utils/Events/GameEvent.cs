@@ -16,9 +16,10 @@ public class GameEvent : ScriptableObject
     public UnityAction<FlashlightAbility> OnPickupAbility;
     public UnityAction<FlashlightAbility> OnRemoveAbility;
 
-    public UnityAction<Door> OnTryToUnlockDoor;
+    public UnityAction<IUnlockable> OnTryToUnlock;
     public UnityAction<ICollectable> OnInteractItem;
     public UnityAction<int> OnKeyPickup;
+    public UnityAction OnFinalExitOpen;
 
     public UnityAction<float> OnBatteryAdded;
     public UnityAction<float> OnCrankAdded;

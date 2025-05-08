@@ -52,6 +52,11 @@ public class AudioHandler : MonoBehaviour
         audioInstance.start();
     }
 
+    public void Play2DAudio()
+    {
+        AudioManagerFMOD.Instance.PlayOneShot2D(audioClip);
+    }
+
 
     public void StopAudioInstance()
     {
