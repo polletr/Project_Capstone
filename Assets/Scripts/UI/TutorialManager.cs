@@ -129,7 +129,7 @@ public class TutorialManager : MonoBehaviour
 
     private void RevealText()
     {
-        SetText("Hold down left mouse button with the flashlight on to reveal hidden objects");
+        SetText("Hold down left mouse button with the flashlight to reveal hidden objects");
         TutorialEvent.OnReveal += RemoveRevealText;
     }
 

@@ -1,3 +1,5 @@
+using NUnit.Framework;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -8,6 +10,8 @@ public class ChainLock : MonoBehaviour, IUnlockable
     [field: SerializeField] public bool IsLocked { get; private set; }
     
     public UnityEvent OnUnlockChainLock;
+
+    public GameObject Lock;
     
     public void Unlock()
     {
@@ -15,11 +19,14 @@ public class ChainLock : MonoBehaviour, IUnlockable
         IsLocked = false;
         //disolve the lock? drop it
         OnUnlockChainLock?.Invoke();
+        Lock.GetComponent<DissolveEffectOnObject>().DisableObj();
         FinalExitManager.Instance.CheckChains();
     }
-    
-    public void TryToUnlock() => Event.OnTryToUnlock?.Invoke(this);    
-    
+
+    public void TryToUnlock()
+    {
+        Event.OnTryToUnlock?.Invoke(this);
+    }
     public void StayLocked()
     {
         //AudioManagerFMOD.Instance.PlayOneShot(AudioManagerFMOD.Instance.SFXEvents.EasyLockedDoor, transform.position);

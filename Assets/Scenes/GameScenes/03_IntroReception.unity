@@ -25,8 +25,8 @@ RenderSettings:
   m_AmbientEquatorColor: {r: 0.3207547, g: 0.3077862, b: 0.27536488, a: 1}
   m_AmbientGroundColor: {r: 0.09433961, g: 0.09095762, b: 0.09095762, a: 1}
   m_AmbientIntensity: 1
-  m_AmbientMode: 3
-  m_SubtractiveShadowColor: {r: 0.10943389, g: 0.108814456, b: 0.108814456, a: 1}
+  m_AmbientMode: 0
+  m_SubtractiveShadowColor: {r: 1, g: 1, b: 1, a: 1}
   m_SkyboxMaterial: {fileID: 2100000, guid: 79e0359a2feae3b4a8dda74a3d2e39ec, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
@@ -287,6 +287,51 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &32971952
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 32971953}
+  - component: {fileID: 32971954}
+  m_Layer: 0
+  m_Name: EnableInput
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &32971953
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 32971952}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 465739214}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &32971954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 32971952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bb60af3893a7bc4496cfcf153c018ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalEvent: {fileID: 11400000, guid: 03339050bf0039d44b93de08e85fac54, type: 2}
 --- !u!1 &38435620
 GameObject:
   m_ObjectHideFlags: 0
@@ -6485,6 +6530,8 @@ Transform:
   - {fileID: 1211023447}
   - {fileID: 1018280328}
   - {fileID: 928789228}
+  - {fileID: 1968008632}
+  - {fileID: 32971953}
   m_Father: {fileID: 306367262}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &465739216
@@ -13814,7 +13861,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 1211023446}
+      - m_Target: {fileID: 1968008633}
         m_TargetAssemblyTypeName: GlobalEventTrigger, Assembly-CSharp
         m_MethodName: OnTriggerGlobalEvent
         m_Mode: 1
@@ -16334,18 +16381,6 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 928789229}
-          m_TargetAssemblyTypeName: GlobalEventTrigger, Assembly-CSharp
-          m_MethodName: OnTriggerGlobalEvent
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
         - m_Target: {fileID: 465739218}
           m_TargetAssemblyTypeName: GlobalEventTrigger, Assembly-CSharp
           m_MethodName: OnTriggerGlobalEvent
@@ -16379,6 +16414,18 @@ MonoBehaviour:
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 40
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 32971954}
+          m_TargetAssemblyTypeName: GlobalEventTrigger, Assembly-CSharp
+          m_MethodName: OnTriggerGlobalEvent
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
@@ -18885,6 +18932,51 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &1968008631
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1968008632}
+  - component: {fileID: 1968008633}
+  m_Layer: 0
+  m_Name: DisableInput
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1968008632
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1968008631}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 465739214}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1968008633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1968008631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bb60af3893a7bc4496cfcf153c018ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalEvent: {fileID: 11400000, guid: 743d7b480f22ef54cb855638541f8ec1, type: 2}
 --- !u!43 &1969223404
 Mesh:
   m_ObjectHideFlags: 0
