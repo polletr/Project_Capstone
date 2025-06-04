@@ -44,6 +44,8 @@ public class GameEvent : ScriptableObject
     public UnityAction<PlayerController> PlayerExitedSafeZone;
     public UnityAction<int> PlayerEnteredSafeZone;
 
+    public UnityAction<SubtitleLine> OnRaised;
+
     int timer = 0;
 
     public void HandlePlayerFootSteps(Vector3 position, float range)
