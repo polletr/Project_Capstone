@@ -79,16 +79,23 @@ public class RevealableObject : MonoBehaviour, IRevealable
 
     public void ApplyEffect()
     {
-        OnApplyEffect.Invoke();
-        if (ApplyOutline)
-            outline.AppyOutlineEffect();
+        if (!IsRevealed)
+        {
+            OnApplyEffect.Invoke();
+            if (ApplyOutline)
+                outline.AppyOutlineEffect();
+
+        }
     }
 
     public void RemoveEffect()
     {
-        OnRemoveEffect.Invoke();
-        if (ApplyOutline)
-            outline.RemoveOutlineEffect();
+        if (!IsRevealed)
+        {
+            OnRemoveEffect.Invoke();
+            if (ApplyOutline)
+                outline.RemoveOutlineEffect();
+        }
     }
 
     public void SuddenReveal()

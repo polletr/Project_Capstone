@@ -25,8 +25,10 @@ public class TutorialTrigger : MonoBehaviour
  
      public void InvokeEvent()
      {
+
          if (tutorialDataList.Count > 0)
          {
+            Debug.Log("Tutorial Triggered");
            TutorialManager.Instance.SetTutorial(tutorialDataList[currentTutorialIndex]);
          }
      }
@@ -36,7 +38,11 @@ public class TutorialTrigger : MonoBehaviour
          tutorialDataList[currentTutorialIndex].OnEndTutorial -= OnEndTutorial;
          currentTutorialIndex++;
 
-         if (currentTutorialIndex >= tutorialDataList.Count) return;
+         if (currentTutorialIndex >= tutorialDataList.Count)
+            {
+                TutorialManager.Instance.WipeScreen();
+                return;
+            }
          
          tutorialDataList[currentTutorialIndex].OnEndTutorial += OnEndTutorial;
         TutorialManager.Instance.SetNextTutorial(tutorialDataList[currentTutorialIndex]);
@@ -46,7 +52,8 @@ public class TutorialTrigger : MonoBehaviour
      {
          if (other.CompareTag("Player"))
          {
-             InvokeEvent();
+            InvokeEvent();
+            GetComponent<Collider>().enabled = false;
          }
      }
  

@@ -7,10 +7,13 @@ using UnityEngine;
 using Utilities;
 using Random = UnityEngine.Random;
 
+using Tutorial;
+
 public class FlashLight : MonoBehaviour
 {
     public GameEvent Event;
-    public TutorialEvents TutorialEvent;
+    public TutorialData BatteryTutorial;
+    public TutorialData OnOffTutorial;
 
     // Battery Settings
     [field: Header("Battery Settings")]
@@ -170,7 +173,7 @@ public class FlashLight : MonoBehaviour
         if (IsFlashlightOn && flickerCoroutine == null)
         {
             flickerCoroutine = StartCoroutine(Flicker(2f, TurnOffLight));
-            Event.SetTutorialText?.Invoke("Press R to Recharge"); //Ui to change battery
+            TutorialManager.Instance.SetTutorial(BatteryTutorial);
         }
         // Turn off the flashlight
     }
@@ -377,6 +380,9 @@ public class FlashLight : MonoBehaviour
 
     private void TurnOnLight()
     {
+        if (TutorialManager.Instance.CurrentTutorial = OnOffTutorial)
+            TutorialManager.Instance.SetNextTutorial(OnOffTutorial);
+        
         if (!IsBatteryDead())
         {
             Light.enabled = IsFlashlightOn = true;
@@ -398,12 +404,10 @@ public class FlashLight : MonoBehaviour
         IsFlashlightOn = !IsFlashlightOn;
         if (IsFlashlightOn)
         {
-            TutorialEvent.OnTurnOnFlashlight?.Invoke();
             TurnOnLight();
         }
         else
         {
-            TutorialEvent.OnTurnOffFlashlight?.Invoke();
             TurnOffLight();
         }
     }

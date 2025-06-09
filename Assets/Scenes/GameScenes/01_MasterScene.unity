@@ -549,8 +549,25 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6078618007356151088, guid: bedc4c315612c0d429f32fda2e727742,
         type: 3}
+      propertyPath: OnOffTutorial
+      value: 
+      objectReference: {fileID: 11400000, guid: df669bc45d239dd43b44492a2c5e0125,
+        type: 2}
+    - target: {fileID: 6078618007356151088, guid: bedc4c315612c0d429f32fda2e727742,
+        type: 3}
+      propertyPath: BatteryTutorial
+      value: 
+      objectReference: {fileID: 11400000, guid: 877f5ae1dd2ddbd49a07b2edc3897587,
+        type: 2}
+    - target: {fileID: 6078618007356151088, guid: bedc4c315612c0d429f32fda2e727742,
+        type: 3}
       propertyPath: minCloseDistance
       value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6078618007356151088, guid: bedc4c315612c0d429f32fda2e727742,
+        type: 3}
+      propertyPath: <BatteryLife>k__BackingField
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 6078618007356151088, guid: bedc4c315612c0d429f32fda2e727742,
         type: 3}
@@ -2429,6 +2446,53 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!1 &585359109
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 585359111}
+  - component: {fileID: 585359110}
+  m_Layer: 0
+  m_Name: AudioManagaerFMOD
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &585359110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 585359109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a87fc061cec8f7b4f857ba6a2d953928, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <IsPersistent>k__BackingField: 1
+  SFXEvents: {fileID: 11400000, guid: e5e041ad745e0604088aa3d2336fce06, type: 2}
+  GameEvent: {fileID: 11400000, guid: 821642c9ec9c5474b88bc1b575e70ddf, type: 2}
+--- !u!4 &585359111
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 585359109}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -79.43671, y: 0, z: -49.16461}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &596902719
 GameObject:
   m_ObjectHideFlags: 0
@@ -5642,7 +5706,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1864753164}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: TutorialManager, Assembly-CSharp
         m_MethodName: RemoveAllText
         m_Mode: 1
@@ -8057,40 +8121,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1864753165}
-  - component: {fileID: 1864753164}
+  - component: {fileID: 1864753166}
   m_Layer: 0
   m_Name: TutorialManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &1864753164
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1864753163}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 667353579e70e154f9442e94423f8129, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _tutorialTime: 5
-  _tutorialtext: {fileID: 1660467732}
-  _rechargetext: {fileID: 432829589}
-  Event: {fileID: 11400000, guid: 821642c9ec9c5474b88bc1b575e70ddf, type: 2}
-  TutorialEvent: {fileID: 11400000, guid: 83c8ad025fa11d44283340cb1b2188ec, type: 2}
-  stunTutorial: {fileID: 11400000, guid: 5aa61d814003e7546bdbbde5a72026a8, type: 2}
-  disappearTutorial: {fileID: 11400000, guid: f391532ad443bf64b80c10854a79a3d9, type: 2}
-  revealTutorial: {fileID: 11400000, guid: d91e6bebae4c373498073652eae9d97a, type: 2}
-  swapAbilityTutorial: {fileID: 11400000, guid: fca40bade891eb048819b5988af3ade2,
-    type: 2}
-  flashlightOnTutorial: {fileID: 11400000, guid: 3700aae023367244083cef3e24cbbd94,
-    type: 2}
-  flashlightOffTutorial: {fileID: 11400000, guid: bd05d6ee167e71742b5dd923530c029e,
-    type: 2}
+  m_IsActive: 1
 --- !u!4 &1864753165
 Transform:
   m_ObjectHideFlags: 0
@@ -8106,6 +8144,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1864753166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1864753163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a303d9b5c8c39d04398b2514e4c4c9b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <IsPersistent>k__BackingField: 1
+  tutorialText: {fileID: 1660467732}
 --- !u!1 &1888674722
 GameObject:
   m_ObjectHideFlags: 0
@@ -9242,3 +9294,4 @@ SceneRoots:
   - {fileID: 46502968}
   - {fileID: 628576645}
   - {fileID: 8763452}
+  - {fileID: 585359111}

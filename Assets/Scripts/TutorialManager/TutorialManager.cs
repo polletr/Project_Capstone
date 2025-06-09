@@ -14,6 +14,7 @@ namespace Tutorial
 
         public void SetTutorial(TutorialData tutorialData)
         {
+            Debug.Log("Start Tutorial");
             CurrentTutorial = tutorialData;
             tutorialText.text = CurrentTutorial.Message;
             CurrentTutorial.OnDoTutorial += CurrentTutorial.End;
@@ -33,10 +34,10 @@ namespace Tutorial
             SetTutorial(tutorialData);
         }
 
-        private void WipeScreen()
+        public void WipeScreen()
         {
             CurrentTutorial.OnEndTutorial -= WipeScreen;
-            tutorialText.text = "Done!";
+            tutorialText.text = "";
             CurrentTutorial = null;
         }
     }
