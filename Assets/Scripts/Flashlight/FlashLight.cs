@@ -14,6 +14,8 @@ public class FlashLight : MonoBehaviour
     public GameEvent Event;
     public TutorialData BatteryTutorial;
     public TutorialData OnOffTutorial;
+    public TutorialData RevealTutorial;
+
 
     // Battery Settings
     [field: Header("Battery Settings")]
@@ -381,7 +383,7 @@ public class FlashLight : MonoBehaviour
     private void TurnOnLight()
     {
         if (TutorialManager.Instance.CurrentTutorial = OnOffTutorial)
-            TutorialManager.Instance.SetNextTutorial(OnOffTutorial);
+            TutorialManager.Instance.SetNextTutorial(RevealTutorial);
         
         if (!IsBatteryDead())
         {

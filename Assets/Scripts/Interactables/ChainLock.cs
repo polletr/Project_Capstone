@@ -6,7 +6,7 @@ using UnityEngine.Events;
 public class ChainLock : MonoBehaviour, IUnlockable
 {
     public GameEvent Event;
-    [field:SerializeField] public int OpenID { get; }
+    [field:SerializeField] public int OpenID { get; private set; }
     [field: SerializeField] public bool IsLocked { get; private set; }
     
     public UnityEvent OnUnlockChainLock;
@@ -20,7 +20,7 @@ public class ChainLock : MonoBehaviour, IUnlockable
         //disolve the lock? drop it
         OnUnlockChainLock?.Invoke();
         Lock.GetComponent<DissolveEffectOnObject>().DisableObj();
-        FinalExitManager.Instance.CheckChains();
+        //FinalExitManager.Instance.CheckChains();
     }
 
     public void TryToUnlock()

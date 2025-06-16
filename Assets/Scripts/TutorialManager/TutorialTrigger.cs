@@ -40,6 +40,7 @@ public class TutorialTrigger : MonoBehaviour
 
          if (currentTutorialIndex >= tutorialDataList.Count)
             {
+                Debug.Log("Wipe");
                 TutorialManager.Instance.WipeScreen();
                 return;
             }

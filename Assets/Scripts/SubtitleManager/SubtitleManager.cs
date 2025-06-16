@@ -3,7 +3,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.Events;
 
-public class SubtitleManager : MonoBehaviour
+public class SubtitleManager : Singleton<SubtitleManager>
 {
     public TextMeshProUGUI subtitleText;
     public CanvasGroup subtitleGroup;
@@ -42,17 +42,40 @@ public class SubtitleManager : MonoBehaviour
     {
         subtitleText.text = line.text;
         subtitleText.color = line.textColor;
-        subtitleGroup.alpha = 1;
 
+        float fadeInDuration = 0.5f;   // adjust as needed
+        float fadeOutDuration = 0.5f;  // adjust as needed
+
+        // --- Fade IN ---
+        float t = 0f;
+        float startAlpha = subtitleGroup.alpha; // in case it's partially visible
+        while (t < fadeInDuration)
+        {
+            t += Time.deltaTime;
+            subtitleGroup.alpha = Mathf.Lerp(startAlpha, 1f, t / fadeInDuration);
+            yield return null;
+        }
+        subtitleGroup.alpha = 1f; // ensure it's fully opaque
+
+        // --- Wait full duration ---
         if (line.duration > 0)
         {
             yield return new WaitForSeconds(line.duration);
-            HideSubtitles();
+
+            // --- Fade OUT ---
+            t = 0f;
+            while (t < fadeOutDuration)
+            {
+                t += Time.deltaTime;
+                subtitleGroup.alpha = Mathf.Lerp(1f, 0f, t / fadeOutDuration);
+                yield return null;
+            }
+            subtitleGroup.alpha = 0f;
+
             OnSubtitleEnd?.Invoke();
         }
         // else wait for manual Continue
     }
-
     public void HideSubtitles()
     {
         subtitleGroup.alpha = 0;

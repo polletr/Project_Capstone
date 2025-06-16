@@ -8454,6 +8454,9 @@ MonoBehaviour:
   PlayFromStart:
     m_PersistentCalls:
       m_Calls: []
+  OnPlay:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!4 &488159673
 Transform:
   m_ObjectHideFlags: 0
@@ -8901,6 +8904,9 @@ MonoBehaviour:
       Data4: 94874446
     Path: event:/Enemies/StepFather/StepFatherSecret
   PlayFromStart:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPlay:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1001 &505186800
@@ -13242,115 +13248,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 644576146}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &647459905
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 647459908}
-  - component: {fileID: 647459907}
-  - component: {fileID: 647459906}
-  - component: {fileID: 647459909}
-  m_Layer: 0
-  m_Name: BlockWall
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
-  m_IsActive: 0
---- !u!23 &647459906
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 647459905}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 3e7ed23e8d5819643ba786f4aff976f5, type: 2}
-  - {fileID: 2100000, guid: 3e7ed23e8d5819643ba786f4aff976f5, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 2
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &647459907
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 647459905}
-  m_Mesh: {fileID: 9070883827559948719, guid: 8d8e67515b2fbdd438bedd971710a5a4, type: 3}
---- !u!4 &647459908
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 647459905}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -1, z: -0, w: 0.0000005513429}
-  m_LocalPosition: {x: -10.453024, y: 4.678, z: -54.038002}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
---- !u!65 &647459909
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 647459905}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.30785775, y: 4.001239, z: 4.0000014}
-  m_Center: {x: 0.100000665, y: 1.9993806, z: 2.0000007}
 --- !u!1001 &648409912
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13699,7 +13596,7 @@ PrefabInstance:
         type: 3}
       propertyPath: OnTriggerEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 647459905}
+      objectReference: {fileID: 0}
     - target: {fileID: 2095272179484061901, guid: abe1644e14f4df945bbcd917df03a42f,
         type: 3}
       propertyPath: OnTriggerEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -14220,6 +14117,9 @@ MonoBehaviour:
       Data4: 268208358
     Path: event:/BackgroundMusic/EmptyAmbiance
   PlayFromStart:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPlay:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &664902656
@@ -18477,7 +18377,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65dc311369b96a34ea226836e2c1fd75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <NextScenes>k__BackingField: 
+  <NextScenes>k__BackingField: 040000000500000006000000
   <CheckPoint>k__BackingField: {fileID: 669805162}
   Event: {fileID: 11400000, guid: 821642c9ec9c5474b88bc1b575e70ddf, type: 2}
 --- !u!4 &793334874
@@ -19081,6 +18981,9 @@ MonoBehaviour:
   PlayFromStart:
     m_PersistentCalls:
       m_Calls: []
+  OnPlay:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &841362292
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19101,6 +19004,9 @@ MonoBehaviour:
       Data4: -1136075970
     Path: event:/SFX/Objects/Thunder
   PlayFromStart:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPlay:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1001 &843047785
@@ -31488,7 +31394,7 @@ PrefabInstance:
         type: 3}
       propertyPath: OnTriggerGlobalEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 647459905}
+      objectReference: {fileID: 0}
     - target: {fileID: 6705284130030773963, guid: 1ed3f7f845abd7441a1871285a0c06cf,
         type: 3}
       propertyPath: OnTriggerGlobalEvent.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
@@ -38317,6 +38223,9 @@ MonoBehaviour:
   PlayFromStart:
     m_PersistentCalls:
       m_Calls: []
+  OnPlay:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &1947677551
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -41235,4 +41144,3 @@ SceneRoots:
   - {fileID: 650880574}
   - {fileID: 1831806145}
   - {fileID: 1296103128}
-  - {fileID: 647459908}

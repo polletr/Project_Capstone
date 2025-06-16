@@ -13,6 +13,7 @@ public class AudioHandler : MonoBehaviour
     EventInstance audioInstance;
 
     [SerializeField] UnityEvent PlayFromStart;
+    [SerializeField] UnityEvent OnPlay;
 
     private GameEvent gameEvent;
 
@@ -35,12 +36,16 @@ public class AudioHandler : MonoBehaviour
     public void PlayOneShotAudio(Transform soundPoint)
     {
         AudioManagerFMOD.Instance.PlayOneShot(audioClip, soundPoint.position);
+        OnPlay.Invoke();
+
     }
 
     public void PlayAudioInstance()
     {
         audioInstance = AudioManagerFMOD.Instance.CreateEventInstance(audioClip);
         audioInstance.start();
+        OnPlay.Invoke();
+
     }
 
     public void Play3DAudio(float range)
@@ -50,11 +55,14 @@ public class AudioHandler : MonoBehaviour
         audioInstance.setParameterByName("3D_Range", range);
 
         audioInstance.start();
+        OnPlay.Invoke();
     }
 
     public void Play2DAudio()
     {
         AudioManagerFMOD.Instance.PlayOneShot2D(audioClip);
+        OnPlay.Invoke();
+
     }
 
 
