@@ -10,6 +10,8 @@ public enum SceneNames
     FirstReception = 4,
     DormPuzzle = 5,
     H2 = 6,
+
+    LobotomyCinematic = 7
     
     
 }

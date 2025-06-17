@@ -11325,6 +11325,7 @@ MonoBehaviour:
   tutorialDataList:
   - {fileID: 11400000, guid: df669bc45d239dd43b44492a2c5e0125, type: 2}
   - {fileID: 11400000, guid: 27250f7b4255f1a4e891f9c3e937f4c3, type: 2}
+  - {fileID: 11400000, guid: 8915d9184e0afcb4991214489b23b40c, type: 2}
 --- !u!1001 &744553014
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -27154,6 +27155,41 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2141516813}
     m_Modifications:
+    - target: {fileID: 12325932320889345, guid: e5ffd160c02c8084589301b19d6fa4cc,
+        type: 3}
+      propertyPath: onPlayerInteract.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 12325932320889345, guid: e5ffd160c02c8084589301b19d6fa4cc,
+        type: 3}
+      propertyPath: onPlayerInteract.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 12325932320889345, guid: e5ffd160c02c8084589301b19d6fa4cc,
+        type: 3}
+      propertyPath: onPlayerInteract.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 732466522}
+    - target: {fileID: 12325932320889345, guid: e5ffd160c02c8084589301b19d6fa4cc,
+        type: 3}
+      propertyPath: onPlayerInteract.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 12325932320889345, guid: e5ffd160c02c8084589301b19d6fa4cc,
+        type: 3}
+      propertyPath: onPlayerInteract.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: InvokeEvent
+      objectReference: {fileID: 0}
+    - target: {fileID: 12325932320889345, guid: e5ffd160c02c8084589301b19d6fa4cc,
+        type: 3}
+      propertyPath: onPlayerInteract.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Tutorial.TutorialTrigger, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 12325932320889345, guid: e5ffd160c02c8084589301b19d6fa4cc,
+        type: 3}
+      propertyPath: onPlayerInteract.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 2293465678663127946, guid: e5ffd160c02c8084589301b19d6fa4cc,
         type: 3}
       propertyPath: m_Name
@@ -34657,7 +34693,7 @@ PrefabInstance:
     - target: {fileID: 1167337899468614758, guid: ee25bbc6c3432854aad5a942d3a0c7a9,
         type: 3}
       propertyPath: OnUnlockChainLock.m_PersistentCalls.m_Calls.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1167337899468614758, guid: ee25bbc6c3432854aad5a942d3a0c7a9,
         type: 3}
@@ -34671,6 +34707,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1167337899468614758, guid: ee25bbc6c3432854aad5a942d3a0c7a9,
         type: 3}
+      propertyPath: OnUnlockChainLock.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1167337899468614758, guid: ee25bbc6c3432854aad5a942d3a0c7a9,
+        type: 3}
       propertyPath: OnUnlockChainLock.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 636660527}
@@ -34681,7 +34722,17 @@ PrefabInstance:
       objectReference: {fileID: 1677231038}
     - target: {fileID: 1167337899468614758, guid: ee25bbc6c3432854aad5a942d3a0c7a9,
         type: 3}
+      propertyPath: OnUnlockChainLock.m_PersistentCalls.m_Calls.Array.data[2].m_Target
+      value: 
+      objectReference: {fileID: 732466522}
+    - target: {fileID: 1167337899468614758, guid: ee25bbc6c3432854aad5a942d3a0c7a9,
+        type: 3}
       propertyPath: OnUnlockChainLock.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1167337899468614758, guid: ee25bbc6c3432854aad5a942d3a0c7a9,
+        type: 3}
+      propertyPath: OnUnlockChainLock.m_PersistentCalls.m_Calls.Array.data[2].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1167337899468614758, guid: ee25bbc6c3432854aad5a942d3a0c7a9,
@@ -34696,6 +34747,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1167337899468614758, guid: ee25bbc6c3432854aad5a942d3a0c7a9,
         type: 3}
+      propertyPath: OnUnlockChainLock.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
+      value: OnEndTutorial
+      objectReference: {fileID: 0}
+    - target: {fileID: 1167337899468614758, guid: ee25bbc6c3432854aad5a942d3a0c7a9,
+        type: 3}
       propertyPath: OnUnlockChainLock.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: UnityEngine.Behaviour, UnityEngine
       objectReference: {fileID: 0}
@@ -34706,12 +34762,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1167337899468614758, guid: ee25bbc6c3432854aad5a942d3a0c7a9,
         type: 3}
+      propertyPath: OnUnlockChainLock.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
+      value: Tutorial.TutorialTrigger, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1167337899468614758, guid: ee25bbc6c3432854aad5a942d3a0c7a9,
+        type: 3}
       propertyPath: OnUnlockChainLock.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_BoolArgument
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1167337899468614758, guid: ee25bbc6c3432854aad5a942d3a0c7a9,
         type: 3}
+      propertyPath: OnUnlockChainLock.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1167337899468614758, guid: ee25bbc6c3432854aad5a942d3a0c7a9,
+        type: 3}
       propertyPath: OnUnlockChainLock.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 1167337899468614758, guid: ee25bbc6c3432854aad5a942d3a0c7a9,
+        type: 3}
+      propertyPath: OnUnlockChainLock.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 1172704203448409720, guid: ee25bbc6c3432854aad5a942d3a0c7a9,
