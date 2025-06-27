@@ -383,7 +383,7 @@ public class FlashLight : MonoBehaviour
     private void TurnOnLight()
     {
         if (TutorialManager.Instance.CurrentTutorial = OnOffTutorial)
-            TutorialManager.Instance.SetNextTutorial(RevealTutorial);
+            TutorialManager.Instance.CurrentTutorial.End();
         
         if (!IsBatteryDead())
         {

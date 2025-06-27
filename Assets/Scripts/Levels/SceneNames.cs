@@ -11,7 +11,15 @@ public enum SceneNames
     DormPuzzle = 5,
     H2 = 6,
 
-    LobotomyCinematic = 7
+    LobotomyCinematic = 7,
+
+    SecondReception = 8,
+
+    CursedPuzzle = 9,
+
+    ThirdReception = 10,
+
+    Infimary = 11
     
     
 }
