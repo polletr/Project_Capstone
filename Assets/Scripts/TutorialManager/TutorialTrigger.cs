@@ -35,7 +35,7 @@ public class TutorialTrigger : MonoBehaviour
  
      public void OnEndTutorial()
      {
-         //tutorialDataList[currentTutorialIndex].OnEndTutorial -= OnEndTutorial;
+         tutorialDataList[currentTutorialIndex].OnEndTutorial -= OnEndTutorial;
          currentTutorialIndex++;
 
          if (currentTutorialIndex >= tutorialDataList.Count)
@@ -47,7 +47,7 @@ public class TutorialTrigger : MonoBehaviour
          }
          else
          {
-            //tutorialDataList[currentTutorialIndex].OnEndTutorial += OnEndTutorial;
+            tutorialDataList[currentTutorialIndex].OnEndTutorial += OnEndTutorial;
             TutorialManager.Instance.SetNextTutorial(tutorialDataList[currentTutorialIndex]);
          }
 

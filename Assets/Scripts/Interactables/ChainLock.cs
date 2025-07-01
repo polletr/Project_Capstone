@@ -25,6 +25,7 @@ public class ChainLock : MonoBehaviour, IUnlockable
 
     public void TryToUnlock()
     {
+        Debug.Log("Trying to Unlock");
         Event.OnTryToUnlock?.Invoke(this);
     }
     public void StayLocked()

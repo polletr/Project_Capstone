@@ -13,7 +13,7 @@ public class PlayerInventory : MonoBehaviour
     private float numBatteryCollectedperCheckpoint;
     private float numCrankCollectedperCheckpoint;
 
-    private List<int> _collectedKeyID = new();
+    public List<int> _collectedKeyID = new();
 
     public GameEvent Event;
     
@@ -21,7 +21,6 @@ public class PlayerInventory : MonoBehaviour
     {
         Event.OnInteractItem += CollectItem;
         Event.OnTryToUnlock += TryToOpenLock;
-        Event.OnLevelChange += RemoveAllKeys;
         Event.OnPlayerDeath += PlayerDiedRemoveAbility;
         Event.OnPlayerDeath += RemoveBattery;
         Event.OnLevelChange += RestAbilityCheckpointCounter;
@@ -31,7 +30,6 @@ public class PlayerInventory : MonoBehaviour
     {
         Event.OnInteractItem -= CollectItem;
         Event.OnTryToUnlock -= TryToOpenLock;
-        Event.OnLevelChange -= RemoveAllKeys;
         Event.OnPlayerDeath -= PlayerDiedRemoveAbility;
         Event.OnPlayerDeath -= RemoveBattery;
         Event.OnLevelChange -= RestAbilityCheckpointCounter;
@@ -39,6 +37,12 @@ public class PlayerInventory : MonoBehaviour
 
     private void TryToOpenLock(IUnlockable locked)
     {
+        Debug.Log(locked.OpenID);
+
+        if (_collectedKeyID.Count > 0)
+            Debug.Log(_collectedKeyID[0]);
+
+        Debug.Log(_collectedKeyID.Contains(locked.OpenID));
         if (_collectedKeyID.Contains(locked.OpenID))
         {
             locked.Unlock();
@@ -67,7 +71,10 @@ public class PlayerInventory : MonoBehaviour
                 break;
             case Key key:
                 if (!_collectedKeyID.Contains(key.OpenID))
+                {
                     _collectedKeyID.Add(key.OpenID);
+                    Debug.Log("Item Collected" + key.OpenID);
+                }
                 Event.OnKeyPickup.Invoke(key.OpenID);
                 item.Collect();
                 break;
