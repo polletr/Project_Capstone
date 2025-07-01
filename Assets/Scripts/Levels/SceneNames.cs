@@ -16,10 +16,11 @@ public enum SceneNames
     SecondReception = 8,
 
     CursedPuzzle = 9,
+    H3 = 10,
 
-    ThirdReception = 10,
+    ThirdReception = 11,
 
-    Infimary = 11
+    Infimary = 12
     
     
 }

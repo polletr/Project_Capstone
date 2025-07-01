@@ -8720,6 +8720,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 106201408313899933, guid: 7e15b769d1b098746847a3f5856a62a5,
         type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 106201408313899933, guid: 7e15b769d1b098746847a3f5856a62a5,
+        type: 3}
       propertyPath: m_ColorTemperature
       value: 4933
       objectReference: {fileID: 0}
@@ -9102,7 +9107,7 @@ Camera:
   m_GameObject: {fileID: 692589574}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 4
+  m_ClearFlags: 1
   m_BackGroundColor: {r: 0, g: 0, b: 0, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -9132,7 +9137,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 8151
+    m_Bits: 4294967295
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -12240,6 +12245,9 @@ MonoBehaviour:
   PlayFromStart:
     m_PersistentCalls:
       m_Calls: []
+  OnPlay:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!4 &1024874747
 Transform:
   m_ObjectHideFlags: 0
@@ -12322,6 +12330,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnPlay:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1060481105
 GameObject:
   m_ObjectHideFlags: 0
@@ -18579,6 +18590,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnPlay:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!43 &1681108068
 Mesh:
   m_ObjectHideFlags: 0
@@ -22371,6 +22385,36 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2301447989207952190, guid: ee25bbc6c3432854aad5a942d3a0c7a9,
+        type: 3}
+      propertyPath: m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2301447989207952190, guid: ee25bbc6c3432854aad5a942d3a0c7a9,
+        type: 3}
+      propertyPath: m_BoxSize.x
+      value: 23.51088
+      objectReference: {fileID: 0}
+    - target: {fileID: 2301447989207952190, guid: ee25bbc6c3432854aad5a942d3a0c7a9,
+        type: 3}
+      propertyPath: m_BoxSize.z
+      value: 5.6863956
+      objectReference: {fileID: 0}
+    - target: {fileID: 2301447989207952190, guid: ee25bbc6c3432854aad5a942d3a0c7a9,
+        type: 3}
+      propertyPath: m_BoxOffset.x
+      value: -4.1240463
+      objectReference: {fileID: 0}
+    - target: {fileID: 2301447989207952190, guid: ee25bbc6c3432854aad5a942d3a0c7a9,
+        type: 3}
+      propertyPath: m_BoxOffset.y
+      value: -0.16729975
+      objectReference: {fileID: 0}
+    - target: {fileID: 2301447989207952190, guid: ee25bbc6c3432854aad5a942d3a0c7a9,
+        type: 3}
+      propertyPath: m_BoxOffset.z
+      value: 0.1617136
       objectReference: {fileID: 0}
     - target: {fileID: 2303434324271520151, guid: ee25bbc6c3432854aad5a942d3a0c7a9,
         type: 3}
