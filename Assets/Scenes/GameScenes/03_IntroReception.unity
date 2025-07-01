@@ -1386,7 +1386,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4292138196
+    rgba: 4288062627
   m_fontColor: {r: 0.6392157, g: 0.6431373, b: 0.5882353, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -3626,7 +3626,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4292138196
+    rgba: 4288062627
   m_fontColor: {r: 0.6383299, g: 0.6415094, b: 0.5900676, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -4931,7 +4931,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4292138196
+    rgba: 4288062627
   m_fontColor: {r: 0.6392157, g: 0.6431373, b: 0.5882353, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -5069,7 +5069,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4292138196
+    rgba: 4288062627
   m_fontColor: {r: 0.6392157, g: 0.6431373, b: 0.5882353, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -8716,12 +8716,17 @@ PrefabInstance:
     - target: {fileID: 106201408313899933, guid: 7e15b769d1b098746847a3f5856a62a5,
         type: 3}
       propertyPath: m_Range
-      value: 2
+      value: 2.76
+      objectReference: {fileID: 0}
+    - target: {fileID: 106201408313899933, guid: 7e15b769d1b098746847a3f5856a62a5,
+        type: 3}
+      propertyPath: m_Intensity
+      value: 1.27
       objectReference: {fileID: 0}
     - target: {fileID: 106201408313899933, guid: 7e15b769d1b098746847a3f5856a62a5,
         type: 3}
       propertyPath: m_Lightmapping
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 106201408313899933, guid: 7e15b769d1b098746847a3f5856a62a5,
         type: 3}
@@ -12273,14 +12278,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1025074051}
-  - component: {fileID: 1025074052}
   m_Layer: 0
   m_Name: AudioHandler - MaleScream
   m_TagString: Untagged
   m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1025074051
 Transform:
   m_ObjectHideFlags: 0
@@ -12296,43 +12300,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 56283163}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1025074052
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1025074050}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9610a663f429e814e9b4619e7657be12, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audioClip:
-    Guid:
-      Data1: -1022266610
-      Data2: 1198908750
-      Data3: 2145785990
-      Data4: -2023916795
-    Path: event:/Cinematics/ScreamReception
-  PlayFromStart:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1025074052}
-        m_TargetAssemblyTypeName: AudioHandler, Assembly-CSharp
-        m_MethodName: Play3DAudio
-        m_Mode: 4
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 1000
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  OnPlay:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &1060481105
 GameObject:
   m_ObjectHideFlags: 0
@@ -15897,7 +15864,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4292138196
+    rgba: 4288062627
   m_fontColor: {r: 0.6392157, g: 0.6431373, b: 0.5882353, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -17675,9 +17642,9 @@ PlayableDirector:
     value: {fileID: 850675613}
   - key: {fileID: 5709714861632347785, guid: 9bbed48a9b8cd904f862f48b53ef23a5, type: 2}
     value: {fileID: 1656720263}
-  - key: {fileID: 2550720542292055020, guid: 9bbed48a9b8cd904f862f48b53ef23a5, type: 2}
+  - key: {fileID: -4444869517173377253, guid: 9bbed48a9b8cd904f862f48b53ef23a5, type: 2}
     value: {fileID: 1025074050}
-  - key: {fileID: -385748419931564379, guid: 9bbed48a9b8cd904f862f48b53ef23a5, type: 2}
+  - key: {fileID: -1368934285680836559, guid: 9bbed48a9b8cd904f862f48b53ef23a5, type: 2}
     value: {fileID: 1673777377}
   m_ExposedReferences:
     m_References: []
@@ -18533,14 +18500,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1673777378}
-  - component: {fileID: 1673777379}
   m_Layer: 0
   m_Name: AudioHandler - Banshee
   m_TagString: Untagged
   m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1673777378
 Transform:
   m_ObjectHideFlags: 0
@@ -18556,43 +18522,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 56283163}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1673777379
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1673777377}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9610a663f429e814e9b4619e7657be12, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audioClip:
-    Guid:
-      Data1: 985137693
-      Data2: 1322902055
-      Data3: -284051779
-      Data4: -1878980970
-    Path: event:/Cinematics/BansheeReception
-  PlayFromStart:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1673777379}
-        m_TargetAssemblyTypeName: AudioHandler, Assembly-CSharp
-        m_MethodName: Play3DAudio
-        m_Mode: 4
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 1000
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  OnPlay:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!43 &1681108068
 Mesh:
   m_ObjectHideFlags: 0

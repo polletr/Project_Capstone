@@ -35,19 +35,23 @@ public class TutorialTrigger : MonoBehaviour
  
      public void OnEndTutorial()
      {
-         tutorialDataList[currentTutorialIndex].OnEndTutorial -= OnEndTutorial;
+         //tutorialDataList[currentTutorialIndex].OnEndTutorial -= OnEndTutorial;
          currentTutorialIndex++;
 
          if (currentTutorialIndex >= tutorialDataList.Count)
-            {
+         {
+                currentTutorialIndex = 0;
                 Debug.Log("Wipe");
                 TutorialManager.Instance.WipeScreen();
                 return;
-            }
-         
-         tutorialDataList[currentTutorialIndex].OnEndTutorial += OnEndTutorial;
-        TutorialManager.Instance.SetNextTutorial(tutorialDataList[currentTutorialIndex]);
-     }
+         }
+         else
+         {
+            //tutorialDataList[currentTutorialIndex].OnEndTutorial += OnEndTutorial;
+            TutorialManager.Instance.SetNextTutorial(tutorialDataList[currentTutorialIndex]);
+         }
+
+        }
  
      private void OnTriggerEnter(Collider other)
      {
