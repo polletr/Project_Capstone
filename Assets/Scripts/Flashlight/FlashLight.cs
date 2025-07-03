@@ -382,8 +382,6 @@ public class FlashLight : MonoBehaviour
 
     private void TurnOnLight()
     {
-        if (TutorialManager.Instance.CurrentTutorial = OnOffTutorial)
-            TutorialManager.Instance.CurrentTutorial.End();
         
         if (!IsBatteryDead())
         {
@@ -478,6 +476,10 @@ public class FlashLight : MonoBehaviour
         CurrentAbility?.OnStopAbility();
         BatteryLife = MaxBatteryLife + extraCharge;
         Event.SetReloadTextTimer?.Invoke("");
+
+        if (TutorialManager.Instance.CurrentTutorial = OnOffTutorial)
+            TutorialManager.Instance.CurrentTutorial.End();
+
         TurnOnLight();
     }
 
